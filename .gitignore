@@ -1,0 +1,11 @@
+.Python
+.DS_Store
+*.pyc
+.vscode
+*.env
+*.swp
+*.swo
+*.swn
+*.sqlite3
+*.map
+__target__
