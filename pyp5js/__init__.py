@@ -2,6 +2,9 @@ P5 = None
 
 
 def global_p5_injection(p5_sketch):
+    """
+    Injects the p5js's skecth instance as a global variable to setup and draw functions
+    """
 
     def decorator(f):
 
@@ -15,6 +18,14 @@ def global_p5_injection(p5_sketch):
 
 
 def start_p5(setup_func, draw_func):
+    """
+    This is the entrypoint function. It accepts 2 parameters:
+
+    - setup_func: a Python setup callable
+    - draw_func: a Python draw callable
+
+    This method gets the p5js's sketch instance and injects them
+    """
 
     def sketch_setup(p5_sketch):
         p5_sketch.setup = global_p5_injection(p5_sketch)(setup_func)

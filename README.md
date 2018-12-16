@@ -1,9 +1,26 @@
-### First proof of concept
+### pyp5js
 
-`$ transcrypt -b -a -m sketch`
+This project is still a proof of concept based in [Axel Tanner's "Transcrypt & p5js" blogpost](http://www.transcrypt.org/). The idea is to encapsulate his generators' strategy in a Python Command Line interface.
 
-This command will create the `__target__` dir with the JS files. After that, run:
+My main goal is to make this idealistc Python code to be able to generate its respective JS code:
 
-`$ firefox index.html`
+```python
+def setup():
+    createCanvas(200, 200)
+    background(160)
+    print(foo)
 
-If you have problem with CORS, take a look [here](https://stackoverflow.com/questions/17711924/disable-cross-domain-web-security-in-firefox) and turn it off just to test it. **Do turn it on again** after testing.
+
+def draw():
+    fill('blue')
+    background(200)
+    r = math.sin(frameCount / 60) * 50 + 50
+    ellipse(100, 100, r, r)
+```
+
+If you want to test what I've done so far, you can edit the `sketch.py` file to try pyp5js out. To do that, you'll have to run 2 make commands:
+
+`$ make serve` - this will start a simple HTTP server to serve the JS files created by [Transcrypt](http://www.transcrypt.org/). This can be left runnning in background.
+`$ make compile` - this will compile your Python code to JS files using [Transcrypt](http://www.transcrypt.org/)
+
+When the code is compiled, you can see the result by accessing `http://localhost:8000/`
