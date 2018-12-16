@@ -1,4 +1,3 @@
-import math
 from pyp5js import P5, start_p5
 
 
@@ -11,7 +10,7 @@ def draw():
     P5.fill('blue')
     fc = P5.frameCount
     P5.background(200)
-    r = math.sin(fc/60) * 50 + 50
+    r = P5.sin(fc / 60) * 50 + 50
     P5.ellipse(100, 100, r, r)
 
 
