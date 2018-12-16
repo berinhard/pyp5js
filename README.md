@@ -20,7 +20,7 @@ def draw():
 
 If you want to test what I've done so far, you can edit the `sketch.py` file to try pyp5js out. To do that, you'll have to run:
 
-1. `$ pip install -r requirements.txt`
+1. `$ pip3 install -r requirements.txt`
 2. `$ make serve` - this will start a simple HTTP server to serve the JS files created by [Transcrypt](http://www.transcrypt.org/). This can be left runnning in background.
 3. `$ make compile` - this will compile your Python code to JS files using [Transcrypt](http://www.transcrypt.org/)
 
