@@ -1,6 +1,6 @@
 ### pyp5js
 
-This project is still a proof of concept based in [Axel Tanner's "Transcrypt & p5js" blogpost](http://www.transcrypt.org/). The idea is to encapsulate his generators' strategy in a Python Command Line interface.
+This project is still a proof of concept based in [Axel Tanner's "Transcrypt & p5js" blogpost](https://4nomore.net/2018/transcrypt_p5js/). The idea is to encapsulate his generators' strategy in a Python Command Line interface.
 
 My main goal is to make this idealistc Python code to be able to generate its respective JS code:
 
