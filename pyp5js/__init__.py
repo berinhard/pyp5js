@@ -1,5 +1,41 @@
 P5 = None
 
+def createCanvas(*args):
+    P5.createCanvas(*args)
+
+
+def noStroke(*args):
+    P5.noStroke(*args)
+
+
+def fill(*args):
+    P5.fill(*args)
+
+
+def background(*args):
+    P5.background(*args)
+
+
+def cos(*args):
+    return P5.cos(*args)
+
+
+def sin(*args):
+    return P5.sin(*args)
+
+
+def map(*args):
+    return P5.map(*args)
+
+
+def ellipse(*args):
+    P5.ellipse(*args)
+
+
+def frameRate(*args):
+    return P5.frameRate(*args)
+
+
 
 def global_p5_injection(p5_sketch):
     """
