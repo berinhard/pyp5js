@@ -1,39 +1,39 @@
-P5 = None
+_P5_INSTANCE = None
 
 def createCanvas(*args):
-    return P5.createCanvas(*args)
+    return _P5_INSTANCE.createCanvas(*args)
 
 
 def noStroke(*args):
-    return P5.noStroke(*args)
+    return _P5_INSTANCE.noStroke(*args)
 
 
 def fill(*args):
-    return P5.fill(*args)
+    return _P5_INSTANCE.fill(*args)
 
 
 def background(*args):
-    return P5.background(*args)
+    return _P5_INSTANCE.background(*args)
 
 
 def cos(*args):
-    return P5.cos(*args)
+    return _P5_INSTANCE.cos(*args)
 
 
 def sin(*args):
-    return P5.sin(*args)
+    return _P5_INSTANCE.sin(*args)
 
 
 def map(*args):
-    return P5.map(*args)
+    return _P5_INSTANCE.map(*args)
 
 
 def ellipse(*args):
-    return P5.ellipse(*args)
+    return _P5_INSTANCE.ellipse(*args)
 
 
 def frameRate(*args):
-    return P5.frameRate(*args)
+    return _P5_INSTANCE.frameRate(*args)
 
 
 width = None
@@ -66,9 +66,9 @@ def global_p5_injection(p5_sketch):
     def decorator(f):
 
         def wrapper():
-            global P5
-            P5 = p5_sketch
-            return pre_draw(P5, f)
+            global _P5_INSTANCE
+            _P5_INSTANCE = p5_sketch
+            return pre_draw(_P5_INSTANCE, f)
         return wrapper
 
     return decorator
