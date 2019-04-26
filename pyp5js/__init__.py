@@ -36,6 +36,27 @@ def frameRate(*args):
     return P5.frameRate(*args)
 
 
+width = None
+height = None
+PI = None
+mouseX = None
+mouseY = None
+def pre_draw(p5_instance, draw_func):
+    """
+    We need to run this before the actual draw to insert and update p5 env variables
+    """
+    global width, height, PI, mouseX, mouseY
+
+    width = p5_instance.width
+    height = p5_instance.height
+    PI = p5_instance.PI
+    mouseX = p5_instance.mouseX
+    mouseY = p5_instance.mouseY
+
+    return draw_func()
+
+
+
 
 def global_p5_injection(p5_sketch):
     """
@@ -47,7 +68,7 @@ def global_p5_injection(p5_sketch):
         def wrapper():
             global P5
             P5 = p5_sketch
-            return f()
+            return pre_draw(P5, f)
         return wrapper
 
     return decorator
