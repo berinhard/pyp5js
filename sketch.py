@@ -7,7 +7,8 @@ t = 0
 
 def setup():
     createCanvas(600, 600)
-    noStroke()
+    stroke(250)
+    strokeWeight(3)
     fill(40, 200, 40)
 
 
@@ -23,7 +24,7 @@ def draw():
             angle = xAngle * (x / width) + yAngle * (y / height)
 
             myX = x + 20 * cos(2 * PI * t + angle)
-            myY = y + 20 * sin(2 * PI * t + angle)
+            myY = y + 20 * sin(2 * TWO_PI * t + angle)
 
             ellipse(myX, myY, 10)
 

@@ -8,6 +8,14 @@ def noStroke(*args):
     return _P5_INSTANCE.noStroke(*args)
 
 
+def stroke(*args):
+    return _P5_INSTANCE.stroke(*args)
+
+
+def strokeWeight(*args):
+    return _P5_INSTANCE.strokeWeight(*args)
+
+
 def fill(*args):
     return _P5_INSTANCE.fill(*args)
 
@@ -41,21 +49,21 @@ height = None
 PI = None
 mouseX = None
 mouseY = None
+TWO_PI = None
 def pre_draw(p5_instance, draw_func):
     """
     We need to run this before the actual draw to insert and update p5 env variables
     """
-    global width, height, PI, mouseX, mouseY
+    global width, height, PI, mouseX, mouseY, TWO_PI
 
     width = p5_instance.width
     height = p5_instance.height
     PI = p5_instance.PI
+    TWO_PI = p5_instance.TWO_PI
     mouseX = p5_instance.mouseX
     mouseY = p5_instance.mouseY
 
     return draw_func()
-
-
 
 
 def global_p5_injection(p5_sketch):
