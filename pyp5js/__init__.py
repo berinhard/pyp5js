@@ -1,19 +1,19 @@
 P5 = None
 
 def createCanvas(*args):
-    P5.createCanvas(*args)
+    return P5.createCanvas(*args)
 
 
 def noStroke(*args):
-    P5.noStroke(*args)
+    return P5.noStroke(*args)
 
 
 def fill(*args):
-    P5.fill(*args)
+    return P5.fill(*args)
 
 
 def background(*args):
-    P5.background(*args)
+    return P5.background(*args)
 
 
 def cos(*args):
@@ -29,7 +29,7 @@ def map(*args):
 
 
 def ellipse(*args):
-    P5.ellipse(*args)
+    return P5.ellipse(*args)
 
 
 def frameRate(*args):
