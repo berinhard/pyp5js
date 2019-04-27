@@ -13,6 +13,13 @@ setup(
     maintainer_email='bernardoxhc@gmail.com',
     license='GPL 3',
     packages=find_packages(),
+    package_data={
+        'pyp5js': [
+            'assets/*',
+            'static/*',
+            'templates/*',
+        ]
+    },
     include_package_data=True,
     zip_safe=False,
     entry_points={
