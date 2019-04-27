@@ -11,7 +11,7 @@ def pre_draw(p5_instance, draw_func):
     """
     We need to run this before the actual draw to insert and update p5 env variables
     """
-    {% for v_name in variables_names %}global {{ v_name }}{% endfor %}
+    global {% for v_name in variables_names %}{{ v_name }}{% if not loop.last %}, {% endif %}{% endfor %}
 
     {% for v_name in variables_names %}{{ v_name }} = p5_instance.{{ v_name }}
     {% endfor %}

@@ -18,7 +18,7 @@ if __name__ == '__main__':
     context = {'function_names': methods_names, 'variables_names': variables_names}
     pyp5_content = pyp5_template.render(context)
 
-    pyp5_path = PYP5_DIR.child('pyp5.py')
+    pyp5_path = PYP5_DIR.child('pyp5js.py')
     with open(pyp5_path, 'w') as fd:
         fd.write(pyp5_content)
 
