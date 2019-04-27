@@ -9,3 +9,6 @@
 *.sqlite3
 *.map
 __target__
+build
+dist
+*.egg-info
