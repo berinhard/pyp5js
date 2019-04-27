@@ -16,14 +16,14 @@ TEMPLATES_DIR = PYP5_DIR.child('templates')
 templates = Environment(loader=FileSystemLoader(TEMPLATES_DIR))
 
 @click.group()
-def cli():
+def command_line_entrypoint():
     """
     Function to define the entry point for the command line
     """
     pass
 
 
-@cli.command('new')
+@command_line_entrypoint.command('new')
 @click.argument('sketch_name')
 @click.option('--sketch_dir', '-d', default=None)
 def configure_new_sketch(sketch_name, sketch_dir):
@@ -63,7 +63,7 @@ def configure_new_sketch(sketch_name, sketch_dir):
         fd.write(index_contet)
 
 
-@cli.command("transcrypt")
+@command_line_entrypoint.command("transcrypt")
 @click.argument("sketch_name")
 @click.option('--sketch_dir', '-d', default=None)
 @click.option('--pyp5js', '-p', default=None)
@@ -97,4 +97,4 @@ def transcrypt_sketch(sketch_name, sketch_dir, pyp5js):
 
 
 if __name__ == "__main__":
-    cli()
+    command_line_entrypoint()
