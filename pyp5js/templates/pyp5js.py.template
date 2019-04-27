@@ -1,68 +1,20 @@
 _P5_INSTANCE = None
 
-def createCanvas(*args):
-    return _P5_INSTANCE.createCanvas(*args)
+{% for f_name in function_names %}
+def {{ f_name }}(*args):
+    return _P5_INSTANCE.{{ f_name }}(*args)
+{% endfor %}
 
-
-def noStroke(*args):
-    return _P5_INSTANCE.noStroke(*args)
-
-
-def stroke(*args):
-    return _P5_INSTANCE.stroke(*args)
-
-
-def strokeWeight(*args):
-    return _P5_INSTANCE.strokeWeight(*args)
-
-
-def fill(*args):
-    return _P5_INSTANCE.fill(*args)
-
-
-def background(*args):
-    return _P5_INSTANCE.background(*args)
-
-
-def cos(*args):
-    return _P5_INSTANCE.cos(*args)
-
-
-def sin(*args):
-    return _P5_INSTANCE.sin(*args)
-
-
-def map(*args):
-    return _P5_INSTANCE.map(*args)
-
-
-def ellipse(*args):
-    return _P5_INSTANCE.ellipse(*args)
-
-
-def frameRate(*args):
-    return _P5_INSTANCE.frameRate(*args)
-
-
-width = None
-height = None
-PI = None
-mouseX = None
-mouseY = None
-TWO_PI = None
+{% for v_name in variables_names %}{{ v_name }} = None
+{% endfor %}
 def pre_draw(p5_instance, draw_func):
     """
     We need to run this before the actual draw to insert and update p5 env variables
     """
-    global width, height, PI, mouseX, mouseY, TWO_PI
+    global {% for v_name in variables_names %}{{ v_name }}{% if not loop.last %}, {% endif %}{% endfor %}
 
-    width = p5_instance.width
-    height = p5_instance.height
-    PI = p5_instance.PI
-    TWO_PI = p5_instance.TWO_PI
-    mouseX = p5_instance.mouseX
-    mouseY = p5_instance.mouseY
-
+    {% for v_name in variables_names %}{{ v_name }} = p5_instance.{{ v_name }}
+    {% endfor %}
     return draw_func()
 
 
