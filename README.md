@@ -59,9 +59,9 @@ After updating your code, you'll have to run the `transcrypt` command to update 
 $ pytop5js transcrypt my_sketch
 ```
 
-The way the code is now, you'll have execute from the same directory-level as the `my_sketch` one. You can't run it from inside the directory.
+The way the code is implemented, for now, you'll have to execute it from the same directory-level where `my_sketch` is - you can't run it from inside the `my_sketch` directory.
 
-Both methods has a few optional arguments and you can check them by running:
+Both methods have a few optional arguments and you can check them by running:
 
 ```
 $ pytop5js --help
