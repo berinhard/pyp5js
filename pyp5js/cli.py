@@ -78,12 +78,16 @@ def transcrypt_sketch(sketch_name, sketch_dir):
     - sketch_dir: sketch's directory (defaults to ./{sketch_name})
     """
     SKETCH_DIR = Path(sketch_dir or f'./{sketch_name}')
-    if not SKETCH_DIR.exists():
-        cprint.warn(f"Couldn't find the sketch.")
-        cprint.err(f"The directory {SKETCH_DIR} doesn't exist.", interrupt=True)
 
     sketch = SKETCH_DIR.child(f"{sketch_name}.py")
+    if not sketch.exists():
+        sketch_file = Path(os.getcwd()).child(f"{sketch_name}.py")
+        if not sketch_file.exists():
+            cprint.warn(f"Couldn't find the sketch.")
+            cprint.err(f"Neither the file {sketch} or {sketch_file} exist.", interrupt=True)
 
+        sketch = sketch_file
+        SKETCH_DIR = sketch.parent
 
     command = ' '.join([str(c) for c in [
         'transcrypt', '-xp', PYP5_DIR, '-b', '-m', '-n', sketch
