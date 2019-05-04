@@ -1,4 +1,4 @@
-from pyp5js import *
+from pytop5js import *
 
 def setup():
     pass
