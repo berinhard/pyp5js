@@ -49,7 +49,7 @@ def transcrypt_sketch(sketch_name, sketch_dir):
     cprint.ok(f"Your sketch is ready and available at {index_file}")
 
 
-@command_line_entrypoint.command("monitor_sketch")
+@command_line_entrypoint.command("monitor")
 @click.argument("sketch_name")
 @click.option('--sketch_dir', '-d', default=None)
 def monitor_sketch(sketch_name, sketch_dir):
@@ -63,10 +63,7 @@ def monitor_sketch(sketch_name, sketch_dir):
     Opitionals
     - sketch_dir: sketch's directory (defaults to ./{sketch_name})
     """
-    sketch_dir, sketch = _validate_sketch_paths(sketch_name, sketch_dir)
-
-    print("command")
-
+    commands.monitor_sketch(sketch_name, sketch_dir)
 
 if __name__ == "__main__":
     command_line_entrypoint()

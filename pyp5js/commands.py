@@ -5,6 +5,8 @@ from cprint import cprint
 from datetime import date
 from jinja2 import Environment, FileSystemLoader
 from unipath import Path
+from watchdog.events import FileSystemEventHandler, PatternMatchingEventHandler
+from watchdog.observers import Observer
 
 from compiler import compile_sketch_js
 
@@ -12,7 +14,6 @@ PYP5_DIR = Path(__file__).parent
 TEMPLATES_DIR = PYP5_DIR.child('templates')
 TARGET_DIRNAME = "target"
 templates = Environment(loader=FileSystemLoader(TEMPLATES_DIR))
-
 
 
 def new_sketch(sketch_name, sketch_dir):
@@ -72,6 +73,36 @@ def transcrypt_sketch(sketch_name, sketch_dir):
     return sketch.parent.child("index.html")
 
 
+class TranscryptSketchEvent(PatternMatchingEventHandler):
+    patterns = ["*.py"]
+
+    def __init__(self, *args, **kwargs):
+        self.sketch = kwargs.pop('sketch')
+        self._last_event = None
+        super().__init__(*args, **kwargs)
+
+    def on_modified(self, event):
+        event_id = id(event)
+        if event_id == self._last_event:
+            return
+
+        cprint.info(f"New change in {event.src_path}")
+        compile_sketch_js(self.sketch, TARGET_DIRNAME)
 
 
+def monitor_sketch(sketch_name, sketch_dir):
+    sketch = _validate_sketch_path(sketch_name, sketch_dir)
+    cprint(f"Monitoring for changes in {sketch.parent.absolute()}...")
 
+    event_handler = TranscryptSketchEvent(sketch=sketch)
+    observer = Observer()
+
+    observer.schedule(event_handler, sketch.parent)
+    observer.start()
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        cprint.info("Exiting monitor...")
+        observer.stop()
+    observer.join()
