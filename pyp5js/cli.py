@@ -109,8 +109,12 @@ def transcrypt_sketch(sketch_name, sketch_dir):
         cprint.err(f"Error with transcrypt: the {__target} directory wasn't created.", interrupt=True)
 
     target_dir = sketch_dir.child(TARGET_DIRNAME)
+    if target_dir.exists():
+        shutil.rmtree(target_dir)
     shutil.move(__target, target_dir)
 
+    index_file = sketch_dir.child("index.html")
+    cprint.ok(f"Your sketch is ready and available at {index_file}")
 
 if __name__ == "__main__":
     command_line_entrypoint()
