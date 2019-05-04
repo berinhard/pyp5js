@@ -35,9 +35,9 @@ def configure_new_sketch(sketch_name, sketch_dir):
     - sketch_name: name of the sketch (will create a {sketch_name}.py)
 
     Opitionals
-    - sketch_dir: directory to save the sketch (defaults to ./{sketch_name})
+    - sketch_dir: directory to save the sketch (defaults to {sketch_name})
     """
-    SKETCH_DIR = Path(sketch_dir or f'./{sketch_name}')
+    SKETCH_DIR = Path(sketch_dir or f'{sketch_name}')
 
     if SKETCH_DIR.exists():
         cprint.warn(f"Cannot configure a new sketch.")
@@ -67,7 +67,7 @@ def configure_new_sketch(sketch_name, sketch_dir):
 
 
 def _validate_sketch_paths(sketch_name=None, sketch_dir=None):
-    sketch_dir = Path(sketch_dir or f'./{sketch_name}')
+    sketch_dir = Path(sketch_dir or f'{sketch_name}')
 
     sketch = sketch_dir.child(f"{sketch_name}.py")
     if not sketch.exists():
@@ -90,10 +90,10 @@ def transcrypt_sketch(sketch_name, sketch_dir):
     Command to generate the P5.js code for a python sketch
 
     Params:
-    - sketch_name: name of the sketch (will create a {sketch_name}.py)
+    - sketch_name: name of the sketch
 
     Opitionals
-    - sketch_dir: sketch's directory (defaults to ./{sketch_name})
+    - sketch_dir: sketch's directory (defaults to {sketch_name})
     """
     sketch_dir, sketch = _validate_sketch_paths(sketch_name, sketch_dir)
 
