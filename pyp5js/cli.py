@@ -65,6 +65,11 @@ def configure_new_sketch(sketch_name, sketch_dir):
     with open(SKETCH_DIR.child("index.html"), "w") as fd:
         fd.write(index_contet)
 
+    sketch_py = templates_files[0][1]
+    cprint.ok(f"Your sketch was created!")
+    cprint.ok(f"Please, open and edit the file {sketch_py} to draw. When you're ready to see your results, just run:")
+    cprint.ok(f"\t pytop5js transcrypt {sketch_name}")
+
 
 def _validate_sketch_paths(sketch_name=None, sketch_dir=None):
     sketch_dir = Path(sketch_dir or f'{sketch_name}')
@@ -100,9 +105,10 @@ def transcrypt_sketch(sketch_name, sketch_dir):
     command = ' '.join([str(c) for c in [
         'transcrypt', '-xp', PYP5_DIR, '-b', '-m', '-n', sketch
     ]])
-    cprint.info(f"Command:\n\t {command}")
+    cprint.info(f"Converting Python to P5.js...\nRunning command:\n\t {command}")
 
-    subprocess.check_output(shlex.split(command))
+    proc = subprocess.Popen(shlex.split(command))
+    proc.wait()
 
     __target = sketch_dir.child('__target__')
     if not __target.exists():
