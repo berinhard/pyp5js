@@ -1,12 +1,12 @@
 import os
-import subprocess
-import shlex
-import random
-from datetime import date
-from cprint import cprint
 import shutil
-from unipath import Path
+import time
+from cprint import cprint
+from datetime import date
 from jinja2 import Environment, FileSystemLoader
+from unipath import Path
+
+from compiler import compile_sketch_js
 
 PYP5_DIR = Path(__file__).parent
 TEMPLATES_DIR = PYP5_DIR.child('templates')
@@ -47,7 +47,10 @@ def new_sketch(sketch_name, sketch_dir):
     return templates_files[0][1]
 
 
-def _validate_sketch_paths(sketch_name=None, sketch_dir=None):
+def _validate_sketch_path(sketch_name=None, sketch_dir=None):
+    """
+    Searches for the sketch .py file
+    """
     sketch_dir = Path(sketch_dir or f'{sketch_name}')
 
     sketch = sketch_dir.child(f"{sketch_name}.py")
@@ -60,27 +63,15 @@ def _validate_sketch_paths(sketch_name=None, sketch_dir=None):
         sketch = sketch_file
         sketch_dir = sketch.parent
 
-    return sketch_dir, sketch
+    return sketch
 
 
 def transcrypt_sketch(sketch_name, sketch_dir):
-    sketch_dir, sketch = _validate_sketch_paths(sketch_name, sketch_dir)
+    sketch = _validate_sketch_path(sketch_name, sketch_dir)
+    compile_sketch_js(sketch, TARGET_DIRNAME)
+    return sketch.parent.child("index.html")
 
-    command = ' '.join([str(c) for c in [
-        'transcrypt', '-xp', PYP5_DIR, '-b', '-m', '-n', sketch
-    ]])
-    cprint.info(f"Converting Python to P5.js...\nRunning command:\n\t {command}")
 
-    proc = subprocess.Popen(shlex.split(command))
-    proc.wait()
 
-    __target = sketch_dir.child('__target__')
-    if not __target.exists():
-        cprint.err(f"Error with transcrypt: the {__target} directory wasn't created.", interrupt=True)
 
-    target_dir = sketch_dir.child(TARGET_DIRNAME)
-    if target_dir.exists():
-        shutil.rmtree(target_dir)
-    shutil.move(__target, target_dir)
 
-    return sketch_dir.child("index.html")
