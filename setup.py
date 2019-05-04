@@ -26,7 +26,7 @@ setup(
     include_package_data=True,
     zip_safe=False,
     entry_points={
-        'console_scripts': ['pytop5js = pyp5js.cli:command_line_entrypoint']
+        'console_scripts': ['pyp5js = pyp5js.cli:command_line_entrypoint']
     },
     python_requires='>=3.6',
     install_requires=requirements,

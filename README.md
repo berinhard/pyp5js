@@ -38,7 +38,7 @@ Since you'll be writting Python code and then generating the correspondent P5.js
 So, to start a new sketch, you'll have to run:
 
 ```
-$ pytop5js new my_sketch
+$ pyp5js new my_sketch
 ```
 
 This command will create a directory with the following code structure:
@@ -56,7 +56,7 @@ The `index.html` is prepared to display your sketch, so you'll have to keep on o
 After updating your code, you'll have to run the `transcrypt` command to update the files. Run it as:
 
 ```
-$ pytop5js transcrypt my_sketch
+$ pyp5js transcrypt my_sketch
 ```
 
 The way the code is implemented, for now, you'll have to execute it from the same directory-level where `my_sketch` is - you can't run it from inside the `my_sketch` directory.
@@ -64,11 +64,11 @@ The way the code is implemented, for now, you'll have to execute it from the sam
 If you're lazy as me, you can use the `monitor` command instead of the previous one. The command will monitor your sketch directory and keep track of any changes on any `.py` files. When it notices a new change, it automatically runs the transcrypt process for you. So, now you'll just have to refresh your `index.html` file to see the results.
 
 ```
-$ pytop5js monitor my_sketch
+$ pyp5js monitor my_sketch
 ```
 
 All of the command-line interface methods have a few optional arguments and you can check them by running:
 
 ```
-$ pytop5js --help
+$ pyp5js --help
 ```

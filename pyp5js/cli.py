@@ -29,7 +29,7 @@ def configure_new_sketch(sketch_name, sketch_dir):
 
     cprint.ok(f"Your sketch was created!")
     cprint.ok(f"Please, open and edit the file {sketch_py} to draw. When you're ready to see your results, just run:")
-    cprint.ok(f"\t pytop5js transcrypt {sketch_name}")
+    cprint.ok(f"\t pyp5js transcrypt {sketch_name}")
 
 
 @command_line_entrypoint.command("transcrypt")
@@ -55,7 +55,7 @@ def transcrypt_sketch(sketch_name, sketch_dir):
 def monitor_sketch(sketch_name, sketch_dir):
     """
     Command to generate keep watching a sketch's dir and, after any change,
-    it'll automatically generate the JS files as in pytop5js transcrypt command
+    it'll automatically generate the JS files as in pyp5js transcrypt command
 
     Params:
     - sketch_name: name of the sketch
