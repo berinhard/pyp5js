@@ -30,6 +30,7 @@ setup(
     author='Bernardo Fontes',
     maintainer='Bernardo Fontes',
     maintainer_email='bernardoxhc@gmail.com',
+    url="https://github.com/berinhard/pyp5js/",
     license='GNU Lesser General Public License version 3',
     packages=find_packages(),
     package_data={
@@ -46,4 +47,5 @@ setup(
     },
     python_requires='>=3.6',
     install_requires=requirements,
+    keywords="p5js processing creative coding",
 )
