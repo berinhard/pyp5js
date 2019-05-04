@@ -66,6 +66,22 @@ def configure_new_sketch(sketch_name, sketch_dir):
         fd.write(index_contet)
 
 
+def _validate_sketch_paths(sketch_name=None, sketch_dir=None):
+    sketch_dir = Path(sketch_dir or f'./{sketch_name}')
+
+    sketch = sketch_dir.child(f"{sketch_name}.py")
+    if not sketch.exists():
+        sketch_file = Path(os.getcwd()).child(f"{sketch_name}.py")
+        if not sketch_file.exists():
+            cprint.warn(f"Couldn't find the sketch.")
+            cprint.err(f"Neither the file {sketch} or {sketch_file} exist.", interrupt=True)
+
+        sketch = sketch_file
+        sketch_dir = sketch.parent
+
+    return sketch_dir, sketch
+
+
 @command_line_entrypoint.command("transcrypt")
 @click.argument("sketch_name")
 @click.option('--sketch_dir', '-d', default=None)
@@ -79,19 +95,8 @@ def transcrypt_sketch(sketch_name, sketch_dir):
     Opitionals
     - sketch_dir: sketch's directory (defaults to ./{sketch_name})
     """
-    SKETCH_DIR = Path(sketch_dir or f'./{sketch_name}')
+    sketch_dir, sketch = _validate_sketch_paths(sketch_name, sketch_dir)
 
-    sketch = SKETCH_DIR.child(f"{sketch_name}.py")
-    if not sketch.exists():
-        sketch_file = Path(os.getcwd()).child(f"{sketch_name}.py")
-        if not sketch_file.exists():
-            cprint.warn(f"Couldn't find the sketch.")
-            cprint.err(f"Neither the file {sketch} or {sketch_file} exist.", interrupt=True)
-
-        sketch = sketch_file
-        SKETCH_DIR = sketch.parent
-
-    target_dir = SKETCH_DIR.child(TARGET_DIRNAME)
     command = ' '.join([str(c) for c in [
         'transcrypt', '-xp', PYP5_DIR, '-b', '-m', '-n', sketch
     ]])
@@ -99,10 +104,11 @@ def transcrypt_sketch(sketch_name, sketch_dir):
 
     subprocess.check_output(shlex.split(command))
 
-    __target = SKETCH_DIR.child('__target__')
+    __target = sketch_dir.child('__target__')
     if not __target.exists():
         cprint.err(f"Error with transcrypt: the {__target} directory wasn't created.", interrupt=True)
 
+    target_dir = sketch_dir.child(TARGET_DIRNAME)
     shutil.move(__target, target_dir)
 
 
