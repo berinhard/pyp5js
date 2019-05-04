@@ -785,12 +785,13 @@ mouseButton = None
 mouseIsPressed = None
 touches = None
 pixels = None
+CLOSE = None
 
 def pre_draw(p5_instance, draw_func):
     """
     We need to run this before the actual draw to insert and update p5 env variables
     """
-    global HALF_PI, PI, QUARTER_PI, TAU, TWO_PI, DEGREES, RADIANS, frameCount, focused, displayWidth, displayHeight, windowWidth, windowHeight, width, height, disableFriendlyErrors, deviceOrientation, accelerationX, accelerationY, accelerationZ, pAccelerationX, pAccelerationY, pAccelerationZ, rotationX, rotationY, rotationZ, pRotationX, pRotationY, pRotationZ, turnAxis, keyIsPressed, key, keyCode, mouseX, mouseY, pmouseX, pmouseY, winMouseX, winMouseY, pwinMouseX, pwinMouseY, mouseButton, mouseIsPressed, touches, pixels
+    global HALF_PI, PI, QUARTER_PI, TAU, TWO_PI, DEGREES, RADIANS, frameCount, focused, displayWidth, displayHeight, windowWidth, windowHeight, width, height, disableFriendlyErrors, deviceOrientation, accelerationX, accelerationY, accelerationZ, pAccelerationX, pAccelerationY, pAccelerationZ, rotationX, rotationY, rotationZ, pRotationX, pRotationY, pRotationZ, turnAxis, keyIsPressed, key, keyCode, mouseX, mouseY, pmouseX, pmouseY, winMouseX, winMouseY, pwinMouseX, pwinMouseY, mouseButton, mouseIsPressed, touches, pixels, CLOSE
 
     HALF_PI = p5_instance.HALF_PI
     PI = p5_instance.PI
@@ -837,6 +838,7 @@ def pre_draw(p5_instance, draw_func):
     mouseIsPressed = p5_instance.mouseIsPressed
     touches = p5_instance.touches
     pixels = p5_instance.pixels
+    CLOSE = p5_instance.CLOSE
     
     return draw_func()
 
