@@ -8,7 +8,7 @@ from unipath import Path
 from watchdog.events import FileSystemEventHandler, PatternMatchingEventHandler
 from watchdog.observers import Observer
 
-from compiler import compile_sketch_js
+from pyp5js.compiler import compile_sketch_js
 
 PYP5_DIR = Path(__file__).parent
 TEMPLATES_DIR = PYP5_DIR.child('templates')

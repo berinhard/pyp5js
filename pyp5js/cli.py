@@ -2,7 +2,7 @@
 from cprint import cprint
 import click
 
-import commands
+from pyp5js import commands
 
 @click.group()
 def command_line_entrypoint():
