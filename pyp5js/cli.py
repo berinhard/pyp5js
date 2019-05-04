@@ -66,8 +66,7 @@ def configure_new_sketch(sketch_name, sketch_dir):
 @command_line_entrypoint.command("transcrypt")
 @click.argument("sketch_name")
 @click.option('--sketch_dir', '-d', default=None)
-@click.option('--pyp5js', '-p', default=None)
-def transcrypt_sketch(sketch_name, sketch_dir, pyp5js):
+def transcrypt_sketch(sketch_name, sketch_dir):
     """
     Command to generate the P5.js code for a python sketch
 
@@ -76,7 +75,6 @@ def transcrypt_sketch(sketch_name, sketch_dir, pyp5js):
 
     Opitionals
     - sketch_dir: sketch's directory (defaults to ./{sketch_name})
-    - pyp5hs: path to the pyp5js main file (defaults to local install)
     """
     SKETCH_DIR = Path(sketch_dir or f'./{sketch_name}')
     if not SKETCH_DIR.exists():
@@ -84,11 +82,10 @@ def transcrypt_sketch(sketch_name, sketch_dir, pyp5js):
         cprint.err(f"The directory {SKETCH_DIR} doesn't exist.", interrupt=True)
 
     sketch = SKETCH_DIR.child(f"{sketch_name}.py")
-    pyp5js = Path(pyp5js or PYP5_DIR)
 
 
     command = ' '.join([str(c) for c in [
-        'transcrypt', '-xp', pyp5js, '-b', '-m', '-n', sketch
+        'transcrypt', '-xp', PYP5_DIR, '-b', '-m', '-n', sketch
     ]])
     cprint.info(f"Command:\n\t {command}")
 
