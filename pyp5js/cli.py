@@ -53,6 +53,7 @@ def configure_new_sketch(sketch_name, sketch_dir):
     context = {
         "p5_js_url": "static/p5.js",
         "sketch_js_url": f"{TARGET_DIRNAME}/{sketch_name}.js",
+        "sketch_name": sketch_name,
     }
     index_contet = index_template.render(context)
 
