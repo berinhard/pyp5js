@@ -13,6 +13,7 @@ from jinja2 import Environment, FileSystemLoader
 
 PYP5_DIR = Path(__file__).parent
 TEMPLATES_DIR = PYP5_DIR.child('templates')
+TARGET_DIRNAME = "target"
 templates = Environment(loader=FileSystemLoader(TEMPLATES_DIR))
 
 @click.group()
@@ -51,7 +52,7 @@ def configure_new_sketch(sketch_name, sketch_dir):
     index_template = templates.get_template('index.html')
     context = {
         "p5_js_url": "static/p5.js",
-        "sketch_js_url": f"__target__/{sketch_name}.js",
+        "sketch_js_url": f"{TARGET_DIRNAME}/{sketch_name}.js",
     }
     index_contet = index_template.render(context)
 
@@ -89,12 +90,19 @@ def transcrypt_sketch(sketch_name, sketch_dir):
         sketch = sketch_file
         SKETCH_DIR = sketch.parent
 
+    target_dir = SKETCH_DIR.child(TARGET_DIRNAME)
     command = ' '.join([str(c) for c in [
         'transcrypt', '-xp', PYP5_DIR, '-b', '-m', '-n', sketch
     ]])
     cprint.info(f"Command:\n\t {command}")
 
     subprocess.check_output(shlex.split(command))
+
+    __target = SKETCH_DIR.child('__target__')
+    if not __target.exists():
+        cprint.err(f"Error with transcrypt: the {__target} directory wasn't created.", interrupt=True)
+
+    shutil.move(__target, target_dir)
 
 
 if __name__ == "__main__":
