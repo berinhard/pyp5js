@@ -51,3 +51,4 @@ variables:
     - touches
     # Pixels
     - pixels
+    - CLOSE
