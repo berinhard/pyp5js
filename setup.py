@@ -1,5 +1,8 @@
 from setuptools import setup, find_packages
 
+with open("requirements.txt") as fd:
+    requirements = [l.strip() for l in fd.readlines()]
+
 with open("README.md") as fd:
     long_description = fd.read()
 
@@ -23,15 +26,8 @@ setup(
     include_package_data=True,
     zip_safe=False,
     entry_points={
-        'console_scripts': ['pytop5js = pyp5js.cli:command_line_entrypoint']
+        'console_scripts': ['pyp5js = pyp5js.cli:command_line_entrypoint']
     },
     python_requires='>=3.6',
-    install_requires=[
-        'Click==7.0',
-        'cprint==1.1',
-        'Jinja2==2.10.1',
-        'PyYAML==5.1',
-        'Transcrypt==3.7.12',
-        'Unipath==1.1',
-    ],
+    install_requires=requirements,
 )
