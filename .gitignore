@@ -12,3 +12,4 @@ __target__
 build
 dist
 *.egg-info
+test_sketch
