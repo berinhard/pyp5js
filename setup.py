@@ -11,6 +11,7 @@ setup(
     version="0.0.1",
     description='Simple tool to allow to transcrypt Python code that uses P5.js',
     long_description=long_description,
+    long_description_content_type='text/markdown',
     author='Bernardo Fontes',
     maintainer='Bernardo Fontes',
     maintainer_email='bernardoxhc@gmail.com',
