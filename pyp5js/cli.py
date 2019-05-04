@@ -6,7 +6,7 @@ import shlex
 import random
 from datetime import date
 from cprint import cprint
-from shutil import copyfile
+import shutil
 from unipath import Path
 from jinja2 import Environment, FileSystemLoader
 
@@ -37,6 +37,7 @@ def configure_new_sketch(sketch_name, sketch_dir):
     - sketch_dir: directory to save the sketch (defaults to ./{sketch_name})
     """
     SKETCH_DIR = Path(sketch_dir or f'./{sketch_name}')
+
     if SKETCH_DIR.exists():
         cprint.warn(f"Cannot configure a new sketch.")
         cprint.err(f"The directory {SKETCH_DIR} already exists.", interrupt=True)
@@ -47,17 +48,17 @@ def configure_new_sketch(sketch_name, sketch_dir):
         (PYP5_DIR.child('static', 'p5.js'), static_dir.child('p5.js'))
     ]
 
-    os.mkdir(SKETCH_DIR)
-    os.mkdir(static_dir)
-    for src, dest in templates_files:
-        copyfile(src, dest)
-
     index_template = templates.get_template('index.html')
     context = {
         "p5_js_url": "static/p5.js",
         "sketch_js_url": f"__target__/{sketch_name}.js",
     }
     index_contet = index_template.render(context)
+
+    os.mkdir(SKETCH_DIR)
+    os.mkdir(static_dir)
+    for src, dest in templates_files:
+        shutil.copyfile(src, dest)
 
     with open(SKETCH_DIR.child("index.html"), "w") as fd:
         fd.write(index_contet)
