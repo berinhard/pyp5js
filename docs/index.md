@@ -23,6 +23,9 @@ def draw():
 start_p5(setup, draw)
 ```
 
+### Examples
+[Click here](https://berinhard.github.io/pyp5js/examples/) to see a list of examples generated with `pyp5js`.
+
 ### Installation
 
 The project is not under Pypi yet, so you'll have to install it from the git repo. To do so, just run:
