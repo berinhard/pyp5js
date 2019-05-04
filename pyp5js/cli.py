@@ -94,8 +94,7 @@ def transcrypt_sketch(sketch_name, sketch_dir):
     ]])
     cprint.info(f"Command:\n\t {command}")
 
-    transcrypt = subprocess.Popen(shlex.split(command))
-    transcrypt.wait()
+    subprocess.check_output(shlex.split(command))
 
 
 if __name__ == "__main__":
