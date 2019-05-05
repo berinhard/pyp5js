@@ -6,7 +6,7 @@ Here's an example of a valid Python code using P5.js API:
 
 
 ```python
-from pyp5js import *
+from pytop5js import *
 
 def setup():
     createCanvas(200, 200)
@@ -22,6 +22,9 @@ def draw():
 
 start_p5(setup, draw)
 ```
+
+### Examples
+[Click here](https://berinhard.github.io/pyp5js/examples/) to see a list of examples generated with `pyp5js`.
 
 ### Installation
 
