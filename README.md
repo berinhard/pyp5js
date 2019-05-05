@@ -31,12 +31,6 @@ This project requires Python 3 and is now on PyPI, so you can install it with `p
 $ pip install pyp5js
 ```
 
-Otherwise, you can install it from the project repo:
-
-```
-$ pip install git+https://github.com/berinhard/pyp5js.git@master
-```
-
 ### Usage
 
 Since you'll be writting Python code and then generating the correspondent P5.js code from it, pyp5js provides a simple command line API to help you to generate the files.
