@@ -25,10 +25,10 @@ start_p5(setup, draw)
 
 ### Installation
 
-The project is not under Pypi yet, so you'll have to install it from the git repo. To do so, just run:
+This project requires Python 3 and is now on PyPI, so you can install it with `pip` or `pip3`, depending on your environment:
 
 ```
-$ pip install git+https://github.com/berinhard/pyp5js.git@master  # python 3 only
+$ pip install pyp5js
 ```
 
 ### Usage
