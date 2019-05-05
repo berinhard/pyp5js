@@ -17,6 +17,7 @@ variables:
     - LEFT
     - RIGHT
     - SHIFT
+    - WEBGL
 
     # Environment
     - frameCount
