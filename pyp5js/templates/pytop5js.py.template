@@ -5,6 +5,13 @@ def {{ f_name }}(*args):
     return _P5_INSTANCE.{{ f_name }}(*args)
 {% endfor %}
 
+
+def pop(*args):
+    __pragma__('noalias', 'pop')
+    p5_pop = _P5_INSTANCE.pop(*args)
+    __pragma__('alias', 'pop', 'py_pop')
+    return p5_pop
+
 {% for v_name in variables_names %}{{ v_name }} = None
 {% endfor %}
 def pre_draw(p5_instance, draw_func):

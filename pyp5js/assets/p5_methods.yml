@@ -92,7 +92,6 @@ methods:
     - noLoop
     - loop
     - push
-    - pop
     - redraw
 
     # Rendering

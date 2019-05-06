@@ -232,12 +232,6 @@ def loop(*args):
 def push(*args):
     return _P5_INSTANCE.push(*args)
 
-def pop(*args):
-    __pragma__('noalias', 'pop')
-    p5_pop = _P5_INSTANCE.pop(*args)
-    __pragma__('alias', 'pop', 'py_pop')
-    return p5_pop
-
 def redraw(*args):
     return _P5_INSTANCE.redraw(*args)
 
@@ -742,6 +736,13 @@ def createCamera(*args):
 def setCamera(*args):
     return _P5_INSTANCE.setCamera(*args)
 
+
+
+def pop(*args):
+    __pragma__('noalias', 'pop')
+    p5_pop = _P5_INSTANCE.pop(*args)
+    __pragma__('alias', 'pop', 'py_pop')
+    return p5_pop
 
 HALF_PI = None
 PI = None
