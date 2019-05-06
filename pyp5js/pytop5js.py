@@ -233,7 +233,10 @@ def push(*args):
     return _P5_INSTANCE.push(*args)
 
 def pop(*args):
-    return _P5_INSTANCE.pop(*args)
+    __pragma__('noalias', 'pop')
+    p5_pop = _P5_INSTANCE.pop(*args)
+    __pragma__('alias', 'pop', 'py_pop')
+    return p5_pop
 
 def redraw(*args):
     return _P5_INSTANCE.redraw(*args)
