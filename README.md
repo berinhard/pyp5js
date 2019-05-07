@@ -1,6 +1,6 @@
 ## pyp5js: Python to P5.js Transcriptor
 
-> Processing ideas and Python 3 together with P5.js in the browser, using Transcrypt.
+> [Processing]((https://processing.org) ideas and Python 3 together with [P5.js](https://p5js.org) in the browser, using [Transcrypt](https://transcrypt.org/).
 
 Here's an example of a valid Python code using P5.js API:
 
@@ -27,6 +27,6 @@ start_p5(setup, draw)
 
 #### [Installation](https://berinhard.github.io/pyp5js#installation)
 
-#### [Usage](hhttps://berinhard.github.io/pyp5js#usage)
+#### [Usage](https://berinhard.github.io/pyp5js#usage)
 
 #### [Known issues and differences to the Processing.Py and P5.js ways of doing things](https://berinhard.github.io/pyp5js#known-issues-and-differences-to-the-processingpy-and-p5js-ways-of-doing-things)
