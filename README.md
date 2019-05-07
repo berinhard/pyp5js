@@ -1,6 +1,6 @@
 ## pyp5js: Python to P5.js Transcriptor
 
-> [Processing]((https://processing.org) ideas and Python 3 together with [P5.js](https://p5js.org) in the browser, using [Transcrypt](https://transcrypt.org/).
+> [Processing](https://processing.org) ideas and Python 3 together with [P5.js](https://p5js.org) in the browser, using [Transcrypt](https://transcrypt.org/).
 
 Here's an example of a valid Python code using P5.js API:
 
