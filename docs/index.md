@@ -1,4 +1,4 @@
-## Python to P5.js Transcriptor
+## pyp5js: Python to P5.js Transcriptor
 
 > Processing ideas and Python 3 together with P5.js in the browser, using Transcrypt.
 
@@ -65,7 +65,7 @@ After updating your code, you'll have to run the `transcrypt` command to update 
 $ pyp5js transcrypt my_sketch
 ```
 
-The way the code is implemented, for now, you'll have to execute it from the same directory-level where `my_sketch` is - you can't run it from inside the `my_sketch` directory.
+The way the code is implemented, for now, you'll have to execute **pyp5js** from the same directory-level where `my_sketch` is - you can't run it from inside the `my_sketch` directory.
 
 If you're lazy as me, you can use the `monitor` command instead of the previous one. The command will monitor your sketch directory and keep track of any changes on any `.py` files. When it notices a new change, it automatically runs the transcrypt process for you. So, now you'll just have to refresh your `index.html` file to see the results.
 
@@ -79,14 +79,14 @@ All of the command-line interface methods have a few optional arguments and you 
 $ pyp5js --help
 ```
 
-### Known issues and differences to the Processing Python Mode and P5.js ways of doing things
+### Known issues and differences to the Processing.Py and P5.js ways of doing things
 
-- Remember to use *P5.js* method names & conventions for most things.
+- Remember to use **P5.js** method names & conventions for most things.
 
 - The `p5.dom.js` library can be used, but you'll have to acess it's methods and objects with `_P5_INSTANCE_.` prefix.
 
-- no `with` context for `push/pop` or `beginShape/endShape` ... yet.
+- There are no Py.Processing `with` context facilities for `push/pop` or `beginShape/endShape` ... yet.
 
-- No `PVector` objects, with their nice syntatic operator overloaded sugar - use `P5.Vector` with `createVector()` and P5.js conventions ... for now...
+- There are no `PVector` objects, with their nice syntatic operator overloaded sugar - use `P5.Vector` with `createVector()` and P5.js conventions ... for now...
 
 - At this point, it is a known limitation that you have to "declare" global variables before `setup()` an `draw()`, maybe using `name = None`, as they can't be created inside methods.
