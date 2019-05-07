@@ -90,3 +90,9 @@ $ pyp5js --help
 - There are no `PVector` objects, with their nice syntatic operator overloaded sugar - use `P5.Vector` with `createVector()` and P5.js conventions ... for now...
 
 - At this point, it is a known limitation that you have to "declare" global variables before `setup()` and `draw()`, maybe using `name = None`, as they can't be created inside methods.
+
+### How can I contribute?
+
+Test it! Have a look at the issues... open a new one if needed.
+
+More instructions, like how to submit a Pull Request, will be available soon. 
