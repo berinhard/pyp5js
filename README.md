@@ -30,7 +30,7 @@ This project requires Python 3 and is now on PyPI, so you can install it with `p
 $ pip install pyp5js
 ```
 
-### Usage and more: hit the [docs](/docs)!
+### Usage and more: hit the [docs](/docs/index.md)!
 
 
 ```
