@@ -1,9 +1,12 @@
 ## Python to P5.js Transcriptor
 
-This project started from a proof of concept based in [Axel Tanner's "Transcrypt & p5js" blogpost](https://4nomore.net/2018/transcrypt_p5js/). The project's main goal was to use Tanner's approach combined with decorator and global variables control to enable P5.js API from being called "directly" from the Python code as clean as possible.
+> Processing ideas and Python 3 together with P5.js in the browser, using Transcrypt.
+
+This project started from a proof of concept based in [Axel Tanner's "Transcrypt & p5js" blogpost](https://4nomore.net/2018/transcrypt_p5js/). 
+
+The project's main goal was to use Tanner's approach combined with decorator and global variables control to enable P5.js API from being called "directly" from the Python code as clean as possible.
 
 Here's an example of a valid Python code using P5.js API:
-
 
 ```python
 from pytop5js import *
@@ -22,16 +25,16 @@ def draw():
 
 start_p5(setup, draw)
 ```
-
 ### Examples
 [Click here](https://berinhard.github.io/pyp5js/examples/) to see a list of examples generated with `pyp5js`.
 
+
 ### Installation
 
-The project is not under Pypi yet, so you'll have to install it from the git repo. To do so, just run:
+This project requires Python 3 and is now on PyPI, so you can install it with `pip` or `pip3`, depending on your environment:
 
 ```
-$ pip install git+https://github.com/berinhard/pyp5js.git@master  # python 3 only
+$ pip install pyp5js
 ```
 
 ### Usage
@@ -75,3 +78,15 @@ All of the command-line interface methods have a few optional arguments and you 
 ```
 $ pyp5js --help
 ```
+
+### Known issues and differences to the Processing Python Mode and P5.js ways of doing things
+
+- Remember to use *P5.js* method names & conventions for most things.
+
+- The `p5.dom.js` library can be used, but you'll have to acess it's methods and objects with `_P5_INSTANCE_.` prefix.
+
+- no `with` context for `push/pop` or `beginShape/endShape` ... yet.
+
+- No `PVector` objects, with their nice syntatic operator overloaded sugar - use `P5.Vector` with `createVector()` and P5.js conventions ... for now...
+
+- At this point, it is a known limitation that you have to "declare" global variables before `setup()` an `draw()`, maybe using `name = None`, as they can't be created inside methods.
