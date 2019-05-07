@@ -388,9 +388,6 @@ def deviceTurned(*args):
 def deviceShaken(*args):
     return _P5_INSTANCE.deviceShaken(*args)
 
-def keyPressed(*args):
-    return _P5_INSTANCE.keyPressed(*args)
-
 def keyReleased(*args):
     return _P5_INSTANCE.keyReleased(*args)
 
@@ -863,7 +860,7 @@ def pre_draw(p5_instance, draw_func):
     mouseIsPressed = p5_instance.mouseIsPressed
     touches = p5_instance.touches
     pixels = p5_instance.pixels
-    
+
     return draw_func()
 
 
@@ -883,7 +880,7 @@ def global_p5_injection(p5_sketch):
     return decorator
 
 
-def start_p5(setup_func, draw_func):
+def start_p5(setup_func, draw_func, keyPressed=None):
     """
     This is the entrypoint function. It accepts 2 parameters:
 
@@ -897,4 +894,9 @@ def start_p5(setup_func, draw_func):
         p5_sketch.setup = global_p5_injection(p5_sketch)(setup_func)
         p5_sketch.draw = global_p5_injection(p5_sketch)(draw_func)
 
-    return __new__ (p5(sketch_setup, 'sketch-holder'))
+    instance =  __new__ (p5(sketch_setup, 'sketch-holder'))
+
+    if keyPressed:
+        instance.keyPressed = global_p5_injection(instance)(keyPressed)
+
+    return instance

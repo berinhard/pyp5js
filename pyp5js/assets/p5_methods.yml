@@ -160,7 +160,6 @@ methods:
     - deviceShaken
 
     # Keyboard
-    - keyPressed
     - keyReleased
     - keyTyped
     - keyIsDown

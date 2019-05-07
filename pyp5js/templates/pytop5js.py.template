@@ -41,7 +41,7 @@ def global_p5_injection(p5_sketch):
     return decorator
 
 
-def start_p5(setup_func, draw_func):
+def start_p5(setup_func, draw_func, keyPressed=None):
     """
     This is the entrypoint function. It accepts 2 parameters:
 
@@ -55,4 +55,9 @@ def start_p5(setup_func, draw_func):
         p5_sketch.setup = global_p5_injection(p5_sketch)(setup_func)
         p5_sketch.draw = global_p5_injection(p5_sketch)(draw_func)
 
-    return __new__ (p5(sketch_setup, 'sketch-holder'))
+    instance =  __new__ (p5(sketch_setup, 'sketch-holder'))
+
+    if keyPressed:
+        instance.keyPressed = global_p5_injection(instance)(keyPressed)
+
+    return instance
