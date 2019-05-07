@@ -1,4 +1,4 @@
-## Python to P5.js Transcriptor
+## pyp5js: Python to P5.js Transcriptor
 
 > Processing ideas and Python 3 together with P5.js in the browser, using Transcrypt.
 
@@ -21,16 +21,12 @@ def draw():
 
 start_p5(setup, draw)
 ```
+### [Documentation](https://github.com/berinhard/pyp5js/blob/master/docs/index.md)
 
-### Installation
+- [Examples](https://berinhard.github.io/pyp5js/examples/)
 
-This project requires Python 3 and is now on PyPI, so you can install it with `pip` or `pip3`, depending on your environment:
+#### [Installation](https://github.com/berinhard/pyp5js/blob/master/docs/index.md#installation)
 
-```
-$ pip install pyp5js
-```
+#### [Usage](https://github.com/berinhard/pyp5js/blob/master/docs/index.md#usage)
 
-### Usage and more: hit the [docs](/docs/index.md)!
-
-
-```
+#### [Known issues and differences to the Processing.Py and P5.js ways of doing things](known-issues-and-differences-to-the-processingpy-and-p5js-ways-of-doing-things)
