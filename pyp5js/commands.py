@@ -21,7 +21,7 @@ def new_sketch(sketch_name, sketch_dir):
     Creates a new sketch, on a folder/directory
     with the required assets and a index.html file,
     all based on a template
-    
+
     :param sketch_name: name for new sketch
     :type sketch_name: string
     :param sketch_dir: directory name
@@ -29,7 +29,7 @@ def new_sketch(sketch_name, sketch_dir):
     :return: file names
     :rtype: list of strings
     """
-    
+
     SKETCH_DIR = Path(sketch_dir or f'{sketch_name}')
 
     if SKETCH_DIR.exists():
@@ -101,6 +101,8 @@ class TranscryptSketchEvent(PatternMatchingEventHandler):
 
         cprint.info(f"New change in {event.src_path}")
         compile_sketch_js(self.sketch, TARGET_DIRNAME)
+        index_file = self.sketch.parent.child("index.html")
+        cprint.ok(f"Your sketch is ready and available at {index_file}")
 
 
 def monitor_sketch(sketch_name, sketch_dir):
