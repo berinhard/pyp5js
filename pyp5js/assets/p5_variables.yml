@@ -7,6 +7,18 @@ variables:
     - TWO_PI
     - DEGREES
     - RADIANS
+    - CLOSE
+    - RGB
+    - HSB
+    - CMYK
+    - TOP
+    - BOTTOM
+    - CENTER
+    - LEFT
+    - RIGHT
+    - SHIFT
+    - WEBGL
+
     # Environment
     - frameCount
     - focused
@@ -51,4 +63,3 @@ variables:
     - touches
     # Pixels
     - pixels
-    - CLOSE
