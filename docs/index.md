@@ -79,7 +79,7 @@ All of the command-line interface methods have a few optional arguments and you 
 $ pyp5js --help
 ```
 
-### Known issues and differences to the Processing.Py and P5.js ways of doing things
+### Known [issues](https://github.com/berinhard/pyp5js/issues) and differences to the Processing.Py and P5.js ways of doing things
 
 - Remember to use **P5.js** method names & conventions for most things.
 
