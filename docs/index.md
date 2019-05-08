@@ -65,8 +65,6 @@ After updating your code, you'll have to run the `transcrypt` command to update 
 $ pyp5js transcrypt my_sketch
 ```
 
-The way the code is implemented, for now, you'll have to execute **pyp5js** from the same directory-level where `my_sketch` is - you can't run it from inside the `my_sketch` directory.
-
 If you're lazy as me, you can use the `monitor` command instead of the previous one. The command will monitor your sketch directory and keep track of any changes on any `.py` files. When it notices a new change, it automatically runs the transcrypt process for you. So, now you'll just have to refresh your `index.html` file to see the results.
 
 ```
