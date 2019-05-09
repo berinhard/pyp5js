@@ -29,7 +29,10 @@ def configure_new_sketch(sketch_name, sketch_dir):
 
     cprint.ok(f"Your sketch was created!")
     cprint.ok(f"Please, open and edit the file {sketch_py} to draw. When you're ready to see your results, just run:")
-    cprint.ok(f"\t pyp5js transcrypt {sketch_name}")
+    cmd = f"\t pyp5js transcrypt {sketch_name}"
+    if sketch_dir:
+        cmd += f" --sketch-dir {sketch_dir}"
+    cprint.ok(cmd)
 
 
 @command_line_entrypoint.command("transcrypt")

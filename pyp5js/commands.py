@@ -30,8 +30,13 @@ def new_sketch(sketch_name, sketch_dir):
     :rtype: list of strings
     """
 
-    SKETCH_DIR = Path(sketch_dir or f'{sketch_name}')
+    SKETCH_DIR = Path(".")
+    if sketch_dir:
+        SKETCH_DIR = Path(sketch_dir)
+        if not SKETCH_DIR.exists():
+            cprint.err(f"The directory {SKETCH_DIR} does not exists.", interrupt=True)
 
+    SKETCH_DIR = SKETCH_DIR.child(sketch_name)
     if SKETCH_DIR.exists():
         cprint.warn(f"Cannot configure a new sketch.")
         cprint.err(f"The directory {SKETCH_DIR} already exists.", interrupt=True)
