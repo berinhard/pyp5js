@@ -379,53 +379,8 @@ def setMoveThreshold(*args):
 def setShakeThreshold(*args):
     return _P5_INSTANCE.setShakeThreshold(*args)
 
-def deviceMoved(*args):
-    return _P5_INSTANCE.deviceMoved(*args)
-
-def deviceTurned(*args):
-    return _P5_INSTANCE.deviceTurned(*args)
-
-def deviceShaken(*args):
-    return _P5_INSTANCE.deviceShaken(*args)
-
-def keyReleased(*args):
-    return _P5_INSTANCE.keyReleased(*args)
-
-def keyTyped(*args):
-    return _P5_INSTANCE.keyTyped(*args)
-
 def keyIsDown(*args):
     return _P5_INSTANCE.keyIsDown(*args)
-
-def mouseMoved(*args):
-    return _P5_INSTANCE.mouseMoved(*args)
-
-def mouseDragged(*args):
-    return _P5_INSTANCE.mouseDragged(*args)
-
-def mousePressed(*args):
-    return _P5_INSTANCE.mousePressed(*args)
-
-def mouseReleased(*args):
-    return _P5_INSTANCE.mouseReleased(*args)
-
-def mouseClicked(*args):
-    return _P5_INSTANCE.mouseClicked(*args)
-
-def doubleClicked(*args):
-    return _P5_INSTANCE.doubleClicked(*args)
-
-def mouseWheel(*args):
-    return _P5_INSTANCE.mouseWheel(*args)
-
-def touchStarted(*args):
-    return _P5_INSTANCE.touchStarted(*args)
-
-def touchMoved(*args):
-    return _P5_INSTANCE.touchMoved(*args)
-
-def touchEnded(*args):
-    return _P5_INSTANCE.touchEnded(*args)
 
 def createImage(*args):
     return _P5_INSTANCE.createImage(*args)
@@ -860,7 +815,7 @@ def pre_draw(p5_instance, draw_func):
     mouseIsPressed = p5_instance.mouseIsPressed
     touches = p5_instance.touches
     pixels = p5_instance.pixels
-
+    
     return draw_func()
 
 
@@ -886,6 +841,8 @@ def start_p5(setup_func, draw_func, event_functions):
 
     - setup_func: a Python setup callable
     - draw_func: a Python draw callable
+    - event_functions: a config dict for the event functions in the format:
+                       {"eventFunctionName": python_event_function}
 
     This method gets the p5js's sketch instance and injects them
     """
@@ -896,12 +853,10 @@ def start_p5(setup_func, draw_func, event_functions):
 
     instance =  __new__ (p5(sketch_setup, 'sketch-holder'))
 
+    # inject event functions into p5
+    event_function_names = ["deviceMoved", "deviceTurned", "deviceShaken", "keyPressed", "keyReleased", "keyTyped", "mouseMoved", "mouseDragged", "mousePressed", "mouseReleased", "mouseClicked", "doubleClicked", "mouseWheel", "touchStarted", "touchMoved", "touchEnded", ]
 
-    # inject event functions
-    event_function_names = ['keyPressed']
     for f_name in [f for f in event_function_names if f in event_functions]:
         func = event_functions[f_name]
         event_func = global_p5_injection(instance)(func)
         setattr(instance, f_name, event_func)
-
-    return instance
