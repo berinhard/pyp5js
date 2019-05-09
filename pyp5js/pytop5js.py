@@ -880,7 +880,7 @@ def global_p5_injection(p5_sketch):
     return decorator
 
 
-def start_p5(setup_func, draw_func, keyPressed=None):
+def start_p5(setup_func, draw_func, event_functions):
     """
     This is the entrypoint function. It accepts 2 parameters:
 
@@ -896,7 +896,12 @@ def start_p5(setup_func, draw_func, keyPressed=None):
 
     instance =  __new__ (p5(sketch_setup, 'sketch-holder'))
 
-    if keyPressed:
-        instance.keyPressed = global_p5_injection(instance)(keyPressed)
+
+    # inject event functions
+    event_function_names = ['keyPressed']
+    for f_name in [f for f in event_function_names if f in event_functions]:
+        func = event_functions[f_name]
+        event_func = global_p5_injection(instance)(func)
+        setattr(instance, f_name, event_func)
 
     return instance
