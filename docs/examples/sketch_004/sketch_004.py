@@ -165,4 +165,4 @@ class Boid (object):
 
 
 # This is required by pyp5js to work
-start_p5(setup, draw)
+start_p5(setup, draw, {})

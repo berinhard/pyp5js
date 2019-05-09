@@ -17,4 +17,4 @@ def draw():
   pop()
 
 
-start_p5(setup, draw)
+start_p5(setup, draw, {})
