@@ -190,9 +190,6 @@ def frameRate(*args):
 def noCursor(*args):
     return _P5_INSTANCE.noCursor(*args)
 
-def windowResized(*args):
-    return _P5_INSTANCE.windowResized(*args)
-
 def fullscreen(*args):
     return _P5_INSTANCE.fullscreen(*args)
 
@@ -854,7 +851,7 @@ def start_p5(setup_func, draw_func, event_functions):
     instance =  __new__ (p5(sketch_setup, 'sketch-holder'))
 
     # inject event functions into p5
-    event_function_names = ["deviceMoved", "deviceTurned", "deviceShaken", "keyPressed", "keyReleased", "keyTyped", "mouseMoved", "mouseDragged", "mousePressed", "mouseReleased", "mouseClicked", "doubleClicked", "mouseWheel", "touchStarted", "touchMoved", "touchEnded", ]
+    event_function_names = ["deviceMoved", "deviceTurned", "deviceShaken", "keyPressed", "keyReleased", "keyTyped", "mouseMoved", "mouseDragged", "mousePressed", "mouseReleased", "mouseClicked", "doubleClicked", "mouseWheel", "touchStarted", "touchMoved", "touchEnded", "windowResized", ]
 
     for f_name in [f for f in event_function_names if f in event_functions]:
         func = event_functions[f_name]

@@ -76,7 +76,6 @@ methods:
     - cursor
     - frameRate
     - noCursor
-    - windowResized
     - fullscreen
     - pixelDensity
     - displayDensity
@@ -316,6 +315,8 @@ events:
     - touchStarted
     - touchMoved
     - touchEnded
+    # Window
+    - windowResized
 
 variables:
     # Constants
