@@ -81,7 +81,7 @@ $ pyp5js --help
 
 - Remember to use **P5.js** method names & conventions for most things.
 
-- To use event functions such as `keyPressed`, `mouseDragged`, `deviceMoved`, `touchMoved`, `windowResized` and others listed in [P5.js reference manual](https://p5js.org/reference/), you have to pass more values to `start_p5` like the following snippet of code. You can check this [live demo](https://berinhard.github.io/pyp5js/examples/sketch_006/index.html) here and also the [Python code](https://github.com/berinhard/pyp5js/blob/master/docs/examples/sketch_003/index.html) for a more expressive example.
+- To use event functions such as `keyPressed`, `mouseDragged`, `deviceMoved`, `touchMoved`, `windowResized` and others listed in [P5.js reference manual](https://p5js.org/reference/), you have to pass more values to `start_p5` like the following snippet of code. You can check this [live demo](https://berinhard.github.io/pyp5js/examples/sketch_006/index.html) here and also the [Python code](https://github.com/berinhard/pyp5js/blob/master/docs/examples/sketch_006/index.html) for a more expressive example.
 
 ```
 def keyPressed():
