@@ -8,14 +8,19 @@ TEMPLATES_DIR = PYP5_DIR.child('templates')
 ASSETS_DIR = PYP5_DIR.child('assets')
 
 if __name__ == '__main__':
-    with open(ASSETS_DIR.child('p5_methods.yml')) as fd:
-        methods_names = yaml.load(fd.read())['methods']
-    with open(ASSETS_DIR.child('p5_variables.yml')) as fd:
-        variables_names = yaml.load(fd.read())['variables']
+    with open(ASSETS_DIR.child('p5_reference.yml')) as fd:
+        data = yaml.load(fd.read())
+        methods_names = data['methods']
+        event_function_names = data['events']
+        variables_names = data['variables']
 
     templates = Environment(loader=FileSystemLoader(TEMPLATES_DIR))
     pyp5_template = templates.get_template('pytop5js.py.template')
-    context = {'function_names': methods_names, 'variables_names': variables_names}
+    context = {
+        'function_names': methods_names,
+        'variables_names': variables_names,
+        'event_function_names': event_function_names,
+    }
     pyp5_content = pyp5_template.render(context)
 
     pyp5_path = PYP5_DIR.child('pytop5js.py')

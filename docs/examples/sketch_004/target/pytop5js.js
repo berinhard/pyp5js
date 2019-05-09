@@ -1,4 +1,4 @@
-// Transcrypt'ed from Python, 2019-05-05 14:12:07
+// Transcrypt'ed from Python, 2019-05-09 00:36:34
 import {AssertionError, AttributeError, BaseException, DeprecationWarning, Exception, IndexError, IterableError, KeyError, NotImplementedError, RuntimeWarning, StopIteration, UserWarning, ValueError, Warning, __JsIterator__, __PyIterator__, __Terminal__, __add__, __and__, __call__, __class__, __envir__, __eq__, __floordiv__, __ge__, __get__, __getcm__, __getitem__, __getslice__, __getsm__, __gt__, __i__, __iadd__, __iand__, __idiv__, __ijsmod__, __ilshift__, __imatmul__, __imod__, __imul__, __in__, __init__, __ior__, __ipow__, __irshift__, __isub__, __ixor__, __jsUsePyNext__, __jsmod__, __k__, __kwargtrans__, __le__, __lshift__, __lt__, __matmul__, __mergefields__, __mergekwargtrans__, __mod__, __mul__, __ne__, __neg__, __nest__, __or__, __pow__, __pragma__, __proxy__, __pyUseJsNext__, __rshift__, __setitem__, __setproperty__, __setslice__, __sort__, __specialattrib__, __sub__, __super__, __t__, __terminal__, __truediv__, __withblock__, __xor__, all, any, assert, bool, bytearray, bytes, callable, chr, deepcopy, delattr, dict, dir, divmod, enumerate, getattr, hasattr, input, isinstance, issubclass, len, list, object, ord, property, py_TypeError, py_iter, py_metatype, py_next, py_reversed, py_typeof, range, repr, setattr, sorted, sum, tuple, zip} from './org.transcrypt.__runtime__.js';
 var __name__ = 'pytop5js';
 export var _P5_INSTANCE = null;
@@ -254,10 +254,6 @@ export var noCursor = function () {
 	var args = tuple ([].slice.apply (arguments).slice (0));
 	return _P5_INSTANCE.noCursor (...args);
 };
-export var windowResized = function () {
-	var args = tuple ([].slice.apply (arguments).slice (0));
-	return _P5_INSTANCE.windowResized (...args);
-};
 export var fullscreen = function () {
 	var args = tuple ([].slice.apply (arguments).slice (0));
 	return _P5_INSTANCE.fullscreen (...args);
@@ -309,10 +305,6 @@ export var loop = function () {
 export var push = function () {
 	var args = tuple ([].slice.apply (arguments).slice (0));
 	return _P5_INSTANCE.push (...args);
-};
-export var py_pop = function () {
-	var args = tuple ([].slice.apply (arguments).slice (0));
-	return _P5_INSTANCE.py_pop (...args);
 };
 export var redraw = function () {
 	var args = tuple ([].slice.apply (arguments).slice (0));
@@ -510,73 +502,9 @@ export var setShakeThreshold = function () {
 	var args = tuple ([].slice.apply (arguments).slice (0));
 	return _P5_INSTANCE.setShakeThreshold (...args);
 };
-export var deviceMoved = function () {
-	var args = tuple ([].slice.apply (arguments).slice (0));
-	return _P5_INSTANCE.deviceMoved (...args);
-};
-export var deviceTurned = function () {
-	var args = tuple ([].slice.apply (arguments).slice (0));
-	return _P5_INSTANCE.deviceTurned (...args);
-};
-export var deviceShaken = function () {
-	var args = tuple ([].slice.apply (arguments).slice (0));
-	return _P5_INSTANCE.deviceShaken (...args);
-};
-export var keyPressed = function () {
-	var args = tuple ([].slice.apply (arguments).slice (0));
-	return _P5_INSTANCE.keyPressed (...args);
-};
-export var keyReleased = function () {
-	var args = tuple ([].slice.apply (arguments).slice (0));
-	return _P5_INSTANCE.keyReleased (...args);
-};
-export var keyTyped = function () {
-	var args = tuple ([].slice.apply (arguments).slice (0));
-	return _P5_INSTANCE.keyTyped (...args);
-};
 export var keyIsDown = function () {
 	var args = tuple ([].slice.apply (arguments).slice (0));
 	return _P5_INSTANCE.keyIsDown (...args);
-};
-export var mouseMoved = function () {
-	var args = tuple ([].slice.apply (arguments).slice (0));
-	return _P5_INSTANCE.mouseMoved (...args);
-};
-export var mouseDragged = function () {
-	var args = tuple ([].slice.apply (arguments).slice (0));
-	return _P5_INSTANCE.mouseDragged (...args);
-};
-export var mousePressed = function () {
-	var args = tuple ([].slice.apply (arguments).slice (0));
-	return _P5_INSTANCE.mousePressed (...args);
-};
-export var mouseReleased = function () {
-	var args = tuple ([].slice.apply (arguments).slice (0));
-	return _P5_INSTANCE.mouseReleased (...args);
-};
-export var mouseClicked = function () {
-	var args = tuple ([].slice.apply (arguments).slice (0));
-	return _P5_INSTANCE.mouseClicked (...args);
-};
-export var doubleClicked = function () {
-	var args = tuple ([].slice.apply (arguments).slice (0));
-	return _P5_INSTANCE.doubleClicked (...args);
-};
-export var mouseWheel = function () {
-	var args = tuple ([].slice.apply (arguments).slice (0));
-	return _P5_INSTANCE.mouseWheel (...args);
-};
-export var touchStarted = function () {
-	var args = tuple ([].slice.apply (arguments).slice (0));
-	return _P5_INSTANCE.touchStarted (...args);
-};
-export var touchMoved = function () {
-	var args = tuple ([].slice.apply (arguments).slice (0));
-	return _P5_INSTANCE.touchMoved (...args);
-};
-export var touchEnded = function () {
-	var args = tuple ([].slice.apply (arguments).slice (0));
-	return _P5_INSTANCE.touchEnded (...args);
 };
 export var createImage = function () {
 	var args = tuple ([].slice.apply (arguments).slice (0));
@@ -986,6 +914,11 @@ export var setCamera = function () {
 	var args = tuple ([].slice.apply (arguments).slice (0));
 	return _P5_INSTANCE.setCamera (...args);
 };
+export var py_pop = function () {
+	var args = tuple ([].slice.apply (arguments).slice (0));
+	var p5_pop = _P5_INSTANCE.pop (...args);
+	return p5_pop;
+};
 export var HALF_PI = null;
 export var PI = null;
 export var QUARTER_PI = null;
@@ -1111,12 +1044,26 @@ export var global_p5_injection = function (p5_sketch) {
 	};
 	return decorator;
 };
-export var start_p5 = function (setup_func, draw_func) {
+export var start_p5 = function (setup_func, draw_func, event_functions) {
 	var sketch_setup = function (p5_sketch) {
 		p5_sketch.setup = global_p5_injection (p5_sketch) (setup_func);
 		p5_sketch.draw = global_p5_injection (p5_sketch) (draw_func);
 	};
-	return new p5 (sketch_setup, 'sketch-holder');
+	var instance = new p5 (sketch_setup, 'sketch-holder');
+	var event_function_names = list (['deviceMoved', 'deviceTurned', 'deviceShaken', 'keyPressed', 'keyReleased', 'keyTyped', 'mouseMoved', 'mouseDragged', 'mousePressed', 'mouseReleased', 'mouseClicked', 'doubleClicked', 'mouseWheel', 'touchStarted', 'touchMoved', 'touchEnded', 'windowResized']);
+	for (var f_name of (function () {
+		var __accu0__ = [];
+		for (var f of event_function_names) {
+			if (__in__ (f, event_functions)) {
+				__accu0__.append (f);
+			}
+		}
+		return __accu0__;
+	}) ()) {
+		var func = event_functions [f_name];
+		var event_func = global_p5_injection (instance) (func);
+		setattr (instance, f_name, event_func);
+	}
 };
 
 //# sourceMappingURL=pytop5js.map

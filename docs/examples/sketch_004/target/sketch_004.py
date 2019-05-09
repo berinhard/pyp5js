@@ -1,3 +1,6 @@
+# From Prof. Claudio Esperança examples for BrythonIDE
+# https://github.com/esperanc/brythonide/blob/master/demoSketches/boids.py
+
 from pytop5js import *
 
 boids = [];
@@ -162,4 +165,4 @@ class Boid (object):
 
 
 # This is required by pyp5js to work
-start_p5(setup, draw)
+start_p5(setup, draw, {})
