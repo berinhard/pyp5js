@@ -159,9 +159,6 @@ methods:
     # Keyboard
     - keyIsDown
 
-    # Touch
-    - touches
-
     # Image
     - createImage
     - saveCanvas
@@ -381,7 +378,9 @@ variables:
     - pwinMouseY
     - mouseButton
     - mouseIsPressed
+
     # Touch
     - touches
+
     # Pixels
     - pixels
