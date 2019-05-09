@@ -57,7 +57,7 @@ This command will create a directory with the following code structure:
   - my_sketch.py
 ```
 
-The `index.html` is prepared to display your sketch, so you'll have to keep on opening it to refresh see results from the code you'll add to `my_sketch.py`.
+The `index.html` is prepared to display your sketch, so you'll have to keep it open in your browser (I really advise you to use [Firefox](https://www.mozilla.org/en-US/firefox/new/)) to see results from the code you'll add to `my_sketch.py`.
 
 After updating your code, you'll have to run the `transcrypt` command to update the files. Run it as:
 
@@ -65,7 +65,7 @@ After updating your code, you'll have to run the `transcrypt` command to update 
 $ pyp5js transcrypt my_sketch
 ```
 
-If you're lazy as me, you can use the `monitor` command instead of the previous one. The command will monitor your sketch directory and keep track of any changes on any `.py` files. When it notices a new change, it automatically runs the transcrypt process for you. So, now you'll just have to refresh your `index.html` file to see the results.
+If you're lazy as me, you can use the `monitor` command instead of the previous one. The command will monitor your sketch directory and keep track of any changes on any `.py` files. When it notices a new change, it automatically runs the transcrypt process for you. So, now you'll just have to refresh your `index.html` file in your browser to see the results.
 
 ```
 $ pyp5js monitor my_sketch
@@ -81,7 +81,7 @@ $ pyp5js --help
 
 - Remember to use **P5.js** method names & conventions for most things.
 
-- To use event functions such as `keyPressed`, 'mouseDragged`, `deviceMoved`, `touchMoved`, `windowResized` and others listed in [P5.js reference manual](https://p5js.org/reference/), you have to pass more values to `start_p5` like the following snippet of code. You can check this [live demo](https://berinhard.github.io/pyp5js/examples/sketch_006/index.html) here and also the [Python code](https://github.com/berinhard/pyp5js/blob/master/docs/examples/sketch_003/index.html) for a more expressive example.
+- To use event functions such as `keyPressed`, `mouseDragged`, `deviceMoved`, `touchMoved`, `windowResized` and others listed in [P5.js reference manual](https://p5js.org/reference/), you have to pass more values to `start_p5` like the following snippet of code. You can check this [live demo](https://berinhard.github.io/pyp5js/examples/sketch_006/index.html) here and also the [Python code](https://github.com/berinhard/pyp5js/blob/master/docs/examples/sketch_003/index.html) for a more expressive example.
 
 ```
 def keyPressed():
@@ -96,7 +96,7 @@ event_functions = {
     'mouseDragged': mouseDragged,
 }
 start_p5(setup, draw, event_functions)
-``
+```
 
 - The `p5.dom.js` library can be used, but you'll have to acess it's methods and objects with `_P5_INSTANCE_.` prefix.
 
