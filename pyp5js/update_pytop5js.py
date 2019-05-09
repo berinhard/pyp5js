@@ -9,9 +9,10 @@ ASSETS_DIR = PYP5_DIR.child('assets')
 
 if __name__ == '__main__':
     with open(ASSETS_DIR.child('p5_methods.yml')) as fd:
-        methods_names = yaml.load(fd.read())['methods']
-    with open(ASSETS_DIR.child('p5_variables.yml')) as fd:
-        variables_names = yaml.load(fd.read())['variables']
+        data = yaml.load(fd.read())
+        methods_names = data['methods']
+        event_function_names = data['methods']
+        variables_names = data['variables']
 
     templates = Environment(loader=FileSystemLoader(TEMPLATES_DIR))
     pyp5_template = templates.get_template('pytop5js.py.template')

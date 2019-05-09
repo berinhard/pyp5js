@@ -155,28 +155,12 @@ methods:
     # Acceleration
     - setMoveThreshold
     - setShakeThreshold
-    - deviceMoved
-    - deviceTurned
-    - deviceShaken
 
     # Keyboard
-    - keyReleased
-    - keyTyped
     - keyIsDown
 
-    # Mouse
-    - mouseMoved
-    - mouseDragged
-    - mousePressed
-    - mouseReleased
-    - mouseClicked
-    - doubleClicked
-    - mouseWheel
-
     # Touch
-    - touchStarted
-    - touchMoved
-    - touchEnded
+    - touches
 
     # Image
     - createImage
@@ -313,3 +297,91 @@ methods:
     - ortho
     - createCamera
     - setCamera
+
+events:
+    # Devicce
+    - deviceMoved
+    - deviceTurned
+    - deviceShaken
+    # Keyboard
+    - keyPressed
+    - keyReleased
+    - keyTyped
+    # Mouse
+    - mouseMoved
+    - mouseDragged
+    - mousePressed
+    - mouseReleased
+    - mouseClicked
+    - doubleClicked
+    - mouseWheel
+    # Touch
+    - touchStarted
+    - touchMoved
+    - touchEnded
+
+variables:
+    # Constants
+    - HALF_PI
+    - PI
+    - QUARTER_PI
+    - TAU
+    - TWO_PI
+    - DEGREES
+    - RADIANS
+    - CLOSE
+    - RGB
+    - HSB
+    - CMYK
+    - TOP
+    - BOTTOM
+    - CENTER
+    - LEFT
+    - RIGHT
+    - SHIFT
+    - WEBGL
+
+    # Environment
+    - frameCount
+    - focused
+    - displayWidth
+    - displayHeight
+    - windowWidth
+    - windowHeight
+    - width
+    - height
+    - disableFriendlyErrors
+    # Acceleration
+    - deviceOrientation
+    - accelerationX
+    - accelerationY
+    - accelerationZ
+    - pAccelerationX
+    - pAccelerationY
+    - pAccelerationZ
+    - rotationX
+    - rotationY
+    - rotationZ
+    - pRotationX
+    - pRotationY
+    - pRotationZ
+    - turnAxis
+    # Keyboard
+    - keyIsPressed
+    - key
+    - keyCode
+    # Mouse
+    - mouseX
+    - mouseY
+    - pmouseX
+    - pmouseY
+    - winMouseX
+    - winMouseY
+    - pwinMouseX
+    - pwinMouseY
+    - mouseButton
+    - mouseIsPressed
+    # Touch
+    - touches
+    # Pixels
+    - pixels
