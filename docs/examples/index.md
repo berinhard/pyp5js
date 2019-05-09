@@ -5,3 +5,4 @@
 - [Example 003](sketch_003/index.html)
 - [Example 004](sketch_004/index.html)
 - [Example 005](sketch_005/index.html)
+- [Example 006](sketch_006/index.html)
