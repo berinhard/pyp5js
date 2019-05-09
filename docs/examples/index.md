@@ -1,8 +1,8 @@
 ### Examples list
 
-- [Example 001](sketch_001/index.html)
-- [Example 002](sketch_002/index.html)
-- [Example 003](sketch_003/index.html)
-- [Example 004](sketch_004/index.html)
-- [Example 005](sketch_005/index.html)
-- [Example 006](sketch_006/index.html)
+- [Angles and mouse coordinates](sketch_001/index.html)
+- [Move Eye](sketch_002/index.html), @villares implementation of Simon Greenwold's code
+- [3D](sketch_003/index.html)
+- [Boids](sketch_004/index.html) from @esperanc [BrythonIDE examples](https://github.com/esperanc/brythonide/blob/master/demoSketches/boids.py)
+- [Globals variables (HSB and CENTER)](sketch_005/index.html)
+- [Registering event functions such as keyPressed](sketch_006/index.html)
