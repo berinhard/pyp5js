@@ -4,10 +4,9 @@ import time
 from cprint import cprint
 from datetime import date
 from unipath import Path
-from watchdog.events import FileSystemEventHandler, PatternMatchingEventHandler
 from watchdog.observers import Observer
 
-from pyp5js.compiler import compile_sketch_js
+from pyp5js.compiler import compile_sketch_js, TranscryptSketchEvent
 from pyp5js.fs import Pyp5jsSketchFiles, Pyp5jsLibFiles
 
 TARGET_DIRNAME = "target"
@@ -62,35 +61,16 @@ def transcrypt_sketch(sketch_name, sketch_dir):
     return sketch_files.index_html
 
 
-class TranscryptSketchEvent(PatternMatchingEventHandler):
-    patterns = ["*.py"]
-
-    def __init__(self, *args, **kwargs):
-        self.sketch = kwargs.pop('sketch')
-        self._last_event = None
-        super().__init__(*args, **kwargs)
-
-    def on_modified(self, event):
-        event_id = id(event)
-        if event_id == self._last_event:
-            return
-
-        cprint.info(f"New change in {event.src_path}")
-        compile_sketch_js(self.sketch, TARGET_DIRNAME)
-        index_file = self.sketch.parent.child("index.html")
-        cprint.ok(f"Your sketch is ready and available at {index_file}")
-
-
 def monitor_sketch(sketch_name, sketch_dir):
     sketch_files = Pyp5jsSketchFiles(sketch_dir, sketch_name)
     sketch_files.check_sketch_exists()
 
-    cprint(f"Monitoring for changes in {sketch.parent.absolute()}...")
+    cprint(f"Monitoring for changes in {sketch_files.sketch_dir.absolute()}...")
 
-    event_handler = TranscryptSketchEvent(sketch=sketch)
+    event_handler = TranscryptSketchEvent(sketch_files=sketch_files)
     observer = Observer()
 
-    observer.schedule(event_handler, sketch.parent)
+    observer.schedule(event_handler, sketch_files.sketch_dir)
     observer.start()
     try:
         while True:
