@@ -1,13 +1,13 @@
+import os
 from unipath import Path
 from cprint import cprint
 from jinja2 import Environment, FileSystemLoader
 
 
 class Pyp5jsSketchFiles():
-    BASE_DIR = ''
 
     def __init__(self, sketch_dir, sketch_name, check_sketch_dir=True):
-        self._sketch_dir = sketch_dir or self.BASE_DIR
+        self._sketch_dir = sketch_dir or ''
         self.sketch_name = sketch_name
         self.check_sketch_dir = check_sketch_dir
 
@@ -16,15 +16,18 @@ class Pyp5jsSketchFiles():
             cprint.warn(f"Cannot configure a new sketch.")
             cprint.err(f"The directory {self.sketch_dir} already exists.", interrupt=True)
 
+    def check_sketch_exists(self):
+        return bool(self.sketch_dir and self.sketch_py)
+
     @property
     def sketch_dir(self):
         sketch_dir = Path(self._sketch_dir)
 
-        if not sketch_dir.exists() and self.check_sketch_dir:
-            cprint.err(f"The directory {sketch_dir} does not exists.", interrupt=True)
-
-        if self._sketch_dir == self.BASE_DIR:
+        if not sketch_dir:
             return sketch_dir.child(f'{self.sketch_name}')
+
+        if self.check_sketch_dir and not sketch_dir.exists():
+            cprint.err(f"The directory {sketch_dir} does not exists.", interrupt=True)
 
         return sketch_dir
 
@@ -42,7 +45,18 @@ class Pyp5jsSketchFiles():
 
     @property
     def sketch_py(self):
-        return self.sketch_dir.child(f'{self.sketch_name}.py')
+        py_file = self.sketch_dir.child(f'{self.sketch_name}.py')
+
+        if self.check_sketch_dir and not py_file.exists():
+            cwd_py_file = Path(os.getcwd()).child(f"{sketch_name}.py")
+            if not cwd_py_file.exists():
+                cprint.warn(f"Couldn't find the sketch.")
+                cprint.err(f"Neither the file {py_file} or {cwd_py_file} exist.", interrupt=True)
+
+            py_file = cwd_py_file
+            self._sketch_dir = py_file.parent
+
+        return py_file
 
 
 class Pyp5jsLibFiles():

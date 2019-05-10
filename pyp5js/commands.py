@@ -54,27 +54,9 @@ def new_sketch(sketch_name, sketch_dir):
     return sketch_files.sketch_py
 
 
-def _validate_sketch_path(sketch_name=None, sketch_dir=None):
-    """
-    Searches for the sketch .py file
-    """
-    sketch_dir = Path(sketch_dir or f'{sketch_name}')
-
-    sketch = sketch_dir.child(f"{sketch_name}.py")
-    if not sketch.exists():
-        sketch_file = Path(os.getcwd()).child(f"{sketch_name}.py")
-        if not sketch_file.exists():
-            cprint.warn(f"Couldn't find the sketch.")
-            cprint.err(f"Neither the file {sketch} or {sketch_file} exist.", interrupt=True)
-
-        sketch = sketch_file
-        sketch_dir = sketch.parent
-
-    return sketch
-
-
 def transcrypt_sketch(sketch_name, sketch_dir):
-    sketch = _validate_sketch_path(sketch_name, sketch_dir)
+    sketch_files = Pyp5jsSketchFiles(sketch_dir, sketch_name)
+    sketch_files.check_sketch_exists()
     compile_sketch_js(sketch, TARGET_DIRNAME)
     return sketch.parent.child("index.html")
 
@@ -99,7 +81,8 @@ class TranscryptSketchEvent(PatternMatchingEventHandler):
 
 
 def monitor_sketch(sketch_name, sketch_dir):
-    sketch = _validate_sketch_path(sketch_name, sketch_dir)
+    sketch_files = Pyp5jsSketchFiles(sketch_dir, sketch_name)
+    sketch_files.check_sketch_exists()
     cprint(f"Monitoring for changes in {sketch.parent.absolute()}...")
 
     event_handler = TranscryptSketchEvent(sketch=sketch)
