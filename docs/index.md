@@ -137,4 +137,4 @@ After that, you should have the `pyp5js` command enabled and it will respect all
 
 I still have to add some tests to pyp5js, so I'd love help on that as well.
 
-Now go fetch yourself an issue and happy hacking!
+Now go [fetch yourself an issue](https://github.com/berinhard/pyp5js/issues) and happy hacking!
