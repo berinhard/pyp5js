@@ -58,6 +58,10 @@ class Pyp5jsSketchFiles():
 
         return py_file
 
+    @property
+    def target_dir(self):
+        return self.sketch_dir.child("target")
+
 
 class Pyp5jsLibFiles():
 

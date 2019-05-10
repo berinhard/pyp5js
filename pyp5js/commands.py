@@ -57,8 +57,9 @@ def new_sketch(sketch_name, sketch_dir):
 def transcrypt_sketch(sketch_name, sketch_dir):
     sketch_files = Pyp5jsSketchFiles(sketch_dir, sketch_name)
     sketch_files.check_sketch_exists()
-    compile_sketch_js(sketch, TARGET_DIRNAME)
-    return sketch.parent.child("index.html")
+
+    compile_sketch_js(sketch_files)
+    return sketch_files.index_html
 
 
 class TranscryptSketchEvent(PatternMatchingEventHandler):
@@ -83,6 +84,7 @@ class TranscryptSketchEvent(PatternMatchingEventHandler):
 def monitor_sketch(sketch_name, sketch_dir):
     sketch_files = Pyp5jsSketchFiles(sketch_dir, sketch_name)
     sketch_files.check_sketch_exists()
+
     cprint(f"Monitoring for changes in {sketch.parent.absolute()}...")
 
     event_handler = TranscryptSketchEvent(sketch=sketch)
