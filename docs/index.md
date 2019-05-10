@@ -71,7 +71,7 @@ If you're lazy as me, you can use the `monitor` command instead of the previous 
 $ pyp5js monitor my_sketch
 ```
 
-All of the command-line interface methods have a few optional arguments and you can check them by running:
+All of the command-line interface methods have a few optional arguments, such as specifying the sketch directory. You can check them by running:
 
 ```
 $ pyp5js --help

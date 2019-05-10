@@ -14,7 +14,7 @@ def command_line_entrypoint():
 
 @command_line_entrypoint.command('new')
 @click.argument('sketch_name')
-@click.option('--sketch_dir', '-d', default=None)
+@click.option('--sketch-dir', '-d', default=None)
 def configure_new_sketch(sketch_name, sketch_dir):
     """
     Create dir and configure boilerplate
@@ -29,12 +29,15 @@ def configure_new_sketch(sketch_name, sketch_dir):
 
     cprint.ok(f"Your sketch was created!")
     cprint.ok(f"Please, open and edit the file {sketch_py} to draw. When you're ready to see your results, just run:")
-    cprint.ok(f"\t pyp5js transcrypt {sketch_name}")
+    cmd = f"\t pyp5js transcrypt {sketch_name}"
+    if sketch_dir:
+        cmd += f" --sketch-dir {sketch_dir}"
+    cprint.ok(cmd)
 
 
 @command_line_entrypoint.command("transcrypt")
 @click.argument("sketch_name")
-@click.option('--sketch_dir', '-d', default=None)
+@click.option('--sketch-dir', '-d', default=None)
 def transcrypt_sketch(sketch_name, sketch_dir):
     """
     Command to generate the P5.js code for a python sketch
@@ -51,7 +54,7 @@ def transcrypt_sketch(sketch_name, sketch_dir):
 
 @command_line_entrypoint.command("monitor")
 @click.argument("sketch_name")
-@click.option('--sketch_dir', '-d', default=None)
+@click.option('--sketch-dir', '-d', default=None)
 def monitor_sketch(sketch_name, sketch_dir):
     """
     Command to generate keep watching a sketch's dir and, after any change,
