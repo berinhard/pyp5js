@@ -9,8 +9,6 @@ from watchdog.observers import Observer
 from pyp5js.compiler import compile_sketch_js, TranscryptSketchEvent
 from pyp5js.fs import Pyp5jsSketchFiles, Pyp5jsLibFiles
 
-TARGET_DIRNAME = "target"
-
 
 def new_sketch(sketch_name, sketch_dir):
     """
@@ -36,8 +34,8 @@ def new_sketch(sketch_name, sketch_dir):
     ]
 
     context = {
-        "p5_js_url": "static/p5.js",
-        "sketch_js_url": f"{TARGET_DIRNAME}/{sketch_name}.js",
+        "p5_js_url": f"{Pyp5jsSketchFiles.STATIC_NAME}/p5.js",
+        "sketch_js_url": f"{Pyp5jsSketchFiles.TARGET_NAME}/{sketch_name}.js",
         "sketch_name": sketch_name,
     }
     index_contet = pyp5js_files.render_new_index(context)

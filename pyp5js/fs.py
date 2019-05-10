@@ -5,6 +5,8 @@ from jinja2 import Environment, FileSystemLoader
 
 
 class Pyp5jsSketchFiles():
+    TARGET_NAME = 'target'
+    STATIC_NAME = 'static'
 
     def __init__(self, sketch_dir, sketch_name, check_sketch_dir=True):
         self._sketch_dir = sketch_dir or ''
@@ -33,7 +35,7 @@ class Pyp5jsSketchFiles():
 
     @property
     def static_dir(self):
-        return self.sketch_dir.child('static')
+        return self.sketch_dir.child(self.STATIC_NAME)
 
     @property
     def index_html(self):
@@ -60,7 +62,7 @@ class Pyp5jsSketchFiles():
 
     @property
     def target_dir(self):
-        return self.sketch_dir.child("target")
+        return self.sketch_dir.child(self.TARGET_NAME)
 
 
 class Pyp5jsLibFiles():
