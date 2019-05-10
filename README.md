@@ -19,7 +19,7 @@ def draw():
     ellipse(100, 100, r, r)
 
 
-start_p5(setup, draw)
+start_p5(setup, draw, {})
 ```
 
 ### [Documentation](https://berinhard.github.io/pyp5js)
