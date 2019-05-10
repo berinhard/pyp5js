@@ -1,7 +1,6 @@
 import os
 from unipath import Path
 from cprint import cprint
-from jinja2 import Environment, FileSystemLoader
 
 
 class Pyp5jsSketchFiles():
@@ -95,14 +94,13 @@ class Pyp5jsLibFiles():
         return self.templates_dir.child('pytop5js.py.template')
 
     @property
+    def index_html(self):
+        return self.templates_dir.child('index.html')
+
+    @property
     def p5js(self):
         return self.static_dir.child('p5.js')
 
     @property
     def p5_yml(self):
         return self.assets_dir.child('p5_reference.yml')
-
-    def render_new_index(self, context):
-        templates = Environment(loader=FileSystemLoader(self.templates_dir))
-        index_template = templates.get_template('index.html')
-        return index_template.render(context)

@@ -5,6 +5,7 @@ from cprint import cprint
 from datetime import date
 from unipath import Path
 from watchdog.observers import Observer
+from jinja2 import Environment, FileSystemLoader
 
 from pyp5js.compiler import compile_sketch_js, TranscryptSketchEvent
 from pyp5js.fs import Pyp5jsSketchFiles, Pyp5jsLibFiles
@@ -38,7 +39,12 @@ def new_sketch(sketch_name, sketch_dir):
         "sketch_js_url": f"{Pyp5jsSketchFiles.TARGET_NAME}/{sketch_name}.js",
         "sketch_name": sketch_name,
     }
-    index_contet = pyp5js_files.render_new_index(context)
+
+    templates = Environment(loader=FileSystemLoader(pyp5js_files.templates_dir))
+    index_template = templates.get_template(
+        str(pyp5js_files.index_html.name)
+    )
+    index_contet = index_template.render(context)
 
     os.makedirs(sketch_files.sketch_dir)
     os.mkdir(sketch_files.static_dir)
