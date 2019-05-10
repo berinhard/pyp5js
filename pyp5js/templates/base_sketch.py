@@ -8,5 +8,10 @@ def draw():
     pass
 
 
-# This is required by pyp5js to work
-start_p5(setup, draw)
+# ==== This is required by pyp5js to work
+
+# Register your events functions here
+event_functions = {
+    # "keyPressed": keyPressed,    as an example
+}
+start_p5(setup, draw, event_functions)
