@@ -75,12 +75,32 @@ class Pyp5jsLibFiles():
         return self.install.child('templates')
 
     @property
+    def assets_dir(self):
+        return self.install.child('assets')
+
+    @property
+    def static_dir(self):
+        return self.install.child('static')
+
+    @property
+    def pytop5js(self):
+        return self.install.child('pytop5js.py')
+
+    @property
     def base_sketch(self):
         return self.templates_dir.child('base_sketch.py')
 
     @property
+    def pytop5js_template(self):
+        return self.templates_dir.child('pytop5js.py.template')
+
+    @property
     def p5js(self):
-        return self.install.child('static', 'p5.js')
+        return self.static_dir.child('p5.js')
+
+    @property
+    def p5_yml(self):
+        return self.assets_dir.child('p5_reference.yml')
 
     def render_new_index(self, context):
         templates = Environment(loader=FileSystemLoader(self.templates_dir))
