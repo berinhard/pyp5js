@@ -3,17 +3,14 @@ import shutil
 import time
 from cprint import cprint
 from datetime import date
-from jinja2 import Environment, FileSystemLoader
 from unipath import Path
 from watchdog.events import FileSystemEventHandler, PatternMatchingEventHandler
 from watchdog.observers import Observer
 
 from pyp5js.compiler import compile_sketch_js
+from pyp5js.fs import Pyp5jsSketchFiles, Pyp5jsLibFiles
 
-PYP5_DIR = Path(__file__).parent
-TEMPLATES_DIR = PYP5_DIR.child('templates')
 TARGET_DIRNAME = "target"
-templates = Environment(loader=FileSystemLoader(TEMPLATES_DIR))
 
 
 def new_sketch(sketch_name, sketch_dir):
@@ -30,40 +27,31 @@ def new_sketch(sketch_name, sketch_dir):
     :rtype: list of strings
     """
 
-    SKETCH_DIR = Path(".")
-    if sketch_dir:
-        SKETCH_DIR = Path(sketch_dir)
-        if not SKETCH_DIR.exists():
-            cprint.err(f"The directory {SKETCH_DIR} does not exists.", interrupt=True)
+    sketch_files = Pyp5jsSketchFiles(sketch_dir, sketch_name, check_sketch_dir=False)
+    sketch_files.can_create_sketch()
 
-    SKETCH_DIR = SKETCH_DIR.child(sketch_name)
-    if SKETCH_DIR.exists():
-        cprint.warn(f"Cannot configure a new sketch.")
-        cprint.err(f"The directory {SKETCH_DIR} already exists.", interrupt=True)
-
-    static_dir = SKETCH_DIR.child('static')
+    pyp5js_files = Pyp5jsLibFiles()
     templates_files = [
-        (TEMPLATES_DIR.child('base_sketch.py'), SKETCH_DIR.child(f'{sketch_name}.py')),
-        (PYP5_DIR.child('static', 'p5.js'), static_dir.child('p5.js'))
+        (pyp5js_files.base_sketch, sketch_files.sketch_py),
+        (pyp5js_files.p5js, sketch_files.p5js)
     ]
 
-    index_template = templates.get_template('index.html')
     context = {
         "p5_js_url": "static/p5.js",
         "sketch_js_url": f"{TARGET_DIRNAME}/{sketch_name}.js",
         "sketch_name": sketch_name,
     }
-    index_contet = index_template.render(context)
+    index_contet = pyp5js_files.render_new_index(context)
 
-    os.mkdir(SKETCH_DIR)
-    os.mkdir(static_dir)
+    os.makedirs(sketch_files.sketch_dir)
+    os.mkdir(sketch_files.static_dir)
     for src, dest in templates_files:
         shutil.copyfile(src, dest)
 
-    with open(SKETCH_DIR.child("index.html"), "w") as fd:
+    with open(sketch_files.index_html, "w") as fd:
         fd.write(index_contet)
 
-    return templates_files[0][1]
+    return sketch_files.sketch_py
 
 
 def _validate_sketch_path(sketch_name=None, sketch_dir=None):
