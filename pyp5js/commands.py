@@ -54,6 +54,17 @@ def new_sketch(sketch_name, sketch_dir):
 
 
 def transcrypt_sketch(sketch_name, sketch_dir):
+    """
+    Transcrypt the sketch python code to javascript.
+
+    :param sketch_name: name for new sketch
+    :type sketch_name: string
+    :param sketch_dir: directory name
+    :type sketch_dir: string
+    :return: file names
+    :rtype: list of strings
+    """
+
     sketch_files = Pyp5jsSketchFiles(sketch_dir, sketch_name)
     sketch_files.check_sketch_exists()
 
@@ -62,6 +73,19 @@ def transcrypt_sketch(sketch_name, sketch_dir):
 
 
 def monitor_sketch(sketch_name, sketch_dir):
+    """
+    Monitor for any change in any .py code under
+    the sketch dir and, for every new change,
+    runs the transcrypt to update the js files.
+
+    :param sketch_name: name for new sketch
+    :type sketch_name: string
+    :param sketch_dir: directory name
+    :type sketch_dir: string
+    :return: file names
+    :rtype: list of strings
+    """
+
     sketch_files = Pyp5jsSketchFiles(sketch_dir, sketch_name)
     sketch_files.check_sketch_exists()
 
