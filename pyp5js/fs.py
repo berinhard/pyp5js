@@ -37,7 +37,7 @@ class Pyp5jsSketchFiles():
 
     @property
     def index_html(self):
-        return self.sketch_dir.child('index_html')
+        return self.sketch_dir.child('index.html')
 
     @property
     def p5js(self):
