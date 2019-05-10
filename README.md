@@ -21,12 +21,15 @@ def draw():
 
 start_p5(setup, draw)
 ```
+
 ### [Documentation](https://berinhard.github.io/pyp5js)
 
-- [Examples](https://berinhard.github.io/pyp5js/examples/)
+### [Installation](https://berinhard.github.io/pyp5js#installation)
 
-#### [Installation](https://berinhard.github.io/pyp5js#installation)
+### [Usage](https://berinhard.github.io/pyp5js#usage)
 
-#### [Usage](https://berinhard.github.io/pyp5js#usage)
+### [Examples](https://berinhard.github.io/pyp5js/examples/)
 
-#### [Known issues and differences to the Processing.Py and P5.js ways of doing things](https://berinhard.github.io/pyp5js#known-issues-and-differences-to-the-processingpy-and-p5js-ways-of-doing-things)
+### [Known issues and differences to the Processing.Py and P5.js ways of doing things](https://berinhard.github.io/pyp5js#known-issues-and-differences-to-the-processingpy-and-p5js-ways-of-doing-things)
+
+### [How can I contribute?](https://berinhard.github.io/pyp5js#how-can-i-contribute)
