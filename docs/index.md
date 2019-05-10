@@ -108,6 +108,33 @@ start_p5(setup, draw, event_functions)
 
 ### How can I contribute?
 
-Test it! Have a look at the issues... open a new one if needed.
+#### Testing, testing and testing
 
-More instructions, like how to submit a Pull Request, will be available soon.
+Since pyp5js have a lot of moving parts, it would be great to have the p5.js API fully covered and tested. So, use your imagination, code your sketches and, if pyp5js breaks or starts to annoy you with something, you're very welcome to [open an issue](https://github.com/berinhard/pyp5js/issues/new) documenting your thoughts. Test it and let me know how can I improve it.
+
+#### What about these shinning examples?
+
+If you fell confortable with that, I'd be happy to add some of your pyp5js sketches to our [examples list](https://berinhard.github.io/pyp5js/examples/)! To do so, you'll have [to fork this repository](https://help.github.com/en/articles/fork-a-repo) and add your new sketch example in the `docs/examples` directory. Once you've your sketch ready, you can [open a pull request](https://help.github.com/en/articles/about-pull-requests) and I'll take a look at it.
+
+#### I want to hack!
+
+Okay, if you want to contribute with pyp5js's code, let's go! I really advise you to use [virtualenv with virtualenvwrapper](http://www.indjango.com/python-install-virtualenv-and-virtualenvwrapper/) or [pyenv](https://amaral.northwestern.edu/resources/guides/pyenv-tutorial) to isolate your pyp5js fork from your the rest of your system. Once you have everything ready, you can run:
+
+```
+$ git clone git@github.com:YOUR_GITHUB_PROFILE/pyp5js.git
+$ mkvirtualenv pyp5js -p /usr/bin/python3  # python3 path can change depending on your system
+$ cd pyp5js
+$ python setup.py develop
+```
+
+After that, you should have the `pyp5js` command enabled and it will respect all the changes you introduce to the code. Now, a brief explanation about the code under `pyp5js` directory:
+
+- `cli.py`: the entrypoint for `pyp5js` commands such as `new` or `transcrypt`
+- `commands.py`: just functions responsible for the real implementations for `pyp5js` commands
+- `fs.py`: classes to abstract the files and directories manipulations from the commands
+- `pytop5js.py`: module which is imported by the sketches and integrates with P5.js API
+- `update_pytop5js`: this script is responsible for generating the `pytop5js.py` file
+
+I still have to add some tests to pyp5js, so I'd love help on that as well.
+
+Now go fetch yourself an issue and happy hacking!
