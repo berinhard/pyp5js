@@ -18,7 +18,7 @@ class Pyp5jsSketchFiles():
             cprint.err(f"The directory {self.sketch_dir} already exists.", interrupt=True)
 
     def check_sketch_exists(self):
-        return bool(self.sketch_dir and self.sketch_py)
+        return bool(self.sketch_dir.exists() and self.sketch_py.exists())
 
     @property
     def sketch_dir(self):
@@ -49,7 +49,7 @@ class Pyp5jsSketchFiles():
         py_file = self.sketch_dir.child(f'{self.sketch_name}.py')
 
         if self.check_sketch_dir and not py_file.exists():
-            cwd_py_file = Path(os.getcwd()).child(f"{sketch_name}.py")
+            cwd_py_file = Path(os.getcwd()).child(f"{self.sketch_name}.py")
             if not cwd_py_file.exists():
                 cprint.warn(f"Couldn't find the sketch.")
                 cprint.err(f"Neither the file {py_file} or {cwd_py_file} exist.", interrupt=True)
