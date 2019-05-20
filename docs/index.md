@@ -36,6 +36,7 @@ This project requires Python 3 and is now on PyPI, so you can install it with `p
 ```
 $ pip install pyp5js
 ```
+(You might have to install `setuptools` first, if it's not already installed)
 
 ### Usage
 
