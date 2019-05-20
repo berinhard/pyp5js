@@ -320,24 +320,118 @@ events:
 
 variables:
     # Constants
-    - HALF_PI
-    - PI
-    - QUARTER_PI
-    - TAU
-    - TWO_PI
-    - DEGREES
-    - RADIANS
-    - CLOSE
-    - RGB
-    - HSB
-    - CMYK
-    - TOP
+    - _CTX_MIDDLE
+    - _DEFAULT_FILL
+    - _DEFAULT_LEADMULT
+    - _DEFAULT_STROKE
+    - _DEFAULT_TEXT_FILL
+    - ADD
+    - ALT
+    - ARROW
+    - AUTO
+    - AXES
+    - BACKSPACE
+    - BASELINE
+    - BEVEL
+    - BEZIER
+    - BLEND
+    - BLUR
+    - BOLD
+    - BOLDITALIC
     - BOTTOM
+    - BURN
     - CENTER
+    - CHORD
+    - CLAMP
+    - CLOSE
+    - CONTROL
+    - CORNER
+    - CORNERS
+    - CROSS
+    - CURVE
+    - DARKEST
+    - DEG_TO_RAD
+    - DEGREES
+    - DELETE
+    - DIFFERENCE
+    - DILATE
+    - DODGE
+    - DOWN_ARROW
+    - ENTER
+    - ERODE
+    - ESCAPE
+    - EXCLUSION
+    - FILL
+    - GRAY
+    - GRID
+    - HALF_PI
+    - HAND
+    - HARD_LIGHT
+    - HSB
+    - HSL
+    - IMAGE
+    - IMMEDIATE
+    - INVERT
+    - ITALIC
+    - LANDSCAPE
     - LEFT
+    - LEFT_ARROW
+    - LIGHTEST
+    - LINE_LOOP
+    - LINE_STRIP
+    - LINEAR
+    - LINES
+    - MIRROR
+    - MITER
+    - MOVE
+    - MULTIPLY
+    - NEAREST
+    - NORMAL
+    - OPAQUE
+    - OPEN
+    - OPTION
+    - OVERLAY
+    - PI
+    - PIE
+    - POINTS
+    - PORTRAIT
+    - POSTERIZE
+    - PROJECT
+    - QUAD_STRIP
+    - QUADRATIC
+    - QUADS
+    - QUARTER_PI
+    - RAD_TO_DEG
+    - RADIANS
+    - RADIUS
+    - REPEAT
+    - REPLACE
+    - RETURN
+    - RGB
     - RIGHT
+    - RIGHT_ARROW
+    - ROUND
+    - SCREEN
     - SHIFT
+    - SOFT_LIGHT
+    - SQUARE
+    - STROKE
+    - SUBTRACT
+    - TAB
+    - TAU
+    - TEXT
+    - TEXTURE
+    - THRESHOLD
+    - TOP
+    - TRIANGLE_FAN
+    - TRIANGLE_STRIP
+    - TRIANGLES
+    - TWO_PI
+    - UP_ARROW
+    - WAIT
     - WEBGL
+    - P2D
+    - PI
 
     # Environment
     - frameCount
