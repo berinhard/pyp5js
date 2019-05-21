@@ -11,3 +11,5 @@
 - Globals variables (HSB and CENTER): [see code](https://github.com/berinhard/pyp5js/tree/develop/docs/examples/sketch_005) | [run example](sketch_005/index.html)
 
 - Registering event functions such as keyPressed: [see code](https://github.com/berinhard/pyp5js/tree/develop/docs/examples/sketch_006) | [run example](sketch_006/index.html)
+
+- p5.Vector static methods: [see code](https://github.com/berinhard/pyp5js/tree/develop/docs/examples/sketch_007) | [run example](sketch_007/index.html)
