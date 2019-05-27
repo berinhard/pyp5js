@@ -22,8 +22,11 @@ def configure_new_sketch(sketch_name, sketch_dir):
     Params:
     - sketch_name: name of the sketch (will create a {sketch_name}.py)
 
-    Opitionals
+    Opitionals:
     - sketch_dir: directory to save the sketch (defaults to {sketch_name})
+
+    Example:
+    $ pyp5js new my_sketch
     """
     sketch_py = commands.new_sketch(sketch_name, sketch_dir)
 
@@ -47,6 +50,9 @@ def transcrypt_sketch(sketch_name, sketch_dir):
 
     Opitionals
     - sketch_dir: sketch's directory (defaults to {sketch_name})
+
+    Example:
+    $ pyp5js transcrypt my_sketch
     """
     index_file = commands.transcrypt_sketch(sketch_name, sketch_dir)
     cprint.ok(f"Your sketch is ready and available at {index_file}")
@@ -65,6 +71,9 @@ def monitor_sketch(sketch_name, sketch_dir):
 
     Opitionals
     - sketch_dir: sketch's directory (defaults to ./{sketch_name})
+
+    Example:
+    $ pyp5js monitor my_sketch
     """
     commands.monitor_sketch(sketch_name, sketch_dir)
 

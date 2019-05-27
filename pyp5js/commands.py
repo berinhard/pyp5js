@@ -5,11 +5,10 @@ from cprint import cprint
 from datetime import date
 from unipath import Path
 from watchdog.observers import Observer
+from jinja2 import Environment, FileSystemLoader
 
 from pyp5js.compiler import compile_sketch_js, TranscryptSketchEvent
 from pyp5js.fs import Pyp5jsSketchFiles, Pyp5jsLibFiles
-
-TARGET_DIRNAME = "target"
 
 
 def new_sketch(sketch_name, sketch_dir):
@@ -36,11 +35,16 @@ def new_sketch(sketch_name, sketch_dir):
     ]
 
     context = {
-        "p5_js_url": "static/p5.js",
-        "sketch_js_url": f"{TARGET_DIRNAME}/{sketch_name}.js",
+        "p5_js_url": f"{Pyp5jsSketchFiles.STATIC_NAME}/p5.js",
+        "sketch_js_url": f"{Pyp5jsSketchFiles.TARGET_NAME}/{sketch_name}.js",
         "sketch_name": sketch_name,
     }
-    index_contet = pyp5js_files.render_new_index(context)
+
+    templates = Environment(loader=FileSystemLoader(pyp5js_files.templates_dir))
+    index_template = templates.get_template(
+        str(pyp5js_files.index_html.name)
+    )
+    index_contet = index_template.render(context)
 
     os.makedirs(sketch_files.sketch_dir)
     os.mkdir(sketch_files.static_dir)
@@ -54,6 +58,17 @@ def new_sketch(sketch_name, sketch_dir):
 
 
 def transcrypt_sketch(sketch_name, sketch_dir):
+    """
+    Transcrypt the sketch python code to javascript.
+
+    :param sketch_name: name for new sketch
+    :type sketch_name: string
+    :param sketch_dir: directory name
+    :type sketch_dir: string
+    :return: file names
+    :rtype: list of strings
+    """
+
     sketch_files = Pyp5jsSketchFiles(sketch_dir, sketch_name)
     sketch_files.check_sketch_exists()
 
@@ -62,6 +77,19 @@ def transcrypt_sketch(sketch_name, sketch_dir):
 
 
 def monitor_sketch(sketch_name, sketch_dir):
+    """
+    Monitor for any change in any .py code under
+    the sketch dir and, for every new change,
+    runs the transcrypt to update the js files.
+
+    :param sketch_name: name for new sketch
+    :type sketch_name: string
+    :param sketch_dir: directory name
+    :type sketch_dir: string
+    :return: file names
+    :rtype: list of strings
+    """
+
     sketch_files = Pyp5jsSketchFiles(sketch_dir, sketch_name)
     sketch_files.check_sketch_exists()
 
