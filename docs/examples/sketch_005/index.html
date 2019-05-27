@@ -11,14 +11,62 @@
 
     <script src="static/p5.js"></script>
     <script src="target/sketch_005.js"  type="module"></script>
+
+     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/default.min.css">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    <style>
+        html {
+          overflow-y: scroll;
+        }
+
+        .demoContainer {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        pre {
+            padding-left: 2em;
+        }
+    </style>
   </head>
 
   <body>
     <p style="background-color: #f6f8fa">
       Python code <a href="https://github.com/berinhard/pyp5js/blob/develop/docs/examples/sketch_005" target="_blank">here</a>.
     </p>
-    <div id="sketch-holder">
-          <!-- You sketch will go here! -->
+
+    <div class="demoContainer">
+        <div id="sketch-holder">
+              <!-- You sketch will go here! -->
+        </div>
+
+        <pre>
+           <code>
+from pytop5js import *
+
+
+def setup():
+    createCanvas(600,600)
+    noStroke()
+    rectMode(CENTER)
+
+
+def draw():
+    colorMode(HSB,100)
+    h = map(mouseY,0,600,0,100)
+    background(h,100,100)
+    fill(100-h,100,100)
+    rect(300,300,mouseX+1,mouseX+1)
+
+
+# This is required by pyp5js to work
+start_p5(setup, draw, {})
+           </code>
+        </pre>
+
     </div>
   </body>
 </html>

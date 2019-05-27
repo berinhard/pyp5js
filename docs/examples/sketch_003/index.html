@@ -11,14 +11,63 @@
 
     <script src="static/p5.js"></script>
     <script src="target/sketch_003.js"  type="module"></script>
+
+     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/default.min.css">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    <style>
+        html {
+          overflow-y: scroll;
+        }
+
+        .demoContainer {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        pre {
+            padding-left: 2em;
+        }
+    </style>
   </head>
 
   <body>
     <p style="background-color: #f6f8fa">
       Python code <a href="https://github.com/berinhard/pyp5js/blob/develop/docs/examples/sketch_003" target="_blank">here</a>.
     </p>
-    <div id="sketch-holder">
-          <!-- You sketch will go here! -->
+
+    <div class="demoContainer">
+        <div id="sketch-holder">
+              <!-- You sketch will go here! -->
+        </div>
+
+        <pre>
+           <code>
+# 3d example
+from pytop5js import *
+
+
+def setup():
+    createCanvas(600, 600, WEBGL)
+
+def draw():
+  background(200)
+  translate(-100, -100, 0)
+  push()
+  normalMaterial()
+  rotateZ(frameCount * 0.01)
+  rotateX(frameCount * 0.01)
+  rotateY(frameCount * 0.01)
+  box(50, 70, 100)
+  pop()
+
+
+start_p5(setup, draw, {})
+           </code>
+        </pre>
+
     </div>
   </body>
 </html>
