@@ -1,0 +1,27 @@
+0.0.5
+-----
+- Adds all p5's missing global variables
+
+0.0.4.1
+-------
+- Supports event functions such as `keyPressed`
+
+0.0.4
+-----
+- Supports p5.js pop function
+- Adds `monitor` command to the CLI
+- Allows to run `pyp5js` commands specifying a directory
+- First try on organizing the docs
+
+0.0.3
+-----
+- Add WEBGL variables
+
+0.0.2
+-----
+- Supports more of P5's variable
+
+
+0.0.1
+-----
+- First release
