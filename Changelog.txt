@@ -1,3 +1,8 @@
+Development
+-----------
+- Update width and height values on createCanvas
+- Fix bug when running the monitor command from the sketch's directory
+
 0.0.5
 -----
 - Adds all p5's missing global variables
