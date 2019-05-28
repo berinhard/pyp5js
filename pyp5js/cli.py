@@ -15,7 +15,8 @@ def command_line_entrypoint():
 @command_line_entrypoint.command('new')
 @click.argument('sketch_name')
 @click.option('--sketch-dir', '-d', default=None)
-def configure_new_sketch(sketch_name, sketch_dir):
+@click.option('--monitor', '-m', is_flag=True)
+def configure_new_sketch(sketch_name, sketch_dir, monitor):
     """
     Create dir and configure boilerplate
 
@@ -31,11 +32,17 @@ def configure_new_sketch(sketch_name, sketch_dir):
     sketch_py = commands.new_sketch(sketch_name, sketch_dir)
 
     cprint.ok(f"Your sketch was created!")
-    cprint.ok(f"Please, open and edit the file {sketch_py} to draw. When you're ready to see your results, just run:")
-    cmd = f"\t pyp5js transcrypt {sketch_name}"
-    if sketch_dir:
-        cmd += f" --sketch-dir {sketch_dir}"
-    cprint.ok(cmd)
+
+    if not monitor:
+        cprint.ok(f"Please, open and edit the file {sketch_py} to draw. When you're ready to see your results, just run:")
+        cmd = f"\t pyp5js transcrypt {sketch_name}"
+        if sketch_dir:
+            cmd += f" --sketch-dir {sketch_dir}"
+        cprint.ok(cmd)
+    else:
+        cprint.ok(f"Please, open and edit the file {sketch_py} to draw.")
+        commands.monitor_sketch(sketch_name, sketch_dir)
+
 
 
 @command_line_entrypoint.command("transcrypt")

@@ -2,6 +2,7 @@ Development
 -----------
 - Update width and height values on createCanvas
 - Fix bug when running the monitor command from the sketch's directory
+- Add flag on new commmand to monitor sketch after creating it
 
 0.0.5
 -----

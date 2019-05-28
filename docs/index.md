@@ -72,6 +72,12 @@ If you're lazy as me, you can use the `monitor` command instead of the previous 
 $ pyp5js monitor my_sketch
 ```
 
+You can also use the `monitor` command within the `new` by running:
+
+```
+$ pyp5js new my_sketch --monitor
+```
+
 All of the command-line interface methods have a few optional arguments, such as specifying the sketch directory. You can check them by running:
 
 ```
