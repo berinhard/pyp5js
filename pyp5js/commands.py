@@ -26,7 +26,9 @@ def new_sketch(sketch_name, sketch_dir):
     """
 
     sketch_files = Pyp5jsSketchFiles(sketch_dir, sketch_name, check_sketch_dir=False)
-    sketch_files.can_create_sketch()
+    if not sketch_files.can_create_sketch():
+        cprint.warn(f"Cannot configure a new sketch.")
+        cprint.err(f"The directory {sketch_files.sketch_dir} already exists.", interrupt=True)
 
     pyp5js_files = Pyp5jsLibFiles()
     templates_files = [
