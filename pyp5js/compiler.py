@@ -1,9 +1,11 @@
-import subprocess
-import shutil
 import shlex
+import shutil
+import subprocess
+import time
 from cprint import cprint
 from unipath import Path
 from watchdog.events import PatternMatchingEventHandler
+from watchdog.observers import Observer
 
 
 PYP5_DIR = Path(__file__).parent
@@ -26,6 +28,21 @@ def compile_sketch_js(sketch_files):
     if sketch_files.target_dir.exists():
         shutil.rmtree(sketch_files.target_dir)
     shutil.move(__target, sketch_files.target_dir)
+
+
+def monitor_sketch(sketch_files):
+    event_handler = TranscryptSketchEvent(sketch_files=sketch_files)
+    observer = Observer()
+
+    observer.schedule(event_handler, sketch_files.sketch_dir)
+    observer.start()
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt as e:
+        observer.stop()
+        raise e
+    observer.join()
 
 
 class TranscryptSketchEvent(PatternMatchingEventHandler):
