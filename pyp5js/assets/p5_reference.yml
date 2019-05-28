@@ -94,7 +94,6 @@ methods:
     - redraw
 
     # Rendering
-    - createCanvas
     - resizeCanvas
     - noCanvas
     - createGraphics

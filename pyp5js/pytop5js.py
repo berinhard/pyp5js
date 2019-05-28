@@ -383,9 +383,6 @@ def push(*args):
 def redraw(*args):
     return _P5_INSTANCE.redraw(*args)
 
-def createCanvas(*args):
-    return _P5_INSTANCE.createCanvas(*args)
-
 def resizeCanvas(*args):
     return _P5_INSTANCE.resizeCanvas(*args)
 
@@ -837,6 +834,13 @@ def setCamera(*args):
     return _P5_INSTANCE.setCamera(*args)
 
 
+def createCanvas(*args):
+    result = _P5_INSTANCE.createCanvas(*args)
+
+    global width, height
+    width = _P5_INSTANCE.width
+    height = _P5_INSTANCE.height
+
 
 def pop(*args):
     __pragma__('noalias', 'pop')
@@ -1000,7 +1004,7 @@ def pre_draw(p5_instance, draw_func):
     mouseIsPressed = p5_instance.mouseIsPressed
     touches = p5_instance.touches
     pixels = p5_instance.pixels
-    
+
     return draw_func()
 
 
