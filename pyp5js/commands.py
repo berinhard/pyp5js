@@ -1,13 +1,9 @@
 import os
 import shutil
-import time
 from cprint import cprint
-from datetime import date
-from unipath import Path
-from watchdog.observers import Observer
 from jinja2 import Environment, FileSystemLoader
 
-from pyp5js.compiler import compile_sketch_js, TranscryptSketchEvent
+from pyp5js import compiler
 from pyp5js.fs import Pyp5jsSketchFiles, Pyp5jsLibFiles
 
 
@@ -26,7 +22,9 @@ def new_sketch(sketch_name, sketch_dir):
     """
 
     sketch_files = Pyp5jsSketchFiles(sketch_dir, sketch_name, check_sketch_dir=False)
-    sketch_files.can_create_sketch()
+    if not sketch_files.can_create_sketch():
+        cprint.warn(f"Cannot configure a new sketch.")
+        cprint.err(f"The directory {sketch_files.sketch_dir} already exists.", interrupt=True)
 
     pyp5js_files = Pyp5jsLibFiles()
     templates_files = [
@@ -70,9 +68,10 @@ def transcrypt_sketch(sketch_name, sketch_dir):
     """
 
     sketch_files = Pyp5jsSketchFiles(sketch_dir, sketch_name)
-    sketch_files.check_sketch_exists()
+    if not sketch_files.check_sketch_exists():
+        cprint.err(f"Couldn't find {sketch_name}", interrupt=True)
 
-    compile_sketch_js(sketch_files)
+    compiler.compile_sketch_js(sketch_files)
     return sketch_files.index_html
 
 
@@ -91,19 +90,12 @@ def monitor_sketch(sketch_name, sketch_dir):
     """
 
     sketch_files = Pyp5jsSketchFiles(sketch_dir, sketch_name)
-    sketch_files.check_sketch_exists()
+    if not sketch_files.check_sketch_exists():
+        cprint.err(f"Couldn't find {sketch_name}", interrupt=True)
 
     cprint(f"Monitoring for changes in {sketch_files.sketch_dir.absolute()}...")
 
-    event_handler = TranscryptSketchEvent(sketch_files=sketch_files)
-    observer = Observer()
-
-    observer.schedule(event_handler, sketch_files.sketch_dir)
-    observer.start()
     try:
-        while True:
-            time.sleep(1)
+        compiler.monitor_sketch(sketch_files)
     except KeyboardInterrupt:
         cprint.info("Exiting monitor...")
-        observer.stop()
-    observer.join()

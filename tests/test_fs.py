@@ -70,12 +70,9 @@ class Pyp5jsSketchFilesTests(TestCase):
             self.files.sketch_dir
 
     def test_can_create_sketch(self):
-        assert self.files.can_create_sketch() is None
-
+        assert self.files.can_create_sketch() is True
         os.mkdir(self.files.sketch_dir)
-
-        with pytest.raises(SystemExit):
-            self.files.can_create_sketch()
+        assert self.files.can_create_sketch() is False
 
     def test_sketch_dirs(self):
         assert Path(self.sketch_name).child('static') == self.files.static_dir

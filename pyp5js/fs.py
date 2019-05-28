@@ -13,12 +13,10 @@ class Pyp5jsSketchFiles():
         self.check_sketch_dir = check_sketch_dir
 
     def can_create_sketch(self):
-        if self.sketch_dir.exists():
-            cprint.warn(f"Cannot configure a new sketch.")
-            cprint.err(f"The directory {self.sketch_dir} already exists.", interrupt=True)
+        return not self.sketch_dir.exists()
 
     def check_sketch_exists(self):
-        return bool(self.sketch_dir.exists() and self.sketch_py.exists())
+        return self.sketch_py.exists()
 
     @property
     def sketch_dir(self):
