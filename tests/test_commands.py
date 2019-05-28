@@ -11,7 +11,7 @@ def test_transcrypt_sketch(MockedFiles):
     files.check_sketch_exists.return_value = True
     MockedFiles.return_value = files
 
-    with patch('pyp5js.commands.compiler.compile_sketch_js') as compiler:
+    with patch('pyp5js.commands.compile_sketch_js') as compiler:
         output = commands.transcrypt_sketch(sketch_name='foo', sketch_dir='bar')
 
         assert output == files.index_html
@@ -25,7 +25,7 @@ def test_transcrypt_sketch_error_if_sketch_does_not_exist(MockedFiles):
     files.check_sketch_exists.return_value = False
     MockedFiles.return_value = files
 
-    with patch('pyp5js.commands.compiler.compile_sketch_js') as compiler:
+    with patch('pyp5js.commands.compile_sketch_js') as compiler:
         with pytest.raises(SystemExit):
             commands.transcrypt_sketch(sketch_name='foo', sketch_dir='bar')
 
@@ -36,7 +36,7 @@ def test_monitor_sketch(MockedFiles):
     files.check_sketch_exists.return_value = True
     MockedFiles.return_value = files
 
-    with patch('pyp5js.commands.compiler.monitor_sketch') as monitor:
+    with patch('pyp5js.commands.monitor_sketch_service') as monitor:
         commands.monitor_sketch(sketch_name='foo', sketch_dir='bar')
 
         MockedFiles.assert_called_once_with('bar', 'foo')
@@ -49,6 +49,6 @@ def test_monitor_sketch_error_if_sketch_does_not_exist(MockedFiles):
     files.check_sketch_exists.return_value = False
     MockedFiles.return_value = files
 
-    with patch('pyp5js.commands.compiler.monitor_sketch') as monitor:
+    with patch('pyp5js.commands.monitor_sketch_service') as monitor:
         with pytest.raises(SystemExit):
             commands.monitor_sketch(sketch_name='foo', sketch_dir='bar')

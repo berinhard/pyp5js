@@ -3,7 +3,8 @@ import shutil
 from cprint import cprint
 from jinja2 import Environment, FileSystemLoader
 
-from pyp5js import compiler
+from pyp5js.compiler import compile_sketch_js
+from pyp5js.monitor import monitor_sketch as monitor_sketch_service
 from pyp5js.fs import Pyp5jsSketchFiles, Pyp5jsLibFiles
 
 
@@ -71,7 +72,7 @@ def transcrypt_sketch(sketch_name, sketch_dir):
     if not sketch_files.check_sketch_exists():
         cprint.err(f"Couldn't find {sketch_name}", interrupt=True)
 
-    compiler.compile_sketch_js(sketch_files)
+    compile_sketch_js(sketch_files)
     return sketch_files.index_html
 
 
@@ -96,6 +97,6 @@ def monitor_sketch(sketch_name, sketch_dir):
     cprint(f"Monitoring for changes in {sketch_files.sketch_dir.absolute()}...")
 
     try:
-        compiler.monitor_sketch(sketch_files)
+        monitor_sketch_service(sketch_files)
     except KeyboardInterrupt:
         cprint.info("Exiting monitor...")

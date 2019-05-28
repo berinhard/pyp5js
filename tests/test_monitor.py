@@ -1,7 +1,7 @@
 from unittest import TestCase
 from unittest.mock import Mock, patch
 
-from pyp5js.compiler import TranscryptSketchEventHandler
+from pyp5js.monitor import TranscryptSketchEventHandler
 from pyp5js.fs import Pyp5jsSketchFiles
 
 
@@ -16,7 +16,7 @@ class TranscryptSketchEventHandlerTests(TestCase):
         assert ['*.py'] == self.handler.patterns
         assert self.handler._last_event is None
 
-    @patch('pyp5js.compiler.compile_sketch_js')
+    @patch('pyp5js.monitor.compile_sketch_js')
     def test_on_modified(self, mocked_compiler):
         event = Mock()
 
@@ -25,7 +25,7 @@ class TranscryptSketchEventHandlerTests(TestCase):
         mocked_compiler.assert_called_once_with(self.files)
         assert id(event) == self.handler._last_event
 
-    @patch('pyp5js.compiler.compile_sketch_js')
+    @patch('pyp5js.monitor.compile_sketch_js')
     def test_on_modified_skip_repeated_event(self, mocked_compiler):
         event = Mock()
         self.handler._last_event = id(event)
