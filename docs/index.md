@@ -99,11 +99,11 @@ event_functions = {
 start_p5(setup, draw, event_functions)
 ```
 
-- The `p5.dom.js` library can be used, but you'll have to acess it's methods and objects with `_P5_INSTANCE_.` prefix.
+- The `p5.dom.js` library can be used, but you'll have to add it to the `index.html` yourself, and then it's methods and objects will be available with the `p5.` prefix.
 
-- There are no Py.Processing `with` context facilities for `push/pop` or `beginShape/endShape` ... yet.
+- There are no Py.Processing `with` context facilities for `push/pop` or `beginShape/endShape`.
 
-- There are no `PVector` objects, with their nice syntatic operator overloaded sugar - use `P5.Vector` with `createVector()` and P5.js conventions ... for now...
+- There are no `PVector` objects, with their nice syntatic operator overloaded sugar - use `p5.Vector` with `createVector()` and P5.js conventions ... for now...
 
 - At this point, it is a known limitation that you have to "declare" global variables before `setup()` and `draw()`, maybe using `name = None`, as they can't be created inside methods.
 
