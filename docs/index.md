@@ -140,7 +140,9 @@ After that, you should have the `pyp5js` command enabled and it will respect all
 
 - `cli.py`: the entrypoint for `pyp5js` commands such as `new` or `transcrypt`
 - `commands.py`: just functions responsible for the real implementations for `pyp5js` commands
+- `compiler.py`: where all the magic happens!
 - `fs.py`: classes to abstract the files and directories manipulations from the commands
+- `monitor.py`: module with the objects used by the `monitor` command
 - `pytop5js.py`: module which is imported by the sketches and integrates with P5.js API
 - `update_pytop5js`: this script is responsible for generating the `pytop5js.py` file
 
