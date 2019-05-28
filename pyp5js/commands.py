@@ -72,7 +72,8 @@ def transcrypt_sketch(sketch_name, sketch_dir):
     """
 
     sketch_files = Pyp5jsSketchFiles(sketch_dir, sketch_name)
-    sketch_files.check_sketch_exists()
+    if not sketch_files.check_sketch_exists():
+        cprint.err(f"Couldn't find {sketch_name}", interrupt=True)
 
     compile_sketch_js(sketch_files)
     return sketch_files.index_html
@@ -93,7 +94,8 @@ def monitor_sketch(sketch_name, sketch_dir):
     """
 
     sketch_files = Pyp5jsSketchFiles(sketch_dir, sketch_name)
-    sketch_files.check_sketch_exists()
+    if not sketch_files.check_sketch_exists():
+        cprint.err(f"Couldn't find {sketch_name}", interrupt=True)
 
     cprint(f"Monitoring for changes in {sketch_files.sketch_dir.absolute()}...")
 
