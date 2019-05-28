@@ -16,7 +16,7 @@ class Pyp5jsSketchFiles():
         return not self.sketch_dir.exists()
 
     def check_sketch_exists(self):
-        return bool(self.sketch_dir.exists() and self.sketch_py.exists())
+        return self.sketch_py.exists()
 
     @property
     def sketch_dir(self):
