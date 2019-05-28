@@ -31,7 +31,7 @@ def compile_sketch_js(sketch_files):
 
 
 def monitor_sketch(sketch_files):
-    event_handler = TranscryptSketchEvent(sketch_files=sketch_files)
+    event_handler = TranscryptSketchEventHandler(sketch_files=sketch_files)
     observer = Observer()
 
     observer.schedule(event_handler, sketch_files.sketch_dir)
@@ -45,7 +45,7 @@ def monitor_sketch(sketch_files):
     observer.join()
 
 
-class TranscryptSketchEvent(PatternMatchingEventHandler):
+class TranscryptSketchEventHandler(PatternMatchingEventHandler):
     patterns = ["*.py"]
 
     def __init__(self, *args, **kwargs):
@@ -59,6 +59,9 @@ class TranscryptSketchEvent(PatternMatchingEventHandler):
             return
 
         cprint.info(f"New change in {event.src_path}")
+
         compile_sketch_js(self.sketch_files)
+        self._last_event = event_id
+
         index_file = self.sketch_files.index_html
         cprint.ok(f"Your sketch is ready and available at {index_file}")
