@@ -1,15 +1,16 @@
 ### Examples list
 
-- Angles and mouse coordinates: [see code](https://github.com/berinhard/pyp5js/tree/develop/docs/examples/sketch_001) | [run example](sketch_001/index.html)
+- [sketch_001](https://github.com/berinhard/pyp5js/tree/develop/docs/examples/sketch_001): [**Angles and mouse coordinates**](sketch_001/index.html) 
 
-- Move Eye, an example by Simon Greenwold, ported by [@villares](https://github.com/villares): [see code](https://github.com/berinhard/pyp5js/tree/develop/docs/examples/sketch_002) | [run example](sketch_002/index.html)
+- [sketch_002](https://github.com/berinhard/pyp5js/tree/develop/docs/examples/sketch_002): [**Move Eye**](sketch_002/index.html), an example by Simon Greenwold, ported by [@villares](https://github.com/villares)
 
-- Rotating 3D box: [see code](https://github.com/berinhard/pyp5js/tree/develop/docs/examples/sketch_003) | [run example](sketch_003/index.html)
+- [sketch_004](https://github.com/berinhard/pyp5js/tree/develop/docs/examples/sketch_004): [**Rotating 3D box**](sketch_003/index.html)
 
-- Boids, from [@esperanc](https://github.com/esperanc) [BrythonIDE examples](https://github.com/esperanc/brythonide/blob/master/demoSketches/boids.py): [see code](https://github.com/berinhard/pyp5js/tree/develop/docs/examples/sketch_004) | [run example](sketch_004/index.html)
+- [sketch_004](https://github.com/berinhard/pyp5js/tree/develop/docs/examples/sketch_004): [**Boids**](sketch_004/index.html)
+, from [@esperanc](https://github.com/esperanc) [BrythonIDE examples](https://github.com/esperanc/brythonide/blob/master/demoSketches/boids.py) 
 
-- Globals variables (HSB and CENTER): [see code](https://github.com/berinhard/pyp5js/tree/develop/docs/examples/sketch_005) | [run example](sketch_005/index.html)
+- [sketch_005](https://github.com/berinhard/pyp5js/tree/develop/docs/examples/sketch_005): [**Globals variables (HSB and CENTER)**](sketch_005/index.html)
 
-- Registering event functions such as keyPressed: [see code](https://github.com/berinhard/pyp5js/tree/develop/docs/examples/sketch_006) | [run example](sketch_006/index.html)
+- [sketch_006](https://github.com/berinhard/pyp5js/tree/develop/docs/examples/sketch_006): [**Registering event functions such as keyPressed**](sketch_006/index.html)
 
-- p5.Vector static methods: [see code](https://github.com/berinhard/pyp5js/tree/develop/docs/examples/sketch_007) | [run example](sketch_007/index.html)
+- [sketch_007](https://github.com/berinhard/pyp5js/tree/develop/docs/examples/sketch_007): [**p5.Vector static methods**](sketch_007/index.html)
