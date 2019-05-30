@@ -23,13 +23,3 @@ class TranscryptSketchEventHandlerTests(TestCase):
         self.handler.on_modified(event)
 
         mocked_compiler.assert_called_once_with(self.files)
-        assert id(event) == self.handler._last_event
-
-    @patch('pyp5js.monitor.compile_sketch_js')
-    def test_on_modified_skip_repeated_event(self, mocked_compiler):
-        event = Mock()
-        self.handler._last_event = id(event)
-
-        self.handler.on_modified(event)
-
-        assert mocked_compiler.called is False

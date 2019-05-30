@@ -69,11 +69,3 @@ class Pyp5jsCompilerTests(TestCase):
 
         assert not self.compiler.target_dir.exists()
         assert self.files.target_dir.exists()
-
-    @patch.object(Pyp5jsCompiler, 'run_compiler', Mock())
-    @patch.object(Pyp5jsCompiler, 'clean_up', Mock())
-    def test_compile_sketch_js_orchestrate_compiler(self):
-        self.compiler.compile_sketch_js()
-
-        self.compiler.run_compiler.assert_called_once_with()
-        self.compiler.clean_up.assert_called_once_with()

@@ -55,7 +55,6 @@ class Pyp5jsCompiler:
             shutil.rmtree(self.sketch_files.target_dir)
         shutil.move(self.target_dir, self.sketch_files.target_dir)
 
-
 def compile_sketch_js(sketch_files):
     compiler = Pyp5jsCompiler(sketch_files)
     compiler.compile_sketch_js()
