@@ -54,14 +54,9 @@ class TranscryptSketchEventHandler(PatternMatchingEventHandler):
         super().__init__(*args, **kwargs)
 
     def on_modified(self, event):
-        event_id = id(event)
-        if event_id == self._last_event:
-            return
-
         cprint.info(f"New change in {event.src_path}")
 
         compile_sketch_js(self.sketch_files)
-        self._last_event = event_id
 
         index_file = self.sketch_files.index_html
         cprint.ok(f"Your sketch is ready and available at {index_file}")
