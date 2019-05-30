@@ -5,10 +5,6 @@ from cprint import cprint
 
 from pyp5js.fs import Pyp5jsLibFiles, Pyp5jsSketchFiles
 
-PYP5_DIR = Path(__file__).parent
-TEMPLATES_DIR = PYP5_DIR.child('templates')
-ASSETS_DIR = PYP5_DIR.child('assets')
-
 if __name__ == '__main__':
     pyp5js_files = Pyp5jsLibFiles()
 
