@@ -1,6 +1,10 @@
 Development
 -----------
 
+0.0.7
+-----
+- Fix bug with monitor not running transcrypt more than once
+
 0.0.6
 -----
 - Add flag on new commmand to monitor sketch after creating it
