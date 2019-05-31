@@ -92,6 +92,10 @@ class Pyp5jsLibFiles():
         return self.templates_dir.child('pytop5js.py.template')
 
     @property
+    def target_sketch_template(self):
+        return self.templates_dir.child('target_sketch.py.template')
+
+    @property
     def index_html(self):
         return self.templates_dir.child('index.html')
 

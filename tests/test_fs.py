@@ -35,6 +35,9 @@ def test_files_properties(lib_files):
     assert lib_files.pytop5js_template == pyp5_dir.child('templates', 'pytop5js.py.template')
     assert lib_files.pytop5js_template.exists()
 
+    assert lib_files.target_sketch_template == pyp5_dir.child('templates', 'target_sketch.py.template')
+    assert lib_files.target_sketch_template.exists()
+
     assert lib_files.index_html == pyp5_dir.child('templates', 'index.html')
     assert lib_files.index_html.exists()
 
