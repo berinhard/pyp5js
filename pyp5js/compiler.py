@@ -5,7 +5,7 @@ from cprint import cprint
 from unipath import Path
 
 from pyp5js.fs import Pyp5jsLibFiles
-
+from pyp5js.templates_renderer import get_target_sketch_content
 
 
 class Pyp5jsCompiler:
@@ -15,6 +15,7 @@ class Pyp5jsCompiler:
         self.sketch_files = sketch_files
 
     def compile_sketch_js(self):
+        self.prepare()
         self.run_compiler()
         self.clean_up()
 
@@ -54,6 +55,15 @@ class Pyp5jsCompiler:
         if self.sketch_files.target_dir.exists():
             shutil.rmtree(self.sketch_files.target_dir)
         shutil.move(self.target_dir, self.sketch_files.target_dir)
+
+
+    def prepare(self):
+        """
+        Creates target_sketch.py to import the sketch's functions
+        """
+        with open(self.sketch_files.target_sketch, 'w') as fd:
+            content = get_target_sketch_content(self.sketch_files.sketch_name)
+            fd.write(content)
 
 def compile_sketch_js(sketch_files):
     compiler = Pyp5jsCompiler(sketch_files)

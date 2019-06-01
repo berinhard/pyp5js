@@ -87,6 +87,7 @@ class Pyp5jsSketchFilesTests(TestCase):
         assert Path(self.sketch_name).child('index.html') == self.files.index_html
         assert Path(self.sketch_name).child('static', 'p5.js') == self.files.p5js
         assert Path(self.sketch_name).child('foo.py') == self.files.sketch_py
+        assert Path(self.sketch_name).child('target_sketch.py') == self.files.target_sketch
 
     def test_sketch_exists(self):
         self.files.check_sketch_dir = False

@@ -43,6 +43,10 @@ class Pyp5jsSketchFiles():
         return self.static_dir.child('p5.js')
 
     @property
+    def target_sketch(self):
+        return self.sketch_dir.child("target_sketch.py")
+
+    @property
     def sketch_py(self):
         py_file = self.sketch_dir.child(f'{self.sketch_name}.py')
 

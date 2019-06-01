@@ -7,6 +7,7 @@ from subprocess import Popen
 
 from pyp5js.compiler import Pyp5jsCompiler, compile_sketch_js
 from pyp5js.fs import Pyp5jsSketchFiles, Pyp5jsLibFiles
+from pyp5js.templates_renderer import get_target_sketch_content
 
 
 @patch('pyp5js.compiler.Pyp5jsCompiler')
@@ -69,3 +70,14 @@ class Pyp5jsCompilerTests(TestCase):
 
         assert not self.compiler.target_dir.exists()
         assert self.files.target_dir.exists()
+
+    def test_prepare_sketch(self):
+        expected_content = get_target_sketch_content(self.files.sketch_name)
+        assert not self.files.target_sketch.exists()
+
+        self.compiler.prepare()
+
+        assert self.files.target_sketch.exists()
+        with open(self.files.target_sketch, 'r') as fd:
+            content = fd.read()
+        assert expected_content == content
