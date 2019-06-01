@@ -1,3 +1,4 @@
+import os
 import shlex
 import shutil
 import subprocess
@@ -48,7 +49,7 @@ class Pyp5jsCompiler:
 
     def clean_up(self):
         """
-        Rename the assets dir from __target__ to target
+        Rename the assets dir from __target__ to target and delete target_sketch.py
 
         This is required because github pages can't deal with assets under a __target__ directory
         """
@@ -56,6 +57,8 @@ class Pyp5jsCompiler:
             shutil.rmtree(self.sketch_files.target_dir)
         shutil.move(self.target_dir, self.sketch_files.target_dir)
 
+        if self.sketch_files.target_sketch.exists():
+            os.remove(self.sketch_files.target_sketch)
 
     def prepare(self):
         """

@@ -65,11 +65,14 @@ class Pyp5jsCompilerTests(TestCase):
 
     def test_clean_up(self):
         os.mkdir(self.compiler.target_dir)
+        with open(self.files.target_sketch, 'w') as fd:
+            fd.write('some content')
 
         self.compiler.clean_up()
 
         assert not self.compiler.target_dir.exists()
         assert self.files.target_dir.exists()
+        assert not self.files.target_sketch.exists()
 
     def test_prepare_sketch(self):
         expected_content = get_target_sketch_content(self.files.sketch_name)
