@@ -34,6 +34,7 @@ def new_sketch(sketch_name, sketch_dir):
         (pyp5js_files.p5js, sketch_files.p5js)
     ]
 
+
     os.makedirs(sketch_files.sketch_dir)
     os.mkdir(sketch_files.static_dir)
     for src, dest in templates_files:
