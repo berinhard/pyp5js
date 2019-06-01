@@ -1,7 +1,7 @@
 """
- * Move Eye. 
+ * Move Eye.
  * by Simon Greenwold.
- * 
+ *
  * The camera lifts up (controlled by mouseY) while looking at the same point.
  """
 from pytop5js import *
@@ -28,6 +28,6 @@ def draw():
     line(0, -100, 0, 0, 100, 0)
     line(0, 0, -100, 0, 0, 100)
 
-  
+
 # This is required by pyp5js to work
-start_p5(setup, draw)
+start_p5(setup, draw, {})

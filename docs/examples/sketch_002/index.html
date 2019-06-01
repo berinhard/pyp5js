@@ -11,11 +11,79 @@
 
     <script src="static/p5.js"></script>
     <script src="target/sketch_002.js"  type="module"></script>
+
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    <style>
+        html {
+          overflow-y: scroll;
+        }
+
+        .demoContainer {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        pre {
+            padding-left: 2em;
+        }
+    </style>
   </head>
 
   <body>
-    <div id="sketch-holder">
-          <!-- You sketch will go here! -->
+    <p style="background-color: #f6f8fa">
+      Python code <a href="https://github.com/berinhard/pyp5js/blob/develop/docs/examples/sketch_002" target="_blank">here</a>.
+    </p>
+
+    <div class="demoContainer">
+        <div id="sketch-holder" style="">
+              <!-- You sketch will go here! -->
+        </div>
+
+
+        <div style="">
+          <pre>
+             <code>
+"""
+ * Move Eye.
+ * by Simon Greenwold.
+ *
+ * The camera lifts up (controlled by mouseY) while looking at the same point.
+ """
+from pytop5js import *
+
+def setup():
+    createCanvas(640, 360, _P5_INSTANCE.WEBGL)
+    fill(204)
+
+
+def draw():
+    ambientLight(50)
+    directionalLight(255, 0, 0, 0.25, 0.25, 0);
+    background(0)
+
+    # Change height of the camera with mouseY
+    camera(30.0, mouseY, 220.0,  # eyeX, eyeY, eyeZ
+           0.0, 0.0, 0.0,        # centerX, centerY, centerZ
+           0.0, 1.0, 0.0)        # upX, upY, upZ
+
+    noStroke()
+    box(90)
+    stroke(255)
+    line(-100, 0, 0, 100, 0, 0)
+    line(0, -100, 0, 0, 100, 0)
+    line(0, 0, -100, 0, 0, 100)
+
+
+# This is required by pyp5js to work
+start_p5(setup, draw, {})
+              </code>
+          </pre>
+        </div>
+
     </div>
   </body>
 </html>

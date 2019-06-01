@@ -1,0 +1,3 @@
+-r requirements.txt
+pytest==4.5.0
+tox==3.10.0

@@ -1,0 +1,40 @@
+Development
+-----------
+
+0.0.7
+-----
+- Fix bug with monitor not running transcrypt more than once
+
+0.0.6
+-----
+- Add flag on new commmand to monitor sketch after creating it
+- Fix bug when running the monitor command from the sketch's directory
+- Update width and height values on createCanvas
+
+0.0.5
+-----
+- Adds all p5's missing global variables
+
+0.0.4.1
+-------
+- Supports event functions such as `keyPressed`
+
+0.0.4
+-----
+- Supports p5.js pop function
+- Adds `monitor` command to the CLI
+- Allows to run `pyp5js` commands specifying a directory
+- First try on organizing the docs
+
+0.0.3
+-----
+- Add WEBGL variables
+
+0.0.2
+-----
+- Supports more of P5's variable
+
+
+0.0.1
+-----
+- First release

@@ -1,19 +1,10 @@
 import os
 import shutil
-import time
 from cprint import cprint
-from datetime import date
 from jinja2 import Environment, FileSystemLoader
-from unipath import Path
-from watchdog.events import FileSystemEventHandler, PatternMatchingEventHandler
-from watchdog.observers import Observer
 
-from pyp5js.compiler import compile_sketch_js
-
-PYP5_DIR = Path(__file__).parent
-TEMPLATES_DIR = PYP5_DIR.child('templates')
-TARGET_DIRNAME = "target"
-templates = Environment(loader=FileSystemLoader(TEMPLATES_DIR))
+from pyp5js import compiler
+from pyp5js.fs import Pyp5jsSketchFiles, Pyp5jsLibFiles
 
 
 def new_sketch(sketch_name, sketch_dir):
@@ -21,7 +12,7 @@ def new_sketch(sketch_name, sketch_dir):
     Creates a new sketch, on a folder/directory
     with the required assets and a index.html file,
     all based on a template
-    
+
     :param sketch_name: name for new sketch
     :type sketch_name: string
     :param sketch_dir: directory name
@@ -29,93 +20,82 @@ def new_sketch(sketch_name, sketch_dir):
     :return: file names
     :rtype: list of strings
     """
-    
-    SKETCH_DIR = Path(sketch_dir or f'{sketch_name}')
 
-    if SKETCH_DIR.exists():
+    sketch_files = Pyp5jsSketchFiles(sketch_dir, sketch_name, check_sketch_dir=False)
+    if not sketch_files.can_create_sketch():
         cprint.warn(f"Cannot configure a new sketch.")
-        cprint.err(f"The directory {SKETCH_DIR} already exists.", interrupt=True)
+        cprint.err(f"The directory {sketch_files.sketch_dir} already exists.", interrupt=True)
 
-    static_dir = SKETCH_DIR.child('static')
+    pyp5js_files = Pyp5jsLibFiles()
     templates_files = [
-        (TEMPLATES_DIR.child('base_sketch.py'), SKETCH_DIR.child(f'{sketch_name}.py')),
-        (PYP5_DIR.child('static', 'p5.js'), static_dir.child('p5.js'))
+        (pyp5js_files.base_sketch, sketch_files.sketch_py),
+        (pyp5js_files.p5js, sketch_files.p5js)
     ]
 
-    index_template = templates.get_template('index.html')
     context = {
-        "p5_js_url": "static/p5.js",
-        "sketch_js_url": f"{TARGET_DIRNAME}/{sketch_name}.js",
+        "p5_js_url": f"{Pyp5jsSketchFiles.STATIC_NAME}/p5.js",
+        "sketch_js_url": f"{Pyp5jsSketchFiles.TARGET_NAME}/{sketch_name}.js",
         "sketch_name": sketch_name,
     }
+
+    templates = Environment(loader=FileSystemLoader(pyp5js_files.templates_dir))
+    index_template = templates.get_template(
+        str(pyp5js_files.index_html.name)
+    )
     index_contet = index_template.render(context)
 
-    os.mkdir(SKETCH_DIR)
-    os.mkdir(static_dir)
+    os.makedirs(sketch_files.sketch_dir)
+    os.mkdir(sketch_files.static_dir)
     for src, dest in templates_files:
         shutil.copyfile(src, dest)
 
-    with open(SKETCH_DIR.child("index.html"), "w") as fd:
+    with open(sketch_files.index_html, "w") as fd:
         fd.write(index_contet)
 
-    return templates_files[0][1]
-
-
-def _validate_sketch_path(sketch_name=None, sketch_dir=None):
-    """
-    Searches for the sketch .py file
-    """
-    sketch_dir = Path(sketch_dir or f'{sketch_name}')
-
-    sketch = sketch_dir.child(f"{sketch_name}.py")
-    if not sketch.exists():
-        sketch_file = Path(os.getcwd()).child(f"{sketch_name}.py")
-        if not sketch_file.exists():
-            cprint.warn(f"Couldn't find the sketch.")
-            cprint.err(f"Neither the file {sketch} or {sketch_file} exist.", interrupt=True)
-
-        sketch = sketch_file
-        sketch_dir = sketch.parent
-
-    return sketch
+    return sketch_files.sketch_py
 
 
 def transcrypt_sketch(sketch_name, sketch_dir):
-    sketch = _validate_sketch_path(sketch_name, sketch_dir)
-    compile_sketch_js(sketch, TARGET_DIRNAME)
-    return sketch.parent.child("index.html")
+    """
+    Transcrypt the sketch python code to javascript.
 
+    :param sketch_name: name for new sketch
+    :type sketch_name: string
+    :param sketch_dir: directory name
+    :type sketch_dir: string
+    :return: file names
+    :rtype: list of strings
+    """
 
-class TranscryptSketchEvent(PatternMatchingEventHandler):
-    patterns = ["*.py"]
+    sketch_files = Pyp5jsSketchFiles(sketch_dir, sketch_name)
+    if not sketch_files.check_sketch_exists():
+        cprint.err(f"Couldn't find {sketch_name}", interrupt=True)
 
-    def __init__(self, *args, **kwargs):
-        self.sketch = kwargs.pop('sketch')
-        self._last_event = None
-        super().__init__(*args, **kwargs)
-
-    def on_modified(self, event):
-        event_id = id(event)
-        if event_id == self._last_event:
-            return
-
-        cprint.info(f"New change in {event.src_path}")
-        compile_sketch_js(self.sketch, TARGET_DIRNAME)
+    compiler.compile_sketch_js(sketch_files)
+    return sketch_files.index_html
 
 
 def monitor_sketch(sketch_name, sketch_dir):
-    sketch = _validate_sketch_path(sketch_name, sketch_dir)
-    cprint(f"Monitoring for changes in {sketch.parent.absolute()}...")
+    """
+    Monitor for any change in any .py code under
+    the sketch dir and, for every new change,
+    runs the transcrypt to update the js files.
 
-    event_handler = TranscryptSketchEvent(sketch=sketch)
-    observer = Observer()
+    :param sketch_name: name for new sketch
+    :type sketch_name: string
+    :param sketch_dir: directory name
+    :type sketch_dir: string
+    :return: file names
+    :rtype: list of strings
+    """
 
-    observer.schedule(event_handler, sketch.parent)
-    observer.start()
+    sketch_files = Pyp5jsSketchFiles(sketch_dir, sketch_name)
+    if not sketch_files.check_sketch_exists():
+        cprint.err(f"Couldn't find {sketch_name}", interrupt=True)
+
+    cprint(f"Monitoring for changes in {sketch_files.sketch_dir.absolute()}...")
+
     try:
-        while True:
-            time.sleep(1)
+        compiler.monitor_sketch(sketch_files)
     except KeyboardInterrupt:
         cprint.info("Exiting monitor...")
-        observer.stop()
-    observer.join()
