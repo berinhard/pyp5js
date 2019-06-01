@@ -27,7 +27,3 @@ def draw():
     line(-100, 0, 0, 100, 0, 0)
     line(0, -100, 0, 0, 100, 0)
     line(0, 0, -100, 0, 0, 100)
-
-
-# This is required by pyp5js to work
-start_p5(setup, draw, {})

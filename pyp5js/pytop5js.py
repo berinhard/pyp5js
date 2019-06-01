@@ -1004,7 +1004,7 @@ def pre_draw(p5_instance, draw_func):
     mouseIsPressed = p5_instance.mouseIsPressed
     touches = p5_instance.touches
     pixels = p5_instance.pixels
-
+    
     return draw_func()
 
 
@@ -1045,7 +1045,7 @@ def start_p5(setup_func, draw_func, event_functions):
     # inject event functions into p5
     event_function_names = ["deviceMoved", "deviceTurned", "deviceShaken", "keyPressed", "keyReleased", "keyTyped", "mouseMoved", "mouseDragged", "mousePressed", "mouseReleased", "mouseClicked", "doubleClicked", "mouseWheel", "touchStarted", "touchMoved", "touchEnded", "windowResized", ]
 
-    for f_name in [f for f in event_function_names if f in event_functions]:
+    for f_name in [f for f in event_function_names if event_functions.get(f, None)]:
         func = event_functions[f_name]
         event_func = global_p5_injection(instance)(func)
         setattr(instance, f_name, event_func)

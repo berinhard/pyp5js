@@ -35,6 +35,9 @@ def test_files_properties(lib_files):
     assert lib_files.pytop5js_template == pyp5_dir.child('templates', 'pytop5js.py.template')
     assert lib_files.pytop5js_template.exists()
 
+    assert lib_files.target_sketch_template == pyp5_dir.child('templates', 'target_sketch.py.template')
+    assert lib_files.target_sketch_template.exists()
+
     assert lib_files.index_html == pyp5_dir.child('templates', 'index.html')
     assert lib_files.index_html.exists()
 
@@ -84,6 +87,7 @@ class Pyp5jsSketchFilesTests(TestCase):
         assert Path(self.sketch_name).child('index.html') == self.files.index_html
         assert Path(self.sketch_name).child('static', 'p5.js') == self.files.p5js
         assert Path(self.sketch_name).child('foo.py') == self.files.sketch_py
+        assert Path(self.sketch_name).child('target_sketch.py') == self.files.target_sketch
 
     def test_sketch_exists(self):
         self.files.check_sketch_dir = False
