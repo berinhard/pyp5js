@@ -13,7 +13,7 @@ event_functions = {
     "mouseDragged": source_sketch.mouseDragged,
 }
 
-start_p5(sketch_source.setup, sketch_source.draw, event_functions)
+start_p5(source_sketch.setup, source_sketch.draw, event_functions)
 """
 
     assert expected.strip() == get_target_sketch_template_content(events)

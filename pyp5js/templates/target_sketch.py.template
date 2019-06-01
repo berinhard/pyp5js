@@ -21,4 +21,4 @@ event_functions = {
     "windowResized": source_sketch.windowResized,
 }
 
-start_p5(sketch_source.setup, sketch_source.draw, event_functions)
+start_p5(source_sketch.setup, source_sketch.draw, event_functions)

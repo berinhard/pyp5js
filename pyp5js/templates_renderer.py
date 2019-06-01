@@ -21,7 +21,7 @@ def get_index_content(sketch_name, p5_js_url=None, sketch_js_url=None):
     context = {
         "sketch_name": sketch_name,
         "p5_js_url": p5_js_url or f"{Pyp5jsSketchFiles.STATIC_NAME}/p5.js",
-        "sketch_js_url": sketch_js_url or f"{Pyp5jsSketchFiles.STATIC_NAME}/target_sketch.js",
+        "sketch_js_url": sketch_js_url or f"{Pyp5jsSketchFiles.TARGET_NAME}/target_sketch.js",
     }
     templates = Environment(loader=FileSystemLoader(pyp5js_files.templates_dir))
     index_template = templates.get_template(
@@ -38,7 +38,7 @@ def get_target_sketch_template_content(event_function_names):
     for event in event_function_names:
         content += f'    "{event}": source_sketch.{event},\n'
 
-    content += '}\n\nstart_p5(sketch_source.setup, sketch_source.draw, event_functions)'
+    content += '}\n\nstart_p5(source_sketch.setup, source_sketch.draw, event_functions)'
 
     return content
 
