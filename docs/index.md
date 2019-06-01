@@ -21,9 +21,6 @@ def draw():
     background(200)
     r = sin(frameCount / 60) * 50 + 50
     ellipse(100, 100, r, r)
-
-
-start_p5(setup, draw, {})
 ```
 ### More Examples
 [Click here](https://berinhard.github.io/pyp5js/examples/) to see a list of examples generated with `pyp5js`.
@@ -88,23 +85,6 @@ $ pyp5js --help
 
 - Remember to use **P5.js** method names & conventions for most things.
 
-- To use event functions such as `keyPressed`, `mouseDragged`, `deviceMoved`, `touchMoved`, `windowResized` and others listed in [P5.js reference manual](https://p5js.org/reference/), you have to pass more values to `start_p5` like the following snippet of code. You can check this [live demo](https://berinhard.github.io/pyp5js/examples/sketch_006/index.html) here and also the [Python code](https://github.com/berinhard/pyp5js/blob/master/docs/examples/sketch_006/index.html) for a more expressive example.
-
-```
-def keyPressed():
-    ### your keyPressed implementation
-
-
-def mouseDragged():
-    ### your mouseDragged implementation
-
-event_functions = {
-    'keyPressed': keyPressed,
-    'mouseDragged': mouseDragged,
-}
-start_p5(setup, draw, event_functions)
-```
-
 - The `p5.dom.js` library can be used, but you'll have to add it to the `index.html` yourself, and then it's methods and objects will be available with the `p5.` prefix.
 
 - There are no Py.Processing `with` context facilities for `push/pop` or `beginShape/endShape`.
@@ -144,6 +124,7 @@ After that, you should have the `pyp5js` command enabled and it will respect all
 - `fs.py`: classes to abstract the files and directories manipulations from the commands
 - `monitor.py`: module with the objects used by the `monitor` command
 - `pytop5js.py`: module which is imported by the sketches and integrates with P5.js API
+- `template_renderer.py`: simple module with the renderization logic for the code templates like `target_sketch.py`
 - `update_pytop5js`: this script is responsible for generating the `pytop5js.py` file
 
 I still have to add some tests to pyp5js, so I'd love help on that as well.
