@@ -44,7 +44,7 @@ def new_sketch(sketch_name, sketch_dir):
     with open(sketch_files.index_html, "w") as fd:
         fd.write(index_contet)
 
-    return sketch_files.sketch_py
+    return sketch_files.sketch_py, sketch_files.index_html
 
 
 def transcrypt_sketch(sketch_name, sketch_dir):
