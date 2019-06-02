@@ -149,6 +149,8 @@ mouseButton = None
 mouseIsPressed = None
 touches = None
 pixels = None
+VIDEO = None
+AUDIO = None
 
 
 
@@ -833,6 +835,72 @@ def createCamera(*args):
 def setCamera(*args):
     return _P5_INSTANCE.setCamera(*args)
 
+def select(*args):
+    return _P5_INSTANCE.select(*args)
+
+def selectAll(*args):
+    return _P5_INSTANCE.selectAll(*args)
+
+def removeElements(*args):
+    return _P5_INSTANCE.removeElements(*args)
+
+def changed(*args):
+    return _P5_INSTANCE.changed(*args)
+
+def input(*args):
+    return _P5_INSTANCE.input(*args)
+
+def createDiv(*args):
+    return _P5_INSTANCE.createDiv(*args)
+
+def createP(*args):
+    return _P5_INSTANCE.createP(*args)
+
+def createSpan(*args):
+    return _P5_INSTANCE.createSpan(*args)
+
+def createImg(*args):
+    return _P5_INSTANCE.createImg(*args)
+
+def createA(*args):
+    return _P5_INSTANCE.createA(*args)
+
+def createSlider(*args):
+    return _P5_INSTANCE.createSlider(*args)
+
+def createButton(*args):
+    return _P5_INSTANCE.createButton(*args)
+
+def createCheckbox(*args):
+    return _P5_INSTANCE.createCheckbox(*args)
+
+def createSelect(*args):
+    return _P5_INSTANCE.createSelect(*args)
+
+def createRadio(*args):
+    return _P5_INSTANCE.createRadio(*args)
+
+def createColorPicker(*args):
+    return _P5_INSTANCE.createColorPicker(*args)
+
+def createInput(*args):
+    return _P5_INSTANCE.createInput(*args)
+
+def createFileInput(*args):
+    return _P5_INSTANCE.createFileInput(*args)
+
+def createVideo(*args):
+    return _P5_INSTANCE.createVideo(*args)
+
+def createAudio(*args):
+    return _P5_INSTANCE.createAudio(*args)
+
+def createCapture(*args):
+    return _P5_INSTANCE.createCapture(*args)
+
+def createElement(*args):
+    return _P5_INSTANCE.createElement(*args)
+
 
 def createCanvas(*args):
     result = _P5_INSTANCE.createCanvas(*args)
@@ -852,7 +920,7 @@ def pre_draw(p5_instance, draw_func):
     """
     We need to run this before the actual draw to insert and update p5 env variables
     """
-    global _CTX_MIDDLE, _DEFAULT_FILL, _DEFAULT_LEADMULT, _DEFAULT_STROKE, _DEFAULT_TEXT_FILL, ADD, ALT, ARROW, AUTO, AXES, BACKSPACE, BASELINE, BEVEL, BEZIER, BLEND, BLUR, BOLD, BOLDITALIC, BOTTOM, BURN, CENTER, CHORD, CLAMP, CLOSE, CONTROL, CORNER, CORNERS, CROSS, CURVE, DARKEST, DEG_TO_RAD, DEGREES, DELETE, DIFFERENCE, DILATE, DODGE, DOWN_ARROW, ENTER, ERODE, ESCAPE, EXCLUSION, FILL, GRAY, GRID, HALF_PI, HAND, HARD_LIGHT, HSB, HSL, IMAGE, IMMEDIATE, INVERT, ITALIC, LANDSCAPE, LEFT, LEFT_ARROW, LIGHTEST, LINE_LOOP, LINE_STRIP, LINEAR, LINES, MIRROR, MITER, MOVE, MULTIPLY, NEAREST, NORMAL, OPAQUE, OPEN, OPTION, OVERLAY, PI, PIE, POINTS, PORTRAIT, POSTERIZE, PROJECT, QUAD_STRIP, QUADRATIC, QUADS, QUARTER_PI, RAD_TO_DEG, RADIANS, RADIUS, REPEAT, REPLACE, RETURN, RGB, RIGHT, RIGHT_ARROW, ROUND, SCREEN, SHIFT, SOFT_LIGHT, SQUARE, STROKE, SUBTRACT, TAB, TAU, TEXT, TEXTURE, THRESHOLD, TOP, TRIANGLE_FAN, TRIANGLE_STRIP, TRIANGLES, TWO_PI, UP_ARROW, WAIT, WEBGL, P2D, PI, frameCount, focused, displayWidth, displayHeight, windowWidth, windowHeight, width, height, disableFriendlyErrors, deviceOrientation, accelerationX, accelerationY, accelerationZ, pAccelerationX, pAccelerationY, pAccelerationZ, rotationX, rotationY, rotationZ, pRotationX, pRotationY, pRotationZ, turnAxis, keyIsPressed, key, keyCode, mouseX, mouseY, pmouseX, pmouseY, winMouseX, winMouseY, pwinMouseX, pwinMouseY, mouseButton, mouseIsPressed, touches, pixels
+    global _CTX_MIDDLE, _DEFAULT_FILL, _DEFAULT_LEADMULT, _DEFAULT_STROKE, _DEFAULT_TEXT_FILL, ADD, ALT, ARROW, AUTO, AXES, BACKSPACE, BASELINE, BEVEL, BEZIER, BLEND, BLUR, BOLD, BOLDITALIC, BOTTOM, BURN, CENTER, CHORD, CLAMP, CLOSE, CONTROL, CORNER, CORNERS, CROSS, CURVE, DARKEST, DEG_TO_RAD, DEGREES, DELETE, DIFFERENCE, DILATE, DODGE, DOWN_ARROW, ENTER, ERODE, ESCAPE, EXCLUSION, FILL, GRAY, GRID, HALF_PI, HAND, HARD_LIGHT, HSB, HSL, IMAGE, IMMEDIATE, INVERT, ITALIC, LANDSCAPE, LEFT, LEFT_ARROW, LIGHTEST, LINE_LOOP, LINE_STRIP, LINEAR, LINES, MIRROR, MITER, MOVE, MULTIPLY, NEAREST, NORMAL, OPAQUE, OPEN, OPTION, OVERLAY, PI, PIE, POINTS, PORTRAIT, POSTERIZE, PROJECT, QUAD_STRIP, QUADRATIC, QUADS, QUARTER_PI, RAD_TO_DEG, RADIANS, RADIUS, REPEAT, REPLACE, RETURN, RGB, RIGHT, RIGHT_ARROW, ROUND, SCREEN, SHIFT, SOFT_LIGHT, SQUARE, STROKE, SUBTRACT, TAB, TAU, TEXT, TEXTURE, THRESHOLD, TOP, TRIANGLE_FAN, TRIANGLE_STRIP, TRIANGLES, TWO_PI, UP_ARROW, WAIT, WEBGL, P2D, PI, frameCount, focused, displayWidth, displayHeight, windowWidth, windowHeight, width, height, disableFriendlyErrors, deviceOrientation, accelerationX, accelerationY, accelerationZ, pAccelerationX, pAccelerationY, pAccelerationZ, rotationX, rotationY, rotationZ, pRotationX, pRotationY, pRotationZ, turnAxis, keyIsPressed, key, keyCode, mouseX, mouseY, pmouseX, pmouseY, winMouseX, winMouseY, pwinMouseX, pwinMouseY, mouseButton, mouseIsPressed, touches, pixels, VIDEO, AUDIO
 
     _CTX_MIDDLE = p5_instance._CTX_MIDDLE
     _DEFAULT_FILL = p5_instance._DEFAULT_FILL
@@ -1004,6 +1072,8 @@ def pre_draw(p5_instance, draw_func):
     mouseIsPressed = p5_instance.mouseIsPressed
     touches = p5_instance.touches
     pixels = p5_instance.pixels
+    VIDEO = p5_instance.VIDEO
+    AUDIO = p5_instance.AUDIO
     
     return draw_func()
 

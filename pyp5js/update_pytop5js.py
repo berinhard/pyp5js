@@ -9,9 +9,10 @@ if __name__ == '__main__':
 
     with open(pyp5js_files.p5_yml) as fd:
         data = yaml.load(fd.read())
-        methods_names = data['methods']
-        event_function_names = data['events']
-        variables_names = data['variables']
+        p5_data, dom_data = data['p5'], data['dom']
+        methods_names = p5_data['methods'] + dom_data['methods']
+        event_function_names = p5_data['events']
+        variables_names = p5_data['variables'] + dom_data['variables']
 
     pyp5_content = get_pytop5js_content(variables_names, methods_names, event_function_names)
     with open(pyp5js_files.pytop5js, 'w') as fd:
