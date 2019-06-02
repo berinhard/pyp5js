@@ -1,4 +1,4 @@
-## pyp5js: Python to P5.js Transcriptor
+# pyp5js: Python to P5.js Transcriptor
 
 > [Processing](https://processing.org) ideas and Python 3 together with [P5.js](https://p5js.org) in the browser, using [Transcrypt](https://transcrypt.org/).
 
@@ -22,11 +22,11 @@ def draw():
     r = sin(frameCount / 60) * 50 + 50
     ellipse(100, 100, r, r)
 ```
-### More Examples
+## Examples
 [Click here](https://berinhard.github.io/pyp5js/examples/) to see a list of examples generated with `pyp5js`.
 
 
-### Installation
+## Installation
 
 This project requires Python 3 and is now on PyPI, so you can install it with `pip` or `pip3`, depending on your environment:
 
@@ -35,7 +35,7 @@ $ pip install pyp5js
 ```
 (You might have to install `setuptools` first, if it's not already installed)
 
-### Usage
+## Usage
 
 Since you'll be writting Python code and then generating the correspondent P5.js code from it, pyp5js provides a simple command line API to help you to generate the files.
 
@@ -93,17 +93,17 @@ $ pyp5js --help
 
 - At this point, it is a known limitation that you have to "declare" global variables before `setup()` and `draw()`, maybe using `name = None`, as they can't be created inside methods.
 
-### How can I contribute?
+## How can I contribute?
 
-#### Testing, testing and testing
+### Testing, testing and testing
 
 Since pyp5js have a lot of moving parts, it would be great to have the p5.js API fully covered and tested. So, use your imagination, code your sketches and, if pyp5js breaks or starts to annoy you with something, you're very welcome to [open an issue](https://github.com/berinhard/pyp5js/issues/new) documenting your thoughts. Test it and let me know how can I improve it.
 
-#### What about these shinning examples?
+### What about these shinning examples?
 
 If you fell confortable with that, I'd be happy to add some of your pyp5js sketches to our [examples list](https://berinhard.github.io/pyp5js/examples/)! To do so, you'll have [to fork this repository](https://help.github.com/en/articles/fork-a-repo) and add your new sketch example in the `docs/examples` directory. Once you've your sketch ready, you can [open a pull request](https://help.github.com/en/articles/about-pull-requests) and I'll take a look at it.
 
-#### I want to hack!
+### I want to hack!
 
 Okay, if you want to contribute with pyp5js's code, let's go! I really advise you to use [virtualenv with virtualenvwrapper](http://www.indjango.com/python-install-virtualenv-and-virtualenvwrapper/) or [pyenv](https://amaral.northwestern.edu/resources/guides/pyenv-tutorial) to isolate your pyp5js fork from your the rest of your system. Once you have everything ready, you can run:
 
