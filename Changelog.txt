@@ -1,5 +1,8 @@
 Development
 -----------
+
+0.1.0
+-----
 - Simplification of pytop5js usage
 - Support p5.dom.js library
 - Fixes on monitor observer
