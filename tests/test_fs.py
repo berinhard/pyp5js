@@ -41,7 +41,7 @@ def test_files_properties(lib_files):
     assert lib_files.index_html == pyp5_dir.child('templates', 'index.html')
     assert lib_files.index_html.exists()
 
-    assert lib_files.p5js == pyp5_dir.child('static', 'p5.js')
+    assert lib_files.p5js == pyp5_dir.child('static', 'p5', 'p5.min.js')
     assert lib_files.p5js.exists()
 
     assert lib_files.p5_yml == pyp5_dir.child('assets', 'p5_reference.yml')

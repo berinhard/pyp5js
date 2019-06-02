@@ -105,7 +105,7 @@ class Pyp5jsLibFiles():
 
     @property
     def p5js(self):
-        return self.static_dir.child('p5.js')
+        return self.static_dir.child('p5', 'p5.min.js')
 
     @property
     def p5_yml(self):
