@@ -331,9 +331,6 @@ def quadraticVertex(*args):
 def vertex(*args):
     return _P5_INSTANCE.vertex(*args)
 
-def print(*args):
-    return _P5_INSTANCE.print(*args)
-
 def cursor(*args):
     return _P5_INSTANCE.cursor(*args)
 

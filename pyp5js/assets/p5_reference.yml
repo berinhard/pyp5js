@@ -73,7 +73,6 @@ p5:
         - vertex
 
         # Environment
-        - print
         - cursor
         - frameRate
         - noCursor
