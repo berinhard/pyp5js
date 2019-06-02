@@ -69,7 +69,27 @@ def start_p5(setup_func, draw_func, event_functions):
     # inject event functions into p5
     event_function_names = [{% for f in event_function_names %}"{{ f }}", {% endfor %}]
 
-    for f_name in [f for f in event_function_names if f in event_functions]:
+    for f_name in [f for f in event_function_names if event_functions.get(f, None)]:
         func = event_functions[f_name]
         event_func = global_p5_injection(instance)(func)
         setattr(instance, f_name, event_func)
+
+
+def logOnloaded():
+    console.log("Lib loaded!")
+
+
+def add_library(lib_name):
+    src = ''
+
+    if lib_name == 'p5.dom.js':
+        src = "static/p5.dom.js"
+    else:
+        console.log("Lib name is not valid: " + lib_name)
+        return
+
+    console.log("Importing: " + src)
+    script = document.createElement("script")
+    script.onload = logOnloaded
+    script.src = src
+    document.head.appendChild(script)

@@ -13,7 +13,3 @@ def draw():
     background(h,100,100)
     fill(100-h,100,100)
     rect(300,300,mouseX+1,mouseX+1)
-
-
-# This is required by pyp5js to work
-start_p5(setup, draw, {})

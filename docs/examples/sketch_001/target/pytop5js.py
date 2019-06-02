@@ -1,4 +1,155 @@
 _P5_INSTANCE = None
+_CTX_MIDDLE = None
+_DEFAULT_FILL = None
+_DEFAULT_LEADMULT = None
+_DEFAULT_STROKE = None
+_DEFAULT_TEXT_FILL = None
+ADD = None
+ALT = None
+ARROW = None
+AUTO = None
+AXES = None
+BACKSPACE = None
+BASELINE = None
+BEVEL = None
+BEZIER = None
+BLEND = None
+BLUR = None
+BOLD = None
+BOLDITALIC = None
+BOTTOM = None
+BURN = None
+CENTER = None
+CHORD = None
+CLAMP = None
+CLOSE = None
+CONTROL = None
+CORNER = None
+CORNERS = None
+CROSS = None
+CURVE = None
+DARKEST = None
+DEG_TO_RAD = None
+DEGREES = None
+DELETE = None
+DIFFERENCE = None
+DILATE = None
+DODGE = None
+DOWN_ARROW = None
+ENTER = None
+ERODE = None
+ESCAPE = None
+EXCLUSION = None
+FILL = None
+GRAY = None
+GRID = None
+HALF_PI = None
+HAND = None
+HARD_LIGHT = None
+HSB = None
+HSL = None
+IMAGE = None
+IMMEDIATE = None
+INVERT = None
+ITALIC = None
+LANDSCAPE = None
+LEFT = None
+LEFT_ARROW = None
+LIGHTEST = None
+LINE_LOOP = None
+LINE_STRIP = None
+LINEAR = None
+LINES = None
+MIRROR = None
+MITER = None
+MOVE = None
+MULTIPLY = None
+NEAREST = None
+NORMAL = None
+OPAQUE = None
+OPEN = None
+OPTION = None
+OVERLAY = None
+PI = None
+PIE = None
+POINTS = None
+PORTRAIT = None
+POSTERIZE = None
+PROJECT = None
+QUAD_STRIP = None
+QUADRATIC = None
+QUADS = None
+QUARTER_PI = None
+RAD_TO_DEG = None
+RADIANS = None
+RADIUS = None
+REPEAT = None
+REPLACE = None
+RETURN = None
+RGB = None
+RIGHT = None
+RIGHT_ARROW = None
+ROUND = None
+SCREEN = None
+SHIFT = None
+SOFT_LIGHT = None
+SQUARE = None
+STROKE = None
+SUBTRACT = None
+TAB = None
+TAU = None
+TEXT = None
+TEXTURE = None
+THRESHOLD = None
+TOP = None
+TRIANGLE_FAN = None
+TRIANGLE_STRIP = None
+TRIANGLES = None
+TWO_PI = None
+UP_ARROW = None
+WAIT = None
+WEBGL = None
+P2D = None
+PI = None
+frameCount = None
+focused = None
+displayWidth = None
+displayHeight = None
+windowWidth = None
+windowHeight = None
+width = None
+height = None
+disableFriendlyErrors = None
+deviceOrientation = None
+accelerationX = None
+accelerationY = None
+accelerationZ = None
+pAccelerationX = None
+pAccelerationY = None
+pAccelerationZ = None
+rotationX = None
+rotationY = None
+rotationZ = None
+pRotationX = None
+pRotationY = None
+pRotationZ = None
+turnAxis = None
+keyIsPressed = None
+key = None
+keyCode = None
+mouseX = None
+mouseY = None
+pmouseX = None
+pmouseY = None
+winMouseX = None
+winMouseY = None
+pwinMouseX = None
+pwinMouseY = None
+mouseButton = None
+mouseIsPressed = None
+touches = None
+pixels = None
+
 
 
 def alpha(*args):
@@ -231,9 +382,6 @@ def push(*args):
 
 def redraw(*args):
     return _P5_INSTANCE.redraw(*args)
-
-def createCanvas(*args):
-    return _P5_INSTANCE.createCanvas(*args)
 
 def resizeCanvas(*args):
     return _P5_INSTANCE.resizeCanvas(*args)
@@ -686,6 +834,13 @@ def setCamera(*args):
     return _P5_INSTANCE.setCamera(*args)
 
 
+def createCanvas(*args):
+    result = _P5_INSTANCE.createCanvas(*args)
+
+    global width, height
+    width = _P5_INSTANCE.width
+    height = _P5_INSTANCE.height
+
 
 def pop(*args):
     __pragma__('noalias', 'pop')
@@ -693,87 +848,124 @@ def pop(*args):
     __pragma__('alias', 'pop', 'py_pop')
     return p5_pop
 
-HALF_PI = None
-PI = None
-QUARTER_PI = None
-TAU = None
-TWO_PI = None
-DEGREES = None
-RADIANS = None
-CLOSE = None
-RGB = None
-HSB = None
-CMYK = None
-TOP = None
-BOTTOM = None
-CENTER = None
-LEFT = None
-RIGHT = None
-SHIFT = None
-WEBGL = None
-frameCount = None
-focused = None
-displayWidth = None
-displayHeight = None
-windowWidth = None
-windowHeight = None
-width = None
-height = None
-disableFriendlyErrors = None
-deviceOrientation = None
-accelerationX = None
-accelerationY = None
-accelerationZ = None
-pAccelerationX = None
-pAccelerationY = None
-pAccelerationZ = None
-rotationX = None
-rotationY = None
-rotationZ = None
-pRotationX = None
-pRotationY = None
-pRotationZ = None
-turnAxis = None
-keyIsPressed = None
-key = None
-keyCode = None
-mouseX = None
-mouseY = None
-pmouseX = None
-pmouseY = None
-winMouseX = None
-winMouseY = None
-pwinMouseX = None
-pwinMouseY = None
-mouseButton = None
-mouseIsPressed = None
-touches = None
-pixels = None
-
 def pre_draw(p5_instance, draw_func):
     """
     We need to run this before the actual draw to insert and update p5 env variables
     """
-    global HALF_PI, PI, QUARTER_PI, TAU, TWO_PI, DEGREES, RADIANS, CLOSE, RGB, HSB, CMYK, TOP, BOTTOM, CENTER, LEFT, RIGHT, SHIFT, WEBGL, frameCount, focused, displayWidth, displayHeight, windowWidth, windowHeight, width, height, disableFriendlyErrors, deviceOrientation, accelerationX, accelerationY, accelerationZ, pAccelerationX, pAccelerationY, pAccelerationZ, rotationX, rotationY, rotationZ, pRotationX, pRotationY, pRotationZ, turnAxis, keyIsPressed, key, keyCode, mouseX, mouseY, pmouseX, pmouseY, winMouseX, winMouseY, pwinMouseX, pwinMouseY, mouseButton, mouseIsPressed, touches, pixels
+    global _CTX_MIDDLE, _DEFAULT_FILL, _DEFAULT_LEADMULT, _DEFAULT_STROKE, _DEFAULT_TEXT_FILL, ADD, ALT, ARROW, AUTO, AXES, BACKSPACE, BASELINE, BEVEL, BEZIER, BLEND, BLUR, BOLD, BOLDITALIC, BOTTOM, BURN, CENTER, CHORD, CLAMP, CLOSE, CONTROL, CORNER, CORNERS, CROSS, CURVE, DARKEST, DEG_TO_RAD, DEGREES, DELETE, DIFFERENCE, DILATE, DODGE, DOWN_ARROW, ENTER, ERODE, ESCAPE, EXCLUSION, FILL, GRAY, GRID, HALF_PI, HAND, HARD_LIGHT, HSB, HSL, IMAGE, IMMEDIATE, INVERT, ITALIC, LANDSCAPE, LEFT, LEFT_ARROW, LIGHTEST, LINE_LOOP, LINE_STRIP, LINEAR, LINES, MIRROR, MITER, MOVE, MULTIPLY, NEAREST, NORMAL, OPAQUE, OPEN, OPTION, OVERLAY, PI, PIE, POINTS, PORTRAIT, POSTERIZE, PROJECT, QUAD_STRIP, QUADRATIC, QUADS, QUARTER_PI, RAD_TO_DEG, RADIANS, RADIUS, REPEAT, REPLACE, RETURN, RGB, RIGHT, RIGHT_ARROW, ROUND, SCREEN, SHIFT, SOFT_LIGHT, SQUARE, STROKE, SUBTRACT, TAB, TAU, TEXT, TEXTURE, THRESHOLD, TOP, TRIANGLE_FAN, TRIANGLE_STRIP, TRIANGLES, TWO_PI, UP_ARROW, WAIT, WEBGL, P2D, PI, frameCount, focused, displayWidth, displayHeight, windowWidth, windowHeight, width, height, disableFriendlyErrors, deviceOrientation, accelerationX, accelerationY, accelerationZ, pAccelerationX, pAccelerationY, pAccelerationZ, rotationX, rotationY, rotationZ, pRotationX, pRotationY, pRotationZ, turnAxis, keyIsPressed, key, keyCode, mouseX, mouseY, pmouseX, pmouseY, winMouseX, winMouseY, pwinMouseX, pwinMouseY, mouseButton, mouseIsPressed, touches, pixels
 
-    HALF_PI = p5_instance.HALF_PI
-    PI = p5_instance.PI
-    QUARTER_PI = p5_instance.QUARTER_PI
-    TAU = p5_instance.TAU
-    TWO_PI = p5_instance.TWO_PI
-    DEGREES = p5_instance.DEGREES
-    RADIANS = p5_instance.RADIANS
-    CLOSE = p5_instance.CLOSE
-    RGB = p5_instance.RGB
-    HSB = p5_instance.HSB
-    CMYK = p5_instance.CMYK
-    TOP = p5_instance.TOP
+    _CTX_MIDDLE = p5_instance._CTX_MIDDLE
+    _DEFAULT_FILL = p5_instance._DEFAULT_FILL
+    _DEFAULT_LEADMULT = p5_instance._DEFAULT_LEADMULT
+    _DEFAULT_STROKE = p5_instance._DEFAULT_STROKE
+    _DEFAULT_TEXT_FILL = p5_instance._DEFAULT_TEXT_FILL
+    ADD = p5_instance.ADD
+    ALT = p5_instance.ALT
+    ARROW = p5_instance.ARROW
+    AUTO = p5_instance.AUTO
+    AXES = p5_instance.AXES
+    BACKSPACE = p5_instance.BACKSPACE
+    BASELINE = p5_instance.BASELINE
+    BEVEL = p5_instance.BEVEL
+    BEZIER = p5_instance.BEZIER
+    BLEND = p5_instance.BLEND
+    BLUR = p5_instance.BLUR
+    BOLD = p5_instance.BOLD
+    BOLDITALIC = p5_instance.BOLDITALIC
     BOTTOM = p5_instance.BOTTOM
+    BURN = p5_instance.BURN
     CENTER = p5_instance.CENTER
+    CHORD = p5_instance.CHORD
+    CLAMP = p5_instance.CLAMP
+    CLOSE = p5_instance.CLOSE
+    CONTROL = p5_instance.CONTROL
+    CORNER = p5_instance.CORNER
+    CORNERS = p5_instance.CORNERS
+    CROSS = p5_instance.CROSS
+    CURVE = p5_instance.CURVE
+    DARKEST = p5_instance.DARKEST
+    DEG_TO_RAD = p5_instance.DEG_TO_RAD
+    DEGREES = p5_instance.DEGREES
+    DELETE = p5_instance.DELETE
+    DIFFERENCE = p5_instance.DIFFERENCE
+    DILATE = p5_instance.DILATE
+    DODGE = p5_instance.DODGE
+    DOWN_ARROW = p5_instance.DOWN_ARROW
+    ENTER = p5_instance.ENTER
+    ERODE = p5_instance.ERODE
+    ESCAPE = p5_instance.ESCAPE
+    EXCLUSION = p5_instance.EXCLUSION
+    FILL = p5_instance.FILL
+    GRAY = p5_instance.GRAY
+    GRID = p5_instance.GRID
+    HALF_PI = p5_instance.HALF_PI
+    HAND = p5_instance.HAND
+    HARD_LIGHT = p5_instance.HARD_LIGHT
+    HSB = p5_instance.HSB
+    HSL = p5_instance.HSL
+    IMAGE = p5_instance.IMAGE
+    IMMEDIATE = p5_instance.IMMEDIATE
+    INVERT = p5_instance.INVERT
+    ITALIC = p5_instance.ITALIC
+    LANDSCAPE = p5_instance.LANDSCAPE
     LEFT = p5_instance.LEFT
+    LEFT_ARROW = p5_instance.LEFT_ARROW
+    LIGHTEST = p5_instance.LIGHTEST
+    LINE_LOOP = p5_instance.LINE_LOOP
+    LINE_STRIP = p5_instance.LINE_STRIP
+    LINEAR = p5_instance.LINEAR
+    LINES = p5_instance.LINES
+    MIRROR = p5_instance.MIRROR
+    MITER = p5_instance.MITER
+    MOVE = p5_instance.MOVE
+    MULTIPLY = p5_instance.MULTIPLY
+    NEAREST = p5_instance.NEAREST
+    NORMAL = p5_instance.NORMAL
+    OPAQUE = p5_instance.OPAQUE
+    OPEN = p5_instance.OPEN
+    OPTION = p5_instance.OPTION
+    OVERLAY = p5_instance.OVERLAY
+    PI = p5_instance.PI
+    PIE = p5_instance.PIE
+    POINTS = p5_instance.POINTS
+    PORTRAIT = p5_instance.PORTRAIT
+    POSTERIZE = p5_instance.POSTERIZE
+    PROJECT = p5_instance.PROJECT
+    QUAD_STRIP = p5_instance.QUAD_STRIP
+    QUADRATIC = p5_instance.QUADRATIC
+    QUADS = p5_instance.QUADS
+    QUARTER_PI = p5_instance.QUARTER_PI
+    RAD_TO_DEG = p5_instance.RAD_TO_DEG
+    RADIANS = p5_instance.RADIANS
+    RADIUS = p5_instance.RADIUS
+    REPEAT = p5_instance.REPEAT
+    REPLACE = p5_instance.REPLACE
+    RETURN = p5_instance.RETURN
+    RGB = p5_instance.RGB
     RIGHT = p5_instance.RIGHT
+    RIGHT_ARROW = p5_instance.RIGHT_ARROW
+    ROUND = p5_instance.ROUND
+    SCREEN = p5_instance.SCREEN
     SHIFT = p5_instance.SHIFT
+    SOFT_LIGHT = p5_instance.SOFT_LIGHT
+    SQUARE = p5_instance.SQUARE
+    STROKE = p5_instance.STROKE
+    SUBTRACT = p5_instance.SUBTRACT
+    TAB = p5_instance.TAB
+    TAU = p5_instance.TAU
+    TEXT = p5_instance.TEXT
+    TEXTURE = p5_instance.TEXTURE
+    THRESHOLD = p5_instance.THRESHOLD
+    TOP = p5_instance.TOP
+    TRIANGLE_FAN = p5_instance.TRIANGLE_FAN
+    TRIANGLE_STRIP = p5_instance.TRIANGLE_STRIP
+    TRIANGLES = p5_instance.TRIANGLES
+    TWO_PI = p5_instance.TWO_PI
+    UP_ARROW = p5_instance.UP_ARROW
+    WAIT = p5_instance.WAIT
     WEBGL = p5_instance.WEBGL
+    P2D = p5_instance.P2D
+    PI = p5_instance.PI
     frameCount = p5_instance.frameCount
     focused = p5_instance.focused
     displayWidth = p5_instance.displayWidth
@@ -853,7 +1045,7 @@ def start_p5(setup_func, draw_func, event_functions):
     # inject event functions into p5
     event_function_names = ["deviceMoved", "deviceTurned", "deviceShaken", "keyPressed", "keyReleased", "keyTyped", "mouseMoved", "mouseDragged", "mousePressed", "mouseReleased", "mouseClicked", "doubleClicked", "mouseWheel", "touchStarted", "touchMoved", "touchEnded", "windowResized", ]
 
-    for f_name in [f for f in event_function_names if f in event_functions]:
+    for f_name in [f for f in event_function_names if event_functions.get(f, None)]:
         func = event_functions[f_name]
         event_func = global_p5_injection(instance)(func)
         setattr(instance, f_name, event_func)

@@ -3,8 +3,10 @@ import shutil
 from cprint import cprint
 from jinja2 import Environment, FileSystemLoader
 
-from pyp5js import compiler
+from pyp5js.compiler import compile_sketch_js
 from pyp5js.fs import Pyp5jsSketchFiles, Pyp5jsLibFiles
+from pyp5js.monitor import monitor_sketch as monitor_sketch_service
+from pyp5js.templates_renderer import get_index_content
 
 
 def new_sketch(sketch_name, sketch_dir):
@@ -29,30 +31,20 @@ def new_sketch(sketch_name, sketch_dir):
     pyp5js_files = Pyp5jsLibFiles()
     templates_files = [
         (pyp5js_files.base_sketch, sketch_files.sketch_py),
-        (pyp5js_files.p5js, sketch_files.p5js)
+        (pyp5js_files.p5js, sketch_files.p5js),
+        (pyp5js_files.p5_dom_js, sketch_files.p5_dom_js),
     ]
-
-    context = {
-        "p5_js_url": f"{Pyp5jsSketchFiles.STATIC_NAME}/p5.js",
-        "sketch_js_url": f"{Pyp5jsSketchFiles.TARGET_NAME}/{sketch_name}.js",
-        "sketch_name": sketch_name,
-    }
-
-    templates = Environment(loader=FileSystemLoader(pyp5js_files.templates_dir))
-    index_template = templates.get_template(
-        str(pyp5js_files.index_html.name)
-    )
-    index_contet = index_template.render(context)
 
     os.makedirs(sketch_files.sketch_dir)
     os.mkdir(sketch_files.static_dir)
     for src, dest in templates_files:
         shutil.copyfile(src, dest)
 
+    index_contet = get_index_content(sketch_name)
     with open(sketch_files.index_html, "w") as fd:
         fd.write(index_contet)
 
-    return sketch_files.sketch_py
+    return sketch_files.sketch_py, sketch_files.index_html
 
 
 def transcrypt_sketch(sketch_name, sketch_dir):
@@ -71,7 +63,7 @@ def transcrypt_sketch(sketch_name, sketch_dir):
     if not sketch_files.check_sketch_exists():
         cprint.err(f"Couldn't find {sketch_name}", interrupt=True)
 
-    compiler.compile_sketch_js(sketch_files)
+    compile_sketch_js(sketch_files)
     return sketch_files.index_html
 
 
@@ -96,6 +88,6 @@ def monitor_sketch(sketch_name, sketch_dir):
     cprint(f"Monitoring for changes in {sketch_files.sketch_dir.absolute()}...")
 
     try:
-        compiler.monitor_sketch(sketch_files)
+        monitor_sketch_service(sketch_files)
     except KeyboardInterrupt:
         cprint.info("Exiting monitor...")

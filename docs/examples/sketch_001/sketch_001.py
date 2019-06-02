@@ -31,6 +31,3 @@ def draw():
     t = t + 0.01
 
     console.log(frameRate())
-
-
-my_p5 = start_p5(setup, draw, {})

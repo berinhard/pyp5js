@@ -162,7 +162,3 @@ class Boid (object):
         return self.seek(sum); # Steer towards the location
       else:
         return createVector(0, 0);
-
-
-# This is required by pyp5js to work
-start_p5(setup, draw, {})

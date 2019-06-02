@@ -29,7 +29,7 @@ def configure_new_sketch(sketch_name, sketch_dir, monitor):
     Example:
     $ pyp5js new my_sketch
     """
-    sketch_py = commands.new_sketch(sketch_name, sketch_dir)
+    sketch_py, index_html = commands.new_sketch(sketch_name, sketch_dir)
 
     cprint.ok(f"Your sketch was created!")
 
@@ -39,8 +39,10 @@ def configure_new_sketch(sketch_name, sketch_dir, monitor):
         if sketch_dir:
             cmd += f" --sketch-dir {sketch_dir}"
         cprint.ok(cmd)
+        cprint.ok(f"And open {index_html.absolute()} on your browser to see yor results!")
     else:
         cprint.ok(f"Please, open and edit the file {sketch_py} to draw.")
+        cprint.ok(f"And open {index_html.absolute()} on your browser to see yor results!")
         commands.monitor_sketch(sketch_name, sketch_dir)
 
 

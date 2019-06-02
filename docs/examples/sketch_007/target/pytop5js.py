@@ -1,4 +1,155 @@
 _P5_INSTANCE = None
+_CTX_MIDDLE = None
+_DEFAULT_FILL = None
+_DEFAULT_LEADMULT = None
+_DEFAULT_STROKE = None
+_DEFAULT_TEXT_FILL = None
+ADD = None
+ALT = None
+ARROW = None
+AUTO = None
+AXES = None
+BACKSPACE = None
+BASELINE = None
+BEVEL = None
+BEZIER = None
+BLEND = None
+BLUR = None
+BOLD = None
+BOLDITALIC = None
+BOTTOM = None
+BURN = None
+CENTER = None
+CHORD = None
+CLAMP = None
+CLOSE = None
+CONTROL = None
+CORNER = None
+CORNERS = None
+CROSS = None
+CURVE = None
+DARKEST = None
+DEG_TO_RAD = None
+DEGREES = None
+DELETE = None
+DIFFERENCE = None
+DILATE = None
+DODGE = None
+DOWN_ARROW = None
+ENTER = None
+ERODE = None
+ESCAPE = None
+EXCLUSION = None
+FILL = None
+GRAY = None
+GRID = None
+HALF_PI = None
+HAND = None
+HARD_LIGHT = None
+HSB = None
+HSL = None
+IMAGE = None
+IMMEDIATE = None
+INVERT = None
+ITALIC = None
+LANDSCAPE = None
+LEFT = None
+LEFT_ARROW = None
+LIGHTEST = None
+LINE_LOOP = None
+LINE_STRIP = None
+LINEAR = None
+LINES = None
+MIRROR = None
+MITER = None
+MOVE = None
+MULTIPLY = None
+NEAREST = None
+NORMAL = None
+OPAQUE = None
+OPEN = None
+OPTION = None
+OVERLAY = None
+PI = None
+PIE = None
+POINTS = None
+PORTRAIT = None
+POSTERIZE = None
+PROJECT = None
+QUAD_STRIP = None
+QUADRATIC = None
+QUADS = None
+QUARTER_PI = None
+RAD_TO_DEG = None
+RADIANS = None
+RADIUS = None
+REPEAT = None
+REPLACE = None
+RETURN = None
+RGB = None
+RIGHT = None
+RIGHT_ARROW = None
+ROUND = None
+SCREEN = None
+SHIFT = None
+SOFT_LIGHT = None
+SQUARE = None
+STROKE = None
+SUBTRACT = None
+TAB = None
+TAU = None
+TEXT = None
+TEXTURE = None
+THRESHOLD = None
+TOP = None
+TRIANGLE_FAN = None
+TRIANGLE_STRIP = None
+TRIANGLES = None
+TWO_PI = None
+UP_ARROW = None
+WAIT = None
+WEBGL = None
+P2D = None
+PI = None
+frameCount = None
+focused = None
+displayWidth = None
+displayHeight = None
+windowWidth = None
+windowHeight = None
+width = None
+height = None
+disableFriendlyErrors = None
+deviceOrientation = None
+accelerationX = None
+accelerationY = None
+accelerationZ = None
+pAccelerationX = None
+pAccelerationY = None
+pAccelerationZ = None
+rotationX = None
+rotationY = None
+rotationZ = None
+pRotationX = None
+pRotationY = None
+pRotationZ = None
+turnAxis = None
+keyIsPressed = None
+key = None
+keyCode = None
+mouseX = None
+mouseY = None
+pmouseX = None
+pmouseY = None
+winMouseX = None
+winMouseY = None
+pwinMouseX = None
+pwinMouseY = None
+mouseButton = None
+mouseIsPressed = None
+touches = None
+pixels = None
+
 
 
 def alpha(*args):
@@ -231,9 +382,6 @@ def push(*args):
 
 def redraw(*args):
     return _P5_INSTANCE.redraw(*args)
-
-def createCanvas(*args):
-    return _P5_INSTANCE.createCanvas(*args)
 
 def resizeCanvas(*args):
     return _P5_INSTANCE.resizeCanvas(*args)
@@ -686,163 +834,19 @@ def setCamera(*args):
     return _P5_INSTANCE.setCamera(*args)
 
 
+def createCanvas(*args):
+    result = _P5_INSTANCE.createCanvas(*args)
+
+    global width, height
+    width = _P5_INSTANCE.width
+    height = _P5_INSTANCE.height
+
 
 def pop(*args):
     __pragma__('noalias', 'pop')
     p5_pop = _P5_INSTANCE.pop(*args)
     __pragma__('alias', 'pop', 'py_pop')
     return p5_pop
-
-_CTX_MIDDLE = None
-_DEFAULT_FILL = None
-_DEFAULT_LEADMULT = None
-_DEFAULT_STROKE = None
-_DEFAULT_TEXT_FILL = None
-ADD = None
-ALT = None
-ARROW = None
-AUTO = None
-AXES = None
-BACKSPACE = None
-BASELINE = None
-BEVEL = None
-BEZIER = None
-BLEND = None
-BLUR = None
-BOLD = None
-BOLDITALIC = None
-BOTTOM = None
-BURN = None
-CENTER = None
-CHORD = None
-CLAMP = None
-CLOSE = None
-CONTROL = None
-CORNER = None
-CORNERS = None
-CROSS = None
-CURVE = None
-DARKEST = None
-DEG_TO_RAD = None
-DEGREES = None
-DELETE = None
-DIFFERENCE = None
-DILATE = None
-DODGE = None
-DOWN_ARROW = None
-ENTER = None
-ERODE = None
-ESCAPE = None
-EXCLUSION = None
-FILL = None
-GRAY = None
-GRID = None
-HALF_PI = None
-HAND = None
-HARD_LIGHT = None
-HSB = None
-HSL = None
-IMAGE = None
-IMMEDIATE = None
-INVERT = None
-ITALIC = None
-LANDSCAPE = None
-LEFT = None
-LEFT_ARROW = None
-LIGHTEST = None
-LINE_LOOP = None
-LINE_STRIP = None
-LINEAR = None
-LINES = None
-MIRROR = None
-MITER = None
-MOVE = None
-MULTIPLY = None
-NEAREST = None
-NORMAL = None
-OPAQUE = None
-OPEN = None
-OPTION = None
-OVERLAY = None
-PI = None
-PIE = None
-POINTS = None
-PORTRAIT = None
-POSTERIZE = None
-PROJECT = None
-QUAD_STRIP = None
-QUADRATIC = None
-QUADS = None
-QUARTER_PI = None
-RAD_TO_DEG = None
-RADIANS = None
-RADIUS = None
-REPEAT = None
-REPLACE = None
-RETURN = None
-RGB = None
-RIGHT = None
-RIGHT_ARROW = None
-ROUND = None
-SCREEN = None
-SHIFT = None
-SOFT_LIGHT = None
-SQUARE = None
-STROKE = None
-SUBTRACT = None
-TAB = None
-TAU = None
-TEXT = None
-TEXTURE = None
-THRESHOLD = None
-TOP = None
-TRIANGLE_FAN = None
-TRIANGLE_STRIP = None
-TRIANGLES = None
-TWO_PI = None
-UP_ARROW = None
-WAIT = None
-WEBGL = None
-P2D = None
-PI = None
-frameCount = None
-focused = None
-displayWidth = None
-displayHeight = None
-windowWidth = None
-windowHeight = None
-width = None
-height = None
-disableFriendlyErrors = None
-deviceOrientation = None
-accelerationX = None
-accelerationY = None
-accelerationZ = None
-pAccelerationX = None
-pAccelerationY = None
-pAccelerationZ = None
-rotationX = None
-rotationY = None
-rotationZ = None
-pRotationX = None
-pRotationY = None
-pRotationZ = None
-turnAxis = None
-keyIsPressed = None
-key = None
-keyCode = None
-mouseX = None
-mouseY = None
-pmouseX = None
-pmouseY = None
-winMouseX = None
-winMouseY = None
-pwinMouseX = None
-pwinMouseY = None
-mouseButton = None
-mouseIsPressed = None
-touches = None
-pixels = None
 
 def pre_draw(p5_instance, draw_func):
     """
@@ -1041,7 +1045,7 @@ def start_p5(setup_func, draw_func, event_functions):
     # inject event functions into p5
     event_function_names = ["deviceMoved", "deviceTurned", "deviceShaken", "keyPressed", "keyReleased", "keyTyped", "mouseMoved", "mouseDragged", "mousePressed", "mouseReleased", "mouseClicked", "doubleClicked", "mouseWheel", "touchStarted", "touchMoved", "touchEnded", "windowResized", ]
 
-    for f_name in [f for f in event_function_names if f in event_functions]:
+    for f_name in [f for f in event_function_names if event_functions.get(f, None)]:
         func = event_functions[f_name]
         event_func = global_p5_injection(instance)(func)
         setattr(instance, f_name, event_func)

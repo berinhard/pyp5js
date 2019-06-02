@@ -1,6 +1,12 @@
 Development
 -----------
 
+0.1.0
+-----
+- Simplification of pytop5js usage
+- Support p5.dom.js library
+- Fixes on monitor observer
+
 0.0.7
 -----
 - Fix bug with monitor not running transcrypt more than once
@@ -13,17 +19,17 @@ Development
 
 0.0.5
 -----
-- Adds all p5's missing global variables
+- Add all p5's missing global variables
 
 0.0.4.1
 -------
-- Supports event functions such as `keyPressed`
+- Support event functions such as `keyPressed`
 
 0.0.4
 -----
-- Supports p5.js pop function
-- Adds `monitor` command to the CLI
-- Allows to run `pyp5js` commands specifying a directory
+- Support p5.js pop function
+- Add `monitor` command to the CLI
+- Allow to run `pyp5js` commands specifying a directory
 - First try on organizing the docs
 
 0.0.3
@@ -32,7 +38,7 @@ Development
 
 0.0.2
 -----
-- Supports more of P5's variable
+- Support more of P5's variable
 
 
 0.0.1

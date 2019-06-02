@@ -23,7 +23,7 @@ with open("README.md") as fd:
 
 setup(
     name="pyp5js",
-    version="0.0.7",
+    version="0.1.0",
     description='Simple tool to allow to transcrypt Python code that uses P5.js',
     long_description=long_description,
     long_description_content_type='text/markdown',

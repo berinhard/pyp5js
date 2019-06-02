@@ -43,6 +43,14 @@ class Pyp5jsSketchFiles():
         return self.static_dir.child('p5.js')
 
     @property
+    def p5_dom_js(self):
+        return self.static_dir.child('p5.dom.js')
+
+    @property
+    def target_sketch(self):
+        return self.sketch_dir.child("target_sketch.py")
+
+    @property
     def sketch_py(self):
         py_file = self.sketch_dir.child(f'{self.sketch_name}.py')
 
@@ -92,12 +100,20 @@ class Pyp5jsLibFiles():
         return self.templates_dir.child('pytop5js.py.template')
 
     @property
+    def target_sketch_template(self):
+        return self.templates_dir.child('target_sketch.py.template')
+
+    @property
     def index_html(self):
         return self.templates_dir.child('index.html')
 
     @property
     def p5js(self):
-        return self.static_dir.child('p5.js')
+        return self.static_dir.child('p5', 'p5.min.js')
+
+    @property
+    def p5_dom_js(self):
+        return self.static_dir.child('p5', 'addons', 'p5.dom.min.js')
 
     @property
     def p5_yml(self):
