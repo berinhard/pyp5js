@@ -81,11 +81,27 @@ All of the command-line interface methods have a few optional arguments, such as
 $ pyp5js --help
 ```
 
+### p5.dom.js
+
+To use [p5.dom.js functions](https://p5js.org/reference/#/libraries/p5.dom) such as `createDiv` or `createSlider` you'll have to call `add_library('p5.dom.js')`, like the following example:
+
+```python
+from pytop5js import *
+
+add_library("p5.dom.js")  # this will import p5.dom.js and make all functions available
+
+def setup():
+    createP("Hello world!")
+
+
+def draw():
+    pass
+```
+
+
 ### Known [issues](https://github.com/berinhard/pyp5js/issues) and differences to the Processing.Py and P5.js ways of doing things
 
 - Remember to use **P5.js** method names & conventions for most things.
-
-- The `p5.dom.js` library can be used, but you'll have to add it to the `index.html` yourself, and then it's methods and objects will be available with the `p5.` prefix.
 
 - There are no Py.Processing `with` context facilities for `push/pop` or `beginShape/endShape`.
 
