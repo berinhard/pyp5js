@@ -31,9 +31,9 @@ def new_sketch(sketch_name, sketch_dir):
     pyp5js_files = Pyp5jsLibFiles()
     templates_files = [
         (pyp5js_files.base_sketch, sketch_files.sketch_py),
-        (pyp5js_files.p5js, sketch_files.p5js)
+        (pyp5js_files.p5js, sketch_files.p5js),
+        (pyp5js_files.p5_dom_js, sketch_files.p5_dom_js),
     ]
-
 
     os.makedirs(sketch_files.sketch_dir)
     os.mkdir(sketch_files.static_dir)
@@ -44,7 +44,7 @@ def new_sketch(sketch_name, sketch_dir):
     with open(sketch_files.index_html, "w") as fd:
         fd.write(index_contet)
 
-    return sketch_files.sketch_py
+    return sketch_files.sketch_py, sketch_files.index_html
 
 
 def transcrypt_sketch(sketch_name, sketch_dir):
