@@ -1116,3 +1116,23 @@ def start_p5(setup_func, draw_func, event_functions):
         func = event_functions[f_name]
         event_func = global_p5_injection(instance)(func)
         setattr(instance, f_name, event_func)
+
+
+def logOnloaded():
+    console.log("Lib loaded!")
+
+
+def add_library(lib_name):
+    src = ''
+
+    if lib_name == 'p5.dom.js':
+        src = "static/p5.dom.js"
+    else:
+        console.log("Lib name is not valid: " + lib_name)
+        return
+
+    console.log("Importing: " + src)
+    script = document.createElement("script")
+    script.onload = logOnloaded
+    script.src = src
+    document.head.appendChild(script)
