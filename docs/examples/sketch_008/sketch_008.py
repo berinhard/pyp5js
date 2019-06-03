@@ -6,10 +6,10 @@ add_library("p5.dom.js")
 
 rect_base_size = 30
 positions = []
-rect_offset = None
+rect_size = None
 
 def setup():
-    global rect_offset
+    global rect_size
 
     createP("Hi! This is an example of how to use p5.dom.js with pyp5js")
 
@@ -18,11 +18,11 @@ def setup():
     slider_div.style("display", "block")
 
     # creates the slider
-    rect_offset = createSlider(0, 600, 100)
-    rect_offset.style('width', '50%')
+    rect_size = createSlider(0, 600, 100)
+    rect_size.style('width', '50%')
 
     # adds the slider to the container div
-    slider_div.child(rect_offset)
+    slider_div.child(rect_size)
 
     createCanvas(600, 600)
 
@@ -37,6 +37,6 @@ def setup():
 
 def draw():
     background(255)
-    size = rect_offset.value()
+    size = rect_size.value()
     for x, y in positions:
         rect(x, y, size, size)
