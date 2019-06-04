@@ -32,7 +32,7 @@ setup(
     maintainer_email='bernardoxhc@gmail.com',
     url="https://github.com/berinhard/pyp5js/",
     license='GNU Lesser General Public License version 3',
-    packages=find_packages(),
+    packages=find_packages(exclude=["tests"]),
     package_data={
         'pyp5js': [
             'assets/*',
