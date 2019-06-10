@@ -1,5 +1,7 @@
 Development
 -----------
+- Enable keyword argument
+- Enable checking for existence in dictionary keys
 
 0.1.1
 -----
