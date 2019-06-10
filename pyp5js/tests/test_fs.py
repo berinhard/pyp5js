@@ -6,7 +6,7 @@ from unittest import TestCase
 
 from pyp5js.fs import Pyp5jsLibFiles, Pyp5jsSketchFiles
 
-pyp5_dir = Path(__file__).ancestor(2).child('pyp5js')
+pyp5_dir = Path(__file__).ancestor(3).child('pyp5js')
 
 @pytest.fixture
 def lib_files():
