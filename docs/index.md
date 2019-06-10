@@ -109,6 +109,8 @@ def draw():
 
 - At this point, it is a known limitation that you have to "declare" global variables before `setup()` and `draw()`, maybe using `name = None`, as they can't be created inside methods.
 
+- For the `mouseWheel()` event funtion, use `def mouseWheel()` with NO parameters, then, inside the function, the magic `event.delta` will have a value equivalent to the one returned by Java&Python Mode's `event.getCount()`.  
+
 ## How can I contribute?
 
 ### Testing, testing and testing
