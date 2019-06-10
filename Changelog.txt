@@ -1,6 +1,10 @@
 Development
 -----------
 
+0.1.1
+-----
+- Fix install issue
+
 0.1.0
 -----
 - Simplification of pytop5js usage
