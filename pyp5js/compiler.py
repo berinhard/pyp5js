@@ -34,7 +34,7 @@ class Pyp5jsCompiler:
         """
         pyp5_dir = self.pyp5js_files.install
         return ' '.join([str(c) for c in [
-            'transcrypt', '-xp', pyp5_dir, '-b', '-m', '-n', self.sketch_files.target_sketch
+            'transcrypt', '-xp', pyp5_dir, '-k', '-ks', '-b', '-m', '-n', self.sketch_files.target_sketch
         ]])
 
     def run_compiler(self):

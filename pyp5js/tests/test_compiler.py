@@ -47,7 +47,7 @@ class Pyp5jsCompilerTests(TestCase):
         pyp5_dir = self.pyp5js_files.install
 
         expected = ' '.join([str(c) for c in [
-            'transcrypt', '-xp', pyp5_dir, '-b', '-m', '-n', self.files.target_sketch
+            'transcrypt', '-xp', pyp5_dir, '-k', '-ks', '-b', '-m', '-n', self.files.target_sketch
         ]])
 
         assert expected == self.compiler.command_line
