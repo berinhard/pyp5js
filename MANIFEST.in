@@ -1,0 +1,3 @@
+recursive-include pyp5js/static *
+recursive-include pyp5js/assets *
+recursive-include pyp5js/templates *
