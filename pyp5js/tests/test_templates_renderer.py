@@ -6,7 +6,7 @@ def test_get_target_sketch_template_content():
 
     expected = """
 import {{ sketch_name }} as source_sketch
-from pytop5js import *
+from pyp5js import *
 
 event_functions = {
     "keyPressed": source_sketch.keyPressed,
