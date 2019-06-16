@@ -39,10 +39,10 @@ def configure_new_sketch(sketch_name, sketch_dir, monitor):
         if sketch_dir:
             cmd += f" --sketch-dir {sketch_dir}"
         cprint.ok(cmd)
-        cprint.ok(f"And open {index_html.absolute()} on your browser to see yor results!")
+        cprint.ok(f"And open file://{index_html.absolute()} on your browser to see yor results!")
     else:
         cprint.ok(f"Please, open and edit the file {sketch_py} to draw.")
-        cprint.ok(f"And open {index_html.absolute()} on your browser to see yor results!")
+        cprint.ok(f"And open file://{index_html.absolute()} on your browser to see yor results!")
         commands.monitor_sketch(sketch_name, sketch_dir)
 
 
