@@ -32,7 +32,7 @@ def get_index_content(sketch_name, p5_js_url=None, sketch_js_url=None):
 
 
 def get_target_sketch_template_content(event_function_names):
-    content = "import {{ sketch_name }} as source_sketch\nfrom pytop5js import *\n\n"
+    content = "import {{ sketch_name }} as source_sketch\nfrom pyp5js import *\n\n"
     content += "event_functions = {\n"
 
     for event in event_function_names:

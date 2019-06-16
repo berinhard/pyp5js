@@ -1,5 +1,5 @@
 import sketch_003 as source_sketch
-from pytop5js import *
+from pyp5js import *
 
 event_functions = {
     "deviceMoved": source_sketch.deviceMoved,
