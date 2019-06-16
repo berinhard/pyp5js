@@ -64,7 +64,7 @@ def transcrypt_sketch(sketch_name, sketch_dir):
     $ pyp5js transcrypt my_sketch
     """
     index_file = commands.transcrypt_sketch(sketch_name, sketch_dir)
-    cprint.ok(f"Your sketch is ready and available at {index_file}")
+    cprint.ok(f"Your sketch is ready and available at file://{index_file.absolute()}")
 
 
 @command_line_entrypoint.command("monitor")
