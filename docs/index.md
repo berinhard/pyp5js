@@ -6,7 +6,7 @@ This project started from a proof of concept based in [Axel Tanner's "Transcrypt
 
 The project's main goal was to use Tanner's approach combined with decorator and global variables control to enable P5.js API from being called "directly" from the Python code as clean as possible.
 
-Here's an example of a valid Python code using P5.js API:
+`pyp5js` covers **all** the methods, variables and event handlers listed in [the p5.js API documentation](https://p5js.org/reference/). Here's an example of a valid Python code using p5.js API:
 
 ```python
 from pyp5js import *
