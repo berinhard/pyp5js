@@ -5,7 +5,7 @@
 Here's an example of a valid Python code using P5.js API:
 
 ```python
-from pytop5js import *
+from pyp5js import *
 
 def setup():
     createCanvas(200, 200)
