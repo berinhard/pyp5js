@@ -9,7 +9,7 @@ The project's main goal was to use Tanner's approach combined with decorator and
 Here's an example of a valid Python code using P5.js API:
 
 ```python
-from pytop5js import *
+from pyp5js import *
 
 def setup():
     createCanvas(200, 200)
@@ -86,7 +86,7 @@ $ pyp5js --help
 To use [p5.dom.js functions](https://p5js.org/reference/#/libraries/p5.dom) such as `createDiv` or `createSlider` you'll have to call `add_library('p5.dom.js')`, like the following example:
 
 ```python
-from pytop5js import *
+from pyp5js import *
 
 add_library("p5.dom.js")  # this will import p5.dom.js and make all functions available
 
@@ -108,6 +108,8 @@ def draw():
 - There are no `PVector` objects, with their nice syntatic operator overloaded sugar - use `p5.Vector` with `createVector()` and P5.js conventions ... for now...
 
 - At this point, it is a known limitation that you have to "declare" global variables before `setup()` and `draw()`, maybe using `name = None`, as they can't be created inside methods.
+
+- For the `mouseWheel()` event funtion, use `def mouseWheel()` with NO parameters, then, inside the function, the magic `event.delta` will have a value equivalent to the one returned by Java&Python Mode's `event.getCount()`.
 
 ## How can I contribute?
 
@@ -139,9 +141,9 @@ After that, you should have the `pyp5js` command enabled and it will respect all
 - `compiler.py`: where all the magic happens!
 - `fs.py`: classes to abstract the files and directories manipulations from the commands
 - `monitor.py`: module with the objects used by the `monitor` command
-- `pytop5js.py`: module which is imported by the sketches and integrates with P5.js API
+- `pyp5js.py`: module which is imported by the sketches and integrates with P5.js API
 - `template_renderer.py`: simple module with the renderization logic for the code templates like `target_sketch.py`
-- `update_pytop5js`: this script is responsible for generating the `pytop5js.py` file
+- `update_pytop5js`: this script is responsible for generating the `pyp5js.py` file
 
 I still have to add some tests to pyp5js, so I'd love help on that as well.
 

@@ -46,4 +46,4 @@ class TranscryptSketchEventHandler(PatternMatchingEventHandler):
             queue.get()
 
         index_file = self.sketch_files.index_html
-        cprint.ok(f"Your sketch is ready and available at {index_file}")
+        cprint.ok(f"Your sketch is ready and available at file://{index_file.absolute()}")

@@ -1,7 +1,7 @@
 # https://p5js.org/examples/interaction-wavemaker.html
 
 
-from pytop5js import *
+from pyp5js import *
 
 t = 0
 

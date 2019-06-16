@@ -1,6 +1,12 @@
 Development
 -----------
 
+0.2.0
+- Rename pyp5.js module from pytop5js to pyp5js
+- Enable keyword argument
+- Enable checking for existence in dictionary keys
+- Commands now printing index files as URI
+
 0.1.1
 -----
 - Fix install issue

@@ -1,4 +1,4 @@
-from pytop5js import *
+from pyp5js import *
 
 r = None
 def setup():

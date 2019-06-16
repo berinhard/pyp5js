@@ -1,4 +1,4 @@
-from pytop5js import *
+from pyp5js import *
 
 
 add_library("p5.dom.js")
