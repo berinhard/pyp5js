@@ -1,7 +1,7 @@
 # From Prof. Claudio Esperança examples for BrythonIDE
 # https://github.com/esperanc/brythonide/blob/master/demoSketches/boids.py
 
-from pytop5js import *
+from pyp5js import *
 
 boids = [];
 
