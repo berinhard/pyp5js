@@ -1,5 +1,6 @@
 import os
 import shutil
+
 from cprint import cprint
 from jinja2 import Environment, FileSystemLoader
 
@@ -7,6 +8,7 @@ from pyp5js.compiler import compile_sketch_js
 from pyp5js.fs import Pyp5jsSketchFiles, Pyp5jsLibFiles
 from pyp5js.monitor import monitor_sketch as monitor_sketch_service
 from pyp5js.templates_renderer import get_index_content
+from pyp5js.http import StandaloneApplication, sketch_files_app
 
 
 def new_sketch(sketch_name, sketch_dir):
@@ -91,3 +93,10 @@ def monitor_sketch(sketch_name, sketch_dir):
         monitor_sketch_service(sketch_files)
     except KeyboardInterrupt:
         cprint.info("Exiting monitor...")
+
+
+def serve_http(sketches_path, host, port, workers):
+    """Run a HTTP server which compiles sketches on the fly and serves static files"""
+
+    options = {"bind": f"{host}:{port}", "workers": workers}
+    StandaloneApplication(sketch_files_app(sketches_path), options).run()

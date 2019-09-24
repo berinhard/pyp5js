@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from pathlib import Path
+
 from cprint import cprint
 import click
 
@@ -85,6 +87,23 @@ def monitor_sketch(sketch_name, sketch_dir):
     $ pyp5js monitor my_sketch
     """
     commands.monitor_sketch(sketch_name, sketch_dir)
+
+
+@command_line_entrypoint.command("serve")
+@click.argument("sketches_path")
+@click.option("--host", default="127.0.0.1")
+@click.option("--port", default=8765)
+@click.option("--workers", default=4)
+def serve_sketches(sketches_path, host, port, workers):
+    """Run HTTP server to compile and serve sketches"""
+
+    sketches_path = Path(sketches_path)
+    if not sketches_path.exists():
+        cprint.err(f"ERROR: path <{sketches_path}> does not exist.")
+        exit(1)
+
+    commands.serve_http(sketches_path, host, port, workers)
+
 
 if __name__ == "__main__":
     command_line_entrypoint()
