@@ -22,13 +22,17 @@ def draw():
     r = sin(frameCount / 60) * 50 + 50
     ellipse(100, 100, r, r)
 ```
+
 ## Examples
-[Click here](https://berinhard.github.io/pyp5js/examples/) to see a list of examples generated with `pyp5js`.
+
+[Click here](https://berinhard.github.io/pyp5js/examples/) to see a list of
+examples generated with `pyp5js`.
 
 
 ## Installation
 
-This project requires Python 3 and is now on PyPI, so you can install it with `pip` or `pip3`, depending on your environment:
+This project requires Python 3 and is now on PyPI, so you can install it with
+`pip` or `pip3`, depending on your environment:
 
 ```
 $ pip install pyp5js
@@ -37,7 +41,9 @@ $ pip install pyp5js
 
 ## Usage
 
-Since you'll be writting Python code and then generating the correspondent P5.js code from it, pyp5js provides a simple command line API to help you to generate the files.
+Since you'll be writting Python code and then generating the correspondent
+P5.js code from it, pyp5js provides a simple command line interface to help you
+to generate the files.
 
 So, to start a new sketch, you'll have to run:
 
@@ -55,15 +61,37 @@ This command will create a directory with the following code structure:
   - my_sketch.py
 ```
 
-The `index.html` is prepared to display your sketch, so you'll have to keep it open in your browser (I really advise you to use [Firefox](https://www.mozilla.org/en-US/firefox/new/)) to see results from the code you'll add to `my_sketch.py`.
+The `index.html` is prepared to display your sketch, so you'll have to keep it
+open in your browser (I really advise you to use
+[Firefox](https://www.mozilla.org/en-US/firefox/new/)) to see results from the
+code you'll add to `my_sketch.py`.
 
-After updating your code, you'll have to run the `transcrypt` command to update the files. Run it as:
+To see your app on your browser you'll need to run a Web server (opening the
+"index.html" file directly won't work since [it is disabled by
+default](https://github.com/berinhard/pyp5js/issues/72)) - we packaged it
+already for you, just run:
+
+```bash
+$ pyp5js serve .
+# You may replace "." with any other path containing sketches.
+```
+
+Then point your browser to [http://localhost:8765/](http://localhost:8765/) and
+click on the sketches available. This command will compile the sketches on the
+fly, so after changing/saving the sketch file you just need to reload the page
+on your browser.
+
+If you just want to compile your code (without running the Web server) there's
+the `transcrypt` command:
 
 ```
 $ pyp5js transcrypt my_sketch
 ```
 
-If you're lazy as me, you can use the `monitor` command instead of the previous one. The command will monitor your sketch directory and keep track of any changes on any `.py` files. When it notices a new change, it automatically runs the transcrypt process for you. So, now you'll just have to refresh your `index.html` file in your browser to see the results.
+If you're lazy as me, you can use the `monitor` command instead of the previous
+one. The command will monitor your sketch directory and keep track of any
+changes on any `.py` files. When it notices a new change, it automatically runs
+the transcrypt process for you:
 
 ```
 $ pyp5js monitor my_sketch
@@ -75,7 +103,8 @@ You can also use the `monitor` command within the `new` by running:
 $ pyp5js new my_sketch --monitor
 ```
 
-All of the command-line interface methods have a few optional arguments, such as specifying the sketch directory. You can check them by running:
+All of the command-line interface methods have a few optional arguments, such
+as specifying the sketch directory. You can check them by running:
 
 ```
 $ pyp5js --help
