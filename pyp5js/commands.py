@@ -8,7 +8,7 @@ from pyp5js.compiler import compile_sketch_js
 from pyp5js.fs import Pyp5jsSketchFiles, Pyp5jsLibFiles
 from pyp5js.monitor import monitor_sketch as monitor_sketch_service
 from pyp5js.templates_renderer import get_index_content
-from pyp5js.http import StandaloneApplication, sketch_files_app
+from pyp5js.http import SketchesWebApplication
 
 
 def new_sketch(sketch_name, sketch_dir):
@@ -96,7 +96,17 @@ def monitor_sketch(sketch_name, sketch_dir):
 
 
 def serve_http(sketches_path, host, port, workers):
-    """Run a HTTP server which compiles sketches on the fly and serves static files"""
+    """
+    Run a HTTP server which compiles sketches on the fly and serves static files
 
+    :param sketches_path: directory to search for sketches
+    :type sketches_path: unipath.Path
+    :param host: server's hostname
+    :type host: string
+    :param port: server's port
+    :type port: int
+    :param workers: number of workers
+    :type workers: int
+    """
     options = {"bind": f"{host}:{port}", "workers": workers}
-    StandaloneApplication(sketch_files_app(sketches_path), options).run()
+    SketchesWebApplication(sketches_path, options).run()
