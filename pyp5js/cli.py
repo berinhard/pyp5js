@@ -99,8 +99,7 @@ def serve_sketches(sketches_path, host, port, workers):
 
     sketches_path = Path(sketches_path)
     if not sketches_path.exists():
-        cprint.err(f"ERROR: path <{sketches_path}> does not exist.")
-        exit(1)
+        cprint.err(f"ERROR: path <{sketches_path}> does not exist.", interrupt=True)
 
     commands.serve_http(sketches_path, host, port, workers)
 
