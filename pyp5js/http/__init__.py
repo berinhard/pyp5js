@@ -121,15 +121,15 @@ def sketch_files_app(base_path):
     return handler_app
 
 
-class StandaloneApplication(gunicorn.app.base.BaseApplication):
+class SketchesWebApplication(gunicorn.app.base.BaseApplication):
     """Standalone gunicorn application
 
     Got from: <https://github.com/benoitc/gunicorn/blob/master/examples/standalone_app.py>
     """
 
-    def __init__(self, app, options=None):
+    def __init__(self, sketches_path, options=None):
         self.options = options or {}
-        self.application = app
+        self.application = sketch_files_app(sketches_path)
         super().__init__()
 
     def load_config(self):
