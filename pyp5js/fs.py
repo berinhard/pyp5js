@@ -93,7 +93,7 @@ class Pyp5jsLibFiles():
 
     @property
     def base_sketch(self):
-        return self.templates_dir.child('base_sketch.py')
+        return self.templates_dir.child('base_sketch.py.template')
 
     @property
     def pytop5js_template(self):
