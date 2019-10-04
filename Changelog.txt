@@ -1,6 +1,10 @@
 Development
 -----------
 
+0.3.0 (in development)
+-----
+- Create `pyp5js serve` command (HTTP server, compiles sketches on the fly)
+
 0.2.0
 -----
 - Rename pyp5.js module from pytop5js to pyp5js
