@@ -96,7 +96,18 @@ def monitor_sketch(sketch_name, sketch_dir):
 
 
 def serve_http(sketches_path, host, port, workers):
-    """Run a HTTP server which compiles sketches on the fly and serves static files"""
+    """
+    Run a HTTP server which compiles sketches on the fly and serves static files
+
+    :param sketches_path: directory to search for sketches
+    :type sketches_path: unipath.Path
+    :param host: server's hostname
+    :type host: string
+    :param port: server's port
+    :type port: int
+    :param workers: number of workers
+    :type workers: int
+    """
 
     options = {"bind": f"{host}:{port}", "workers": workers}
     StandaloneApplication(sketch_files_app(sketches_path), options).run()

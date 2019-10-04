@@ -92,7 +92,7 @@ def monitor_sketch(sketch_name, sketch_dir):
 @command_line_entrypoint.command("serve")
 @click.argument("sketches_path")
 @click.option("--host", default="127.0.0.1")
-@click.option("--port", default=8765)
+@click.option("--port", default=8000)
 @click.option("--workers", default=4)
 def serve_sketches(sketches_path, host, port, workers):
     """Run HTTP server to compile and serve sketches"""
