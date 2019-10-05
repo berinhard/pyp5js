@@ -53,6 +53,9 @@ class SketchFiles():
     def target_dir(self):
         return self.sketch_dir.joinpath(self.TARGET_NAME)
 
+    def __eq__(self, other):
+        return self.sketch_name == other.sketch_name
+
 
 class LibFiles():
 

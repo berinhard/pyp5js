@@ -3,7 +3,7 @@ from pyp5js.fs import SketchFiles
 
 
 def test_get_sketch_index_content():
-    sketch_files = SketchFiles('dir', 'foo')
+    sketch_files = SketchFiles('foo')
 
     expected_template = renderers.templates.get_template(sketch_files.from_lib.index_html.name)
     expected_content = expected_template.render({
@@ -16,7 +16,7 @@ def test_get_sketch_index_content():
 
 
 def test_get_target_sketch_content():
-    sketch_files = SketchFiles('dir', 'foo')
+    sketch_files = SketchFiles('foo')
 
     expected_template = renderers.templates.get_template(sketch_files.from_lib.target_sketch_template.name)
     expected_content = expected_template.render({
