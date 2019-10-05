@@ -172,7 +172,7 @@ After that, you should have the `pyp5js` command enabled and it will respect all
 - `monitor.py`: module with the objects used by the `monitor` command
 - `pyp5js.py`: module which is imported by the sketches and integrates with P5.js API
 - `template_renderer.py`: simple module with the renderization logic for the code templates like `target_sketch.py`
-- `update_pytop5js`: this script is responsible for generating the `pyp5js.py` file
+- `utils/update_pytop5js`: this script is responsible for generating the `pyp5js.py` file
 
 I still have to add some tests to pyp5js, so I'd love help on that as well.
 

@@ -1,11 +1,44 @@
 import yaml
 from cprint import cprint
 
-from pyp5js.fs import LibFiles, SketchFiles
-from pyp5js.templates_renderer import get_pytop5js_content, get_target_sketch_template_content
+from pyp5js.fs import LibFiles
+from pyp5js.templates_renderer import templates
+
+
+pyp5js_files = LibFiles()
+
+
+def get_pytop5js_content(variables_names, methods_names, event_function_names):
+    """
+    Renders content for the final pyp5js/pyp5js.py file
+    """
+    pyp5_template = templates.get_template(
+        str(pyp5js_files.pytop5js_template.name)
+    )
+    context = {
+        'function_names': methods_names,
+        'variables_names': variables_names,
+        'event_function_names': event_function_names,
+    }
+    return pyp5_template.render(context)
+
+
+def get_target_sketch_template_content(event_function_names):
+    """
+    Renders the content for pyp5js/templates/target_sketch.py.template file
+    """
+    content = "import {{ sketch_name }} as source_sketch\nfrom pyp5js import *\n\n"
+    content += "event_functions = {\n"
+
+    for event in event_function_names:
+        content += f'    "{event}": source_sketch.{event},\n'
+
+    content += '}\n\nstart_p5(source_sketch.setup, source_sketch.draw, event_functions)'
+
+    return content
+
 
 if __name__ == '__main__':
-    pyp5js_files = LibFiles()
 
     with open(pyp5js_files.p5_yml) as fd:
         data = yaml.load(fd.read())
