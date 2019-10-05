@@ -2,7 +2,6 @@ import shlex
 import shutil
 import subprocess
 from cprint import cprint
-from unipath import Path
 
 from pyp5js.fs import Pyp5jsLibFiles
 from pyp5js.templates_renderer import get_target_sketch_content
