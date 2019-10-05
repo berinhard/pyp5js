@@ -1,34 +1,29 @@
+import os
+import shutil
 from pathlib import Path
 from cprint import cprint
+
+from pyp5js.config import SKETCHBOOK_DIR
 
 
 class SketchFiles():
     TARGET_NAME = 'target'
     STATIC_NAME = 'static'
 
-    def __init__(self, sketch_dir, sketch_name, check_sketch_dir=True):
-        self._sketch_dir = sketch_dir or ''
+    def __init__(self, sketch_name):
         self.sketch_name = sketch_name
-        self.check_sketch_dir = check_sketch_dir
         self.from_lib = LibFiles()
 
-    def can_create_sketch(self):
-        return not self.sketch_dir.exists()
-
-    def check_sketch_exists(self):
-        return self.sketch_py.exists()
+    def create_sketch_dir(self):
+        if self.sketch_dir.exists():
+            cprint.err(f'Cannot create the directory {self.sketch_dir} because it already exists.', interrupt=True)
+        os.makedirs(self.sketch_dir)
+        self.static_dir.mkdir()
+        self.target_dir.mkdir()
 
     @property
     def sketch_dir(self):
-        sketch_dir = Path(self._sketch_dir)
-
-        if not self._sketch_dir:
-            return sketch_dir.joinpath(f'{self.sketch_name}')
-
-        if self.check_sketch_dir and not sketch_dir.exists():
-            cprint.err(f"The directory {sketch_dir} does not exists.", interrupt=True)
-
-        return sketch_dir
+        return SKETCHBOOK_DIR.joinpath(f'{self.sketch_name}')
 
     @property
     def static_dir(self):
@@ -52,18 +47,7 @@ class SketchFiles():
 
     @property
     def sketch_py(self):
-        py_file = self.sketch_dir.joinpath(f'{self.sketch_name}.py')
-
-        if self.check_sketch_dir and not py_file.exists():
-            cwd_py_file = Path.cwd().joinpath(f"{self.sketch_name}.py")
-            if not cwd_py_file.exists():
-                cprint.warn(f"Couldn't find the sketch.")
-                cprint.err(f"Neither the file {py_file} or {cwd_py_file} exist.", interrupt=True)
-
-            py_file = cwd_py_file
-            self._sketch_dir = py_file.parent
-
-        return py_file
+        return self.sketch_dir.joinpath(f'{self.sketch_name}.py')
 
     @property
     def target_dir(self):
