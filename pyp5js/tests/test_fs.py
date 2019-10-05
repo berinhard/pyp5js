@@ -100,3 +100,8 @@ class SketchFilesTests(TestCase):
         with self.files.sketch_py.open('w') as fd:
             fd.write("import this")
         assert self.files.check_sketch_exists() is True
+
+    def test_sketch_files_holds_reference_to_lib_files(self):
+        lib_files = LibFiles()
+        assert isinstance(self.files.from_lib, LibFiles)
+        assert self.files.from_lib.install == lib_files.install

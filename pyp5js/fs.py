@@ -10,6 +10,7 @@ class SketchFiles():
         self._sketch_dir = sketch_dir or ''
         self.sketch_name = sketch_name
         self.check_sketch_dir = check_sketch_dir
+        self.from_lib = LibFiles()
 
     def can_create_sketch(self):
         return not self.sketch_dir.exists()
