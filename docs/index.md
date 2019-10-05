@@ -33,13 +33,48 @@ examples generated with `pyp5js`.
 
 ## Installation
 
-This project requires Python 3 and is now on PyPI, so you can install it with
-`pip` or `pip3`, depending on your environment:
+You can chosse between using pip or docker:
+
+### Using pip
+
+This project requires Python3 and is available on PyPI, so you can install it
+with `pip` or `pip3`, depending on your environment:
 
 ```
 $ pip install pyp5js
 ```
+
 (You might have to install `setuptools` first, if it's not already installed)
+
+### Using docker
+
+If you have [docker](https://docker.io/) already installed, just run:
+
+```
+$ docker run --publish=8000:8000 --volume=$(pwd):/sketches --rm turicas/pyp5js
+```
+
+This will run a container with `pyp5js serve` HTTP server listening on port
+8000 and serving the current directories' sketches. Now go to
+[http://localhost:8000](http://localhost:8000) and enjoy! :)
+
+
+#### Build/tag/publish the image
+
+There are make targets to build, tag, publish and also run the image created
+locally:
+
+- `make docker-build`: build a new image
+- `make docker-tag`: tag the built image using first 8 chars from commit SHA1
+- `make docker-push`: push to [Docker Hub](https://hub.docker.io/)
+- `make docker-serve`: run `pyp5js serve` using the local image
+- `make docker-sh`: run `bash` using the local image
+
+> Note: the `docker-tag` and `docker-push` targets will use `$USER` as the
+> [Docker Hub](https://hub.docker.io/) username. If your system user is not the
+> same as Hub's username you can override the variable `DOCKERHUB_USER`, like
+> in: `make docker-tag DOCKERHUB_USER=xpto`.
+
 
 ## Quickstart
 
