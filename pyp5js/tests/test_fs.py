@@ -1,12 +1,12 @@
 import os
 import pytest
 import shutil
-from unipath import Path
+from pathlib import Path
 from unittest import TestCase
 
 from pyp5js.fs import Pyp5jsLibFiles, Pyp5jsSketchFiles
 
-pyp5_dir = Path(__file__).ancestor(3).child('pyp5js')
+pyp5_dir = Path(__file__).parents[2].joinpath('pyp5js')
 
 @pytest.fixture
 def lib_files():
@@ -15,39 +15,39 @@ def lib_files():
 def test_dir_properties(lib_files):
     assert pyp5_dir.exists()
 
-    assert lib_files.templates_dir == pyp5_dir.child('templates')
+    assert lib_files.templates_dir == pyp5_dir.joinpath('templates')
     assert lib_files.templates_dir.exists()
-    assert lib_files.assets_dir == pyp5_dir.child('assets')
+    assert lib_files.assets_dir == pyp5_dir.joinpath('assets')
     assert lib_files.assets_dir.exists()
-    assert lib_files.static_dir == pyp5_dir.child('static')
+    assert lib_files.static_dir == pyp5_dir.joinpath('static')
     assert lib_files.static_dir.exists()
 
 
 def test_files_properties(lib_files):
     assert pyp5_dir.exists()
 
-    assert lib_files.pytop5js == pyp5_dir.child('pyp5js.py')
+    assert lib_files.pytop5js == pyp5_dir.joinpath('pyp5js.py')
     assert lib_files.pytop5js.exists()
 
-    assert lib_files.base_sketch == pyp5_dir.child('templates', 'base_sketch.py.template')
+    assert lib_files.base_sketch == pyp5_dir.joinpath('templates', 'base_sketch.py.template')
     assert lib_files.base_sketch.exists()
 
-    assert lib_files.pytop5js_template == pyp5_dir.child('templates', 'pyp5js.py.template')
+    assert lib_files.pytop5js_template == pyp5_dir.joinpath('templates', 'pyp5js.py.template')
     assert lib_files.pytop5js_template.exists()
 
-    assert lib_files.target_sketch_template == pyp5_dir.child('templates', 'target_sketch.py.template')
+    assert lib_files.target_sketch_template == pyp5_dir.joinpath('templates', 'target_sketch.py.template')
     assert lib_files.target_sketch_template.exists()
 
-    assert lib_files.index_html == pyp5_dir.child('templates', 'index.html')
+    assert lib_files.index_html == pyp5_dir.joinpath('templates', 'index.html')
     assert lib_files.index_html.exists()
 
-    assert lib_files.p5js == pyp5_dir.child('static', 'p5', 'p5.min.js')
+    assert lib_files.p5js == pyp5_dir.joinpath('static', 'p5', 'p5.min.js')
     assert lib_files.p5js.exists()
 
-    assert lib_files.p5_dom_js == pyp5_dir.child('static', 'p5', 'addons', 'p5.dom.min.js')
+    assert lib_files.p5_dom_js == pyp5_dir.joinpath('static', 'p5', 'addons', 'p5.dom.min.js')
     assert lib_files.p5_dom_js.exists()
 
-    assert lib_files.p5_yml == pyp5_dir.child('assets', 'p5_reference.yml')
+    assert lib_files.p5_yml == pyp5_dir.joinpath('assets', 'p5_reference.yml')
     assert lib_files.p5_yml.exists()
 
 
@@ -59,6 +59,7 @@ class Pyp5jsSketchFilesTests(TestCase):
         self.files = Pyp5jsSketchFiles('', self.sketch_name)
 
     def tearDown(self):
+        pass
         try:
             if self.files.sketch_dir.exists():
                 shutil.rmtree(self.files.sketch_dir)

@@ -1,5 +1,6 @@
 import os
 from unipath import Path
+from pathlib import Path as Path2
 from cprint import cprint
 
 
@@ -73,48 +74,48 @@ class Pyp5jsSketchFiles():
 class Pyp5jsLibFiles():
 
     def __init__(self):
-        self.install = Path(__file__).parent
+        self.install = Path2(__file__).parent
 
     @property
     def templates_dir(self):
-        return self.install.child('templates')
+        return self.install.joinpath('templates')
 
     @property
     def assets_dir(self):
-        return self.install.child('assets')
+        return self.install.joinpath('assets')
 
     @property
     def static_dir(self):
-        return self.install.child('static')
+        return self.install.joinpath('static')
 
     @property
     def pytop5js(self):
-        return self.install.child('pyp5js.py')
+        return self.install.joinpath('pyp5js.py')
 
     @property
     def base_sketch(self):
-        return self.templates_dir.child('base_sketch.py.template')
+        return self.templates_dir.joinpath('base_sketch.py.template')
 
     @property
     def pytop5js_template(self):
-        return self.templates_dir.child('pyp5js.py.template')
+        return self.templates_dir.joinpath('pyp5js.py.template')
 
     @property
     def target_sketch_template(self):
-        return self.templates_dir.child('target_sketch.py.template')
+        return self.templates_dir.joinpath('target_sketch.py.template')
 
     @property
     def index_html(self):
-        return self.templates_dir.child('index.html')
+        return self.templates_dir.joinpath('index.html')
 
     @property
     def p5js(self):
-        return self.static_dir.child('p5', 'p5.min.js')
+        return self.static_dir.joinpath('p5', 'p5.min.js')
 
     @property
     def p5_dom_js(self):
-        return self.static_dir.child('p5', 'addons', 'p5.dom.min.js')
+        return self.static_dir.joinpath('p5', 'addons', 'p5.dom.min.js')
 
     @property
     def p5_yml(self):
-        return self.assets_dir.child('p5_reference.yml')
+        return self.assets_dir.joinpath('p5_reference.yml')
