@@ -2,7 +2,7 @@ import pytest
 from unittest.mock import Mock, patch
 
 from pyp5js import commands
-from pyp5js.fs import SketchFiles, LibFiles
+from pyp5js.fs import SketchFiles
 
 
 @patch('pyp5js.commands.SketchFiles')

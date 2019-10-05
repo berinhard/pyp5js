@@ -5,7 +5,7 @@ from cprint import cprint
 from jinja2 import Environment, FileSystemLoader
 
 from pyp5js.compiler import compile_sketch_js
-from pyp5js.fs import SketchFiles, LibFiles
+from pyp5js.fs import SketchFiles
 from pyp5js.monitor import monitor_sketch as monitor_sketch_service
 from pyp5js.templates_renderer import get_index_content
 from pyp5js.http import SketchesWebApplication
@@ -30,11 +30,10 @@ def new_sketch(sketch_name, sketch_dir):
         cprint.warn(f"Cannot configure a new sketch.")
         cprint.err(f"The directory {sketch_files.sketch_dir} already exists.", interrupt=True)
 
-    pyp5js_files = LibFiles()
     templates_files = [
-        (pyp5js_files.base_sketch, sketch_files.sketch_py),
-        (pyp5js_files.p5js, sketch_files.p5js),
-        (pyp5js_files.p5_dom_js, sketch_files.p5_dom_js),
+        (sketch_files.from_lib.base_sketch, sketch_files.sketch_py),
+        (sketch_files.from_lib.p5js, sketch_files.p5js),
+        (sketch_files.from_lib.p5_dom_js, sketch_files.p5_dom_js),
     ]
 
     os.makedirs(sketch_files.sketch_dir)
