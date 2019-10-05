@@ -45,7 +45,7 @@ def get_target_sketch_template_content(event_function_names):
 
 def get_target_sketch_content(sketch_name):
     context = {"sketch_name": sketch_name}
-    templates = Environment(loader=FileSystemLoader(pyp5js_files.templates_dir))
+    templates = Environment(loader=FileSystemLoader(str(pyp5js_files.templates_dir.resolve())))
     index_template = templates.get_template(
         str(pyp5js_files.target_sketch_template.name)
     )

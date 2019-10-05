@@ -38,7 +38,7 @@ def new_sketch(sketch_name, sketch_dir):
     ]
 
     os.makedirs(sketch_files.sketch_dir)
-    os.mkdir(sketch_files.static_dir)
+    sketch_files.static_dir.mkdir()
     for src, dest in templates_files:
         shutil.copyfile(src, dest)
 
@@ -100,7 +100,7 @@ def serve_http(sketches_path, host, port, workers):
     Run a HTTP server which compiles sketches on the fly and serves static files
 
     :param sketches_path: directory to search for sketches
-    :type sketches_path: unipath.Path
+    :type sketches_path: pathlib.Path
     :param host: server's hostname
     :type host: string
     :param port: server's port

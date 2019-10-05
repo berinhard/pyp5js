@@ -1,7 +1,6 @@
 import pytest
 import shlex
 import shutil
-import os
 from unittest import TestCase
 from unittest.mock import Mock, patch
 from subprocess import Popen
@@ -23,7 +22,6 @@ def test_compile_sketch_js_service(MockedCompiler):
     compiler.compile_sketch_js.assert_called_once_with()
 
 
-@pytest.mark.skip()
 class Pyp5jsCompilerTests(TestCase):
 
     def setUp(self):
@@ -31,8 +29,8 @@ class Pyp5jsCompilerTests(TestCase):
         self.files = Pyp5jsSketchFiles('dir', 'foo', check_sketch_dir=False)
         self.compiler = Pyp5jsCompiler(self.files)
 
-        os.mkdir(self.files.sketch_dir)
-        with open(self.files.sketch_py, 'w') as fd:
+        self.files.sketch_dir.mkdir()
+        with self.files.sketch_py.open('w') as fd:
             fd.write('hi')
 
     def tearDown(self):
@@ -43,7 +41,7 @@ class Pyp5jsCompilerTests(TestCase):
             pass
 
     def test_transcrypt_target_dir_path(self):
-        assert self.files.sketch_dir.child('__target__') == self.compiler.target_dir
+        assert self.files.sketch_dir.joinpath('__target__') == self.compiler.target_dir
 
     def test_command_line_string(self):
         pyp5_dir = self.pyp5js_files.install
@@ -66,7 +64,7 @@ class Pyp5jsCompilerTests(TestCase):
         proc.wait.assert_called_once_with()
 
     def test_clean_up(self):
-        os.mkdir(self.compiler.target_dir)
+        self.compiler.target_dir.mkdir()
         with open(self.files.target_sketch, 'w') as fd:
             fd.write('some content')
 

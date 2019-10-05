@@ -1,4 +1,3 @@
-import os
 import shlex
 import shutil
 import subprocess
@@ -25,7 +24,7 @@ class Pyp5jsCompiler:
         """
         Path to directory with the js and assets files
         """
-        return self.sketch_files.sketch_dir.child('__target__')
+        return self.sketch_files.sketch_dir.joinpath('__target__')
 
     @property
     def command_line(self):
@@ -58,13 +57,13 @@ class Pyp5jsCompiler:
         shutil.move(self.target_dir, self.sketch_files.target_dir)
 
         if self.sketch_files.target_sketch.exists():
-            os.remove(self.sketch_files.target_sketch)
+            self.sketch_files.target_sketch.unlink()
 
     def prepare(self):
         """
         Creates target_sketch.py to import the sketch's functions
         """
-        with open(self.sketch_files.target_sketch, 'w') as fd:
+        with self.sketch_files.target_sketch.open('w') as fd:
             content = get_target_sketch_content(self.sketch_files.sketch_name)
             fd.write(content)
 
