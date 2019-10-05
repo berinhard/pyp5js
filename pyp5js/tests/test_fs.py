@@ -51,6 +51,7 @@ def test_files_properties(lib_files):
     assert lib_files.p5_yml.exists()
 
 
+@pytest.mark.skip()
 class Pyp5jsSketchFilesTests(TestCase):
 
     def setUp(self):

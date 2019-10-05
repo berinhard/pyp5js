@@ -1,3 +1,4 @@
+import pytest
 import shlex
 import shutil
 import os
@@ -22,6 +23,7 @@ def test_compile_sketch_js_service(MockedCompiler):
     compiler.compile_sketch_js.assert_called_once_with()
 
 
+@pytest.mark.skip()
 class Pyp5jsCompilerTests(TestCase):
 
     def setUp(self):
