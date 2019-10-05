@@ -6,8 +6,9 @@ from textwrap import dedent
 
 import gunicorn.app.base
 
+from pyp5js.config import SKETCHBOOK_DIR
 from pyp5js.compiler import compile_sketch_js
-from pyp5js.fs import Pyp5jsSketchFiles
+from pyp5js.fs import SketchFiles
 
 
 def make_sketches_list(path):
@@ -62,10 +63,10 @@ def get_response_data(fobj):
     return response_headers, response_body
 
 
-def sketch_files_app(base_path):
+def sketch_files_app():
     """Handle WSGI requests to serve sketches (compiles + serve static files)"""
 
-    base_path = base_path.resolve()  # must be a pathlib.Path instance
+    base_path = SKETCHBOOK_DIR.resolve()  # must be a pathlib.Path instance
     base_path_str = str(base_path)
 
     def handler_app(environ, start_response):
@@ -101,11 +102,8 @@ def sketch_files_app(base_path):
                 # Probably inside a sketch directory, let's compile it
                 # XXX: the sketch Python file should be the same as it's parent
                 # directory name. Example: /home/user/mysketches/s1/s1.py
-                sketch_files = Pyp5jsSketchFiles(
-                    str(full_path.absolute()),
-                    str(full_path.name)
-                )
-                if not sketch_files.check_sketch_exists():
+                sketch_files = SketchFiles(full_path.absolute().name)
+                if not sketch_files.sketch_exists:
                     start_response("404 NOT FOUND", [("Content-Type", "text/plain")])
                     return [b"Sketch not found =/"]
                 compile_sketch_js(sketch_files)
@@ -127,9 +125,9 @@ class SketchesWebApplication(gunicorn.app.base.BaseApplication):
     Got from: <https://github.com/benoitc/gunicorn/blob/master/examples/standalone_app.py>
     """
 
-    def __init__(self, sketches_path, options=None):
+    def __init__(self, options=None):
         self.options = options or {}
-        self.application = sketch_files_app(sketches_path)
+        self.application = sketch_files_app()
         super().__init__()
 
     def load_config(self):

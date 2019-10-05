@@ -6,13 +6,12 @@ from watchdog.observers import Observer
 from pyp5js.compiler import compile_sketch_js
 
 
-
 def monitor_sketch(sketch_files):
     observer = Observer()
 
     event_handler = TranscryptSketchEventHandler(sketch_files=sketch_files, observer=observer)
 
-    observer.schedule(event_handler, sketch_files.sketch_dir)
+    observer.schedule(event_handler, str(sketch_files.sketch_dir.resolve()))
     observer.start()
     try:
         while True:

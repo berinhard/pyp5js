@@ -1,5 +1,5 @@
 serve:
-	@pyp5js serve .
+	@pyp5js serve
 
 compile:
 	@transcrypt -b -m -n sketch

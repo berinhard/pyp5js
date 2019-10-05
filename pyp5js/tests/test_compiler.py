@@ -6,13 +6,21 @@ from unittest.mock import Mock, patch
 from subprocess import Popen
 
 from pyp5js.compiler import Pyp5jsCompiler, compile_sketch_js
-from pyp5js.fs import Pyp5jsSketchFiles, Pyp5jsLibFiles
-from pyp5js.templates_renderer import get_target_sketch_content
+from pyp5js.config import SKETCHBOOK_DIR
+from pyp5js.fs import SketchFiles, LibFiles
+from pyp5js.templates_renderers import get_target_sketch_content
+
+
+@pytest.fixture()
+def files():
+    files = SketchFiles('foo')
+    files.create_sketch_dir()
+    yield files
+    shutil.rmtree(SKETCHBOOK_DIR)
 
 
 @patch('pyp5js.compiler.Pyp5jsCompiler')
-def test_compile_sketch_js_service(MockedCompiler):
-    files = Mock(spec=Pyp5jsSketchFiles)
+def test_compile_sketch_js_service(MockedCompiler, files):
     compiler = Mock(spec=Pyp5jsCompiler)
     MockedCompiler.return_value = compiler
 
@@ -25,20 +33,16 @@ def test_compile_sketch_js_service(MockedCompiler):
 class Pyp5jsCompilerTests(TestCase):
 
     def setUp(self):
-        self.pyp5js_files = Pyp5jsLibFiles()
-        self.files = Pyp5jsSketchFiles('dir', 'foo', check_sketch_dir=False)
+        self.pyp5js_files = LibFiles()
+        self.files = SketchFiles('foo')
         self.compiler = Pyp5jsCompiler(self.files)
 
-        self.files.sketch_dir.mkdir()
-        with self.files.sketch_py.open('w') as fd:
-            fd.write('hi')
+        self.files.create_sketch_dir()
+        self.files.sketch_py.touch()
 
     def tearDown(self):
-        try:
-            if self.files.sketch_dir.exists():
-                shutil.rmtree(self.files.sketch_dir)
-        except SystemExit:
-            pass
+        if SKETCHBOOK_DIR.exists():
+            shutil.rmtree(SKETCHBOOK_DIR)
 
     def test_transcrypt_target_dir_path(self):
         assert self.files.sketch_dir.joinpath('__target__') == self.compiler.target_dir
@@ -65,8 +69,7 @@ class Pyp5jsCompilerTests(TestCase):
 
     def test_clean_up(self):
         self.compiler.target_dir.mkdir()
-        with open(self.files.target_sketch, 'w') as fd:
-            fd.write('some content')
+        self.files.target_sketch.touch()
 
         self.compiler.clean_up()
 
@@ -75,12 +78,12 @@ class Pyp5jsCompilerTests(TestCase):
         assert not self.files.target_sketch.exists()
 
     def test_prepare_sketch(self):
-        expected_content = get_target_sketch_content(self.files.sketch_name)
+        expected_content = get_target_sketch_content(self.files)
         assert not self.files.target_sketch.exists()
 
         self.compiler.prepare()
 
         assert self.files.target_sketch.exists()
-        with open(self.files.target_sketch, 'r') as fd:
+        with self.files.target_sketch.open('r') as fd:
             content = fd.read()
         assert expected_content == content
