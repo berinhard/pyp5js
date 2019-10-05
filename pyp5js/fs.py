@@ -2,7 +2,7 @@ from pathlib import Path
 from cprint import cprint
 
 
-class Pyp5jsSketchFiles():
+class SketchFiles():
     TARGET_NAME = 'target'
     STATIC_NAME = 'static'
 
@@ -69,7 +69,7 @@ class Pyp5jsSketchFiles():
         return self.sketch_dir.joinpath(self.TARGET_NAME)
 
 
-class Pyp5jsLibFiles():
+class LibFiles():
 
     def __init__(self):
         self.install = Path(__file__).parent

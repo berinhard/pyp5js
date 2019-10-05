@@ -6,13 +6,13 @@ from unittest.mock import Mock, patch
 from subprocess import Popen
 
 from pyp5js.compiler import Pyp5jsCompiler, compile_sketch_js
-from pyp5js.fs import Pyp5jsSketchFiles, Pyp5jsLibFiles
+from pyp5js.fs import SketchFiles, LibFiles
 from pyp5js.templates_renderer import get_target_sketch_content
 
 
 @patch('pyp5js.compiler.Pyp5jsCompiler')
 def test_compile_sketch_js_service(MockedCompiler):
-    files = Mock(spec=Pyp5jsSketchFiles)
+    files = Mock(spec=SketchFiles)
     compiler = Mock(spec=Pyp5jsCompiler)
     MockedCompiler.return_value = compiler
 
@@ -25,8 +25,8 @@ def test_compile_sketch_js_service(MockedCompiler):
 class Pyp5jsCompilerTests(TestCase):
 
     def setUp(self):
-        self.pyp5js_files = Pyp5jsLibFiles()
-        self.files = Pyp5jsSketchFiles('dir', 'foo', check_sketch_dir=False)
+        self.pyp5js_files = LibFiles()
+        self.files = SketchFiles('dir', 'foo', check_sketch_dir=False)
         self.compiler = Pyp5jsCompiler(self.files)
 
         self.files.sketch_dir.mkdir()

@@ -5,7 +5,7 @@ from cprint import cprint
 from jinja2 import Environment, FileSystemLoader
 
 from pyp5js.compiler import compile_sketch_js
-from pyp5js.fs import Pyp5jsSketchFiles, Pyp5jsLibFiles
+from pyp5js.fs import SketchFiles, LibFiles
 from pyp5js.monitor import monitor_sketch as monitor_sketch_service
 from pyp5js.templates_renderer import get_index_content
 from pyp5js.http import SketchesWebApplication
@@ -25,12 +25,12 @@ def new_sketch(sketch_name, sketch_dir):
     :rtype: list of strings
     """
 
-    sketch_files = Pyp5jsSketchFiles(sketch_dir, sketch_name, check_sketch_dir=False)
+    sketch_files = SketchFiles(sketch_dir, sketch_name, check_sketch_dir=False)
     if not sketch_files.can_create_sketch():
         cprint.warn(f"Cannot configure a new sketch.")
         cprint.err(f"The directory {sketch_files.sketch_dir} already exists.", interrupt=True)
 
-    pyp5js_files = Pyp5jsLibFiles()
+    pyp5js_files = LibFiles()
     templates_files = [
         (pyp5js_files.base_sketch, sketch_files.sketch_py),
         (pyp5js_files.p5js, sketch_files.p5js),
@@ -61,7 +61,7 @@ def transcrypt_sketch(sketch_name, sketch_dir):
     :rtype: list of strings
     """
 
-    sketch_files = Pyp5jsSketchFiles(sketch_dir, sketch_name)
+    sketch_files = SketchFiles(sketch_dir, sketch_name)
     if not sketch_files.check_sketch_exists():
         cprint.err(f"Couldn't find {sketch_name}", interrupt=True)
 
@@ -83,7 +83,7 @@ def monitor_sketch(sketch_name, sketch_dir):
     :rtype: list of strings
     """
 
-    sketch_files = Pyp5jsSketchFiles(sketch_dir, sketch_name)
+    sketch_files = SketchFiles(sketch_dir, sketch_name)
     if not sketch_files.check_sketch_exists():
         cprint.err(f"Couldn't find {sketch_name}", interrupt=True)
 

@@ -7,7 +7,7 @@ from textwrap import dedent
 import gunicorn.app.base
 
 from pyp5js.compiler import compile_sketch_js
-from pyp5js.fs import Pyp5jsSketchFiles
+from pyp5js.fs import SketchFiles
 
 
 def make_sketches_list(path):
@@ -101,7 +101,7 @@ def sketch_files_app(base_path):
                 # Probably inside a sketch directory, let's compile it
                 # XXX: the sketch Python file should be the same as it's parent
                 # directory name. Example: /home/user/mysketches/s1/s1.py
-                sketch_files = Pyp5jsSketchFiles(
+                sketch_files = SketchFiles(
                     str(full_path.absolute()),
                     str(full_path.name)
                 )

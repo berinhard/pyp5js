@@ -1,8 +1,8 @@
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
-from pyp5js.fs import Pyp5jsLibFiles, Pyp5jsSketchFiles
+from pyp5js.fs import LibFiles, SketchFiles
 
-pyp5js_files = Pyp5jsLibFiles()
+pyp5js_files = LibFiles()
 
 def get_pytop5js_content(variables_names, methods_names, event_function_names):
     templates = Environment(loader=FileSystemLoader(pyp5js_files.templates_dir))
@@ -20,8 +20,8 @@ def get_pytop5js_content(variables_names, methods_names, event_function_names):
 def get_index_content(sketch_name, p5_js_url=None, sketch_js_url=None):
     context = {
         "sketch_name": sketch_name,
-        "p5_js_url": p5_js_url or f"{Pyp5jsSketchFiles.STATIC_NAME}/p5.js",
-        "sketch_js_url": sketch_js_url or f"{Pyp5jsSketchFiles.TARGET_NAME}/target_sketch.js",
+        "p5_js_url": p5_js_url or f"{SketchFiles.STATIC_NAME}/p5.js",
+        "sketch_js_url": sketch_js_url or f"{SketchFiles.TARGET_NAME}/target_sketch.js",
     }
     templates = Environment(loader=FileSystemLoader(pyp5js_files.templates_dir))
     index_template = templates.get_template(

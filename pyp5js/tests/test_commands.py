@@ -2,12 +2,12 @@ import pytest
 from unittest.mock import Mock, patch
 
 from pyp5js import commands
-from pyp5js.fs import Pyp5jsSketchFiles, Pyp5jsLibFiles
+from pyp5js.fs import SketchFiles, LibFiles
 
 
-@patch('pyp5js.commands.Pyp5jsSketchFiles')
+@patch('pyp5js.commands.SketchFiles')
 def test_transcrypt_sketch(MockedFiles):
-    files = Mock(spec=Pyp5jsSketchFiles)
+    files = Mock(spec=SketchFiles)
     files.check_sketch_exists.return_value = True
     MockedFiles.return_value = files
 
@@ -19,9 +19,9 @@ def test_transcrypt_sketch(MockedFiles):
         compiler.assert_called_once_with(files)
 
 
-@patch('pyp5js.commands.Pyp5jsSketchFiles')
+@patch('pyp5js.commands.SketchFiles')
 def test_transcrypt_sketch_error_if_sketch_does_not_exist(MockedFiles):
-    files = Mock(spec=Pyp5jsSketchFiles)
+    files = Mock(spec=SketchFiles)
     files.check_sketch_exists.return_value = False
     MockedFiles.return_value = files
 
@@ -30,9 +30,9 @@ def test_transcrypt_sketch_error_if_sketch_does_not_exist(MockedFiles):
             commands.transcrypt_sketch(sketch_name='foo', sketch_dir='bar')
 
 
-@patch('pyp5js.commands.Pyp5jsSketchFiles')
+@patch('pyp5js.commands.SketchFiles')
 def test_monitor_sketch(MockedFiles):
-    files = Mock(spec=Pyp5jsSketchFiles)
+    files = Mock(spec=SketchFiles)
     files.check_sketch_exists.return_value = True
     MockedFiles.return_value = files
 
@@ -43,9 +43,9 @@ def test_monitor_sketch(MockedFiles):
         monitor.assert_called_once_with(files)
 
 
-@patch('pyp5js.commands.Pyp5jsSketchFiles')
+@patch('pyp5js.commands.SketchFiles')
 def test_monitor_sketch_error_if_sketch_does_not_exist(MockedFiles):
-    files = Mock(spec=Pyp5jsSketchFiles)
+    files = Mock(spec=SketchFiles)
     files.check_sketch_exists.return_value = False
     MockedFiles.return_value = files
 

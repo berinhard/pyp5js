@@ -3,13 +3,13 @@ import shutil
 from pathlib import Path
 from unittest import TestCase
 
-from pyp5js.fs import Pyp5jsLibFiles, Pyp5jsSketchFiles
+from pyp5js.fs import LibFiles, SketchFiles
 
 pyp5_dir = Path(__file__).parents[2].joinpath('pyp5js')
 
 @pytest.fixture
 def lib_files():
-    return Pyp5jsLibFiles()
+    return LibFiles()
 
 def test_dir_properties(lib_files):
     assert pyp5_dir.exists()
@@ -50,11 +50,11 @@ def test_files_properties(lib_files):
     assert lib_files.p5_yml.exists()
 
 
-class Pyp5jsSketchFilesTests(TestCase):
+class SketchFilesTests(TestCase):
 
     def setUp(self):
         self.sketch_name = 'foo'
-        self.files = Pyp5jsSketchFiles('', self.sketch_name)
+        self.files = SketchFiles('', self.sketch_name)
 
     def tearDown(self):
         try:
@@ -66,11 +66,11 @@ class Pyp5jsSketchFilesTests(TestCase):
     def test_sketch_dir_argument(self):
         assert Path('').joinpath(self.sketch_name) == self.files.sketch_dir  # default value
 
-        self.files = Pyp5jsSketchFiles('foo', self.sketch_name, check_sketch_dir=False)
+        self.files = SketchFiles('foo', self.sketch_name, check_sketch_dir=False)
         assert Path('foo') == self.files.sketch_dir
 
         # shold stop execution if custom directory does not exist
-        self.files = Pyp5jsSketchFiles('foo', self.sketch_name)
+        self.files = SketchFiles('foo', self.sketch_name)
         with pytest.raises(SystemExit):
             self.files.sketch_dir
 

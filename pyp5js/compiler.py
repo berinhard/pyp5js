@@ -3,14 +3,14 @@ import shutil
 import subprocess
 from cprint import cprint
 
-from pyp5js.fs import Pyp5jsLibFiles
+from pyp5js.fs import LibFiles
 from pyp5js.templates_renderer import get_target_sketch_content
 
 
 class Pyp5jsCompiler:
 
     def __init__(self, sketch_files):
-        self.pyp5js_files = Pyp5jsLibFiles()
+        self.pyp5js_files = LibFiles()
         self.sketch_files = sketch_files
 
     def compile_sketch_js(self):

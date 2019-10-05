@@ -1,11 +1,11 @@
 import yaml
 from cprint import cprint
 
-from pyp5js.fs import Pyp5jsLibFiles, Pyp5jsSketchFiles
+from pyp5js.fs import LibFiles, SketchFiles
 from pyp5js.templates_renderer import get_pytop5js_content, get_target_sketch_template_content
 
 if __name__ == '__main__':
-    pyp5js_files = Pyp5jsLibFiles()
+    pyp5js_files = LibFiles()
 
     with open(pyp5js_files.p5_yml) as fd:
         data = yaml.load(fd.read())
