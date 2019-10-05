@@ -7,7 +7,7 @@ from jinja2 import Environment, FileSystemLoader
 from pyp5js.compiler import compile_sketch_js
 from pyp5js.fs import SketchFiles
 from pyp5js.monitor import monitor_sketch as monitor_sketch_service
-from pyp5js.templates_renderer import get_index_content
+from pyp5js.templates_renderer import get_sketch_index_content
 from pyp5js.http import SketchesWebApplication
 
 
@@ -41,7 +41,7 @@ def new_sketch(sketch_name, sketch_dir):
     for src, dest in templates_files:
         shutil.copyfile(src, dest)
 
-    index_contet = get_index_content(sketch_name)
+    index_contet = get_sketch_index_content(sketch_files)
     with open(sketch_files.index_html, "w") as fd:
         fd.write(index_contet)
 

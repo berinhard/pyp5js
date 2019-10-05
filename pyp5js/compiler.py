@@ -61,7 +61,7 @@ class Pyp5jsCompiler:
         Creates target_sketch.py to import the sketch's functions
         """
         with self.sketch_files.target_sketch.open('w') as fd:
-            content = get_target_sketch_content(self.sketch_files.sketch_name)
+            content = get_target_sketch_content(self.sketch_files)
             fd.write(content)
 
 def compile_sketch_js(sketch_files):

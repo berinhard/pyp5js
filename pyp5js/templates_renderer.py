@@ -3,9 +3,12 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 from pyp5js.fs import LibFiles, SketchFiles
 
 pyp5js_files = LibFiles()
+templates = Environment(loader=FileSystemLoader(str(pyp5js_files.templates_dir)))
 
 def get_pytop5js_content(variables_names, methods_names, event_function_names):
-    templates = Environment(loader=FileSystemLoader(pyp5js_files.templates_dir))
+    """
+    Renders content for the final pyp5js/pyp5js.py file
+    """
     pyp5_template = templates.get_template(
         str(pyp5js_files.pytop5js_template.name)
     )
@@ -17,21 +20,10 @@ def get_pytop5js_content(variables_names, methods_names, event_function_names):
     return pyp5_template.render(context)
 
 
-def get_index_content(sketch_name, p5_js_url=None, sketch_js_url=None):
-    context = {
-        "sketch_name": sketch_name,
-        "p5_js_url": p5_js_url or f"{SketchFiles.STATIC_NAME}/p5.js",
-        "sketch_js_url": sketch_js_url or f"{SketchFiles.TARGET_NAME}/target_sketch.js",
-    }
-    templates = Environment(loader=FileSystemLoader(pyp5js_files.templates_dir))
-    index_template = templates.get_template(
-        str(pyp5js_files.index_html.name)
-    )
-    return index_template.render(context)
-
-
-
 def get_target_sketch_template_content(event_function_names):
+    """
+    Renders the content for pyp5js/templates/target_sketch.py.template file
+    """
     content = "import {{ sketch_name }} as source_sketch\nfrom pyp5js import *\n\n"
     content += "event_functions = {\n"
 
@@ -43,9 +35,26 @@ def get_target_sketch_template_content(event_function_names):
     return content
 
 
-def get_target_sketch_content(sketch_name):
-    context = {"sketch_name": sketch_name}
-    templates = Environment(loader=FileSystemLoader(str(pyp5js_files.templates_dir.resolve())))
+def get_sketch_index_content(sketch_files):
+    """
+    Renders SKETCH_NAME/index.html to display the sketch visualization
+    """
+    context = {
+        "sketch_name": sketch_files.sketch_name,
+        "p5_js_url": f"{sketch_files.STATIC_NAME}/p5.js",
+        "sketch_js_url": f"{sketch_files.TARGET_NAME}/target_sketch.js",
+    }
+    index_template = templates.get_template(
+        str(pyp5js_files.index_html.name)
+    )
+    return index_template.render(context)
+
+
+def get_target_sketch_content(sketch_files):
+    """
+    Renders the content to be written in the temporary SKETCH_NAME/target_sketch.py file
+    """
+    context = {"sketch_name": sketch_files.sketch_name}
     index_template = templates.get_template(
         str(pyp5js_files.target_sketch_template.name)
     )

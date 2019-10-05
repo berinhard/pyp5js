@@ -75,7 +75,7 @@ class Pyp5jsCompilerTests(TestCase):
         assert not self.files.target_sketch.exists()
 
     def test_prepare_sketch(self):
-        expected_content = get_target_sketch_content(self.files.sketch_name)
+        expected_content = get_target_sketch_content(self.files)
         assert not self.files.target_sketch.exists()
 
         self.compiler.prepare()
