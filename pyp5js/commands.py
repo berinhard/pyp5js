@@ -22,7 +22,7 @@ def new_sketch(sketch_name):
     """
 
     sketch_files = SketchFiles(sketch_name)
-    if sketch_files.sketch_dir.exists():
+    if sketch_files.sketch_exists:
         cprint.warn(f"Cannot configure a new sketch.")
         cprint.err(f"The directory {sketch_files.sketch_dir} already exists.", interrupt=True)
 
@@ -54,7 +54,7 @@ def transcrypt_sketch(sketch_name):
     """
 
     sketch_files = SketchFiles(sketch_name)
-    if not sketch_files.sketch_py.exists():
+    if not sketch_files.sketch_exists:
         cprint.err(f"Couldn't find {sketch_files.sketch_py}", interrupt=True)
 
     compile_sketch_js(sketch_files)
@@ -73,7 +73,7 @@ def monitor_sketch(sketch_name):
     """
 
     sketch_files = SketchFiles(sketch_name)
-    if not sketch_files.sketch_py.exists():
+    if not sketch_files.sketch_exists:
         cprint.err(f"Couldn't find {sketch_files.sketch_py}", interrupt=True)
 
     cprint(f"Monitoring for changes in {sketch_files.sketch_dir.resolve()}...")
