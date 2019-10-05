@@ -1,4 +1,3 @@
-import os
 import pytest
 import shutil
 from pathlib import Path
@@ -51,7 +50,6 @@ def test_files_properties(lib_files):
     assert lib_files.p5_yml.exists()
 
 
-@pytest.mark.skip()
 class Pyp5jsSketchFilesTests(TestCase):
 
     def setUp(self):
@@ -59,7 +57,6 @@ class Pyp5jsSketchFilesTests(TestCase):
         self.files = Pyp5jsSketchFiles('', self.sketch_name)
 
     def tearDown(self):
-        pass
         try:
             if self.files.sketch_dir.exists():
                 shutil.rmtree(self.files.sketch_dir)
@@ -67,7 +64,7 @@ class Pyp5jsSketchFilesTests(TestCase):
             pass
 
     def test_sketch_dir_argument(self):
-        assert Path('').child(self.sketch_name) == self.files.sketch_dir  # default value
+        assert Path('').joinpath(self.sketch_name) == self.files.sketch_dir  # default value
 
         self.files = Pyp5jsSketchFiles('foo', self.sketch_name, check_sketch_dir=False)
         assert Path('foo') == self.files.sketch_dir
@@ -79,27 +76,27 @@ class Pyp5jsSketchFilesTests(TestCase):
 
     def test_can_create_sketch(self):
         assert self.files.can_create_sketch() is True
-        os.mkdir(self.files.sketch_dir)
+        self.files.sketch_dir.mkdir()
         assert self.files.can_create_sketch() is False
 
     def test_sketch_dirs(self):
-        assert Path(self.sketch_name).child('static') == self.files.static_dir
-        assert Path(self.sketch_name).child('target') == self.files.target_dir
+        assert Path(self.sketch_name).joinpath('static') == self.files.static_dir
+        assert Path(self.sketch_name).joinpath('target') == self.files.target_dir
         assert self.files.TARGET_NAME == 'target'
 
     def test_sketch_files(self):
         self.files.check_sketch_dir = False
-        assert Path(self.sketch_name).child('index.html') == self.files.index_html
-        assert Path(self.sketch_name).child('static', 'p5.js') == self.files.p5js
-        assert Path(self.sketch_name).child('static', 'p5.dom.js') == self.files.p5_dom_js
-        assert Path(self.sketch_name).child('foo.py') == self.files.sketch_py
-        assert Path(self.sketch_name).child('target_sketch.py') == self.files.target_sketch
+        assert Path(self.sketch_name).joinpath('index.html') == self.files.index_html
+        assert Path(self.sketch_name).joinpath('static', 'p5.js') == self.files.p5js
+        assert Path(self.sketch_name).joinpath('static', 'p5.dom.js') == self.files.p5_dom_js
+        assert Path(self.sketch_name).joinpath('foo.py') == self.files.sketch_py
+        assert Path(self.sketch_name).joinpath('target_sketch.py') == self.files.target_sketch
 
     def test_sketch_exists(self):
         self.files.check_sketch_dir = False
         assert self.files.check_sketch_exists() is False
-        os.mkdir(self.files.sketch_dir)
+        self.files.sketch_dir.mkdir()
         assert self.files.check_sketch_exists() is False
-        with open(self.files.sketch_py, 'w') as fd:
+        with self.files.sketch_py.open('w') as fd:
             fd.write("import this")
         assert self.files.check_sketch_exists() is True

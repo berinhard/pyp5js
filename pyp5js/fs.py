@@ -1,6 +1,4 @@
-import os
-from unipath import Path
-from pathlib import Path as Path2
+from pathlib import Path
 from cprint import cprint
 
 
@@ -23,8 +21,8 @@ class Pyp5jsSketchFiles():
     def sketch_dir(self):
         sketch_dir = Path(self._sketch_dir)
 
-        if not sketch_dir:
-            return sketch_dir.child(f'{self.sketch_name}')
+        if not self._sketch_dir:
+            return sketch_dir.joinpath(f'{self.sketch_name}')
 
         if self.check_sketch_dir and not sketch_dir.exists():
             cprint.err(f"The directory {sketch_dir} does not exists.", interrupt=True)
@@ -33,30 +31,30 @@ class Pyp5jsSketchFiles():
 
     @property
     def static_dir(self):
-        return self.sketch_dir.child(self.STATIC_NAME)
+        return self.sketch_dir.joinpath(self.STATIC_NAME)
 
     @property
     def index_html(self):
-        return self.sketch_dir.child('index.html')
+        return self.sketch_dir.joinpath('index.html')
 
     @property
     def p5js(self):
-        return self.static_dir.child('p5.js')
+        return self.static_dir.joinpath('p5.js')
 
     @property
     def p5_dom_js(self):
-        return self.static_dir.child('p5.dom.js')
+        return self.static_dir.joinpath('p5.dom.js')
 
     @property
     def target_sketch(self):
-        return self.sketch_dir.child("target_sketch.py")
+        return self.sketch_dir.joinpath("target_sketch.py")
 
     @property
     def sketch_py(self):
-        py_file = self.sketch_dir.child(f'{self.sketch_name}.py')
+        py_file = self.sketch_dir.joinpath(f'{self.sketch_name}.py')
 
         if self.check_sketch_dir and not py_file.exists():
-            cwd_py_file = Path(os.getcwd()).child(f"{self.sketch_name}.py")
+            cwd_py_file = Path.cwd().joinpath(f"{self.sketch_name}.py")
             if not cwd_py_file.exists():
                 cprint.warn(f"Couldn't find the sketch.")
                 cprint.err(f"Neither the file {py_file} or {cwd_py_file} exist.", interrupt=True)
@@ -68,13 +66,13 @@ class Pyp5jsSketchFiles():
 
     @property
     def target_dir(self):
-        return self.sketch_dir.child(self.TARGET_NAME)
+        return self.sketch_dir.joinpath(self.TARGET_NAME)
 
 
 class Pyp5jsLibFiles():
 
     def __init__(self):
-        self.install = Path2(__file__).parent
+        self.install = Path(__file__).parent
 
     @property
     def templates_dir(self):
