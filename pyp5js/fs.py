@@ -22,6 +22,10 @@ class SketchFiles():
         self.target_dir.mkdir()
 
     @property
+    def sketch_exists(self):
+        return self.sketch_py.exists()
+
+    @property
     def sketch_dir(self):
         return SKETCHBOOK_DIR.joinpath(f'{self.sketch_name}')
 

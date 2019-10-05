@@ -5,6 +5,7 @@ from cprint import cprint
 import click
 
 from pyp5js import commands
+from pyp5js.config import SKETCHBOOK_DIR
 
 
 @click.group()
@@ -80,18 +81,26 @@ def monitor_sketch(sketch_name):
 
 
 @command_line_entrypoint.command("serve")
-@click.argument("sketches_path")
 @click.option("--host", default="127.0.0.1")
 @click.option("--port", default=8000)
 @click.option("--workers", default=4)
-def serve_sketches(sketches_path, host, port, workers):
-    """Run HTTP server to compile and serve sketches"""
+def serve_sketches(host, port, workers):
+    """
+    Run HTTP server to compile and serve sketches
 
-    sketches_path = Path(sketches_path)
-    if not sketches_path.exists():
-        cprint.err(f"ERROR: path <{sketches_path}> does not exist.", interrupt=True)
+    Opitionals:
+    - host: http server host (defaults to 127.0.0.1)
+    - port: listened by the server (defaults to 8000)
+    - workers: app workers (defaults to 4)
 
-    commands.serve_http(sketches_path, host, port, workers)
+    Example:
+    $ pyp5js serve
+    """
+
+    if not SKETCHBOOK_DIR.exists():
+        SKETCHBOOK_DIR.mkdir()
+
+    commands.serve_http(host, port, workers)
 
 
 if __name__ == "__main__":

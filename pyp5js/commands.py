@@ -84,12 +84,10 @@ def monitor_sketch(sketch_name):
         cprint.info("Exiting monitor...")
 
 
-def serve_http(sketches_path, host, port, workers):
+def serve_http(host, port, workers):
     """
     Run a HTTP server which compiles sketches on the fly and serves static files
 
-    :param sketches_path: directory to search for sketches
-    :type sketches_path: pathlib.Path
     :param host: server's hostname
     :type host: string
     :param port: server's port
@@ -98,4 +96,4 @@ def serve_http(sketches_path, host, port, workers):
     :type workers: int
     """
     options = {"bind": f"{host}:{port}", "workers": workers}
-    SketchesWebApplication(sketches_path, options).run()
+    SketchesWebApplication(options).run()
