@@ -5,3 +5,4 @@ Transcrypt==3.7.12
 cprint==1.1
 gunicorn==19.9.0
 watchdog==0.9.0
+python-decouple==3.1
