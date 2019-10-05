@@ -1,4 +1,4 @@
-from pyp5js.utils.update_pytop5js import get_target_sketch_template_content, get_pytop5js_content
+from pyp5js.pre_compile.update_pytop5js import get_target_sketch_template_content, get_pytop5js_content
 
 
 def test_get_pytop5js_content():

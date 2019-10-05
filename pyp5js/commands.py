@@ -7,7 +7,7 @@ from jinja2 import Environment, FileSystemLoader
 from pyp5js.compiler import compile_sketch_js
 from pyp5js.fs import SketchFiles
 from pyp5js.monitor import monitor_sketch as monitor_sketch_service
-from pyp5js.templates_renderer import get_sketch_index_content
+from pyp5js.templates_renderers import get_sketch_index_content
 from pyp5js.http import SketchesWebApplication
 
 

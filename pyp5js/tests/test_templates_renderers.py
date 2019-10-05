@@ -1,4 +1,4 @@
-from pyp5js import templates_renderer as renderers
+from pyp5js import templates_renderers as renderers
 from pyp5js.fs import SketchFiles
 
 

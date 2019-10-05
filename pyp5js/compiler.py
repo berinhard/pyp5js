@@ -3,7 +3,7 @@ import shutil
 import subprocess
 from cprint import cprint
 
-from pyp5js.templates_renderer import get_target_sketch_content
+from pyp5js.templates_renderers import get_target_sketch_content
 
 
 class Pyp5jsCompiler:

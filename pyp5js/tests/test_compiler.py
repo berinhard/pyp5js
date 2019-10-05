@@ -7,7 +7,7 @@ from subprocess import Popen
 
 from pyp5js.compiler import Pyp5jsCompiler, compile_sketch_js
 from pyp5js.fs import SketchFiles, LibFiles
-from pyp5js.templates_renderer import get_target_sketch_content
+from pyp5js.templates_renderers import get_target_sketch_content
 
 
 @patch('pyp5js.compiler.Pyp5jsCompiler')
