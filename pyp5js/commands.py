@@ -26,14 +26,13 @@ def new_sketch(sketch_name):
         cprint.warn(f"Cannot configure a new sketch.")
         cprint.err(f"The directory {sketch_files.sketch_dir} already exists.", interrupt=True)
 
+    sketch_files.create_sketch_dir()
+
     templates_files = [
         (sketch_files.from_lib.base_sketch, sketch_files.sketch_py),
         (sketch_files.from_lib.p5js, sketch_files.p5js),
         (sketch_files.from_lib.p5_dom_js, sketch_files.p5_dom_js),
     ]
-
-    os.makedirs(sketch_files.sketch_dir)
-    sketch_files.static_dir.mkdir()
     for src, dest in templates_files:
         shutil.copyfile(src, dest)
 
