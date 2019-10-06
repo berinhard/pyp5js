@@ -82,7 +82,7 @@ def monitor_sketch(sketch_name):
 
 @command_line_entrypoint.command("serve")
 @click.option("--host", default="127.0.0.1")
-@click.option("--port", default=8000)
+@click.option("--port", default=5000)
 @click.option('--debug', is_flag=True)
 def serve_sketches(host, port, debug):
     """
@@ -90,8 +90,7 @@ def serve_sketches(host, port, debug):
 
     Opitionals:
     - host: http server host (defaults to 127.0.0.1)
-    - port: listened by the server (defaults to 8000)
-    - workers: app workers (defaults to 4)
+    - port: listened by the server (defaults to 5000)
 
     Example:
     $ pyp5js serve
