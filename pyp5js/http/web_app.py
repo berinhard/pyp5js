@@ -21,7 +21,7 @@ def sketches_list_view():
                 'url': f'/sketch/{name}'
             })
 
-    return render_template('index.html', sketches=sketches)
+    return render_template('index.html', sketches=sketches, sketches_dir=SKETCHBOOK_DIR.resolve())
 
 
 @app.route('/sketch/<string:sketch_name>/', defaults={'static_path': ''})
