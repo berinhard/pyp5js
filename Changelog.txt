@@ -1,6 +1,10 @@
 Development
 -----------
 
+0.3.1
+-----
+- Fix build without web application assets
+
 0.3.0
 -----
 - Create `pyp5js serve` command
