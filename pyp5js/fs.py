@@ -16,7 +16,7 @@ class SketchFiles():
         does_not_start_with_letter = r'^[^a-zA-Z]'
         contains_non_alphanumerics = r'[^a-zA-Z0-9]'
         if re.match(does_not_start_with_letter, sketch_name) or re.search(contains_non_alphanumerics, sketch_name):
-            raise InvalidName
+            raise InvalidName(sketch_name)
         self.sketch_name = sketch_name
         self.from_lib = LibFiles()
 
