@@ -1,6 +1,10 @@
 Development
 -----------
 
+0.3.2
+-----
+- Ensure the sketchbook dir always exists
+
 0.3.1
 -----
 - Fix build without web application assets
