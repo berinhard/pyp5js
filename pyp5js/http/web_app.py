@@ -1,8 +1,11 @@
-from flask import Flask, render_template, Response
+from flask import Flask, render_template, Response, request
+from slugify import slugify
 from textwrap import dedent
 
+from pyp5js import commands
 from pyp5js.compiler import compile_sketch_js
 from pyp5js.config import SKETCHBOOK_DIR
+from pyp5js.exceptions import PythonSketchDoesNotExist, SketchDirAlreadyExistException
 from pyp5js.fs import SketchFiles
 
 
@@ -22,6 +25,29 @@ def sketches_list_view():
             })
 
     return render_template('index.html', sketches=sketches, sketches_dir=SKETCHBOOK_DIR.resolve())
+
+
+@app.route("/new-sketch/", methods=['GET', 'POST'])
+def add_new_sketch_view():
+    template = 'new_sketch_form.html'
+    context = {'sketches_dir': SKETCHBOOK_DIR.resolve()}
+
+    if request.method == 'POST':
+        sketch_name = slugify(request.form.get('sketch_name', '').strip(), separator='_')
+        if not sketch_name:
+            context['error'] = "You have to input a sketch name to proceed."
+        try:
+            files = commands.new_sketch(sketch_name)
+            template = 'new_sketch_success.html'
+            context.update({
+                'files': files,
+                'sketch_url': f'/sketch/{sketch_name}/',
+            })
+        except SketchDirAlreadyExistException:
+            path = SKETCHBOOK_DIR.joinpath(sketch_name)
+            context['error'] = f"The sketch {path} already exists."
+
+    return render_template(template, **context)
 
 
 @app.route('/sketch/<string:sketch_name>/', defaults={'static_path': ''})
