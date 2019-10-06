@@ -26,6 +26,13 @@ class SketchFiles():
         return self.sketch_py.exists()
 
     @property
+    def has_all_files(self):
+        return all([
+            self.sketch_exists,
+            self.index_html.exists()
+        ])
+
+    @property
     def sketch_dir(self):
         return SKETCHBOOK_DIR.joinpath(f'{self.sketch_name}')
 

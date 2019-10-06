@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>pyp5js server</title>
+</head>
+
+<body>
+  <h2>Available sketches:</h2>
+  <ul>
+  {% for sketch in sketches %}
+    <li><a href="{{ sketch }}">{{ sketch }}</a></li>
+  {% endfor %}
+  </ul>
+</body>
+
+</html>
