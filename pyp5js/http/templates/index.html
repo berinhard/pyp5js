@@ -1,13 +1,7 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
+{% block title %}Index{% endblock title %}
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>pyp5js server</title>
-</head>
-
-<body>
+{% block content %}
   <h2>Welcome to your pyp5js sketchbook!</h2>
   <p><a href="/new-sketch/">Add a new sketch</a></p>
   <p>Available sketches in {{ sketches_dir }}:</p>
@@ -16,6 +10,4 @@
     <li><a href="{{ sketch.url }}">{{ sketch.name }}</a></li>
   {% endfor %}
   </ul>
-</body>
-
-</html>
+{% endblock content %}
