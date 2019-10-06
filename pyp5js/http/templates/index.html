@@ -11,7 +11,7 @@
   <h2>Available sketches:</h2>
   <ul>
   {% for sketch in sketches %}
-    <li><a href="{{ sketch }}">{{ sketch }}</a></li>
+    <li><a href="{{ sketch.url }}">{{ sketch.name }}</a></li>
   {% endfor %}
   </ul>
 </body>
