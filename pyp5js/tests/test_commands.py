@@ -22,7 +22,7 @@ def test_transcrypt_sketch(files):
     with patch('pyp5js.commands.compile_sketch_js') as compiler:
         output = commands.transcrypt_sketch('foo')
 
-        assert output == files.index_html
+        assert output == files
         compiler.assert_called_once_with(files)
 
 
