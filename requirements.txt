@@ -6,3 +6,4 @@ cprint==1.1
 gunicorn==19.9.0
 watchdog==0.9.0
 python-decouple==3.1
+Flask==1.1.1

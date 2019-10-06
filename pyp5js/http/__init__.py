@@ -10,6 +10,8 @@ from pyp5js.config import SKETCHBOOK_DIR
 from pyp5js.compiler import compile_sketch_js
 from pyp5js.fs import SketchFiles
 
+from pyp5js.http.web_app import app as pyp5js_web_app
+
 
 def make_sketches_list(path):
     """Retrieve all sketches from a path an return a HTML page with links"""
