@@ -8,7 +8,7 @@ from pyp5js.compiler import compile_sketch_js
 from pyp5js.fs import SketchFiles
 from pyp5js.monitor import monitor_sketch as monitor_sketch_service
 from pyp5js.templates_renderers import get_sketch_index_content
-from pyp5js.http import SketchesWebApplication
+from pyp5js.http import pyp5js_web_app
 
 
 def new_sketch(sketch_name):
@@ -95,5 +95,4 @@ def serve_http(host, port, workers):
     :param workers: number of workers
     :type workers: int
     """
-    options = {"bind": f"{host}:{port}", "workers": workers}
-    SketchesWebApplication(options).run()
+    pyp5js_web_app.run(host=host, port=port, debug=True)
