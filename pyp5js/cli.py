@@ -32,18 +32,18 @@ def configure_new_sketch(sketch_name, monitor):
     Example:
     $ pyp5js new my_sketch
     """
-    sketch_py, index_html = commands.new_sketch(sketch_name)
+    files = commands.new_sketch(sketch_name)
 
     cprint.ok(f"Your sketch was created!")
 
     if not monitor:
-        cprint.ok(f"Please, open and edit the file {sketch_py} to draw. When you're ready to see your results, just run:")
+        cprint.ok(f"Please, open and edit the file {files.sketch_py} to draw. When you're ready to see your results, just run:")
         cmd = f"\t pyp5js transcrypt {sketch_name}"
         cprint.ok(cmd)
-        cprint.ok(f"And open file://{index_html.absolute()} on your browser to see yor results!")
+        cprint.ok(f"And open file://{files.index_html.absolute()} on your browser to see yor results!")
     else:
         cprint.ok(f"Please, open and edit the file {sketch_py} to draw.")
-        cprint.ok(f"And open file://{index_html.absolute()} on your browser to see yor results!")
+        cprint.ok(f"And open file://{files.index_html.absolute()} on your browser to see yor results!")
         commands.monitor_sketch(sketch_name)
 
 
@@ -60,8 +60,8 @@ def transcrypt_sketch(sketch_name):
     Example:
     $ pyp5js transcrypt my_sketch
     """
-    index_file = commands.transcrypt_sketch(sketch_name)
-    cprint.ok(f"Your sketch is ready and available at file://{index_file.absolute()}")
+    files = commands.transcrypt_sketch(sketch_name)
+    cprint.ok(f"Your sketch is ready and available at file://{files.index_html.absolute()}")
 
 
 @command_line_entrypoint.command("monitor")

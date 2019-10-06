@@ -8,7 +8,9 @@
 </head>
 
 <body>
-  <h2>Available sketches in {{ sketches_dir }}:</h2>
+  <h2>Welcome to your pyp5js sketchbook!</h2>
+  <p><a href="/new-sketch/">Add a new sketch</a></p>
+  <p>Available sketches in {{ sketches_dir }}:</p>
   <ul>
   {% for sketch in sketches %}
     <li><a href="{{ sketch.url }}">{{ sketch.name }}</a></li>
