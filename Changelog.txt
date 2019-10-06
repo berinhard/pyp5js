@@ -1,5 +1,8 @@
 Development
 -----------
+
+0.3.0
+-----
 - Create `pyp5js serve` command
 - Add `SKETCHBOOK_DIR` to configure the sketchbook's directory
 - Local web app to compile sketches on the fly and to create sketches
