@@ -1,9 +1,7 @@
 Development
 -----------
-
-0.3.0 (in development)
------
 - Create `pyp5js serve` command (HTTP server, compiles sketches on the fly)
+- Add `SKETCHBOOK_DIR` to configure the sketchbook's directory
 
 0.2.0
 -----
