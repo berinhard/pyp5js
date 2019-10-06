@@ -83,8 +83,8 @@ def monitor_sketch(sketch_name):
 @command_line_entrypoint.command("serve")
 @click.option("--host", default="127.0.0.1")
 @click.option("--port", default=8000)
-@click.option("--workers", default=4)
-def serve_sketches(host, port, workers):
+@click.option('--debug', is_flag=True)
+def serve_sketches(host, port, debug):
     """
     Run HTTP server to compile and serve sketches
 
@@ -100,7 +100,7 @@ def serve_sketches(host, port, workers):
     if not SKETCHBOOK_DIR.exists():
         SKETCHBOOK_DIR.mkdir()
 
-    commands.serve_http(host, port, workers)
+    commands.serve_http(host, port, debug)
 
 
 if __name__ == "__main__":

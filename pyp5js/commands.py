@@ -84,7 +84,7 @@ def monitor_sketch(sketch_name):
         cprint.info("Exiting monitor...")
 
 
-def serve_http(host, port, workers):
+def serve_http(host, port, debug=False):
     """
     Run a HTTP server which compiles sketches on the fly and serves static files
 
@@ -92,7 +92,7 @@ def serve_http(host, port, workers):
     :type host: string
     :param port: server's port
     :type port: int
-    :param workers: number of workers
-    :type workers: int
+    :param debug: turn on/off debug mode
+    :type debug: bool
     """
-    pyp5js_web_app.run(host=host, port=port, debug=True)
+    pyp5js_web_app.run(host=host, port=port, debug=debug)
