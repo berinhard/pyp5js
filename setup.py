@@ -21,9 +21,14 @@ with open("requirements.txt") as fd:
 with open("README.md") as fd:
     long_description = fd.read()
 
+
+
+with open("VERSION") as fd:
+    version = fd.read().strip()
+
 setup(
     name="pyp5js",
-    version="0.2.0",
+    version=version,
     description='Simple tool to allow to transcrypt Python code that uses P5.js',
     long_description=long_description,
     long_description_content_type='text/markdown',

@@ -1,18 +1,14 @@
-import os
 import shlex
 import shutil
 import subprocess
 from cprint import cprint
-from unipath import Path
 
-from pyp5js.fs import Pyp5jsLibFiles
-from pyp5js.templates_renderer import get_target_sketch_content
+from pyp5js.templates_renderers import get_target_sketch_content
 
 
 class Pyp5jsCompiler:
 
     def __init__(self, sketch_files):
-        self.pyp5js_files = Pyp5jsLibFiles()
         self.sketch_files = sketch_files
 
     def compile_sketch_js(self):
@@ -25,14 +21,14 @@ class Pyp5jsCompiler:
         """
         Path to directory with the js and assets files
         """
-        return self.sketch_files.sketch_dir.child('__target__')
+        return self.sketch_files.sketch_dir.joinpath('__target__')
 
     @property
     def command_line(self):
         """
         Builds transcrypt command line with the required parameters and flags
         """
-        pyp5_dir = self.pyp5js_files.install
+        pyp5_dir = self.sketch_files.from_lib.install
         return ' '.join([str(c) for c in [
             'transcrypt', '-xp', pyp5_dir, '-k', '-ks', '-b', '-m', '-n', self.sketch_files.target_sketch
         ]])
@@ -58,14 +54,14 @@ class Pyp5jsCompiler:
         shutil.move(self.target_dir, self.sketch_files.target_dir)
 
         if self.sketch_files.target_sketch.exists():
-            os.remove(self.sketch_files.target_sketch)
+            self.sketch_files.target_sketch.unlink()
 
     def prepare(self):
         """
         Creates target_sketch.py to import the sketch's functions
         """
-        with open(self.sketch_files.target_sketch, 'w') as fd:
-            content = get_target_sketch_content(self.sketch_files.sketch_name)
+        with self.sketch_files.target_sketch.open('w') as fd:
+            content = get_target_sketch_content(self.sketch_files)
             fd.write(content)
 
 def compile_sketch_js(sketch_files):
