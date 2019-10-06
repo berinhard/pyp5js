@@ -43,6 +43,7 @@ setup(
             'assets/*',
             'static/**/*',
             'templates/*',
+            'http/templates/*',
         ]
     },
     include_package_data=True,
