@@ -36,7 +36,7 @@ def new_sketch(sketch_name):
     with open(sketch_files.index_html, "w") as fd:
         fd.write(index_contet)
 
-    return sketch_files.sketch_py, sketch_files.index_html
+    return sketch_files
 
 
 def transcrypt_sketch(sketch_name):
@@ -54,7 +54,7 @@ def transcrypt_sketch(sketch_name):
         raise PythonSketchDoesNotExist(sketch_files.sketch_py.resolve())
 
     compile_sketch_js(sketch_files)
-    return sketch_files.index_html
+    return sketch_files
 
 
 def monitor_sketch(sketch_name):
