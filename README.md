@@ -13,7 +13,6 @@ def setup():
     createCanvas(200, 200)
     background(160)
 
-
 def draw():
     fill('blue')
     background(200)
@@ -23,11 +22,13 @@ def draw():
 
 ### [Documentation](https://berinhard.github.io/pyp5js)
 
+### [Examples](https://berinhard.github.io/pyp5js/examples/)
+
 ### [Installation](https://berinhard.github.io/pyp5js#installation)
 
-### [Usage](https://berinhard.github.io/pyp5js#usage)
+### [Quickstart](https://berinhard.github.io/pyp5js#quickstart)
 
-### [Examples](https://berinhard.github.io/pyp5js/examples/)
+### [Internals details](https://berinhard.github.io/pyp5js#internals-details)
 
 ### [Known issues and differences to the Processing.Py and P5.js ways of doing things](https://berinhard.github.io/pyp5js#known-issues-and-differences-to-the-processingpy-and-p5js-ways-of-doing-things)
 

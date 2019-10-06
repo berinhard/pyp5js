@@ -17,7 +17,6 @@ def setup():
     createCanvas(200, 200)
     background(160)
 
-
 def draw():
     fill('blue')
     background(200)
@@ -41,15 +40,46 @@ $ pip install pyp5js
 ```
 (You might have to install `setuptools` first, if it's not already installed)
 
-## Usage
+## Quickstart
 
 Since you'll be writting Python code and then generating the correspondent
-P5.js code from it, pyp5js provides a simple command line interface to help you
+P5.js code from it, pyp5js provides a web application interface to help you
 to generate the files.
+
+So, to start a the application, you'll have to run:
+
+```bash
+$ pyp5js serve
+```
+
+Then point your browser to [http://localhost:5000/](http://localhost:5000/) and
+create a new sketch via the browser by filling the form saying the name of your
+sketch. This command will compile the sketches on the
+fly, so after changing/saving the sketch file you just need to reload the page
+on your browser.
+
+The web application will tell you which file you have to edit the Python code
+and how to see it running after you save it. The web application will create
+a new directory in your home called `sketchbook-pyp5js`. If you don't want to
+save your sketch in this default directory, you can set the environment variable
+`SKETCHBOOK_DIR` to point to the directory you want to use. Or you can also run
+the `serve` command as:
+
+```bash
+$ SKETCHBOOK_DIR='~/my-custom-sketchbook' pyp5js serve
+```
+
+Now, have fun =]
+
+## Internals details
+
+The web application is an interface to reduce barriers on playing around with
+`pyp5js` to newcomers and people who don't feel confortable with the terminal
+interface. But if you want to use the terminal, `pyp5js` also exposes a CLI.
 
 So, to start a new sketch, you'll have to run:
 
-```
+```bash
 $ pyp5js new my_sketch
 ```
 
@@ -59,6 +89,7 @@ This command will create a directory with the following code structure:
 ~ my_sketch/
   ~ static /
     - p5.js
+    - p5.dom.js
   - index.html
   - my_sketch.py
 ```
@@ -74,14 +105,8 @@ default](https://github.com/berinhard/pyp5js/issues/72)) - we packaged it
 already for you, just run:
 
 ```bash
-$ pyp5js serve .
-# You may replace "." with any other path containing sketches.
+$ pyp5js serve
 ```
-
-Then point your browser to [http://localhost:8765/](http://localhost:8765/) and
-click on the sketches available. This command will compile the sketches on the
-fly, so after changing/saving the sketch file you just need to reload the page
-on your browser.
 
 If you just want to compile your code (without running the Web server) there's
 the `transcrypt` command:
@@ -171,11 +196,11 @@ After that, you should have the `pyp5js` command enabled and it will respect all
 - `commands.py`: just functions responsible for the real implementations for `pyp5js` commands
 - `compiler.py`: where all the magic happens!
 - `fs.py`: classes to abstract the files and directories manipulations from the commands
+- `exception.py`: custom exceptions used by `pyp5js`
 - `monitor.py`: module with the objects used by the `monitor` command
 - `pyp5js.py`: module which is imported by the sketches and integrates with P5.js API
 - `template_renderers.py`: simple module with the renderization logic for the code templates like `target_sketch.py`
-- `pre_compile/update_pytop5js`: this script is responsible for generating the `pyp5js.py` file
-
-I still have to add some tests to pyp5js, so I'd love help on that as well.
+- `pre_compile/update_pytop5js.py`: this script is responsible for generating the `pyp5js.py` file
+- `http/web_app.py`: Flask application for the web interface.
 
 Now go [fetch yourself an issue](https://github.com/berinhard/pyp5js/issues) and happy hacking!
