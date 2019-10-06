@@ -1,6 +1,7 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, Response
 from textwrap import dedent
 
+from pyp5js.compiler import compile_sketch_js
 from pyp5js.config import SKETCHBOOK_DIR
 from pyp5js.fs import SketchFiles
 
@@ -23,8 +24,9 @@ def sketches_list_view():
     return render_template('index.html', sketches=sketches)
 
 
-@app.route('/sketch/<string:sketch_name>/')
-def render_sketch(sketch_name):
+@app.route('/sketch/<string:sketch_name>/', defaults={'static_path': ''})
+@app.route('/sketch/<string:sketch_name>/<path:static_path>')
+def render_sketch(sketch_name, static_path):
     sketch_files = SketchFiles(sketch_name)
 
     msg_404 = ''
@@ -36,5 +38,20 @@ def render_sketch(sketch_name):
     if msg_404:
         return msg_404, 404
 
-    with sketch_files.index_html.open() as fd:
-        return fd.read()
+    content_file = sketch_files.index_html
+    if static_path:
+        content_file = sketch_files.sketch_dir.joinpath(static_path)
+        if not content_file.exists():
+            return '', 404
+    else:
+        compile_sketch_js(sketch_files)
+
+    with content_file.open() as fd:
+        response = Response(fd.read())
+
+    if static_path.endswith('js'):
+        # To avoid MIME type errors
+        # More can be found here: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
+        response.headers['Content-Type'] = 'application/javascript'
+
+    return response
