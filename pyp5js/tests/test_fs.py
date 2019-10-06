@@ -4,6 +4,7 @@ from pathlib import Path
 from unittest import TestCase
 
 from pyp5js.config import SKETCHBOOK_DIR
+from pyp5js.exceptions import SketchDirAlreadyExistException
 from pyp5js.fs import LibFiles, SketchFiles
 
 pyp5_dir = Path(__file__).parents[2].joinpath('pyp5js')
@@ -92,5 +93,5 @@ class SketchFilesTests(TestCase):
         assert self.files.static_dir.exists() is True
         assert self.files.target_dir.exists() is True
 
-        with pytest.raises(SystemExit):
+        with pytest.raises(SketchDirAlreadyExistException):
             self.files.create_sketch_dir()

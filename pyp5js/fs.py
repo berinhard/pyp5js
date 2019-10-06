@@ -4,6 +4,7 @@ from pathlib import Path
 from cprint import cprint
 
 from pyp5js.config import SKETCHBOOK_DIR
+from pyp5js.exceptions import SketchDirAlreadyExistException
 
 
 class SketchFiles():
@@ -16,7 +17,7 @@ class SketchFiles():
 
     def create_sketch_dir(self):
         if self.sketch_dir.exists():
-            cprint.err(f'Cannot create the directory {self.sketch_dir} because it already exists.', interrupt=True)
+            raise SketchDirAlreadyExistException(self.sketch_dir.resolve())
         os.makedirs(self.sketch_dir)
         self.static_dir.mkdir()
         self.target_dir.mkdir()
