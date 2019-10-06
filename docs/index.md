@@ -1,5 +1,7 @@
 # pyp5js: Python to P5.js Transcriptor
 
+ [![PyPI version](https://badge.fury.io/py/pyp5js.svg)](https://badge.fury.io/py/pyp5js) [![CircleCI](https://circleci.com/gh/berinhard/pyp5js.svg?style=svg)](https://circleci.com/gh/berinhard/pyp5js)
+
 > [Processing](https://processing.org) ideas and Python 3 together with [P5.js](https://p5js.org) in the browser, using [Transcrypt](https://transcrypt.org/).
 
 This project started from a proof of concept based in [Axel Tanner's "Transcrypt & p5js" blogpost](https://4nomore.net/2018/transcrypt_p5js/).
