@@ -104,3 +104,11 @@ class SketchFilesTests(TestCase):
     def test_raise_exception_when_name_contains_non_alphanumeric_chars(self):
         with pytest.raises(InvalidName):
             SketchFiles('name&')
+
+    def test_name_should_accept_underscore_in_the_beginning(self):
+        file = SketchFiles('__name__')
+        assert file.sketch_name == '__name__'
+
+    def test_name_should_accept_underscore_in_the_middle(self):
+        file = SketchFiles('na_me')
+        assert file.sketch_name == 'na_me'

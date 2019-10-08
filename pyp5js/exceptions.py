@@ -14,6 +14,6 @@ class SketchDirAlreadyExistException(Exception):
 class InvalidName(Exception):
 
     def __init__(self, sketch_name):
-        message = f'The name {sketch_name} must start with a letter and contain alphanumeric \
-            characters only.'
+        message = f'The name {sketch_name} must start with a letter or an underscore and ' + \
+            'contain alphanumeric and underscore characters only.'
         super().__init__(message)
