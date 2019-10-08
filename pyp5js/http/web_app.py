@@ -14,6 +14,8 @@ app = Flask(__name__)
 @app.route("/")
 def sketches_list_view():
     sketches = []
+    if not SKETCHBOOK_DIR.exists():
+        SKETCHBOOK_DIR.mkdir()
     for sketch_dir in (p for p in SKETCHBOOK_DIR.iterdir() if p.is_dir()):
         name = sketch_dir.name
         sketch_files = SketchFiles(name)
