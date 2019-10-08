@@ -21,9 +21,14 @@ with open("requirements.txt") as fd:
 with open("README.md") as fd:
     long_description = fd.read()
 
+
+
+with open("VERSION") as fd:
+    version = fd.read().strip()
+
 setup(
     name="pyp5js",
-    version="0.0.7",
+    version=version,
     description='Simple tool to allow to transcrypt Python code that uses P5.js',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -32,12 +37,13 @@ setup(
     maintainer_email='bernardoxhc@gmail.com',
     url="https://github.com/berinhard/pyp5js/",
     license='GNU Lesser General Public License version 3',
-    packages=find_packages(),
+    packages=find_packages(exclude=["pyp5js.tests"]),
     package_data={
         'pyp5js': [
             'assets/*',
-            'static/*',
+            'static/**/*',
             'templates/*',
+            'http/templates/*',
         ]
     },
     include_package_data=True,

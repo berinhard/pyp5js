@@ -1,4 +1,4 @@
-from pytop5js import *
+from pyp5js import *
 
 r = None
 def setup():
@@ -27,9 +27,3 @@ def mouseDragged():
     global r
     r = random(100, 700)
     redraw()
-
-event_functions = {
-    'keyPressed': keyPressed,
-    'mouseDragged': mouseDragged,
-}
-start_p5(setup, draw, event_functions)

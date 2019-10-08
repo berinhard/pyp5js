@@ -1,0 +1,95 @@
+_P5_INSTANCE = None
+{% for v_name in variables_names %}{{ v_name }} = None
+{% endfor %}
+
+{% for f_name in function_names %}
+def {{ f_name }}(*args):
+    return _P5_INSTANCE.{{ f_name }}(*args)
+{% endfor %}
+
+def createCanvas(*args):
+    result = _P5_INSTANCE.createCanvas(*args)
+
+    global width, height
+    width = _P5_INSTANCE.width
+    height = _P5_INSTANCE.height
+
+
+def pop(*args):
+    __pragma__('noalias', 'pop')
+    p5_pop = _P5_INSTANCE.pop(*args)
+    __pragma__('alias', 'pop', 'py_pop')
+    return p5_pop
+
+def pre_draw(p5_instance, draw_func):
+    """
+    We need to run this before the actual draw to insert and update p5 env variables
+    """
+    global {% for v_name in variables_names %}{{ v_name }}{% if not loop.last %}, {% endif %}{% endfor %}
+
+    {% for v_name in variables_names %}{{ v_name }} = p5_instance.{{ v_name }}
+    {% endfor %}
+    return draw_func()
+
+
+def global_p5_injection(p5_sketch):
+    """
+    Injects the p5js's skecth instance as a global variable to setup and draw functions
+    """
+
+    def decorator(f):
+
+        def wrapper():
+            global _P5_INSTANCE
+            _P5_INSTANCE = p5_sketch
+            return pre_draw(_P5_INSTANCE, f)
+        return wrapper
+
+    return decorator
+
+
+def start_p5(setup_func, draw_func, event_functions):
+    """
+    This is the entrypoint function. It accepts 2 parameters:
+
+    - setup_func: a Python setup callable
+    - draw_func: a Python draw callable
+    - event_functions: a config dict for the event functions in the format:
+                       {"eventFunctionName": python_event_function}
+
+    This method gets the p5js's sketch instance and injects them
+    """
+
+    def sketch_setup(p5_sketch):
+        p5_sketch.setup = global_p5_injection(p5_sketch)(setup_func)
+        p5_sketch.draw = global_p5_injection(p5_sketch)(draw_func)
+
+    instance =  __new__ (p5(sketch_setup, 'sketch-holder'))
+
+    # inject event functions into p5
+    event_function_names = [{% for f in event_function_names %}"{{ f }}", {% endfor %}]
+
+    for f_name in [f for f in event_function_names if event_functions.get(f, None)]:
+        func = event_functions[f_name]
+        event_func = global_p5_injection(instance)(func)
+        setattr(instance, f_name, event_func)
+
+
+def logOnloaded():
+    console.log("Lib loaded!")
+
+
+def add_library(lib_name):
+    src = ''
+
+    if lib_name == 'p5.dom.js':
+        src = "static/p5.dom.js"
+    else:
+        console.log("Lib name is not valid: " + lib_name)
+        return
+
+    console.log("Importing: " + src)
+    script = document.createElement("script")
+    script.onload = logOnloaded
+    script.src = src
+    document.head.appendChild(script)

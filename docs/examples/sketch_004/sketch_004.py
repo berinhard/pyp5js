@@ -1,7 +1,7 @@
 # From Prof. Claudio Esperança examples for BrythonIDE
 # https://github.com/esperanc/brythonide/blob/master/demoSketches/boids.py
 
-from pytop5js import *
+from pyp5js import *
 
 boids = [];
 
@@ -162,7 +162,3 @@ class Boid (object):
         return self.seek(sum); # Steer towards the location
       else:
         return createVector(0, 0);
-
-
-# This is required by pyp5js to work
-start_p5(setup, draw, {})

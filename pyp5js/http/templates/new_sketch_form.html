@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>pyp5js server</title>
+</head>
+
+<body>
+  <h2>Start a new sketch</h2>
+  <p>Your sketch will be created in {{ sketches_dir }}</p>
+  <form action="." method="POST">
+      {% if error %}
+      <p style="color:red">{{error}}</p>
+      {% endif %}
+      <div style="display: block">
+          <label style="display: inline-block">Sketch name</label>
+          <input type="text" name="sketch_name">
+      </div>
+      <input type="submit" value="Create">
+  </form>
+</body>
+
+</html>
+

@@ -1,4 +1,4 @@
-from pytop5js import *
+from pyp5js import *
 
 
 def setup():
@@ -17,12 +17,3 @@ def draw():
     line(0, 0, v.x, v.y)
 
     pop()
-
-
-# ==== This is required by pyp5js to work
-
-# Register your events functions here
-event_functions = {
-    # "keyPressed": keyPressed,    as an example
-}
-start_p5(setup, draw, event_functions)

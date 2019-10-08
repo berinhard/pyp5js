@@ -4,7 +4,7 @@
  *
  * The camera lifts up (controlled by mouseY) while looking at the same point.
  """
-from pytop5js import *
+from pyp5js import *
 
 def setup():
     createCanvas(640, 360, _P5_INSTANCE.WEBGL)
@@ -27,7 +27,3 @@ def draw():
     line(-100, 0, 0, 100, 0, 0)
     line(0, -100, 0, 0, 100, 0)
     line(0, 0, -100, 0, 0, 100)
-
-
-# This is required by pyp5js to work
-start_p5(setup, draw, {})

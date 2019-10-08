@@ -1,6 +1,37 @@
 Development
 -----------
 
+0.3.2
+-----
+- Ensure the sketchbook dir always exists
+
+0.3.1
+-----
+- Fix build without web application assets
+
+0.3.0
+-----
+- Create `pyp5js serve` command
+- Add `SKETCHBOOK_DIR` to configure the sketchbook's directory
+- Local web app to compile sketches on the fly and to create sketches
+
+0.2.0
+-----
+- Rename pyp5.js module from pytop5js to pyp5js
+- Enable keyword argument
+- Enable checking for existence in dictionary keys
+- Commands now printing index files as URI
+
+0.1.1
+-----
+- Fix install issue
+
+0.1.0
+-----
+- Simplification of pytop5js usage
+- Support p5.dom.js library
+- Fixes on monitor observer
+
 0.0.7
 -----
 - Fix bug with monitor not running transcrypt more than once
@@ -13,17 +44,17 @@ Development
 
 0.0.5
 -----
-- Adds all p5's missing global variables
+- Add all p5's missing global variables
 
 0.0.4.1
 -------
-- Supports event functions such as `keyPressed`
+- Support event functions such as `keyPressed`
 
 0.0.4
 -----
-- Supports p5.js pop function
-- Adds `monitor` command to the CLI
-- Allows to run `pyp5js` commands specifying a directory
+- Support p5.js pop function
+- Add `monitor` command to the CLI
+- Allow to run `pyp5js` commands specifying a directory
 - First try on organizing the docs
 
 0.0.3
@@ -32,7 +63,7 @@ Development
 
 0.0.2
 -----
-- Supports more of P5's variable
+- Support more of P5's variable
 
 
 0.0.1

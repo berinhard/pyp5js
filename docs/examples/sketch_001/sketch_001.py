@@ -1,7 +1,7 @@
 # https://p5js.org/examples/interaction-wavemaker.html
 
 
-from pytop5js import *
+from pyp5js import *
 
 t = 0
 
@@ -31,6 +31,3 @@ def draw():
     t = t + 0.01
 
     console.log(frameRate())
-
-
-my_p5 = start_p5(setup, draw, {})
