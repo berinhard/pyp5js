@@ -6,6 +6,7 @@ from unittest import TestCase
 from pyp5js.config import SKETCHBOOK_DIR
 from pyp5js.exceptions import SketchDirAlreadyExistException
 from pyp5js.fs import LibFiles, SketchFiles
+from pyp5js.exceptions import InvalidName
 
 pyp5_dir = Path(__file__).parents[2].joinpath('pyp5js')
 
@@ -95,3 +96,19 @@ class SketchFilesTests(TestCase):
 
         with pytest.raises(SketchDirAlreadyExistException):
             self.files.create_sketch_dir()
+
+    def test_raise_exception_when_name_starts_with_numbers(self):
+        with pytest.raises(InvalidName):
+            SketchFiles('123name')
+
+    def test_raise_exception_when_name_contains_non_alphanumeric_chars(self):
+        with pytest.raises(InvalidName):
+            SketchFiles('name&')
+
+    def test_name_should_accept_underscore_in_the_beginning(self):
+        file = SketchFiles('__name__')
+        assert file.sketch_name == '__name__'
+
+    def test_name_should_accept_underscore_in_the_middle(self):
+        file = SketchFiles('na_me')
+        assert file.sketch_name == 'na_me'

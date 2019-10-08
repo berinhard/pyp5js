@@ -1,10 +1,11 @@
 import os
+import re
 import shutil
 from pathlib import Path
 from cprint import cprint
 
 from pyp5js.config import SKETCHBOOK_DIR
-from pyp5js.exceptions import SketchDirAlreadyExistException
+from pyp5js.exceptions import SketchDirAlreadyExistException, InvalidName
 
 
 class SketchFiles():
@@ -12,6 +13,11 @@ class SketchFiles():
     STATIC_NAME = 'static'
 
     def __init__(self, sketch_name):
+        does_not_start_with_letter_or_underscore = r'^[^a-zA-Z_]'
+        contains_non_alphanumerics_except_underscore = r'[^a-zA-Z0-9_]'
+        if re.match(does_not_start_with_letter_or_underscore, sketch_name) or \
+           re.search(contains_non_alphanumerics_except_underscore, sketch_name):
+            raise InvalidName(sketch_name)
         self.sketch_name = sketch_name
         self.from_lib = LibFiles()
 
