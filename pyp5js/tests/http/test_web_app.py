@@ -1,15 +1,19 @@
-from pyp5js.http.web_app import app
-from unittest import TestCase
+from pyp5js.http.web_app import app as web_app
+from flask_testing import TestCase
 
 class WebAppTests(TestCase):
 
-    def setUp(self):
-        self.app = app.test_client()
-        self.app.testing = True 
+    render_templates = False
 
-    def tearDown(self):
-        pass
+    def create_app(self):
+        app = web_app
+        app.config['TESTING'] = True
+        return app
 
-    def test_home_status_code(self):
-        result = self.app.get('/') 
-        assert result.status_code == 200
+    def test_get_home_renders_index_template(self):
+        self.client.get('/')
+        self.assert_template_used('index.html')
+
+    def test_get_new_sketch_renders_new_sketch_form_template(self):
+        self.client.get('/new-sketch/')
+        self.assert_template_used('new_sketch_form.html')
