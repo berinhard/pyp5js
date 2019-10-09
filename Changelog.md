@@ -1,7 +1,11 @@
 Development
 -----------
+
+0.3.3
+-----
 - Validate sketch name
 - Add base templates for the web app
+- Add iframe with example 000 to the index
 
 0.3.2
 -----
