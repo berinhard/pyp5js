@@ -1,13 +1,7 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
+{% block title %}New sketch{% endblock title %}
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>pyp5js server</title>
-</head>
-
-<body>
+{% block content %}
   <h2>Start a new sketch</h2>
   <p>Your sketch will be created in {{ sketches_dir }}</p>
   <form action="." method="POST">
@@ -20,7 +14,4 @@
       </div>
       <input type="submit" value="Create">
   </form>
-</body>
-
-</html>
-
+{% endblock content %}
