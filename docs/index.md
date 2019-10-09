@@ -179,7 +179,7 @@ If you fell confortable with that, I'd be happy to add some of your pyp5js sketc
 
 ### I want to hack!
 
-Okay, if you want to contribute with pyp5js's code, let's go! I really advise you to use [virtualenv with virtualenvwrapper](http://www.indjango.com/python-install-virtualenv-and-virtualenvwrapper/) or [pyenv](https://amaral.northwestern.edu/resources/guides/pyenv-tutorial) to isolate your pyp5js fork from your the rest of your system. Once you have everything ready, you can run:
+Okay, if you want to contribute with pyp5js's code, let's go! I really advise you to use [virtualenv with virtualenvwrapper](http://www.indjango.com/python-install-virtualenv-and-virtualenvwrapper/) or [pyenv](https://amaral.northwestern.edu/resources/guides/pyenv-tutorial) to isolate your pyp5js fork from the rest of your system. Once you have everything ready, you can run:
 
 ```
 $ git clone git@github.com:YOUR_GITHUB_PROFILE/pyp5js.git
