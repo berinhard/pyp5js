@@ -23,7 +23,7 @@ def draw():
     r = sin(frameCount / 60) * 50 + 50
     ellipse(100, 100, r, r)
 ```
-<iframe src="/pyp5js/examples/sketch_000/index.html" style="width: 200px; height: 200px; border: 0px"></iframe>
+<iframe src="pyp5js/examples/sketch_000/" style="width: 200px; height: 200px; border: 0px"></iframe>
 
 ## Examples
 
