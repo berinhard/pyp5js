@@ -187,7 +187,7 @@ $ mkvirtualenv pyp5js -p /usr/bin/python3  # python3 path can change depending o
 $ cd pyp5js
 $ pip install -r dev-requirements.txt
 $ python setup.py develop
-$ pytest
+$ make test
 ```
 
 After that, you should have the `pyp5js` command enabled and it will respect all the changes you introduce to the code. Now, a brief explanation about the code under `pyp5js` directory:
