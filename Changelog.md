@@ -1,5 +1,7 @@
 Development
 -----------
+- Validate sketch name
+- Add base templates for the web app
 
 0.3.2
 -----
