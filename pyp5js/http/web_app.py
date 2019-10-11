@@ -14,8 +14,6 @@ app = Flask(__name__)
 @app.route("/")
 def sketches_list_view():
     sketches = []
-    if not SKETCHBOOK_DIR.exists():
-        SKETCHBOOK_DIR.mkdir()
     for sketch_dir in (p for p in SKETCHBOOK_DIR.iterdir() if p.is_dir()):
         name = sketch_dir.name
         sketch_files = SketchFiles(name)
@@ -37,16 +35,17 @@ def add_new_sketch_view():
         sketch_name = slugify(request.form.get('sketch_name', '').strip(), separator='_')
         if not sketch_name:
             context['error'] = "You have to input a sketch name to proceed."
-        try:
-            files = commands.new_sketch(sketch_name)
-            template = 'new_sketch_success.html'
-            context.update({
-                'files': files,
-                'sketch_url': f'/sketch/{sketch_name}/',
-            })
-        except SketchDirAlreadyExistException:
-            path = SKETCHBOOK_DIR.joinpath(sketch_name)
-            context['error'] = f"The sketch {path} already exists."
+        else:
+            try:
+                files = commands.new_sketch(sketch_name)
+                template = 'new_sketch_success.html'
+                context.update({
+                    'files': files,
+                    'sketch_url': f'/sketch/{sketch_name}/',
+                })
+            except SketchDirAlreadyExistException:
+                path = SKETCHBOOK_DIR.joinpath(sketch_name)
+                context['error'] = f"The sketch {path} already exists."
 
     return render_template(template, **context)
 
