@@ -26,7 +26,7 @@ class Pyp5jsWebTestCase(TestCase):
         target_file = sketch_dir.joinpath(f'{name}.py')
         index_file = sketch_dir.joinpath('index.html')
         self.create_file(target_file)
-        self.create_file(index_file)
+        self.create_file(index_file, 'index file content')
         return sketch_dir
 
     def create_sketch_with_static_files(self, name, static_path):
@@ -38,16 +38,13 @@ class Pyp5jsWebTestCase(TestCase):
         static_file = static_dir.joinpath(static_path.split('/')[1])
         self.create_file(target_file)
         self.create_file(index_file)
-        self.create_static_file(static_file)
+        self.create_file(static_file, 'static file content')
         return sketch_dir
 
-    def create_file(self, file_name):
+    def create_file(self, file_name, content=''):
         with file_name.open('w') as fd:
-            fd.write('')
+            fd.write(content)
 
-    def create_static_file(self, file_name):
-        with file_name.open('w') as fd:
-            fd.write('static file content')
 
 class IndexViewTests(Pyp5jsWebTestCase):
     route = '/'
@@ -91,6 +88,7 @@ class SketchViewTests(Pyp5jsWebTestCase):
         self.create_sketch('sketch_exists')
         response = self.client.get(self.route + 'sketch_exists/')
         self.assert_200(response)
+        self.assertEqual(response.data, b"index file content")
 
     def test_get_static_file_does_not_exist(self):
         response = self.client.get(self.route + 'foo/static/file.js')
@@ -101,6 +99,7 @@ class SketchViewTests(Pyp5jsWebTestCase):
         response = self.client.get(self.route + 'foo/static/file.js')
         self.assert_200(response)
         self.assertEqual(response.headers['Content-Type'], 'application/javascript')
+        self.assertEqual(response.data, b"static file content")
 
     def test_get_static_file(self):
         self.create_sketch_with_static_files('foo', 'static/style.css')
