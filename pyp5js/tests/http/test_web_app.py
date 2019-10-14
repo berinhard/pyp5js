@@ -21,8 +21,33 @@ class Pyp5jsWebTestCase(TestCase):
             shutil.rmtree(SKETCHBOOK_DIR)
 
     def create_sketch(self, name):
-        return os.makedirs(SKETCHBOOK_DIR.joinpath(name))
+        sketch_dir = SKETCHBOOK_DIR.joinpath(name)
+        os.makedirs(sketch_dir)
+        target_file = sketch_dir.joinpath(f'{name}.py')
+        index_file = sketch_dir.joinpath('index.html')
+        self.create_file(target_file)
+        self.create_file(index_file)
+        return sketch_dir
 
+    def create_sketch_with_static_files(self, name, static_path):
+        sketch_dir = SKETCHBOOK_DIR.joinpath(name)
+        static_dir = sketch_dir.joinpath(static_path.split('/')[0])
+        os.makedirs(static_dir)
+        target_file = sketch_dir.joinpath(f'{name}.py')
+        index_file = sketch_dir.joinpath('index.html')
+        static_file = static_dir.joinpath(static_path.split('/')[1])
+        self.create_file(target_file)
+        self.create_file(index_file)
+        self.create_static_file(static_file)
+        return sketch_dir
+
+    def create_file(self, file_name):
+        with file_name.open('w') as fd:
+            fd.write('')
+
+    def create_static_file(self, file_name):
+        with file_name.open('w') as fd:
+            fd.write('static file content')
 
 class IndexViewTests(Pyp5jsWebTestCase):
     route = '/'
@@ -54,3 +79,31 @@ class NewSketchViewTests(Pyp5jsWebTestCase):
         self.client.post(self.route, data=dict(sketch_name='a_name'))
         self.assert_template_used('new_sketch_success.html')
 
+
+class SketchViewTests(Pyp5jsWebTestCase):
+    route = '/sketch/'
+
+    def test_get_sketch_does_not_exist(self):
+        response = self.client.get(self.route + 'sketch_does_not_exist/')
+        self.assert_404(response)
+
+    def test_get_sketch_exists(self):
+        self.create_sketch('sketch_exists')
+        response = self.client.get(self.route + 'sketch_exists/')
+        self.assert_200(response)
+
+    def test_get_static_file_does_not_exist(self):
+        response = self.client.get(self.route + 'foo/static/file.js')
+        self.assert_404(response)
+
+    def test_get_static_javascript_file(self):
+        self.create_sketch_with_static_files('foo', 'static/file.js')
+        response = self.client.get(self.route + 'foo/static/file.js')
+        self.assert_200(response)
+        self.assertEqual(response.headers['Content-Type'], 'application/javascript')
+
+    def test_get_static_file(self):
+        self.create_sketch_with_static_files('foo', 'static/style.css')
+        response = self.client.get(self.route + 'foo/static/style.css')
+        self.assert_200(response)
+        self.assertEqual(response.data, b"static file content")
