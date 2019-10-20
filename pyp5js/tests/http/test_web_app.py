@@ -48,10 +48,9 @@ class IndexViewTests(Pyp5jsWebTestCase):
         self.create_sketch('second_sketch')
         self.client.get(self.route)
         self.assert_template_used('index.html')
-        self.assert_context('sketches', [
-            dict(name='first_sketch', url='/sketch/first_sketch'),
-            dict(name='second_sketch', url='/sketch/second_sketch'),
-        ])
+        assert len(self.get_context_variable('sketches')) == 2
+        assert dict(name='first_sketch', url='/sketch/first_sketch') in self.get_context_variable('sketches')
+        assert dict(name='second_sketch', url='/sketch/second_sketch') in self.get_context_variable('sketches')
 
 
 class NewSketchViewTests(Pyp5jsWebTestCase):
