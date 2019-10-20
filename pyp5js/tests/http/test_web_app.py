@@ -38,9 +38,20 @@ class Pyp5jsWebTestCase(TestCase):
 class IndexViewTests(Pyp5jsWebTestCase):
     route = '/'
 
-    def test_get_home_renders_index_template(self):
+    def test_get_home_renders_index_template_and_context_with_empty(self):
         self.client.get(self.route)
         self.assert_template_used('index.html')
+        self.assert_context('sketches', [])
+
+    def test_get_home_renders_index_template_and_context_all_files(self):
+        self.create_sketch('first_sketch')
+        self.create_sketch('second_sketch')
+        self.client.get(self.route)
+        self.assert_template_used('index.html')
+        self.assert_context('sketches', [
+            dict(name='first_sketch', url='/sketch/first_sketch'),
+            dict(name='second_sketch', url='/sketch/second_sketch')
+        ])
 
 
 class NewSketchViewTests(Pyp5jsWebTestCase):
