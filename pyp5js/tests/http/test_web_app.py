@@ -1,5 +1,7 @@
 import os
 import shutil
+
+from pyp5js import commands
 from pyp5js.config import SKETCHBOOK_DIR
 from pyp5js.http.web_app import app as web_app
 from flask_testing import TestCase
@@ -21,30 +23,17 @@ class Pyp5jsWebTestCase(TestCase):
             shutil.rmtree(SKETCHBOOK_DIR)
 
     def create_sketch(self, name):
-        sketch_dir = SKETCHBOOK_DIR.joinpath(name)
-        os.makedirs(sketch_dir)
-        target_file = sketch_dir.joinpath(f'{name}.py')
-        index_file = sketch_dir.joinpath('index.html')
-        self.create_file(target_file)
-        self.create_file(index_file, 'index file content')
-        return sketch_dir
+        sketch_files = commands.new_sketch(name)
+        return sketch_files.sketch_dir
 
-    def create_sketch_with_static_files(self, name, static_path):
-        sketch_dir = SKETCHBOOK_DIR.joinpath(name)
-        static_dir = sketch_dir.joinpath(static_path.split('/')[0])
-        os.makedirs(static_dir)
-        target_file = sketch_dir.joinpath(f'{name}.py')
-        index_file = sketch_dir.joinpath('index.html')
-        static_file = static_dir.joinpath(static_path.split('/')[1])
-        self.create_file(target_file)
-        self.create_file(index_file)
-        self.create_file(static_file, 'static file content')
-        return sketch_dir
+    def create_sketch_with_static_files(self, name):
+        sketch_files = commands.new_sketch(name)
+        commands.transcrypt_sketch(name)
+        return sketch_files.sketch_dir
 
     def create_file(self, file_name, content=''):
-        with file_name.open('w') as fd:
+        with (SKETCHBOOK_DIR.joinpath(file_name).resolve()).open('w') as fd:
             fd.write(content)
-
 
 class IndexViewTests(Pyp5jsWebTestCase):
     route = '/'
@@ -88,21 +77,20 @@ class SketchViewTests(Pyp5jsWebTestCase):
         self.create_sketch('sketch_exists')
         response = self.client.get(self.route + 'sketch_exists/')
         self.assert_200(response)
-        self.assertEqual(response.data, b"index file content")
 
     def test_get_static_file_does_not_exist(self):
         response = self.client.get(self.route + 'foo/static/file.js')
         self.assert_404(response)
 
     def test_get_static_javascript_file(self):
-        self.create_sketch_with_static_files('foo', 'static/file.js')
-        response = self.client.get(self.route + 'foo/static/file.js')
+        self.create_sketch_with_static_files('sketch_with_static_js')
+        response = self.client.get(self.route + 'sketch_with_static_js/static/p5.js')
         self.assert_200(response)
         self.assertEqual(response.headers['Content-Type'], 'application/javascript')
-        self.assertEqual(response.data, b"static file content")
 
     def test_get_static_file(self):
-        self.create_sketch_with_static_files('foo', 'static/style.css')
-        response = self.client.get(self.route + 'foo/static/style.css')
+        self.create_sketch('my_sketch_file')
+        self.create_file('my_sketch_file/static/style.css', 'css file content')
+        response = self.client.get(self.route + 'my_sketch_file/static/style.css')
         self.assert_200(response)
-        self.assertEqual(response.data, b"static file content")
+        self.assertEqual(response.data, b"css file content")
