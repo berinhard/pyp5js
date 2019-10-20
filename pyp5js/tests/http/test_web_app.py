@@ -50,7 +50,7 @@ class IndexViewTests(Pyp5jsWebTestCase):
         self.assert_template_used('index.html')
         self.assert_context('sketches', [
             dict(name='first_sketch', url='/sketch/first_sketch'),
-            dict(name='second_sketch', url='/sketch/second_sketch')
+            dict(name='second_sketch', url='/sketch/second_sketch'),
         ])
 
 
