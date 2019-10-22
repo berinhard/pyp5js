@@ -58,7 +58,7 @@ def render_sketch_view(sketch_name, static_path):
     content_file = sketch_files.index_html
     if static_path:
         content_file = sketch_files.sketch_dir.joinpath(static_path).resolve()
-        if not str(content_file).startswith(str(sketch_files.sketch_dir)):
+        if not str(content_file).startswith(str(sketch_files.sketch_dir.resolve())):
             # User tried something not allowed (as "/root/something" or "../xxx")
             return '', 403
         elif not content_file.exists():

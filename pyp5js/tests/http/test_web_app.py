@@ -104,3 +104,9 @@ class SketchViewTests(Pyp5jsWebTestCase):
         response = self.client.get(self.route + 'my_sketch_file/static/style.css')
         self.assert_200(response)
         self.assertEqual(response.data, b"css file content")
+
+    def test_403_if_invalid_path(self):
+        self.create_sketch('my_sketch_file')
+        self.create_file('my_sketch_file/static/style.css', 'css file content')
+        response = self.client.get(self.route + 'my_sketch_file/../static/style.css')
+        self.assert_403(response)
