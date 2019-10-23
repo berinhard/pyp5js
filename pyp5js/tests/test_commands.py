@@ -5,7 +5,7 @@ from unittest.mock import Mock, patch
 
 from pyp5js import commands
 from pyp5js.config import SKETCHBOOK_DIR
-from pyp5js.exceptions import PythonSketchDoesNotExist, SketchDirAlreadyExistException
+from pyp5js.exceptions import PythonSketchDoesNotExist, SketchDirAlreadyExistException, InvalidName
 from pyp5js.fs import SketchFiles
 
 
@@ -33,6 +33,13 @@ def test_transcrypt_sketch_error_if_sketch_does_not_exist(files):
         assert not compiler.called
 
 
+def test_transcrypt_sketch_error_if_invalid_sketch(files):
+    with patch('pyp5js.commands.compile_sketch_js') as compiler:
+        with pytest.raises(InvalidName):
+            commands.transcrypt_sketch('123foo')
+        assert not compiler.called
+
+
 def test_monitor_sketch(files):
     files.sketch_py.touch()
     with patch('pyp5js.commands.monitor_sketch_service') as monitor:
@@ -45,6 +52,13 @@ def test_monitor_sketch_error_if_sketch_does_not_exist(files):
     with patch('pyp5js.commands.monitor_sketch_service') as monitor:
         with pytest.raises(PythonSketchDoesNotExist):
             commands.monitor_sketch('foo')
+        assert not monitor.called
+
+
+def test_monitor_sketch_error_if_invalid_name(files):
+    with patch('pyp5js.commands.monitor_sketch_service') as monitor:
+        with pytest.raises(InvalidName):
+            commands.monitor_sketch('1234foo')
         assert not monitor.called
 
 

@@ -98,12 +98,19 @@ class SketchFilesTests(TestCase):
             self.files.create_sketch_dir()
 
     def test_raise_exception_when_name_starts_with_numbers(self):
+        files = SketchFiles('123name')
         with pytest.raises(InvalidName):
-            SketchFiles('123name')
+            files.validate_name()
 
     def test_raise_exception_when_name_contains_non_alphanumeric_chars(self):
+        files = SketchFiles('name&')
         with pytest.raises(InvalidName):
-            SketchFiles('name&')
+            files.validate_name()
+
+    def test_raise_exception_when_name_creating_dir_with_invalid_name(self):
+        files = SketchFiles('name&')
+        with pytest.raises(InvalidName):
+            files.create_sketch_dir()
 
     def test_name_should_accept_underscore_in_the_beginning(self):
         file = SketchFiles('__name__')
