@@ -13,15 +13,17 @@ The project's main goal was to use Tanner's approach combined with decorator and
 ```python
 from pyp5js import *
 
+
 def setup():
     createCanvas(200, 200)
     background(160)
 
+
 def draw():
-    fill('blue')
+    fill("blue")
     background(200)
-    r = sin(frameCount / 60) * 50 + 50
-    ellipse(100, 100, r, r)
+    radius = sin(frameCount / 60) * 50 + 50
+    ellipse(100, 100, radius, radius)
 ```
 <iframe src="/pyp5js/examples/sketch_000/" style="width: 200px; height: 200px; border: 0px"></iframe>
 
