@@ -2,16 +2,20 @@
 {% block title %}New sketch{% endblock title %}
 
 {% block content %}
-  <h2>Start a new sketch</h2>
-  <p>Your sketch will be created in {{ sketches_dir }}</p>
+<div>
+  <h2 class="h2">Start a new sketch</h2>
+  <p class="regular">
+    Your sketch will be created in <a class="text-decoration-none">{{ sketches_dir }}</a>
+  </p>
   <form action="." method="POST">
       {% if error %}
-      <p style="color:red">{{error}}</p>
+      <p class="regular red">{{error}}</p>
       {% endif %}
-      <div style="display: block">
-          <label style="display: inline-block">Sketch name</label>
-          <input type="text" name="sketch_name">
+      <div class="flex flex-wrap items-center clearfix">
+          <label class="label mr1 mb1" for="sketch_name">Sketch name</label>
+          <input class="input rounded border p1 mr1 mb1 sm-col-3" type="text" name="sketch_name">
+          <input class="btn rounded border-none py1 px2 mb1" type="submit" value="Create">
       </div>
-      <input type="submit" value="Create">
   </form>
+</div>
 {% endblock content %}

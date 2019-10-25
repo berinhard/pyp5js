@@ -50,6 +50,8 @@ def transcrypt_sketch(sketch_name):
     """
 
     sketch_files = SketchFiles(sketch_name)
+    sketch_files.validate_name()
+
     if not sketch_files.sketch_exists:
         raise PythonSketchDoesNotExist(sketch_files.sketch_py.resolve())
 
@@ -69,6 +71,8 @@ def monitor_sketch(sketch_name):
     """
 
     sketch_files = SketchFiles(sketch_name)
+    sketch_files.validate_name()
+
     if not sketch_files.sketch_exists:
         raise PythonSketchDoesNotExist(sketch_files.sketch_py.resolve())
 

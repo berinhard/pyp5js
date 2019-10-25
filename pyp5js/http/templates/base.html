@@ -6,11 +6,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>pyp5js server - {% block title %}{% endblock title %}</title>
+
+    <link href="/static/styles/basscss.min.css" rel="stylesheet">
+    <link href="/static/styles/custom.css" rel="stylesheet">
   {% endblock head %}
 </head>
 
 <body>
-  {% block content %}{% endblock content %}
+  <div class="border-box max-width-4 mx-auto px3 pt2 lg-px4">
+  {% block content %}
+  {% endblock content %}
+  </div>
 </body>
 
 </html>

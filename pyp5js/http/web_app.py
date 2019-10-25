@@ -35,16 +35,17 @@ def add_new_sketch_view():
         sketch_name = slugify(request.form.get('sketch_name', '').strip(), separator='_')
         if not sketch_name:
             context['error'] = "You have to input a sketch name to proceed."
-        try:
-            files = commands.new_sketch(sketch_name)
-            template = 'new_sketch_success.html'
-            context.update({
-                'files': files,
-                'sketch_url': f'/sketch/{sketch_name}/',
-            })
-        except SketchDirAlreadyExistException:
-            path = SKETCHBOOK_DIR.joinpath(sketch_name)
-            context['error'] = f"The sketch {path} already exists."
+        else:
+            try:
+                files = commands.new_sketch(sketch_name)
+                template = 'new_sketch_success.html'
+                context.update({
+                    'files': files,
+                    'sketch_url': f'/sketch/{sketch_name}/',
+                })
+            except SketchDirAlreadyExistException:
+                path = SKETCHBOOK_DIR.joinpath(sketch_name)
+                context['error'] = f"The sketch {path} already exists."
 
     return render_template(template, **context)
 
@@ -56,8 +57,11 @@ def render_sketch_view(sketch_name, static_path):
 
     content_file = sketch_files.index_html
     if static_path:
-        content_file = sketch_files.sketch_dir.joinpath(static_path)
-        if not content_file.exists():
+        content_file = sketch_files.sketch_dir.joinpath(static_path).resolve()
+        if not str(content_file).startswith(str(sketch_files.sketch_dir.resolve())):
+            # User tried something not allowed (as "/root/something" or "../xxx")
+            return '', 403
+        elif not content_file.exists():
             return '', 404
     else:
         try:

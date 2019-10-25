@@ -1,0 +1,16 @@
+* {
+    font-family: sans-serif;
+}
+
+a {
+    color: #07c;
+}
+
+.red {
+    color: #d21;
+}
+
+.input {
+    /* Color added due to .border of basscss force remove border color */
+    border-color: #ccc;
+}

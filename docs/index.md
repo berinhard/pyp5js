@@ -13,15 +13,17 @@ The project's main goal was to use Tanner's approach combined with decorator and
 ```python
 from pyp5js import *
 
+
 def setup():
     createCanvas(200, 200)
     background(160)
 
+
 def draw():
-    fill('blue')
+    fill("blue")
     background(200)
-    r = sin(frameCount / 60) * 50 + 50
-    ellipse(100, 100, r, r)
+    radius = sin(frameCount / 60) * 50 + 50
+    ellipse(100, 100, radius, radius)
 ```
 <iframe src="/pyp5js/examples/sketch_000/" style="width: 200px; height: 200px; border: 0px"></iframe>
 
@@ -179,7 +181,7 @@ If you fell confortable with that, I'd be happy to add some of your pyp5js sketc
 
 ### I want to hack!
 
-Okay, if you want to contribute with pyp5js's code, let's go! I really advise you to use [virtualenv with virtualenvwrapper](http://www.indjango.com/python-install-virtualenv-and-virtualenvwrapper/) or [pyenv](https://amaral.northwestern.edu/resources/guides/pyenv-tutorial) to isolate your pyp5js fork from your the rest of your system. Once you have everything ready, you can run:
+Okay, if you want to contribute with pyp5js's code, let's go! I really advise you to use [virtualenv with virtualenvwrapper](http://www.indjango.com/python-install-virtualenv-and-virtualenvwrapper/) or [pyenv](https://amaral.northwestern.edu/resources/guides/pyenv-tutorial) to isolate your pyp5js fork from the rest of your system. Once you have everything ready, you can run:
 
 ```
 $ git clone git@github.com:YOUR_GITHUB_PROFILE/pyp5js.git
@@ -187,7 +189,7 @@ $ mkvirtualenv pyp5js -p /usr/bin/python3  # python3 path can change depending o
 $ cd pyp5js
 $ pip install -r dev-requirements.txt
 $ python setup.py develop
-$ pytest
+$ make test
 ```
 
 After that, you should have the `pyp5js` command enabled and it will respect all the changes you introduce to the code. Now, a brief explanation about the code under `pyp5js` directory:
