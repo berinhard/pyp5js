@@ -1,7 +1,11 @@
 Development
 -----------
+
+0.3.4
+-----
 - Update sketch's template
 - Add unit tests to the Flask API
+- Base style for the web client
 
 0.3.3
 -----
