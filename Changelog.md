@@ -1,5 +1,7 @@
 Development
 -----------
+- Update sketch's template
+- Add unit tests to the Flask API
 
 0.3.3
 -----
