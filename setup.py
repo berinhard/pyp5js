@@ -21,8 +21,6 @@ with open("requirements.txt") as fd:
 with open("README.md") as fd:
     long_description = fd.read()
 
-
-
 with open("VERSION") as fd:
     version = fd.read().strip()
 
@@ -44,6 +42,7 @@ setup(
             'static/**/*',
             'templates/*',
             'http/templates/*',
+            'http/static/*',
         ]
     },
     include_package_data=True,
