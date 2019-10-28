@@ -63,18 +63,25 @@ def render_sketch_view(sketch_name, static_path):
             return '', 403
         elif not content_file.exists():
             return '', 404
+
+        with content_file.open() as fd:
+            response = Response(fd.read())
+        if static_path.endswith('js'):
+            # To avoid MIME type errors
+            # More can be found here: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
+            response.headers['Content-Type'] = 'application/javascript'
+        return response
+
     else:
         try:
             commands.transcrypt_sketch(sketch_name)
         except PythonSketchDoesNotExist:
             return f"There's no sketch in {sketch_files.sketch_dir.resolve()}", 404
 
-    with content_file.open() as fd:
-        response = Response(fd.read())
-
-    if static_path.endswith('js'):
-        # To avoid MIME type errors
-        # More can be found here: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
-        response.headers['Content-Type'] = 'application/javascript'
-
-    return response
+    context = {
+        'p5_js_url': sketch_files.urls.p5_js_url,
+        'sketch_js_url': sketch_files.urls.sketch_js_url,
+        'sketch_name': sketch_files.sketch_name,
+        'py_code': sketch_files.sketch_py.read_text()
+    }
+    return render_template('view_sketch.html', **context)
