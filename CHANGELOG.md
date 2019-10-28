@@ -1,5 +1,10 @@
 Development
 -----------
+- Display sketch with code
+
+0.3.5
+-----
+- Fix issue with assets
 
 0.3.4
 -----
