@@ -17,14 +17,26 @@
         pre {
             margin-right: 2em;
         }
+
+        textarea {
+            height: 700px;
+            width: 550px;
+        }
     </style>
 {% endblock %}
 
 {% block content %}
     <div class="demoContainer">
-      <pre>
-         <code>{{ py_code|trim }}</code>
-      </pre>
+      <div style="display: block">
+          <form action="." method="POST">
+            <div class="clearfix">
+              <textarea class="rounded p1" rows='4' cols="20" name="py_code">{{ py_code }}</textarea>
+            </div>
+            <div class="clearfix">
+              <input class="btn rounded border-none py1 px2 mb1" type="submit" value="Save">
+            </div>
+          </form>
+      </div>
 
       <div id="sketch-holder">
         <!-- You sketch will go here! -->

@@ -60,18 +60,18 @@ class NewSketchViewTests(Pyp5jsWebTestCase):
         self.assert_template_used('new_sketch_form.html')
 
     def test_post_without_sketch_name_should_render_form_with_error(self):
-        self.client.post(self.route, data=dict(sketch_name=''))
+        self.client.post(self.route, data={'sketch_name': ''})
         self.assert_template_used('new_sketch_form.html')
         self.assert_context('error', 'You have to input a sketch name to proceed.')
 
     def test_post_with_existing_sketch_name_should_render_form_with_error(self):
         self.create_sketch('my_existing_sketch')
-        self.client.post(self.route, data=dict(sketch_name='my_existing_sketch'))
+        self.client.post(self.route, data={'sketch_name': 'my_existing_sketch'})
         self.assert_template_used('new_sketch_form.html')
         self.assert_context('error', 'The sketch tests-sketchbook/my_existing_sketch already exists.')
 
     def test_post_with_sketch_name_should_render_success_form(self):
-        self.client.post(self.route, data=dict(sketch_name='a_name'))
+        self.client.post(self.route, data={'sketch_name': 'a_name'})
         self.assert_template_used('new_sketch_success.html')
 
 
@@ -117,3 +117,47 @@ class SketchViewTests(Pyp5jsWebTestCase):
         self.create_file('my_sketch_file/static/style.css', 'css file content')
         response = self.client.get(self.route + 'my_sketch_file/../static/style.css')
         self.assert_403(response)
+
+
+class UpdateSketchViewTests(Pyp5jsWebTestCase):
+    route = '/sketch/'
+    test_code = """
+from pyp5js import *
+
+def setup():
+    createCanvas(300, 300)
+
+def draw():
+    rect(10, 10, 200, 100)
+    """.strip()
+
+    def test_update_sketch_on_post(self):
+        sketch_files = self.create_sketch('sketch_exists')
+
+        url = self.route + 'sketch_exists/'
+        response = self.client.post(url, data={'py_code': self.test_code})
+
+        assert self.test_code == sketch_files.sketch_py.read_text()
+
+    def test_python_code_is_required(self):
+        sketch_files = self.create_sketch('sketch_exists')
+        old_content = sketch_files.sketch_py.read_text()
+
+        url = self.route + 'sketch_exists/'
+        response = self.client.post(url, data={'py_code': ''})
+
+        self.assert_template_used('view_sketch.html')
+        self.assert_context('error', 'You have to input the Python code.')
+        assert old_content == sketch_files.sketch_py.read_text()
+
+    def test_check_python_syntax_before_updating(self):
+        test_code = self.test_code.replace('300)', '300')
+        sketch_files = self.create_sketch('sketch_exists')
+        old_content = sketch_files.sketch_py.read_text()
+
+        url = self.route + 'sketch_exists/'
+        response = self.client.post(url, data={'py_code': test_code})
+
+        self.assert_template_used('view_sketch.html')
+        self.assert_context('error', 'SyntaxError: invalid syntax (sketch_exists.py, line 6)')
+        assert old_content == sketch_files.sketch_py.read_text()
