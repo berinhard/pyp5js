@@ -23,8 +23,7 @@ class Pyp5jsWebTestCase(TestCase):
             shutil.rmtree(SKETCHBOOK_DIR)
 
     def create_sketch(self, name):
-        sketch_files = commands.new_sketch(name)
-        return sketch_files.sketch_dir
+        return commands.new_sketch(name)
 
     def create_sketch_with_static_files(self, name):
         sketch_files = commands.new_sketch(name)
@@ -84,9 +83,17 @@ class SketchViewTests(Pyp5jsWebTestCase):
         self.assert_404(response)
 
     def test_get_sketch_exists(self):
-        self.create_sketch('sketch_exists')
+        sketch_files = self.create_sketch('sketch_exists')
+        py_code = sketch_files.sketch_py.read_text()
+
         response = self.client.get(self.route + 'sketch_exists/')
         self.assert_200(response)
+        self.assert_template_used('view_sketch.html')
+        self.assert_context('p5_js_url', sketch_files.urls.p5_js_url)
+        self.assert_context('sketch_js_url', sketch_files.urls.sketch_js_url)
+        self.assert_context('sketch_name', sketch_files.sketch_name)
+        self.assert_context('py_code', py_code)
+
 
     def test_get_static_file_does_not_exist(self):
         response = self.client.get(self.route + 'foo/static/file.js')
