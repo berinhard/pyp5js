@@ -14,13 +14,19 @@ def createCanvas(*args):
     width = _P5_INSTANCE.width
     height = _P5_INSTANCE.height
 
-size = createCanvas
-
 def pop(*args):
     __pragma__('noalias', 'pop')
     p5_pop = _P5_INSTANCE.pop(*args)
     __pragma__('alias', 'pop', 'py_pop')
     return p5_pop
+
+# Processing Python or Java mode compatibility aliases 
+size = createCanvas
+P3D = _P5_INSTANCE.WEBGL
+popMatrix = pop
+popStyle = pop
+pushMatrix = push
+pushStyle = push
 
 def pre_draw(p5_instance, draw_func):
     """
