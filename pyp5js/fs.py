@@ -3,6 +3,7 @@ import re
 import shutil
 from pathlib import Path
 from cprint import cprint
+from collections import namedtuple
 
 from pyp5js.config import SKETCHBOOK_DIR
 from pyp5js.exceptions import SketchDirAlreadyExistException, InvalidName
@@ -78,6 +79,14 @@ class SketchFiles():
 
     def __eq__(self, other):
         return self.sketch_name == other.sketch_name
+
+    @property
+    def urls(self):
+        SketchUrls = namedtuple('SketchUrls', ['p5_js_url', 'sketch_js_url'])
+        return SketchUrls(
+            p5_js_url=f"{self.STATIC_NAME}/p5.js",
+            sketch_js_url=f"{self.TARGET_NAME}/target_sketch.js",
+        )
 
 
 class LibFiles():
