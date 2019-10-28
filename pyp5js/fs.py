@@ -9,6 +9,9 @@ from pyp5js.config import SKETCHBOOK_DIR
 from pyp5js.exceptions import SketchDirAlreadyExistException, InvalidName
 
 
+SketchUrls = namedtuple('SketchUrls', ['p5_js_url', 'sketch_js_url'])
+
+
 class SketchFiles():
     TARGET_NAME = 'target'
     STATIC_NAME = 'static'
@@ -82,7 +85,6 @@ class SketchFiles():
 
     @property
     def urls(self):
-        SketchUrls = namedtuple('SketchUrls', ['p5_js_url', 'sketch_js_url'])
         return SketchUrls(
             p5_js_url=f"{self.STATIC_NAME}/p5.js",
             sketch_js_url=f"{self.TARGET_NAME}/target_sketch.js",
