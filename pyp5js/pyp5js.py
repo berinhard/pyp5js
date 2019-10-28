@@ -1,3 +1,6 @@
+from pyp5js.python_functions import PythonFunctions
+
+_PYTHON_INSTANCE = PythonFunctions()
 _P5_INSTANCE = None
 _CTX_MIDDLE = None
 _DEFAULT_FILL = None
@@ -557,7 +560,10 @@ def copy(*args):
     return _P5_INSTANCE.copy(*args)
 
 def filter(*args):
-    return _P5_INSTANCE.filter(*args)
+    if (len(args) > 1) and (type(args[1]) == type([])):
+        return _PYTHON_INSTANCE.python_filter(*args)
+    else:
+        return _P5_INSTANCE.filter(*args)
 
 def get(*args):
     return _P5_INSTANCE.get(*args)
@@ -566,7 +572,10 @@ def loadPixels(*args):
     return _P5_INSTANCE.loadPixels(*args)
 
 def set(*args):
-    return _P5_INSTANCE.set(*args)
+    if len(args) == 1:
+        return _PYTHON_INSTANCE.python_set(*args)
+    else:
+        return _P5_INSTANCE.set(*args)
 
 def updatePixels(*args):
     return _P5_INSTANCE.updatePixels(*args)
@@ -662,7 +671,10 @@ def mag(*args):
     return _P5_INSTANCE.mag(*args)
 
 def map(*args):
-    return _P5_INSTANCE.map(*args)
+    if (len(args) > 1) and (type(args[1]) == type([])):
+        return _PYTHON_INSTANCE.python_map(*args)
+    else:
+        return _P5_INSTANCE.map(*args)
 
 def max(*args):
     return _P5_INSTANCE.max(*args)
