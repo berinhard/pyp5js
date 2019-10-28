@@ -906,8 +906,6 @@ def createCanvas(*args):
     width = _P5_INSTANCE.width
     height = _P5_INSTANCE.height
 
-def size(*args):
-    return createCanvas(*args)
 
 def pop(*args):
     __pragma__('noalias', 'pop')
