@@ -572,7 +572,7 @@ def loadPixels(*args):
     return _P5_INSTANCE.loadPixels(*args)
 
 def set(*args):
-    if len(args) == 1:
+    if len(args) <= 1:
         return _PYTHON_INSTANCE.python_set(*args)
     else:
         return _P5_INSTANCE.set(*args)
