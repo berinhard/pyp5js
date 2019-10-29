@@ -18,9 +18,12 @@
             margin-right: 2em;
         }
 
-        textarea {
+        #text-editor {
+            width: 500px;
             height: 700px;
-            width: 550px;
+            float: left;
+            margin-bottom: 1.5em;
+        }
         }
     </style>
 {% endblock %}
@@ -29,11 +32,12 @@
     <div class="demoContainer">
       <div style="display: block">
           <form action="." method="POST">
+            <textarea class="display-none" id="id_py_code" name="py_code">{{ py_code }}</textarea>
+
+            <div id="text-editor">{{ py_code }}</div>
+
             <div class="clearfix">
-              <textarea class="rounded p1" rows='4' cols="20" name="py_code">{{ py_code }}</textarea>
-            </div>
-            <div class="clearfix">
-              <input class="btn rounded border-none py1 px2 mb1" type="submit" value="Save">
+              <input class="btn rounded py1 px2 mb1" type="submit" value="Save" onclick="updatePyCode">
             </div>
           </form>
       </div>
@@ -45,8 +49,21 @@
 {% endblock content %}
 
 {% block custom_js %}
-    <script src="/static/js/highlight.min.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="/static/js/ace.js"></script>
+
+    <script type="text/javascript">
+        var editor = ace.edit("text-editor");
+        editor.setTheme("ace/theme/monokai");
+        editor.session.setMode("ace/mode/python");
+        editor.session.setOptions({
+          tabSize: 4,
+        });
+
+        editor.getSession().on('change', function(){
+          document.getElementById("id_py_code").innerHTML = editor.getSession().getValue();
+        });
+    </script>
+
     <script src="{{ p5_js_url }}"></script>
     <script src="{{ sketch_js_url }}"  type="module"></script>
 {% endblock %}
