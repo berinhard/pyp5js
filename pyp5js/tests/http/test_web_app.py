@@ -161,3 +161,37 @@ def draw():
         self.assert_template_used('view_sketch.html')
         self.assert_context('error', 'SyntaxError: invalid syntax (sketch_exists.py, line 6)')
         assert old_content == sketch_files.sketch_py.read_text()
+
+    def test_check_for_setup_function_before_updating(self):
+        test_code = """
+from pyp5js import *
+
+def draw():
+    rect(10, 10, 200, 100)
+    """.strip()
+        sketch_files = self.create_sketch('sketch_exists')
+        old_content = sketch_files.sketch_py.read_text()
+
+        url = self.route + 'sketch_exists/'
+        response = self.client.post(url, data={'py_code': test_code})
+
+        self.assert_template_used('view_sketch.html')
+        self.assert_context('error', 'You have to define a setup function.')
+        assert old_content == sketch_files.sketch_py.read_text()
+
+    def test_check_for_draw_function_before_updating(self):
+        test_code = """
+from pyp5js import *
+
+def setup():
+    createCanvas(300, 300)
+    """.strip()
+        sketch_files = self.create_sketch('sketch_exists')
+        old_content = sketch_files.sketch_py.read_text()
+
+        url = self.route + 'sketch_exists/'
+        response = self.client.post(url, data={'py_code': test_code})
+
+        self.assert_template_used('view_sketch.html')
+        self.assert_context('error', 'You have to define a draw function.')
+        assert old_content == sketch_files.sketch_py.read_text()

@@ -78,6 +78,10 @@ def render_sketch_view(sketch_name, static_path):
         py_code = request.form.get('py_code', '')
         if not py_code.strip():
             error = 'You have to input the Python code.'
+        elif not 'def setup():' in py_code:
+            error = 'You have to define a setup function.'
+        elif not 'def draw():' in py_code:
+            error = 'You have to define a draw function.'
         else:
             try:
                 ast.parse(py_code, sketch_files.sketch_py.name)
