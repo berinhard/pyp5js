@@ -1,6 +1,7 @@
 Development
 -----------
 - Display sketch with code
+- Add aliases to Processing.py functions & constants (`size`, `pushMatrix`, `popMatrix`, `pushStyle`, `pushStyle`, `P3D`)
 
 0.3.5
 -----
