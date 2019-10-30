@@ -19,11 +19,10 @@
         }
 
         #text-editor {
-            width: 500px;
-            height: 700px;
+            width: 700px;
+            height: 800px;
             float: left;
-            margin-bottom: 1.5em;
-        }
+            margin: 1.5em;
         }
     </style>
 {% endblock %}
@@ -49,13 +48,15 @@
 {% endblock content %}
 
 {% block custom_js %}
-    <script src="/static/js/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.4/ace.js"></script>
 
     <script type="text/javascript">
         var editor = ace.edit("text-editor");
+
         editor.setTheme("ace/theme/monokai");
-        editor.session.setMode("ace/mode/python");
-        editor.session.setOptions({
+        editor.getSession().setMode("ace/mode/python");
+        editor.setFontSize(16);
+        editor.getSession().setOptions({
           tabSize: 4,
         });
 
