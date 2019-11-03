@@ -1,3 +1,4 @@
+import ast
 from flask import Flask, render_template, Response, request
 from slugify import slugify
 from textwrap import dedent
@@ -50,11 +51,12 @@ def add_new_sketch_view():
     return render_template(template, **context)
 
 
-@app.route('/sketch/<string:sketch_name>/', defaults={'static_path': ''})
+@app.route('/sketch/<string:sketch_name>/', defaults={'static_path': ''}, methods=['GET', 'POST'])
 @app.route('/sketch/<string:sketch_name>/<path:static_path>')
 def render_sketch_view(sketch_name, static_path):
     sketch_files = SketchFiles(sketch_name)
 
+    error = ''
     content_file = sketch_files.index_html
     if static_path:
         content_file = sketch_files.sketch_dir.joinpath(static_path).resolve()
@@ -72,7 +74,22 @@ def render_sketch_view(sketch_name, static_path):
             response.headers['Content-Type'] = 'application/javascript'
         return response
 
-    else:
+    elif request.method == 'POST':
+        py_code = request.form.get('py_code', '')
+        if not py_code.strip():
+            error = 'You have to input the Python code.'
+        elif not 'def setup():' in py_code:
+            error = 'You have to define a setup function.'
+        elif not 'def draw():' in py_code:
+            error = 'You have to define a draw function.'
+        else:
+            try:
+                ast.parse(py_code, sketch_files.sketch_py.name)
+                sketch_files.sketch_py.write_text(py_code)
+            except SyntaxError as exc:
+                error = f'SyntaxError: {exc}'
+
+    if not error:
         try:
             commands.transcrypt_sketch(sketch_name)
         except PythonSketchDoesNotExist:
@@ -82,6 +99,7 @@ def render_sketch_view(sketch_name, static_path):
         'p5_js_url': sketch_files.urls.p5_js_url,
         'sketch_js_url': sketch_files.urls.sketch_js_url,
         'sketch_name': sketch_files.sketch_name,
-        'py_code': sketch_files.sketch_py.read_text()
+        'py_code': sketch_files.sketch_py.read_text(),
+        'error': error,
     }
     return render_template('view_sketch.html', **context)
