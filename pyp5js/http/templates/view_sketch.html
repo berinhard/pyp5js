@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}{{ sketch_name }}{% endblock title %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="/static/styles/highlightjs.min.css">
+    <style>
+        html {
+          overflow-y: scroll;
+          overflow-x: scroll;
+        }
+
+        .demoContainer {
+          display: flex;
+          align-items: center;
+        }
+
+        pre {
+            margin-right: 2em;
+        }
+
+        #text-editor {
+            width: 700px;
+            height: 800px;
+            float: left;
+            margin: 1.5em;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="demoContainer">
+      <div style="display: block">
+          <form action="." method="POST">
+            <textarea class="display-none" id="id_py_code" name="py_code">{{ py_code }}</textarea>
+
+            <div id="text-editor">{{ py_code }}</div>
+
+            <div class="clearfix">
+              <input class="btn rounded py1 px2 mb1" type="submit" value="Save">
+            </div>
+          </form>
+      </div>
+
+      <div id="sketch-holder">
+        <!-- You sketch will go here! -->
+      </div>
+    </div>
+{% endblock content %}
+
+{% block custom_js %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.4/ace.js"></script>
+
+    <script type="text/javascript">
+        var editor = ace.edit("text-editor");
+
+        editor.setTheme("ace/theme/monokai");
+        editor.getSession().setMode("ace/mode/python");
+        editor.setFontSize(16);
+        editor.getSession().setOptions({
+          tabSize: 4,
+        });
+
+        editor.getSession().on('change', function(){
+          document.getElementById("id_py_code").innerHTML = editor.getSession().getValue();
+        });
+    </script>
+
+    <script src="{{ p5_js_url }}"></script>
+    <script src="{{ sketch_js_url }}"  type="module"></script>
+{% endblock %}

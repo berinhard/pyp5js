@@ -1,6 +1,16 @@
 Development
 -----------
 
+0.3.6
+-----
+- Display sketch with code
+- Add ACE editor to edit the sketch code
+- Add aliases to Processing.py functions & constants (`size`, `pushMatrix`, `popMatrix`, `pushStyle`, `pushStyle`, `P3D`)
+
+0.3.5
+-----
+- Fix issue with assets
+
 0.3.4
 -----
 - Update sketch's template
