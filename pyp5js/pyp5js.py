@@ -912,9 +912,8 @@ def pop(*args):
     __pragma__('alias', 'pop', 'py_pop')
     return p5_pop
 
-# Processing Python or Java mode compatibility aliases 
+# Processing Python or Java mode compatibility aliases
 size = createCanvas
-P3D = _P5_INSTANCE.WEBGL
 popMatrix = pop
 popStyle = pop
 pushMatrix = push
@@ -1079,6 +1078,9 @@ def pre_draw(p5_instance, draw_func):
     VIDEO = p5_instance.VIDEO
     AUDIO = p5_instance.AUDIO
     
+
+    P3D = p5_instance.WEBGL
+
     return draw_func()
 
 

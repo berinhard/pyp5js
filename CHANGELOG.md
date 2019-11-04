@@ -1,7 +1,12 @@
 Development
 -----------
 
-0.3.6
+0.4.1
+-----
+- Fix bug of null `_P5_INSTANCE`
+
+
+0.4.0
 -----
 - Display sketch with code
 - Add ACE editor to edit the sketch code

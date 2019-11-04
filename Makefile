@@ -8,5 +8,5 @@ upload_pypi:
 	@twine upload dist/*
 
 update_pyp5js:
-	@python3 pyp5js/utils/update_pytop5js.py
+	@python3 pyp5js/pre_compile/update_pytop5js.py
 
