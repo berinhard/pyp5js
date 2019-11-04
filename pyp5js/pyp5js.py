@@ -560,7 +560,7 @@ def copy(*args):
     return _P5_INSTANCE.copy(*args)
 
 def filter(*args):
-    if (len(args) > 1) and (type(args[1]) == type([])):
+    if (len(args) > 1) and callable(args[0]):
         return _PYTHON_INSTANCE.filter(*args)
     else:
         return _P5_INSTANCE.filter(*args)
@@ -671,7 +671,7 @@ def mag(*args):
     return _P5_INSTANCE.mag(*args)
 
 def map(*args):
-    if (len(args) > 1) and (type(args[1]) == type([])):
+    if (len(args) > 1) and callable(args[0]):
         return _PYTHON_INSTANCE.map(*args)
     else:
         return _P5_INSTANCE.map(*args)
