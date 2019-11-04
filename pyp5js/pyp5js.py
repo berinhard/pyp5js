@@ -561,7 +561,7 @@ def copy(*args):
 
 def filter(*args):
     if (len(args) > 1) and (type(args[1]) == type([])):
-        return _PYTHON_INSTANCE.python_filter(*args)
+        return _PYTHON_INSTANCE.filter(*args)
     else:
         return _P5_INSTANCE.filter(*args)
 
@@ -573,7 +573,7 @@ def loadPixels(*args):
 
 def set(*args):
     if len(args) <= 1:
-        return _PYTHON_INSTANCE.python_set(*args)
+        return _PYTHON_INSTANCE.set(*args)
     else:
         return _P5_INSTANCE.set(*args)
 
@@ -672,7 +672,7 @@ def mag(*args):
 
 def map(*args):
     if (len(args) > 1) and (type(args[1]) == type([])):
-        return _PYTHON_INSTANCE.python_map(*args)
+        return _PYTHON_INSTANCE.map(*args)
     else:
         return _P5_INSTANCE.map(*args)
 
