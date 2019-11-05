@@ -916,11 +916,11 @@ def createElement(*args):
 
 
 def createCanvas(*args):
-    result = _P5_INSTANCE.createCanvas(*args)
-
     global width, height
     width = _P5_INSTANCE.width
     height = _P5_INSTANCE.height
+
+    return _P5_INSTANCE.createCanvas(*args)
 
 
 def pop(*args):
