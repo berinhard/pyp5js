@@ -914,7 +914,6 @@ def createCapture(*args):
 def createElement(*args):
     return _P5_INSTANCE.createElement(*args)
 
-
 def createCanvas(*args):
     canvas = _P5_INSTANCE.createCanvas(*args)
 
@@ -1157,13 +1156,13 @@ def start_p5(setup_func, draw_func, event_functions):
     instance = __new__(p5(sketch_setup, 'sketch-holder'))
 
     # inject event functions into p5
-    event_function_names = [
+    event_function_names = (
         "deviceMoved", "deviceTurned", "deviceShaken", "windowResized",
         "keyPressed", "keyReleased", "keyTyped",
         "mousePressed", "mouseReleased", "mouseClicked", "doubleClicked",
         "mouseMoved", "mouseDragged", "mouseWheel",
         "touchStarted", "touchMoved", "touchEnded"
-    ]
+    )
 
     for f_name in [f for f in event_function_names if event_functions.get(f, None)]:
         func = event_functions[f_name]
