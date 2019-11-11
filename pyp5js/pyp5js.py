@@ -1,15 +1,17 @@
 from pyp5js.python_functions import PythonFunctions
 
-_PYTHON_INSTANCE = PythonFunctions()
 _P5_INSTANCE = None
+
 _CTX_MIDDLE = None
 _DEFAULT_FILL = None
 _DEFAULT_LEADMULT = None
 _DEFAULT_STROKE = None
 _DEFAULT_TEXT_FILL = None
+
 ADD = None
 ALT = None
 ARROW = None
+AUDIO = None
 AUTO = None
 AXES = None
 BACKSPACE = None
@@ -110,10 +112,12 @@ TRIANGLE_STRIP = None
 TRIANGLES = None
 TWO_PI = None
 UP_ARROW = None
+VIDEO = None
 WAIT = None
 WEBGL = None
 P2D = None
 PI = None
+
 frameCount = None
 focused = None
 displayWidth = None
@@ -152,9 +156,6 @@ mouseButton = None
 mouseIsPressed = None
 touches = None
 pixels = None
-VIDEO = None
-AUDIO = None
-
 
 
 def alpha(*args):
@@ -560,10 +561,11 @@ def copy(*args):
     return _P5_INSTANCE.copy(*args)
 
 def filter(*args):
-    if (len(args) > 1) and callable(args[0]):
-        return _PYTHON_INSTANCE.filter(*args)
+    if len(args) > 1 and (args[0] is None or callable(args[0])):
+        return PythonFunctions.filter(*args)
     else:
         return _P5_INSTANCE.filter(*args)
+
 
 def get(*args):
     return _P5_INSTANCE.get(*args)
@@ -573,9 +575,10 @@ def loadPixels(*args):
 
 def set(*args):
     if len(args) <= 1:
-        return _PYTHON_INSTANCE.set(*args)
+        return PythonFunctions.set(*args)
     else:
         return _P5_INSTANCE.set(*args)
+
 
 def updatePixels(*args):
     return _P5_INSTANCE.updatePixels(*args)
@@ -671,10 +674,11 @@ def mag(*args):
     return _P5_INSTANCE.mag(*args)
 
 def map(*args):
-    if (len(args) > 1) and callable(args[0]):
-        return _PYTHON_INSTANCE.map(*args)
+    if len(args) > 1 and callable(args[0]):
+        return PythonFunctions.map(*args)
     else:
         return _P5_INSTANCE.map(*args)
+
 
 def max(*args):
     return _P5_INSTANCE.max(*args)
@@ -910,19 +914,22 @@ def createCapture(*args):
 def createElement(*args):
     return _P5_INSTANCE.createElement(*args)
 
-
 def createCanvas(*args):
-    result = _P5_INSTANCE.createCanvas(*args)
+    canvas = _P5_INSTANCE.createCanvas(*args)
 
     global width, height
     width = _P5_INSTANCE.width
     height = _P5_INSTANCE.height
+
+    return canvas
+
 
 def pop(*args):
     __pragma__('noalias', 'pop')
     p5_pop = _P5_INSTANCE.pop(*args)
     __pragma__('alias', 'pop', 'py_pop')
     return p5_pop
+
 
 # Processing Python or Java mode compatibility aliases
 size = createCanvas
@@ -935,16 +942,34 @@ def pre_draw(p5_instance, draw_func):
     """
     We need to run this before the actual draw to insert and update p5 env variables
     """
-    global _CTX_MIDDLE, _DEFAULT_FILL, _DEFAULT_LEADMULT, _DEFAULT_STROKE, _DEFAULT_TEXT_FILL, ADD, ALT, ARROW, AUTO, AXES, BACKSPACE, BASELINE, BEVEL, BEZIER, BLEND, BLUR, BOLD, BOLDITALIC, BOTTOM, BURN, CENTER, CHORD, CLAMP, CLOSE, CONTROL, CORNER, CORNERS, CROSS, CURVE, DARKEST, DEG_TO_RAD, DEGREES, DELETE, DIFFERENCE, DILATE, DODGE, DOWN_ARROW, ENTER, ERODE, ESCAPE, EXCLUSION, FILL, GRAY, GRID, HALF_PI, HAND, HARD_LIGHT, HSB, HSL, IMAGE, IMMEDIATE, INVERT, ITALIC, LANDSCAPE, LEFT, LEFT_ARROW, LIGHTEST, LINE_LOOP, LINE_STRIP, LINEAR, LINES, MIRROR, MITER, MOVE, MULTIPLY, NEAREST, NORMAL, OPAQUE, OPEN, OPTION, OVERLAY, PI, PIE, POINTS, PORTRAIT, POSTERIZE, PROJECT, QUAD_STRIP, QUADRATIC, QUADS, QUARTER_PI, RAD_TO_DEG, RADIANS, RADIUS, REPEAT, REPLACE, RETURN, RGB, RIGHT, RIGHT_ARROW, ROUND, SCREEN, SHIFT, SOFT_LIGHT, SQUARE, STROKE, SUBTRACT, TAB, TAU, TEXT, TEXTURE, THRESHOLD, TOP, TRIANGLE_FAN, TRIANGLE_STRIP, TRIANGLES, TWO_PI, UP_ARROW, WAIT, WEBGL, P2D, PI, frameCount, focused, displayWidth, displayHeight, windowWidth, windowHeight, width, height, disableFriendlyErrors, deviceOrientation, accelerationX, accelerationY, accelerationZ, pAccelerationX, pAccelerationY, pAccelerationZ, rotationX, rotationY, rotationZ, pRotationX, pRotationY, pRotationZ, turnAxis, keyIsPressed, key, keyCode, mouseX, mouseY, pmouseX, pmouseY, winMouseX, winMouseY, pwinMouseX, pwinMouseY, mouseButton, mouseIsPressed, touches, pixels, VIDEO, AUDIO
+    global _CTX_MIDDLE, _DEFAULT_FILL, _DEFAULT_LEADMULT, _DEFAULT_STROKE, _DEFAULT_TEXT_FILL
+
+    global ADD, ALT, ARROW, AUTO, AUDIO, AXES, BACKSPACE, BASELINE, BEVEL, BEZIER, BLEND, BLUR, BOLD, BOLDITALIC
+    global BOTTOM, BURN, CENTER, CHORD, CLAMP, CLOSE, CONTROL, CORNER, CORNERS, CROSS, CURVE, DARKEST
+    global DEG_TO_RAD, DEGREES, DELETE, DIFFERENCE, DILATE, DODGE, DOWN_ARROW, ENTER, ERODE, ESCAPE, EXCLUSION
+    global FILL, GRAY, GRID, HALF_PI, HAND, HARD_LIGHT, HSB, HSL, IMAGE, IMMEDIATE, INVERT, ITALIC, LANDSCAPE
+    global LEFT, LEFT_ARROW, LIGHTEST, LINE_LOOP, LINE_STRIP, LINEAR, LINES, MIRROR, MITER, MOVE, MULTIPLY, NEAREST
+    global NORMAL, OPAQUE, OPEN, OPTION, OVERLAY, P2D, PI, PIE, POINTS, PORTRAIT, POSTERIZE, PROJECT, QUAD_STRIP, QUADRATIC
+    global QUADS, QUARTER_PI, RAD_TO_DEG, RADIANS, RADIUS, REPEAT, REPLACE, RETURN, RGB, RIGHT, RIGHT_ARROW
+    global ROUND, SCREEN, SHIFT, SOFT_LIGHT, SQUARE, STROKE, SUBTRACT, TAB, TAU, TEXT, TEXTURE, THRESHOLD, TOP
+    global TRIANGLE_FAN, TRIANGLE_STRIP, TRIANGLES, TWO_PI, UP_ARROW, VIDEO, WAIT, WEBGL
+
+    global frameCount, focused, displayWidth, displayHeight, windowWidth, windowHeight, width, height
+    global disableFriendlyErrors, deviceOrientation, accelerationX, accelerationY, accelerationZ
+    global pAccelerationX, pAccelerationY, pAccelerationZ, rotationX, rotationY, rotationZ
+    global pRotationX, pRotationY, pRotationZ, turnAxis, keyIsPressed, key, keyCode, mouseX, mouseY, pmouseX, pmouseY
+    global winMouseX, winMouseY, pwinMouseX, pwinMouseY, mouseButton, mouseIsPressed, touches, pixels
 
     _CTX_MIDDLE = p5_instance._CTX_MIDDLE
     _DEFAULT_FILL = p5_instance._DEFAULT_FILL
     _DEFAULT_LEADMULT = p5_instance._DEFAULT_LEADMULT
     _DEFAULT_STROKE = p5_instance._DEFAULT_STROKE
     _DEFAULT_TEXT_FILL = p5_instance._DEFAULT_TEXT_FILL
+
     ADD = p5_instance.ADD
     ALT = p5_instance.ALT
     ARROW = p5_instance.ARROW
+    AUDIO = p5_instance.AUDIO
     AUTO = p5_instance.AUTO
     AXES = p5_instance.AXES
     BACKSPACE = p5_instance.BACKSPACE
@@ -1008,6 +1033,8 @@ def pre_draw(p5_instance, draw_func):
     OPEN = p5_instance.OPEN
     OPTION = p5_instance.OPTION
     OVERLAY = p5_instance.OVERLAY
+    P2D = p5_instance.P2D
+    P3D = p5_instance.WEBGL
     PI = p5_instance.PI
     PIE = p5_instance.PIE
     POINTS = p5_instance.POINTS
@@ -1045,10 +1072,10 @@ def pre_draw(p5_instance, draw_func):
     TRIANGLES = p5_instance.TRIANGLES
     TWO_PI = p5_instance.TWO_PI
     UP_ARROW = p5_instance.UP_ARROW
+    VIDEO = p5_instance.VIDEO
     WAIT = p5_instance.WAIT
     WEBGL = p5_instance.WEBGL
-    P2D = p5_instance.P2D
-    PI = p5_instance.PI
+
     frameCount = p5_instance.frameCount
     focused = p5_instance.focused
     displayWidth = p5_instance.displayWidth
@@ -1087,11 +1114,6 @@ def pre_draw(p5_instance, draw_func):
     mouseIsPressed = p5_instance.mouseIsPressed
     touches = p5_instance.touches
     pixels = p5_instance.pixels
-    VIDEO = p5_instance.VIDEO
-    AUDIO = p5_instance.AUDIO
-    
-
-    P3D = p5_instance.WEBGL
 
     return draw_func()
 
@@ -1102,12 +1124,14 @@ def global_p5_injection(p5_sketch):
     """
 
     def decorator(f):
-
         def wrapper():
             global _P5_INSTANCE
             _P5_INSTANCE = p5_sketch
             return pre_draw(_P5_INSTANCE, f)
+
+
         return wrapper
+
 
     return decorator
 
@@ -1128,10 +1152,17 @@ def start_p5(setup_func, draw_func, event_functions):
         p5_sketch.setup = global_p5_injection(p5_sketch)(setup_func)
         p5_sketch.draw = global_p5_injection(p5_sketch)(draw_func)
 
-    instance =  __new__ (p5(sketch_setup, 'sketch-holder'))
+
+    instance = __new__(p5(sketch_setup, 'sketch-holder'))
 
     # inject event functions into p5
-    event_function_names = ["deviceMoved", "deviceTurned", "deviceShaken", "keyPressed", "keyReleased", "keyTyped", "mouseMoved", "mouseDragged", "mousePressed", "mouseReleased", "mouseClicked", "doubleClicked", "mouseWheel", "touchStarted", "touchMoved", "touchEnded", "windowResized", ]
+    event_function_names = (
+        "deviceMoved", "deviceTurned", "deviceShaken", "windowResized",
+        "keyPressed", "keyReleased", "keyTyped",
+        "mousePressed", "mouseReleased", "mouseClicked", "doubleClicked",
+        "mouseMoved", "mouseDragged", "mouseWheel",
+        "touchStarted", "touchMoved", "touchEnded"
+    )
 
     for f_name in [f for f in event_function_names if event_functions.get(f, None)]:
         func = event_functions[f_name]
@@ -1149,10 +1180,10 @@ def add_library(lib_name):
     if lib_name == 'p5.dom.js':
         src = "static/p5.dom.js"
     else:
-        console.log("Lib name is not valid: " + lib_name)
-        return
+        return console.log("Lib name is not valid:", lib_name)
 
-    console.log("Importing: " + src)
+    console.log("Importing:", src)
+
     script = document.createElement("script")
     script.onload = logOnloaded
     script.src = src
