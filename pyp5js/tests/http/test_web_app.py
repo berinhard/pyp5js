@@ -68,7 +68,7 @@ class NewSketchViewTests(Pyp5jsWebTestCase):
         self.create_sketch('my_existing_sketch')
         self.client.post(self.route, data={'sketch_name': 'my_existing_sketch'})
         self.assert_template_used('new_sketch_form.html')
-        self.assert_context('error', 'The sketch tests-sketchbook/my_existing_sketch already exists.')
+        self.assert_context('error', 'The sketch ' + os.path.join('tests-sketchbook', 'my_existing_sketch') + ' already exists.')
 
     def test_post_with_sketch_name_should_render_success_form(self):
         self.client.post(self.route, data={'sketch_name': 'a_name'})

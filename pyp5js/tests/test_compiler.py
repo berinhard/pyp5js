@@ -3,7 +3,6 @@ import os
 import shutil
 from unittest import TestCase
 from unittest.mock import Mock, patch
-from subprocess import Popen
 
 from pyp5js.compiler import Pyp5jsCompiler, compile_sketch_js
 from pyp5js.config import SKETCHBOOK_DIR
@@ -57,16 +56,12 @@ class Pyp5jsCompilerTests(TestCase):
 
         assert expected == self.compiler.command_line
 
-    @patch('pyp5js.compiler.subprocess.Popen')
-    def test_run_compiler_as_expected(self, MockedPopen):
-        proc = Mock(spec=Popen)
-        MockedPopen.return_value = proc
-
+    def test_run_compiler_as_expected(self):
+        self.compiler.prepare()
         self.compiler.run_compiler()
-        expected_command_line = os.system(self.compiler.command_line)
 
-        MockedPopen.assert_called_once_with(expected_command_line)
-        proc.wait.assert_called_once_with()
+        assert self.compiler.target_dir.exists()
+        assert self.files.target_sketch.exists()
 
     def test_clean_up(self):
         self.compiler.target_dir.mkdir()
