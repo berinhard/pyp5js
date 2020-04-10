@@ -1,4 +1,4 @@
-import shlex
+import os
 import shutil
 import subprocess
 from cprint import cprint
@@ -38,9 +38,10 @@ class Pyp5jsCompiler:
         Execute transcrypt command to generate the JS files
         """
         command = self.command_line
-        cprint.info(f"Converting Python to P5.js...\nRunning command:\n\t {command}")
+        cprint.info(
+            f"Converting Python to P5.js...\nRunning command:\n\t {command}")
 
-        proc = subprocess.Popen(shlex.split(command))
+        proc = subprocess.Popen(os.system(command))
         proc.wait()
 
     def clean_up(self):
@@ -63,6 +64,7 @@ class Pyp5jsCompiler:
         with self.sketch_files.target_sketch.open('w') as fd:
             content = get_target_sketch_content(self.sketch_files)
             fd.write(content)
+
 
 def compile_sketch_js(sketch_files):
     compiler = Pyp5jsCompiler(sketch_files)
