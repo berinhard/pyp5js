@@ -1,5 +1,6 @@
 import ast
-from flask import Flask, render_template, Response, request
+import io
+from flask import Flask, render_template, Response, request, send_file
 from slugify import slugify
 from textwrap import dedent
 
@@ -33,7 +34,8 @@ def add_new_sketch_view():
     context = {'sketches_dir': SKETCHBOOK_DIR.resolve()}
 
     if request.method == 'POST':
-        sketch_name = slugify(request.form.get('sketch_name', '').strip(), separator='_')
+        sketch_name = slugify(request.form.get(
+            'sketch_name', '').strip(), separator='_')
         if not sketch_name:
             context['error'] = "You have to input a sketch name to proceed."
         else:
@@ -65,6 +67,12 @@ def render_sketch_view(sketch_name, static_path):
             return '', 403
         elif not content_file.exists():
             return '', 404
+
+        if static_path.endswith(('gif', 'jpg', 'tga', 'png')):
+            img = open(content_file, 'rb').read()
+            return send_file(io.BytesIO(img),
+                             attachment_filename='%s.jpg' % static_path,
+                             mimetype='image/'+static_path[-3:])
 
         with content_file.open() as fd:
             response = Response(fd.read())
