@@ -26,6 +26,7 @@ popMatrix = pop
 popStyle = pop
 pushMatrix = push
 pushStyle = push
+PVector = p5.Vector
 
 def pre_draw(p5_instance, draw_func):
     """
