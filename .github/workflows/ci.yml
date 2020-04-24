@@ -19,7 +19,7 @@ jobs:
         run: python3 --version
 
       - name: Upgrade pip
-        run: pip3 install --upgrade pip
+        run: pip3 install --upgrade pip setuptools
 
       - name: Install dev dependencies
         run: pip3 install -r requirements.txt
