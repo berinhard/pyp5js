@@ -41,7 +41,7 @@ class Pyp5jsCompiler:
         cprint.info(
             f"Converting Python to P5.js...\nRunning command:\n\t {command}")
 
-        os.system(command)
+        subprocess.call(command, shell=True)
 
     def clean_up(self):
         """
