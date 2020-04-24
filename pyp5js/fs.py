@@ -117,10 +117,6 @@ class LibFiles():
         return self.templates_dir.joinpath('base_sketch.py.template')
 
     @property
-    def pytop5js_template(self):
-        return self.templates_dir.joinpath('pyp5js.py.template')
-
-    @property
     def target_sketch_template(self):
         return self.templates_dir.joinpath('target_sketch.py.template')
 

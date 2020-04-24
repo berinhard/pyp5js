@@ -202,7 +202,6 @@ After that, you should have the `pyp5js` command enabled and it will respect all
 - `monitor.py`: module with the objects used by the `monitor` command
 - `pyp5js.py`: module which is imported by the sketches and integrates with P5.js API
 - `template_renderers.py`: simple module with the renderization logic for the code templates like `target_sketch.py`
-- `pre_compile/update_pytop5js.py`: this script is responsible for generating the `pyp5js.py` file
 - `http/web_app.py`: Flask application for the web interface.
 
 Now go [fetch yourself an issue](https://github.com/berinhard/pyp5js/issues) and happy hacking!

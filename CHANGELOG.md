@@ -1,5 +1,6 @@
 Development
 -----------
+- Keep Python functions with name conflict with p5.js working as expected
 
 0.4.1
 -----
