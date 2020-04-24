@@ -25,7 +25,7 @@ jobs:
         run: pip3 install -r requirements.txt
 
       - name: Install pyp5js for dev
-        run: python3 setup.py develop
+        run: python3 setup.py develop --install-dir dist
 
       - name:
         run: make test
