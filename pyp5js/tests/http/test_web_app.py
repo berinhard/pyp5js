@@ -128,6 +128,7 @@ class SketchViewTests(Pyp5jsWebTestCase):
             response = self.client.get(self.route + f'my_sketch_file/{img_name}')
 
             self.assert_200(response)
+            self.assertEqual(f'attachment; filename={img_name}', response.headers['Content-Disposition'])
             self.assertEqual(f'image/{suffix[1:]}', response.headers['Content-Type'])
             self.assertEqual(response.get_data(), img_content)
 
