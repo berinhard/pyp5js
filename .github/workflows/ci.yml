@@ -28,4 +28,4 @@ jobs:
         run: python3 setup.py develop --install-dir dist
 
       - name:
-        run: pytest
+        run: python3 -m pytest
