@@ -1,8 +1,6 @@
 import ast
-import io
-from flask import Flask, render_template, Response, request, send_file
+from flask import Flask, render_template, Response, request
 from slugify import slugify
-from textwrap import dedent
 
 from pyp5js import commands
 from pyp5js.config import SKETCHBOOK_DIR
@@ -11,6 +9,7 @@ from pyp5js.fs import SketchFiles
 
 
 app = Flask(__name__)
+SUPPORTED_IMAGE_FILE_SUFFIXES = (".gif", ".jpg", ".png")
 
 
 @app.route("/")
@@ -59,7 +58,6 @@ def render_sketch_view(sketch_name, static_path):
     sketch_files = SketchFiles(sketch_name)
 
     error = ''
-    content_file = sketch_files.index_html
     if static_path:
         return _serve_static(sketch_files, static_path)
 
@@ -67,9 +65,9 @@ def render_sketch_view(sketch_name, static_path):
         py_code = request.form.get('py_code', '')
         if not py_code.strip():
             error = 'You have to input the Python code.'
-        elif not 'def setup():' in py_code:
+        elif 'def setup():' not in py_code:
             error = 'You have to define a setup function.'
-        elif not 'def draw():' in py_code:
+        elif 'def draw():' not in py_code:
             error = 'You have to define a draw function.'
         else:
             try:
@@ -94,7 +92,6 @@ def render_sketch_view(sketch_name, static_path):
     return render_template('view_sketch.html', **context)
 
 
-SUPPORTED_IMAGE_FILE_SUFFIXES = (".gif", ".jpg", ".png")
 def _serve_static(sketch_files, static_path):
     content_file = sketch_files.sketch_dir.joinpath(static_path).resolve()
     if not str(content_file).startswith(str(sketch_files.sketch_dir.resolve())):
@@ -107,7 +104,7 @@ def _serve_static(sketch_files, static_path):
         response = Response(fd.read())
     if static_path.endswith('js'):
         # To avoid MIME type errors
-        # More can be found here: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
+        # More can be found here: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options  # noqa
         response.headers['Content-Type'] = 'application/javascript'
     elif static_path.endswith(SUPPORTED_IMAGE_FILE_SUFFIXES):
         response.headers['Content-Type'] = 'image/' + content_file.suffix[1:]
