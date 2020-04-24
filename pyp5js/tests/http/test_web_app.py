@@ -109,6 +109,17 @@ class SketchViewTests(Pyp5jsWebTestCase):
         self.assert_200(response)
         self.assertEqual(response.headers['Content-Type'], 'application/javascript')
 
+    def test_get_static_javascript_file_upper_case(self):
+        js_code = 'alert("hi!");'
+        self.create_sketch_with_static_files('sketch_with_static_js')
+        self.create_file(f'sketch_with_static_js/static/custom.JS', js_code)
+
+        response = self.client.get(self.route + 'sketch_with_static_js/static/custom.JS')
+
+        self.assert_200(response)
+        self.assertEqual(response.headers['Content-Type'], 'application/javascript')
+        self.assertEqual(js_code.encode(), response.get_data())
+
     def test_get_static_file(self):
         self.create_sketch('my_sketch_file')
         self.create_file('my_sketch_file/static/style.css', 'css file content')
@@ -119,7 +130,7 @@ class SketchViewTests(Pyp5jsWebTestCase):
     def test_get_image_files(self):
         img_content = b'image content'
         self.create_sketch('my_sketch_file')
-        supported_extensions = ['.gif', '.jpg', '.png']
+        supported_extensions = ['.gif', '.jpg', '.png', '.PNG', '.JPG', '.GIF']
 
         for suffix in supported_extensions:
             img_name = f"image{suffix}"
@@ -128,8 +139,8 @@ class SketchViewTests(Pyp5jsWebTestCase):
             response = self.client.get(self.route + f'my_sketch_file/{img_name}')
 
             self.assert_200(response)
+            self.assertEqual(f'image/{suffix[1:].lower()}', response.headers['Content-Type'])
             self.assertEqual(f'attachment; filename={img_name}', response.headers['Content-Disposition'])
-            self.assertEqual(f'image/{suffix[1:]}', response.headers['Content-Type'])
             self.assertEqual(response.get_data(), img_content)
 
     def test_403_if_invalid_path(self):

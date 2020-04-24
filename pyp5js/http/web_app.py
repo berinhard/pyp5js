@@ -103,7 +103,7 @@ def _serve_static(sketch_files, static_path):
     with content_file.open() as fd:
         response = Response(fd.read())
 
-    file_suffix = content_file.suffix
+    file_suffix = content_file.suffix.lower()
     if file_suffix == '.js':
         # To avoid MIME type errors
         # More can be found here: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options  # noqa
