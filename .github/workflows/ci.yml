@@ -15,14 +15,17 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
+      - name: Display python version
+        run: python3 --version
+
+      - name: Upgrade pip
+        run: pip3 install --upgrade pip
+
       - name: Install dev dependencies
-        run: |
-          python3 -m pip install --upgrade pip
-          pip install -r requirements.txt
+        run: pip3 install -r requirements.txt
 
       - name: Install pyp5js for dev
-        run: |
-          python3 setup.py develop
+        run: python3 setup.py develop
 
       - name:
         run: make test
