@@ -102,11 +102,14 @@ def _serve_static(sketch_files, static_path):
 
     with content_file.open() as fd:
         response = Response(fd.read())
-    if static_path.endswith('js'):
+
+    file_suffix = content_file.suffix
+    if file_suffix == '.js':
         # To avoid MIME type errors
         # More can be found here: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options  # noqa
         response.headers['Content-Type'] = 'application/javascript'
-    elif static_path.endswith(SUPPORTED_IMAGE_FILE_SUFFIXES):
-        response.headers['Content-Type'] = 'image/' + content_file.suffix[1:]
+    elif file_suffix in SUPPORTED_IMAGE_FILE_SUFFIXES:
+        response.headers['Content-Type'] = 'image/' + file_suffix[1:]
         response.headers['Content-Disposition'] = f'attachment; filename={content_file.name}'
+
     return response
