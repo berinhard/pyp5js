@@ -34,9 +34,6 @@ def test_files_properties(lib_files):
     assert lib_files.base_sketch == pyp5_dir.joinpath('templates', 'base_sketch.py.template')
     assert lib_files.base_sketch.exists()
 
-    assert lib_files.pytop5js_template == pyp5_dir.joinpath('templates', 'pyp5js.py.template')
-    assert lib_files.pytop5js_template.exists()
-
     assert lib_files.target_sketch_template == pyp5_dir.joinpath('templates', 'target_sketch.py.template')
     assert lib_files.target_sketch_template.exists()
 
