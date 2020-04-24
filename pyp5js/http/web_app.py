@@ -66,7 +66,7 @@ def render_sketch_view(sketch_name, static_path):
         elif not content_file.exists():
             return '', 404
 
-        with content_file.open() as fd:
+        with content_file.open(encoding="utf8") as fd:
             response = Response(fd.read())
         if static_path.endswith('js'):
             # To avoid MIME type errors
