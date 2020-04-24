@@ -61,26 +61,7 @@ def render_sketch_view(sketch_name, static_path):
     error = ''
     content_file = sketch_files.index_html
     if static_path:
-        content_file = sketch_files.sketch_dir.joinpath(static_path).resolve()
-        if not str(content_file).startswith(str(sketch_files.sketch_dir.resolve())):
-            # User tried something not allowed (as "/root/something" or "../xxx")
-            return '', 403
-        elif not content_file.exists():
-            return '', 404
-
-        if static_path.endswith(('gif', 'jpg', 'tga', 'png')):
-            img = open(content_file, 'rb').read()
-            return send_file(io.BytesIO(img),
-                             attachment_filename='%s.jpg' % static_path,
-                             mimetype='image/'+static_path[-3:])
-
-        with content_file.open() as fd:
-            response = Response(fd.read())
-        if static_path.endswith('js'):
-            # To avoid MIME type errors
-            # More can be found here: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
-            response.headers['Content-Type'] = 'application/javascript'
-        return response
+        return _serve_static(sketch_files, static_path)
 
     elif request.method == 'POST':
         py_code = request.form.get('py_code', '')
@@ -111,3 +92,26 @@ def render_sketch_view(sketch_name, static_path):
         'error': error,
     }
     return render_template('view_sketch.html', **context)
+
+
+def _serve_static(sketch_files, static_path):
+    content_file = sketch_files.sketch_dir.joinpath(static_path).resolve()
+    if not str(content_file).startswith(str(sketch_files.sketch_dir.resolve())):
+        # User tried something not allowed (as "/root/something" or "../xxx")
+        return '', 403
+    elif not content_file.exists():
+        return '', 404
+
+    if static_path.endswith(('gif', 'jpg', 'tga', 'png')):
+        img = open(content_file, 'rb').read()
+        return send_file(io.BytesIO(img),
+                         attachment_filename='%s.jpg' % static_path,
+                         mimetype='image/'+static_path[-3:])
+
+    with content_file.open() as fd:
+        response = Response(fd.read())
+    if static_path.endswith('js'):
+        # To avoid MIME type errors
+        # More can be found here: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
+        response.headers['Content-Type'] = 'application/javascript'
+    return response
