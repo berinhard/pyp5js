@@ -6,6 +6,7 @@ from pyp5js.config import SKETCHBOOK_DIR
 from pyp5js.http.web_app import app as web_app
 from flask_testing import TestCase
 
+
 class Pyp5jsWebTestCase(TestCase):
     render_templates = False
 
@@ -31,8 +32,12 @@ class Pyp5jsWebTestCase(TestCase):
         return sketch_files.sketch_dir
 
     def create_file(self, file_name, content=''):
-        with (SKETCHBOOK_DIR.joinpath(file_name).resolve()).open('w') as fd:
+        mode = 'w'
+        if isinstance(content, bytes):
+            mode += 'b'
+        with (SKETCHBOOK_DIR.joinpath(file_name).resolve()).open(mode) as fd:
             fd.write(content)
+
 
 class IndexViewTests(Pyp5jsWebTestCase):
     route = '/'
@@ -94,7 +99,6 @@ class SketchViewTests(Pyp5jsWebTestCase):
         self.assert_context('sketch_name', sketch_files.sketch_name)
         self.assert_context('py_code', py_code)
 
-
     def test_get_static_file_does_not_exist(self):
         response = self.client.get(self.route + 'foo/static/file.js')
         self.assert_404(response)
@@ -111,6 +115,21 @@ class SketchViewTests(Pyp5jsWebTestCase):
         response = self.client.get(self.route + 'my_sketch_file/static/style.css')
         self.assert_200(response)
         self.assertEqual(response.data, b"css file content")
+
+    def test_get_image_files(self):
+        img_content = b'image content'
+        self.create_sketch('my_sketch_file')
+        supported_extensions = ['.gif', '.jpg', '.png']
+
+        for suffix in supported_extensions:
+            img_name = f"image{suffix}"
+            self.create_file(f'my_sketch_file/{img_name}', img_content)
+
+            response = self.client.get(self.route + f'my_sketch_file/{img_name}')
+
+            self.assert_200(response)
+            self.assertEqual(f'image/{suffix[1:]}', response.headers['Content-Type'])
+            self.assertEqual(response.get_data(), img_content)
 
     def test_403_if_invalid_path(self):
         self.create_sketch('my_sketch_file')
