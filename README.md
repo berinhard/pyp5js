@@ -1,6 +1,6 @@
 ## pyp5js: Python to P5.js Transcriptor
 
-[![PyPI version](https://badge.fury.io/py/pyp5js.svg)](https://badge.fury.io/py/pyp5js) ![Continuous Integration](https://github.com/berinhard/pyp5js/workflows/Continuous%20Integration/badge.svg)
+[![PyPI version](https://badge.fury.io/py/pyp5js.svg)](https://badge.fury.io/py/pyp5js) ![Continuous Integration](https://github.com/berinhard/pyp5js/workflows/Continuous%20Integration/badge.svg?branch=develop&event=push)
 
 > [Processing](https://processing.org) ideas and Python 3 together with [P5.js](https://p5js.org) in the browser, using [Transcrypt](https://transcrypt.org/).
 
