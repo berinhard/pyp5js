@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+
+<!-- pyp5js index.html boilerplate -->
+<html lang="">
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sketch_008 - pyp5js</title>
+    <style> body, html, canvas {padding: 0; margin: 0; overflow: hidden;} </style>
+
+    <script src="static/p5.js"></script>
+    <script src="target/target_sketch.js"  type="module"></script>
+
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    <style>
+        html {
+          overflow-y: scroll;
+          overflow-x: scroll;
+        }
+
+        .demoContainer {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        pre {
+            padding-left: 2em;
+        }
+    </style>
+  </head>
+
+  <body>
+    <p style="background-color: #f6f8fa">
+      Python code <a href="https://github.com/berinhard/pyp5js/blob/develop/docs/examples/sketch_008" target="_blank">here</a>.
+    </p>
+
+
+    <div class="demoContainer">
+        <div id="sketch-holder">
+              <!-- You sketch will go here! -->
+        </div>
+
+        <pre>
+           <code>
+from pyp5js import *
+add_library("p5.dom.js")
+
+from random import choice
+
+
+images = []
+
+def setup():
+    global images
+
+    createP("Click to add a new image")
+    createCanvas(600, 600)
+    background(200)
+    images = [
+        loadImage('smile.png'),
+        loadImage('alien.png'),
+        loadImage('rainbow.png'),
+    ]
+
+
+def mousePressed():
+    x, y = mouseX, mouseY
+    img = choice(images)
+    image(img, x, y)
+
+
+def draw():
+    pass
+           </code>
+        </pre>
+
+    </div>
+
+  </body>
+</html>

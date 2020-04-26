@@ -1,9 +1,8 @@
 import pytest
-import shlex
+import os
 import shutil
 from unittest import TestCase
 from unittest.mock import Mock, patch
-from subprocess import Popen
 
 from pyp5js.compiler import Pyp5jsCompiler, compile_sketch_js
 from pyp5js.config import SKETCHBOOK_DIR
@@ -45,7 +44,8 @@ class Pyp5jsCompilerTests(TestCase):
             shutil.rmtree(SKETCHBOOK_DIR)
 
     def test_transcrypt_target_dir_path(self):
-        assert self.files.sketch_dir.joinpath('__target__') == self.compiler.target_dir
+        assert self.files.sketch_dir.joinpath(
+            '__target__') == self.compiler.target_dir
 
     def test_command_line_string(self):
         pyp5_dir = self.pyp5js_files.install
@@ -56,16 +56,12 @@ class Pyp5jsCompilerTests(TestCase):
 
         assert expected == self.compiler.command_line
 
-    @patch('pyp5js.compiler.subprocess.Popen')
-    def test_run_compiler_as_expected(self, MockedPopen):
-        proc = Mock(spec=Popen)
-        MockedPopen.return_value = proc
-
+    def test_run_compiler_as_expected(self):
+        self.compiler.prepare()
         self.compiler.run_compiler()
-        expected_command_line = shlex.split(self.compiler.command_line)
 
-        MockedPopen.assert_called_once_with(expected_command_line)
-        proc.wait.assert_called_once_with()
+        assert self.compiler.target_dir.exists()
+        assert self.files.target_sketch.exists()
 
     def test_clean_up(self):
         self.compiler.target_dir.mkdir()

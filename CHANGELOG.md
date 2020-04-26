@@ -1,6 +1,13 @@
 Development
 -----------
 
+0.4.2
+-----
+- Keep Python functions with name conflict with p5.js working as expected
+- `createCanvas` now returns `p5.Renderer`
+- Fix `transcrypt` error on Windows
+- Add support to `loadImage`
+
 0.4.1
 -----
 - Fix bug of null `_P5_INSTANCE`

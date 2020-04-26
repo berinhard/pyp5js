@@ -1,7 +1,6 @@
 import ast
 from flask import Flask, render_template, Response, request
 from slugify import slugify
-from textwrap import dedent
 
 from pyp5js import commands
 from pyp5js.config import SKETCHBOOK_DIR
@@ -10,6 +9,7 @@ from pyp5js.fs import SketchFiles
 
 
 app = Flask(__name__)
+SUPPORTED_IMAGE_FILE_SUFFIXES = (".gif", ".jpg", ".png")
 
 
 @app.route("/")
@@ -24,6 +24,7 @@ def sketches_list_view():
                 'url': f'/sketch/{name}'
             })
 
+    sketches = sorted(sketches, key=lambda s: s['name'])
     return render_template('index.html', sketches=sketches, sketches_dir=SKETCHBOOK_DIR.resolve())
 
 
@@ -33,7 +34,8 @@ def add_new_sketch_view():
     context = {'sketches_dir': SKETCHBOOK_DIR.resolve()}
 
     if request.method == 'POST':
-        sketch_name = slugify(request.form.get('sketch_name', '').strip(), separator='_')
+        sketch_name = slugify(request.form.get(
+            'sketch_name', '').strip(), separator='_')
         if not sketch_name:
             context['error'] = "You have to input a sketch name to proceed."
         else:
@@ -57,30 +59,16 @@ def render_sketch_view(sketch_name, static_path):
     sketch_files = SketchFiles(sketch_name)
 
     error = ''
-    content_file = sketch_files.index_html
     if static_path:
-        content_file = sketch_files.sketch_dir.joinpath(static_path).resolve()
-        if not str(content_file).startswith(str(sketch_files.sketch_dir.resolve())):
-            # User tried something not allowed (as "/root/something" or "../xxx")
-            return '', 403
-        elif not content_file.exists():
-            return '', 404
-
-        with content_file.open() as fd:
-            response = Response(fd.read())
-        if static_path.endswith('js'):
-            # To avoid MIME type errors
-            # More can be found here: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
-            response.headers['Content-Type'] = 'application/javascript'
-        return response
+        return _serve_static(sketch_files, static_path)
 
     elif request.method == 'POST':
         py_code = request.form.get('py_code', '')
         if not py_code.strip():
             error = 'You have to input the Python code.'
-        elif not 'def setup():' in py_code:
+        elif 'def setup():' not in py_code:
             error = 'You have to define a setup function.'
-        elif not 'def draw():' in py_code:
+        elif 'def draw():' not in py_code:
             error = 'You have to define a draw function.'
         else:
             try:
@@ -103,3 +91,32 @@ def render_sketch_view(sketch_name, static_path):
         'error': error,
     }
     return render_template('view_sketch.html', **context)
+
+
+def _serve_static(sketch_files, static_path):
+    content_file = sketch_files.sketch_dir.joinpath(static_path).resolve()
+    if not str(content_file).startswith(str(sketch_files.sketch_dir.resolve())):
+        # User tried something not allowed (as "/root/something" or "../xxx")
+        return '', 403
+    elif not content_file.exists():
+        return '', 404
+
+    mode = 'r'
+    encoding = 'utf-8'
+    file_suffix = content_file.suffix.lower()
+    if file_suffix in SUPPORTED_IMAGE_FILE_SUFFIXES:
+        encoding = None
+        mode = 'rb'
+
+    with content_file.open(encoding=encoding, mode=mode) as fd:
+        response = Response(fd.read())
+
+    if file_suffix == '.js':
+        # To avoid MIME type errors
+        # More can be found here: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options  # noqa
+        response.headers['Content-Type'] = 'application/javascript'
+    elif file_suffix in SUPPORTED_IMAGE_FILE_SUFFIXES:
+        response.headers['Content-Type'] = 'image/' + file_suffix[1:]
+        response.headers['Content-Disposition'] = f'attachment; filename={content_file.name.lower()}'
+
+    return response

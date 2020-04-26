@@ -1,10 +1,12 @@
 import os
 import shutil
+from pathlib import Path
 
 from pyp5js import commands
 from pyp5js.config import SKETCHBOOK_DIR
 from pyp5js.http.web_app import app as web_app
 from flask_testing import TestCase
+
 
 class Pyp5jsWebTestCase(TestCase):
     render_templates = False
@@ -31,8 +33,12 @@ class Pyp5jsWebTestCase(TestCase):
         return sketch_files.sketch_dir
 
     def create_file(self, file_name, content=''):
-        with (SKETCHBOOK_DIR.joinpath(file_name).resolve()).open('w') as fd:
+        mode = 'w'
+        if isinstance(content, bytes):
+            mode += 'b'
+        with (SKETCHBOOK_DIR.joinpath(file_name).resolve()).open(mode) as fd:
             fd.write(content)
+
 
 class IndexViewTests(Pyp5jsWebTestCase):
     route = '/'
@@ -68,7 +74,8 @@ class NewSketchViewTests(Pyp5jsWebTestCase):
         self.create_sketch('my_existing_sketch')
         self.client.post(self.route, data={'sketch_name': 'my_existing_sketch'})
         self.assert_template_used('new_sketch_form.html')
-        self.assert_context('error', 'The sketch tests-sketchbook/my_existing_sketch already exists.')
+        sketch_name = os.path.join('tests-sketchbook', 'my_existing_sketch')
+        self.assert_context('error', f'The sketch {sketch_name} already exists.')
 
     def test_post_with_sketch_name_should_render_success_form(self):
         self.client.post(self.route, data={'sketch_name': 'a_name'})
@@ -94,7 +101,6 @@ class SketchViewTests(Pyp5jsWebTestCase):
         self.assert_context('sketch_name', sketch_files.sketch_name)
         self.assert_context('py_code', py_code)
 
-
     def test_get_static_file_does_not_exist(self):
         response = self.client.get(self.route + 'foo/static/file.js')
         self.assert_404(response)
@@ -105,12 +111,55 @@ class SketchViewTests(Pyp5jsWebTestCase):
         self.assert_200(response)
         self.assertEqual(response.headers['Content-Type'], 'application/javascript')
 
+    def test_get_static_javascript_file_upper_case(self):
+        js_code = 'alert("hi!");'
+        self.create_sketch_with_static_files('sketch_with_static_js')
+        self.create_file(f'sketch_with_static_js/static/custom.JS', js_code)
+
+        response = self.client.get(self.route + 'sketch_with_static_js/static/custom.JS')
+
+        self.assert_200(response)
+        self.assertEqual(response.headers['Content-Type'], 'application/javascript')
+        self.assertEqual(js_code.encode(), response.get_data())
+
     def test_get_static_file(self):
         self.create_sketch('my_sketch_file')
         self.create_file('my_sketch_file/static/style.css', 'css file content')
         response = self.client.get(self.route + 'my_sketch_file/static/style.css')
         self.assert_200(response)
         self.assertEqual(response.data, b"css file content")
+
+    def test_get_image_files(self):
+        img_content = b'image content'
+        self.create_sketch('my_sketch_file')
+        supported_extensions = ['.gif', '.jpg', '.png', '.PNG', '.JPG', '.GIF']
+
+        for suffix in supported_extensions:
+            img_name = f"image{suffix}"
+            self.create_file(f'my_sketch_file/{img_name}', img_content)
+
+            response = self.client.get(self.route + f'my_sketch_file/{img_name}')
+
+            self.assert_200(response)
+            self.assertEqual(f'image/{suffix[1:].lower()}', response.headers['Content-Type'])
+            self.assertEqual(f'attachment; filename={img_name.lower()}', response.headers['Content-Disposition'])
+            self.assertEqual(response.get_data(), img_content)
+
+    def test_regression_test_with_real_png_image(self):
+        img_name = 'alien.png'
+        alien_img = Path(__file__).resolve().parent / 'assets' / img_name
+        assert alien_img.exists()
+
+        sketch_files = self.create_sketch('my_sketch_file')
+        shutil.copyfile(alien_img, sketch_files.sketch_dir / img_name)
+
+        response = self.client.get(self.route + f'my_sketch_file/{img_name}')
+
+        self.assert_200(response)
+        self.assertEqual(f'image/png', response.headers['Content-Type'])
+        self.assertEqual(f'attachment; filename={img_name}', response.headers['Content-Disposition'])
+        with alien_img.open(mode='rb') as fd:
+            self.assertEqual(response.get_data(), fd.read())
 
     def test_403_if_invalid_path(self):
         self.create_sketch('my_sketch_file')
