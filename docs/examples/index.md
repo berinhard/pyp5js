@@ -16,4 +16,5 @@
 - [sketch_007](https://github.com/berinhard/pyp5js/tree/develop/docs/examples/sketch_007): [**p5.Vector static methods**](sketch_007/index.html)
 
 - [sketch_008](https://github.com/berinhard/pyp5js/tree/develop/docs/examples/sketch_008): [**p5.dom.js usage**](sketch_008/index.html)
+
 - [sketch_009](https://github.com/berinhard/pyp5js/tree/develop/docs/examples/sketch_009): [**Working with images**](sketch_009/index.html)
