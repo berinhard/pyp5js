@@ -1,5 +1,6 @@
-// Transcrypt'ed from Python, 2019-06-16 18:43:17
+// Transcrypt'ed from Python, 2020-04-26 18:42:12
 import {AssertionError, AttributeError, BaseException, DeprecationWarning, Exception, IndexError, IterableError, KeyError, NotImplementedError, RuntimeWarning, StopIteration, UserWarning, ValueError, Warning, __JsIterator__, __PyIterator__, __Terminal__, __add__, __and__, __call__, __class__, __envir__, __eq__, __floordiv__, __ge__, __get__, __getcm__, __getitem__, __getslice__, __getsm__, __gt__, __i__, __iadd__, __iand__, __idiv__, __ijsmod__, __ilshift__, __imatmul__, __imod__, __imul__, __in__, __init__, __ior__, __ipow__, __irshift__, __isub__, __ixor__, __jsUsePyNext__, __jsmod__, __k__, __kwargtrans__, __le__, __lshift__, __lt__, __matmul__, __mergefields__, __mergekwargtrans__, __mod__, __mul__, __ne__, __neg__, __nest__, __or__, __pow__, __pragma__, __proxy__, __pyUseJsNext__, __rshift__, __setitem__, __setproperty__, __setslice__, __sort__, __specialattrib__, __sub__, __super__, __t__, __terminal__, __truediv__, __withblock__, __xor__, all, any, assert, bool, bytearray, bytes, callable, chr, deepcopy, delattr, dict, dir, divmod, enumerate, getattr, hasattr, isinstance, issubclass, len, list, object, ord, print, property, py_TypeError, py_iter, py_metatype, py_next, py_reversed, py_typeof, range, repr, setattr, sorted, sum, tuple, zip} from './org.transcrypt.__runtime__.js';
+import {PythonFunctions} from './pyp5js.python_functions.js';
 var __name__ = 'pyp5js';
 export var _P5_INSTANCE = null;
 export var _CTX_MIDDLE = null;
@@ -10,6 +11,7 @@ export var _DEFAULT_TEXT_FILL = null;
 export var ADD = null;
 export var ALT = null;
 export var ARROW = null;
+export var AUDIO = null;
 export var AUTO = null;
 export var AXES = null;
 export var BACKSPACE = null;
@@ -110,6 +112,7 @@ export var TRIANGLE_STRIP = null;
 export var TRIANGLES = null;
 export var TWO_PI = null;
 export var UP_ARROW = null;
+export var VIDEO = null;
 export var WAIT = null;
 export var WEBGL = null;
 export var P2D = null;
@@ -152,8 +155,6 @@ export var mouseButton = null;
 export var mouseIsPressed = null;
 export var touches = null;
 export var pixels = null;
-export var VIDEO = null;
-export var AUDIO = null;
 export var alpha = function () {
 	if (arguments.length) {
 		var __ilastarg0__ = arguments.length - 1;
@@ -2177,7 +2178,12 @@ export var filter = function () {
 	else {
 		var args = tuple ();
 	}
-	return _P5_INSTANCE.filter (...args);
+	if (len (args) > 1 && (args [0] === null || callable (args [0]))) {
+		return PythonFunctions.filter (...args);
+	}
+	else {
+		return _P5_INSTANCE.filter (...args);
+	}
 };
 export var py_get = function () {
 	if (arguments.length) {
@@ -2222,7 +2228,12 @@ export var set = function () {
 	else {
 		var args = tuple ();
 	}
-	return _P5_INSTANCE.set (...args);
+	if (len (args) <= 1) {
+		return PythonFunctions.set (...args);
+	}
+	else {
+		return _P5_INSTANCE.set (...args);
+	}
 };
 export var updatePixels = function () {
 	if (arguments.length) {
@@ -2702,7 +2713,12 @@ export var map = function () {
 	else {
 		var args = tuple ();
 	}
-	return _P5_INSTANCE.map (...args);
+	if (len (args) > 1 && callable (args [0])) {
+		return PythonFunctions.map (...args);
+	}
+	else {
+		return _P5_INSTANCE.map (...args);
+	}
 };
 export var max = function () {
 	if (arguments.length) {
@@ -3887,9 +3903,10 @@ export var createCanvas = function () {
 	else {
 		var args = tuple ();
 	}
-	var result = _P5_INSTANCE.createCanvas (...args);
+	var canvas = _P5_INSTANCE.createCanvas (...args);
 	width = _P5_INSTANCE.width;
 	height = _P5_INSTANCE.height;
+	return canvas;
 };
 export var py_pop = function () {
 	if (arguments.length) {
@@ -3907,6 +3924,11 @@ export var py_pop = function () {
 	var p5_pop = _P5_INSTANCE.pop (...args);
 	return p5_pop;
 };
+export var size = createCanvas;
+export var popMatrix = py_pop;
+export var popStyle = py_pop;
+export var pushMatrix = push;
+export var pushStyle = push;
 export var pre_draw = function (p5_instance, draw_func) {
 	if (arguments.length) {
 		var __ilastarg0__ = arguments.length - 1;
@@ -3930,6 +3952,7 @@ export var pre_draw = function (p5_instance, draw_func) {
 	ADD = p5_instance.ADD;
 	ALT = p5_instance.ALT;
 	ARROW = p5_instance.ARROW;
+	AUDIO = p5_instance.AUDIO;
 	AUTO = p5_instance.AUTO;
 	AXES = p5_instance.AXES;
 	BACKSPACE = p5_instance.BACKSPACE;
@@ -3993,6 +4016,8 @@ export var pre_draw = function (p5_instance, draw_func) {
 	OPEN = p5_instance.OPEN;
 	OPTION = p5_instance.OPTION;
 	OVERLAY = p5_instance.OVERLAY;
+	P2D = p5_instance.P2D;
+	var P3D = p5_instance.WEBGL;
 	PI = p5_instance.PI;
 	PIE = p5_instance.PIE;
 	POINTS = p5_instance.POINTS;
@@ -4030,10 +4055,9 @@ export var pre_draw = function (p5_instance, draw_func) {
 	TRIANGLES = p5_instance.TRIANGLES;
 	TWO_PI = p5_instance.TWO_PI;
 	UP_ARROW = p5_instance.UP_ARROW;
+	VIDEO = p5_instance.VIDEO;
 	WAIT = p5_instance.WAIT;
 	WEBGL = p5_instance.WEBGL;
-	P2D = p5_instance.P2D;
-	PI = p5_instance.PI;
 	frameCount = p5_instance.frameCount;
 	focused = p5_instance.focused;
 	displayWidth = p5_instance.displayWidth;
@@ -4072,8 +4096,6 @@ export var pre_draw = function (p5_instance, draw_func) {
 	mouseIsPressed = p5_instance.mouseIsPressed;
 	touches = p5_instance.touches;
 	pixels = p5_instance.pixels;
-	VIDEO = p5_instance.VIDEO;
-	AUDIO = p5_instance.AUDIO;
 	return draw_func ();
 };
 export var global_p5_injection = function (p5_sketch) {
@@ -4156,7 +4178,7 @@ export var start_p5 = function (setup_func, draw_func, event_functions) {
 		p5_sketch.draw = global_p5_injection (p5_sketch) (draw_func);
 	};
 	var instance = new p5 (sketch_setup, 'sketch-holder');
-	var event_function_names = list (['deviceMoved', 'deviceTurned', 'deviceShaken', 'keyPressed', 'keyReleased', 'keyTyped', 'mouseMoved', 'mouseDragged', 'mousePressed', 'mouseReleased', 'mouseClicked', 'doubleClicked', 'mouseWheel', 'touchStarted', 'touchMoved', 'touchEnded', 'windowResized']);
+	var event_function_names = tuple (['deviceMoved', 'deviceTurned', 'deviceShaken', 'windowResized', 'keyPressed', 'keyReleased', 'keyTyped', 'mousePressed', 'mouseReleased', 'mouseClicked', 'doubleClicked', 'mouseMoved', 'mouseDragged', 'mouseWheel', 'touchStarted', 'touchMoved', 'touchEnded']);
 	for (var f_name of (function () {
 		var __accu0__ = [];
 		for (var f of event_function_names) {
@@ -4203,10 +4225,9 @@ export var add_library = function (lib_name) {
 		var src = 'static/p5.dom.js';
 	}
 	else {
-		console.log ('Lib name is not valid: ' + lib_name);
-		return ;
+		return console.log ('Lib name is not valid:', lib_name);
 	}
-	console.log ('Importing: ' + src);
+	console.log ('Importing:', src);
 	var script = document.createElement ('script');
 	script.onload = logOnloaded;
 	script.src = src;
