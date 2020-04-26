@@ -100,10 +100,14 @@ def _serve_static(sketch_files, static_path):
     elif not content_file.exists():
         return '', 404
 
-    with content_file.open() as fd:
+    encoding = None
+    file_suffix = content_file.suffix.lower()
+    if file_suffix not in SUPPORTED_IMAGE_FILE_SUFFIXES:
+        encoding = 'utf-8'
+
+    with content_file.open(encoding=encoding) as fd:
         response = Response(fd.read())
 
-    file_suffix = content_file.suffix.lower()
     if file_suffix == '.js':
         # To avoid MIME type errors
         # More can be found here: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options  # noqa
