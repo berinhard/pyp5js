@@ -24,6 +24,7 @@ def sketches_list_view():
                 'url': f'/sketch/{name}'
             })
 
+    sketches = sorted(sketches, key=lambda s: s['name'])
     return render_template('index.html', sketches=sketches, sketches_dir=SKETCHBOOK_DIR.resolve())
 
 
