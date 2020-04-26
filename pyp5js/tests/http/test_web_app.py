@@ -1,5 +1,6 @@
 import os
 import shutil
+from pathlib import Path
 
 from pyp5js import commands
 from pyp5js.config import SKETCHBOOK_DIR
@@ -143,6 +144,22 @@ class SketchViewTests(Pyp5jsWebTestCase):
             self.assertEqual(f'image/{suffix[1:].lower()}', response.headers['Content-Type'])
             self.assertEqual(f'attachment; filename={img_name.lower()}', response.headers['Content-Disposition'])
             self.assertEqual(response.get_data(), img_content)
+
+    def test_regression_test_with_real_png_image(self):
+        img_name = 'alien.png'
+        alien_img = Path(__file__).resolve().parent / 'assets' / img_name
+        assert alien_img.exists()
+
+        sketch_files = self.create_sketch('my_sketch_file')
+        shutil.copyfile(alien_img, sketch_files.sketch_dir / img_name)
+
+        response = self.client.get(self.route + f'my_sketch_file/{img_name}')
+
+        self.assert_200(response)
+        self.assertEqual(f'image/png', response.headers['Content-Type'])
+        self.assertEqual(f'attachment; filename={img_name}', response.headers['Content-Disposition'])
+        with alien_img.open(mode='rb') as fd:
+            self.assertEqual(response.get_data(), fd.read())
 
     def test_403_if_invalid_path(self):
         self.create_sketch('my_sketch_file')

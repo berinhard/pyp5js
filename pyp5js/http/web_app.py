@@ -100,12 +100,14 @@ def _serve_static(sketch_files, static_path):
     elif not content_file.exists():
         return '', 404
 
-    encoding = None
+    mode = 'r'
+    encoding = 'utf-8'
     file_suffix = content_file.suffix.lower()
-    if file_suffix not in SUPPORTED_IMAGE_FILE_SUFFIXES:
-        encoding = 'utf-8'
+    if file_suffix in SUPPORTED_IMAGE_FILE_SUFFIXES:
+        encoding = None
+        mode = 'rb'
 
-    with content_file.open(encoding=encoding) as fd:
+    with content_file.open(encoding=encoding, mode=mode) as fd:
         response = Response(fd.read())
 
     if file_suffix == '.js':
