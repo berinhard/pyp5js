@@ -110,6 +110,6 @@ def _serve_static(sketch_files, static_path):
         response.headers['Content-Type'] = 'application/javascript'
     elif file_suffix in SUPPORTED_IMAGE_FILE_SUFFIXES:
         response.headers['Content-Type'] = 'image/' + file_suffix[1:]
-        response.headers['Content-Disposition'] = f'attachment; filename={content_file.name}'
+        response.headers['Content-Disposition'] = f'attachment; filename={content_file.name.lower()}'
 
     return response

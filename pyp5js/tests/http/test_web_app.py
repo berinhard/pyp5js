@@ -141,7 +141,7 @@ class SketchViewTests(Pyp5jsWebTestCase):
 
             self.assert_200(response)
             self.assertEqual(f'image/{suffix[1:].lower()}', response.headers['Content-Type'])
-            self.assertEqual(f'attachment; filename={img_name}', response.headers['Content-Disposition'])
+            self.assertEqual(f'attachment; filename={img_name.lower()}', response.headers['Content-Disposition'])
             self.assertEqual(response.get_data(), img_content)
 
     def test_403_if_invalid_path(self):
