@@ -1,5 +1,8 @@
 Development
 -----------
+
+0.4.2
+-----
 - Keep Python functions with name conflict with p5.js working as expected
 - `createCanvas` now returns `p5.Renderer`
 - Fix `transcrypt` error on Windows
