@@ -21,7 +21,7 @@ def p5_reference():
         return yaml.load(fd)
 
 
-special_methods = ['pop']
+special_methods = ['pop', 'clear']
 
 
 def test_all_regular_p5_methods_are_defined(pyp5js, p5_reference):

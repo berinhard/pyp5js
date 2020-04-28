@@ -192,7 +192,10 @@ def background(*args):
     return _P5_INSTANCE.background(*args)
 
 def clear(*args):
-    return _P5_INSTANCE.clear(*args)
+    __pragma__('noalias', 'clear')
+    p5_clear = _P5_INSTANCE.clear(*args)
+    __pragma__('alias', 'clear', 'py_clear')
+    return p5_clear
 
 def colorMode(*args):
     return _P5_INSTANCE.colorMode(*args)
