@@ -24,7 +24,7 @@ jobs:
         run: python --version
 
       - name: Upgrade pip
-        run: pip install --upgrade pip setuptools
+        run: pip install --upgrade pip setuptools --user
 
       - name: Install dev dependencies
         run: pip install -r dev-requirements.txt
