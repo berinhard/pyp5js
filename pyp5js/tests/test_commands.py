@@ -78,7 +78,6 @@ class TestNewSketchCommand(TestCase):
         assert self.sketch_files.index_html.exists()
         assert self.sketch_files.sketch_py.exists()
         assert self.sketch_files.p5js.exists()
-        assert self.sketch_files.p5_dom_js.exists()
 
     def test_raise_exception_if_dir_already_exist(self):
         self.sketch_files.create_sketch_dir()

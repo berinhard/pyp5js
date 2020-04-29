@@ -27,7 +27,6 @@ def new_sketch(sketch_name):
     templates_files = [
         (sketch_files.from_lib.base_sketch, sketch_files.sketch_py),
         (sketch_files.from_lib.p5js, sketch_files.p5js),
-        (sketch_files.from_lib.p5_dom_js, sketch_files.p5_dom_js),
     ]
     for src, dest in templates_files:
         shutil.copyfile(src, dest)

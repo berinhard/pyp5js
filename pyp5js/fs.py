@@ -65,10 +65,6 @@ class SketchFiles():
         return self.static_dir.joinpath('p5.js')
 
     @property
-    def p5_dom_js(self):
-        return self.static_dir.joinpath('p5.dom.js')
-
-    @property
     def target_sketch(self):
         return self.sketch_dir.joinpath("target_sketch.py")
 
@@ -127,10 +123,6 @@ class LibFiles():
     @property
     def p5js(self):
         return self.static_dir.joinpath('p5', 'p5.min.js')
-
-    @property
-    def p5_dom_js(self):
-        return self.static_dir.joinpath('p5', 'addons', 'p5.dom.min.js')
 
     @property
     def p5_yml(self):

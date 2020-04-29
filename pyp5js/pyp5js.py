@@ -1178,12 +1178,10 @@ def logOnloaded():
 
 
 def add_library(lib_name):
+    # placeholder for https://github.com/berinhard/pyp5js/issues/31
     src = ''
 
-    if lib_name == 'p5.dom.js':
-        src = "static/p5.dom.js"
-    else:
-        return console.log("Lib name is not valid:", lib_name)
+    return console.log("Lib name is not valid:", lib_name)
 
     console.log("Importing:", src)
 
