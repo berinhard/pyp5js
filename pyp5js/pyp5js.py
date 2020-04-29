@@ -197,6 +197,12 @@ def clear(*args):
     __pragma__('alias', 'clear', 'py_clear')
     return p5_clear
 
+def erase(*args):
+    return _P5_INSTANCE.erase(*args)
+
+def noErase(*args):
+    return _P5_INSTANCE.noErase(*args)
+
 def colorMode(*args):
     return _P5_INSTANCE.colorMode(*args)
 

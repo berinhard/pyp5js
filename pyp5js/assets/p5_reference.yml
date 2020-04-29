@@ -17,6 +17,8 @@ p5:
         - noFill
         - noStroke
         - stroke
+        - erase
+        - noErase
 
         # 2D Primitives
         - arc
