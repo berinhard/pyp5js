@@ -1,6 +1,7 @@
 Development
 -----------
 - Fix conflig with p5.js `clear` method and Python
+- Upgrade `p5.js` version to `1.0.0`
 
 0.4.2
 -----

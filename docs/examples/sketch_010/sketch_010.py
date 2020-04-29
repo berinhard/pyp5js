@@ -1,5 +1,4 @@
 from pyp5js import *
-add_library('p5.dom.js')
 
 
 MY_POINTS = [

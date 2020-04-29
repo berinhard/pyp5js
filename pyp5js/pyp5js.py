@@ -197,6 +197,12 @@ def clear(*args):
     __pragma__('alias', 'clear', 'py_clear')
     return p5_clear
 
+def erase(*args):
+    return _P5_INSTANCE.erase(*args)
+
+def noErase(*args):
+    return _P5_INSTANCE.noErase(*args)
+
 def colorMode(*args):
     return _P5_INSTANCE.colorMode(*args)
 
@@ -1178,12 +1184,10 @@ def logOnloaded():
 
 
 def add_library(lib_name):
+    # placeholder for https://github.com/berinhard/pyp5js/issues/31
     src = ''
 
-    if lib_name == 'p5.dom.js':
-        src = "static/p5.dom.js"
-    else:
-        return console.log("Lib name is not valid:", lib_name)
+    return console.log("Lib name is not valid:", lib_name)
 
     console.log("Importing:", src)
 
