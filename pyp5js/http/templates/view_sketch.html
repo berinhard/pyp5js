@@ -48,7 +48,7 @@
 {% endblock content %}
 
 {% block custom_js %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.4/ace.js"></script>
+    <script src="{{ url_for('static', filename='js/ace-builds/src-min-noconflict/ace.js') }}"></script>
 
     <script type="text/javascript">
         var editor = ace.edit("text-editor");
