@@ -1,5 +1,5 @@
 import ast
-from flask import Flask, render_template, Response, request, send_from_directory
+from flask import Flask, render_template, request, send_from_directory
 from slugify import slugify
 
 from pyp5js import commands
