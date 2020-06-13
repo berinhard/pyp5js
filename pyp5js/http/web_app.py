@@ -99,4 +99,4 @@ def _serve_static(static_dir, static_path):
         # User tried something not allowed (as "/root/something" or "../xxx")
         return '', 403
 
-    return send_from_directory(static_dir.absolute(), static_path)
+    return send_from_directory(static_dir.absolute(), static_path, add_etags=False, cache_timeout=0)
