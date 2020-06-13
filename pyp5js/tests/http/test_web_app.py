@@ -1,6 +1,5 @@
 import os
 import shutil
-import time
 from pathlib import Path
 
 from pyp5js import commands
@@ -23,8 +22,6 @@ class Pyp5jsWebTestCase(TestCase):
 
     def tearDown(self):
         if SKETCHBOOK_DIR.exists():
-            if os.name == 'nt':
-                time.sleep(5)
             shutil.rmtree(SKETCHBOOK_DIR)
 
     def create_sketch(self, name):
