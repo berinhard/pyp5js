@@ -1,8 +1,11 @@
 Development
 -----------
-- Use local installation for Ace editor
-- Fix conflig with p5.js `clear` method and Python
+
+0.4.3
+-----
+- Fix conflict with p5.js `clear` method and Python
 - Upgrade `p5.js` version to `1.0.0`
+- Use local file for Ace editor
 
 0.4.2
 -----
