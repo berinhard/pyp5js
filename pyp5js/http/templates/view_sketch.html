@@ -29,6 +29,7 @@
 
 {% block content %}
     <div class="demoContainer">
+
       <div style="display: block">
           <form action="." method="POST">
             <textarea class="display-none" id="id_py_code" name="py_code">{{ py_code }}</textarea>
@@ -48,19 +49,20 @@
 {% endblock content %}
 
 {% block custom_js %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.4/ace.js"></script>
+    <script src="/static/js/ace/ace.js"></script>
 
     <script type="text/javascript">
         var editor = ace.edit("text-editor");
 
         editor.setTheme("ace/theme/monokai");
-        editor.getSession().setMode("ace/mode/python");
+        editor.session.setMode("ace/mode/python");
         editor.setFontSize(16);
-        editor.getSession().setOptions({
+        editor.session.setOptions({
           tabSize: 4,
         });
 
-        editor.getSession().on('change', function(){
+        editor.session.on('change', function(){
+          console.log('code update');
           document.getElementById("id_py_code").innerHTML = editor.getSession().getValue();
         });
     </script>

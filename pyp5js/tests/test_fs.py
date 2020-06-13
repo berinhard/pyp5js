@@ -43,9 +43,6 @@ def test_files_properties(lib_files):
     assert lib_files.p5js == pyp5_dir.joinpath('static', 'p5', 'p5.min.js')
     assert lib_files.p5js.exists()
 
-    assert lib_files.p5_dom_js == pyp5_dir.joinpath('static', 'p5', 'addons', 'p5.dom.min.js')
-    assert lib_files.p5_dom_js.exists()
-
     assert lib_files.p5_yml == pyp5_dir.joinpath('assets', 'p5_reference.yml')
     assert lib_files.p5_yml.exists()
 
@@ -71,7 +68,6 @@ class SketchFilesTests(TestCase):
         self.files.check_sketch_dir = False
         assert self.base_dir.joinpath(self.sketch_name, 'index.html') == self.files.index_html
         assert self.base_dir.joinpath(self.sketch_name, 'static', 'p5.js') == self.files.p5js
-        assert self.base_dir.joinpath(self.sketch_name, 'static', 'p5.dom.js') == self.files.p5_dom_js
         assert self.base_dir.joinpath(self.sketch_name, 'foo.py') == self.files.sketch_py
         assert self.base_dir.joinpath(self.sketch_name, 'target_sketch.py') == self.files.target_sketch
 

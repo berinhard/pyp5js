@@ -1,6 +1,12 @@
 Development
 -----------
 
+0.4.3
+-----
+- Fix conflict with p5.js `clear` method and Python
+- Upgrade `p5.js` version to `1.0.0`
+- Use local file for Ace editor
+
 0.4.2
 -----
 - Keep Python functions with name conflict with p5.js working as expected

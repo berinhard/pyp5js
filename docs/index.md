@@ -85,13 +85,12 @@ So, to start a new sketch, you'll have to run:
 $ pyp5js new my_sketch
 ```
 
-This command will create a directory with the following code structure:
+This command will create a directory with the following code structure using **p5.js 1.0.0**:
 
 ```
 ~ my_sketch/
   ~ static /
     - p5.js
-    - p5.dom.js
   - index.html
   - my_sketch.py
 ```
@@ -137,23 +136,6 @@ as specifying the sketch directory. You can check them by running:
 
 ```
 $ pyp5js --help
-```
-
-### p5.dom.js
-
-To use [p5.dom.js functions](https://p5js.org/reference/#/libraries/p5.dom) such as `createDiv` or `createSlider` you'll have to call `add_library('p5.dom.js')`, like the following example:
-
-```python
-from pyp5js import *
-
-add_library("p5.dom.js")  # this will import p5.dom.js and make all functions available
-
-def setup():
-    createP("Hello world!")
-
-
-def draw():
-    pass
 ```
 
 
