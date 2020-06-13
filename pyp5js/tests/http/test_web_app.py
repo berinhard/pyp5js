@@ -109,7 +109,7 @@ class SketchViewTests(Pyp5jsWebTestCase):
         self.create_sketch_with_static_files('sketch_with_static_js')
         response = self.client.get(self.route + 'sketch_with_static_js/static/p5.js')
         self.assert_200(response)
-        self.assertEqual(response.headers['Content-Type'], 'application/javascript')
+        self.assertEqual(response.headers['Content-Type'], 'application/javascript; charset=utf-8')
 
     def test_get_static_javascript_file_upper_case(self):
         js_code = 'alert("hi!");'
@@ -119,7 +119,7 @@ class SketchViewTests(Pyp5jsWebTestCase):
         response = self.client.get(self.route + 'sketch_with_static_js/static/custom.JS')
 
         self.assert_200(response)
-        self.assertEqual(response.headers['Content-Type'], 'application/javascript')
+        self.assertEqual(response.headers['Content-Type'], 'application/javascript; charset=utf-8')
         self.assertEqual(js_code.encode(), response.get_data())
 
     def test_get_static_file(self):
@@ -132,7 +132,7 @@ class SketchViewTests(Pyp5jsWebTestCase):
     def test_get_image_files(self):
         img_content = b'image content'
         self.create_sketch('my_sketch_file')
-        supported_extensions = ['.gif', '.jpg', '.png', '.PNG', '.JPG', '.GIF']
+        supported_extensions = ['.gif', '.jpeg', '.png', '.PNG', '.JPEG', '.GIF']
 
         for suffix in supported_extensions:
             img_name = f"image{suffix}"
@@ -142,7 +142,6 @@ class SketchViewTests(Pyp5jsWebTestCase):
 
             self.assert_200(response)
             self.assertEqual(f'image/{suffix[1:].lower()}', response.headers['Content-Type'])
-            self.assertEqual(f'attachment; filename={img_name.lower()}', response.headers['Content-Disposition'])
             self.assertEqual(response.get_data(), img_content)
 
     def test_regression_test_with_real_png_image(self):
@@ -157,7 +156,6 @@ class SketchViewTests(Pyp5jsWebTestCase):
 
         self.assert_200(response)
         self.assertEqual(f'image/png', response.headers['Content-Type'])
-        self.assertEqual(f'attachment; filename={img_name}', response.headers['Content-Disposition'])
         with alien_img.open(mode='rb') as fd:
             self.assertEqual(response.get_data(), fd.read())
 

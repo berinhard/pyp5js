@@ -1,5 +1,6 @@
 import ast
-from flask import Flask, render_template, Response, request
+import os
+from flask import Flask, render_template, request, send_from_directory
 from slugify import slugify
 
 from pyp5js import commands
@@ -60,7 +61,7 @@ def render_sketch_view(sketch_name, static_path):
 
     error = ''
     if static_path:
-        return _serve_static(sketch_files, static_path)
+        return _serve_static(sketch_files.sketch_dir, static_path)
 
     elif request.method == 'POST':
         py_code = request.form.get('py_code', '')
@@ -93,30 +94,16 @@ def render_sketch_view(sketch_name, static_path):
     return render_template('view_sketch.html', **context)
 
 
-def _serve_static(sketch_files, static_path):
-    content_file = sketch_files.sketch_dir.joinpath(static_path).resolve()
-    if not str(content_file).startswith(str(sketch_files.sketch_dir.resolve())):
+def _serve_static(static_dir, static_path):
+    content_file = static_dir.joinpath(static_path).resolve()
+    if not str(content_file).startswith(str(static_dir.resolve())):
         # User tried something not allowed (as "/root/something" or "../xxx")
         return '', 403
-    elif not content_file.exists():
-        return '', 404
 
-    mode = 'r'
-    encoding = 'utf-8'
-    file_suffix = content_file.suffix.lower()
-    if file_suffix in SUPPORTED_IMAGE_FILE_SUFFIXES:
-        encoding = None
-        mode = 'rb'
+    resp = send_from_directory(static_dir.absolute(), static_path, add_etags=False, cache_timeout=0)
 
-    with content_file.open(encoding=encoding, mode=mode) as fd:
-        response = Response(fd.read())
+    if os.name == 'nt' and static_path.lower().endswith('.js'):
+        js_content = resp.headers['Content-Type'].replace('text/plain', 'application/javascript')
+        resp.headers['Content-Type'] = js_content
 
-    if file_suffix == '.js':
-        # To avoid MIME type errors
-        # More can be found here: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options  # noqa
-        response.headers['Content-Type'] = 'application/javascript'
-    elif file_suffix in SUPPORTED_IMAGE_FILE_SUFFIXES:
-        response.headers['Content-Type'] = 'image/' + file_suffix[1:]
-        response.headers['Content-Disposition'] = f'attachment; filename={content_file.name.lower()}'
-
-    return response
+    return resp
