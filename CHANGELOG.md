@@ -1,6 +1,10 @@
 Development
 -----------
 
+0.4.4
+-----
+- Fix to allow directories name with spaces - PR #127
+
 0.4.3
 -----
 - Fix conflict with p5.js `clear` method and Python
