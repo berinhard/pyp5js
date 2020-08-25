@@ -4,7 +4,7 @@ from unittest import TestCase
 from unittest.mock import Mock, patch
 
 from pyp5js.compiler import Pyp5jsCompiler, compile_sketch_js
-from pyp5js.config import SKETCHBOOK_DIR
+from pyp5js import config
 from pyp5js.fs import SketchFiles, LibFiles
 from pyp5js.templates_renderers import get_target_sketch_content
 
@@ -14,7 +14,7 @@ def files():
     files = SketchFiles('foo')
     files.create_sketch_dir()
     yield files
-    shutil.rmtree(SKETCHBOOK_DIR)
+    shutil.rmtree(config.SKETCHBOOK_DIR)
 
 
 @patch('pyp5js.compiler.Pyp5jsCompiler')
@@ -39,8 +39,8 @@ class Pyp5jsCompilerTests(TestCase):
         self.files.sketch_py.touch()
 
     def tearDown(self):
-        if SKETCHBOOK_DIR.exists():
-            shutil.rmtree(SKETCHBOOK_DIR)
+        if config.SKETCHBOOK_DIR.exists():
+            shutil.rmtree(config.SKETCHBOOK_DIR)
 
     def test_transcrypt_target_dir_path(self):
         assert self.files.sketch_dir.joinpath(
