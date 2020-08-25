@@ -28,8 +28,9 @@ class Pyp5jsCompiler:
         Builds transcrypt command line with the required parameters and flags
         """
         pyp5_dir = self.sketch_files.from_lib.install
+        target = self.sketch_files.target_sketch
         return ' '.join([str(c) for c in [
-            'transcrypt', '-xp', pyp5_dir, '-k', '-ks', '-b', '-m', '-n', self.sketch_files.target_sketch
+            'transcrypt', '-xp', f'"{pyp5_dir}"', '-k', '-ks', '-b', '-m', '-n', f'"{target}"'
         ]])
 
     def run_compiler(self):
