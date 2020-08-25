@@ -5,7 +5,7 @@ from pathlib import Path
 from cprint import cprint
 from collections import namedtuple
 
-from pyp5js.config import SKETCHBOOK_DIR
+from pyp5js import config
 from pyp5js.exceptions import SketchDirAlreadyExistException, InvalidName
 
 
@@ -50,7 +50,7 @@ class SketchFiles():
 
     @property
     def sketch_dir(self):
-        return SKETCHBOOK_DIR.joinpath(f'{self.sketch_name}')
+        return config.SKETCHBOOK_DIR.joinpath(f'{self.sketch_name}')
 
     @property
     def static_dir(self):
