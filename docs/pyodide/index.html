@@ -260,9 +260,7 @@ def background(*args):
     return _P5_INSTANCE.background(*args)
 
 def clear(*args):
-    __pragma__('noalias', 'clear')
     p5_clear = _P5_INSTANCE.clear(*args)
-    __pragma__('alias', 'clear', 'py_clear')
     return p5_clear
 
 def erase(*args):
@@ -996,9 +994,7 @@ def createCanvas(*args):
 
 
 def pop(*args):
-    __pragma__('noalias', 'pop')
     p5_pop = _P5_INSTANCE.pop(*args)
-    __pragma__('alias', 'pop', 'py_pop')
     return p5_pop
 
 
