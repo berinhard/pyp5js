@@ -6,13 +6,22 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>sketch_001 - pyp5js with Pyodide</title>
+    <title>pyp5js with Pyodide Demo</title>
     <style> body, html, canvas {padding: 0; margin: 0; overflow: hidden;} </style>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/default.min.css">
     <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
     <script src="https://pyodide-cdn2.iodide.io/v0.15.0/full/pyodide.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.3.2/styles/default.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.3.2/highlight.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js" integrity="sha512-GZ1RIgZaSc8rnco/8CXfRdCpDxRCphenIiZ2ztLy3XQfCbQUSCuk8IudvNHxkRA3oUg6q0qejgN/qqyG1duv5Q==" crossorigin="anonymous"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/mode-python.min.js" integrity="sha512-2Ke4vMGrMfYRM55pT1aA5bw7Pl82Sc7K5Hg8XZYZu+EQrb0AO1mNYTagwZm+MFVAImYS9Mlnm73zcgc01wPXxA==" crossorigin="anonymous"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/theme-monokai.min.js" integrity="sha512-S4i/WUGRs22+8rjUVu4kBjfNuBNp8GVsgcK2lbaFdws4q6TF3Nd00LxqnHhuxS9iVDfNcUh0h6OxFUMP5DBD+g==" crossorigin="anonymous"></script>
+
+
     <script>hljs.initHighlightingOnLoad();</script>
 
     <style>
@@ -27,9 +36,14 @@
           justify-content: center;
         }
 
-        pre {
-            padding-left: 2em;
+        #text-editor {
+            width: 700px;
+            height: 600px;
+            float: left;
+            margin-bottom:1em;
         }
+
+        .display-none {display:none;}
     </style>
   </head>
 
@@ -43,89 +57,25 @@
 
 
     <div class="demoContainer">
-        <div id="sketch-holder" style="">
-              <!-- You sketch will go here! -->
-        </div>
-        <div style="">
-          <pre>
-             <code>
-from pyp5js import *
+      <div style="display: block">
+          <textarea class="display-none" id="id_py_code" name="py_code"></textarea>
 
-t = 0
+          <div id="text-editor"></div>
+          <div class="clearfix">
+            <input disabled id="executeBtn" class="btn rounded py1 px2 mb1" type="submit" value="Execute">
+            <input id="clearBtn" class="btn rounded py1 px2 mb1" type="submit" value="Clear">
+          </div>
+      </div>
 
-def setup():
-    createCanvas(600, 600)
-    stroke(250)
-    strokeWeight(3)
-    fill(40, 200, 40)
-
-
-def draw():
-    global t
-    background(10, 10)
-
-    xAngle = map(mouseX, 0, width, -4 * PI, 4 * PI, True)
-    yAngle = map(mouseY, 0, height, -4 * PI, 4 * PI, True)
-    for x in range(0, width, 30):
-        for y in range(0, height, 30):
-
-            angle = xAngle * (x / width) + yAngle * (y / height)
-
-            myX = x + 20 * cos(2 * PI * t + angle)
-            myY = y + 20 * sin(2 * TWO_PI * t + angle)
-
-            ellipse(myX, myY, 10)
-
-    t = t + 0.01
-
-    print(frameRate())
-              </code>
-          </pre>
-        </div>
+      <div id="sketch-holder">
+        <!-- You sketch will go here! -->
+      </div>
     </div>
 
   </body>
 
-  <script>
-    languagePluginLoader.then(() => {
-        pyodide.runPython(`
-          import io, code, sys
-          from js import pyodide, p5, window, document
-          print(sys.version)
-        `)
-    });
-
-
-let wrapper = `
-t = 0
-
-def setup():
-    createCanvas(600, 600)
-    stroke(250)
-    strokeWeight(3)
-    fill(40, 200, 40)
-
-
-def draw():
-    global t
-    background(10, 10)
-
-    xAngle = map(mouseX, 0, width, -4 * PI, 4 * PI, True)
-    yAngle = map(mouseY, 0, height, -4 * PI, 4 * PI, True)
-    for x in range(0, width, 30):
-        for y in range(0, height, 30):
-
-            angle = xAngle * (x / width) + yAngle * (y / height)
-
-            myX = x + 20 * cos(2 * PI * t + angle)
-            myY = y + 20 * sin(2 * TWO_PI * t + angle)
-
-            ellipse(myX, myY, 10)
-
-    t = t + 0.01
-
-    print(frameRate())
-
+  <script type="text/javascript">
+let wrapper_content = `
 _P5_INSTANCE = None
 
 _CTX_MIDDLE = None
@@ -1315,17 +1265,51 @@ def add_library(lib_name):
     document.head.appendChild(script)
 `
 
-     function runCode() {
-        let code = wrapper + '\nstart_p5(setup, draw, {});';
+let placeholder = `
+def setup():
+    pass
+
+def draw():
+    pass
+`
+    languagePluginLoader.then(() => {
+        pyodide.runPython(`
+          import io, code, sys
+          from js import pyodide, p5, window, document
+          print(sys.version)
+        `)
+        $("#executeBtn").removeAttr("disabled");
+    });
+
+    function runCode() {
+        let userCode = $("#id_py_code").html();
+
+        let code = placeholder + "\n" + userCode + "\n" + wrapper_content + '\nstart_p5(setup, draw, {});';
 
         if (window.instance) {
           window.instance.canvas.remove();
         }
 
-        console.log(code);
-
+        console.log("Output da execução:");
         pyodide.runPython(code);
     }
+
+
+    var editor = ace.edit("text-editor");
+
+    editor.setTheme("ace/theme/monokai");
+    editor.session.setMode("ace/mode/python");
+    editor.setFontSize(18);
+    editor.session.setOptions({
+      tabSize: 4,
+    });
+
+    editor.session.on('change', function(){
+      document.getElementById("id_py_code").innerHTML = editor.getSession().getValue();
+    });
+
+    $("#executeBtn").on("click", () => {runCode()});
+    $("#clearBtn").on("click", () => {$("#sketch-holder").html("")});
   </script>
 
 
