@@ -41,6 +41,7 @@
             height: 600px;
             float: left;
             margin-bottom:1em;
+            margin-right:1em;
         }
 
         .display-none {display:none;}
@@ -1299,6 +1300,15 @@ def draw():
 
     $("#executeBtn").on("click", () => {runCode()});
     $("#clearBtn").on("click", () => {$("#sketch-holder").html("")});
+
+    $("body").bind("keydown",keyDown);
+
+    function keyDown(e){
+        if((e.ctrlKey) && (e.keyCode == 13)){
+            runCode();
+        }
+    }
+
   </script>
 
 
