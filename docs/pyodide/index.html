@@ -1271,8 +1271,8 @@ def draw():
     });
 
     function runCode() {
-        $("#sketch-holder").html("");
-        let userCode = $("#id_py_code").html();
+        $("#sketch-holder").text("");
+        let userCode = $("#id_py_code").text();
 
         let code = placeholder + "\n" + userCode + "\n" + wrapper_content + '\nstart_p5(setup, draw, {});';
 
