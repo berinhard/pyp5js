@@ -1,4 +1,5 @@
 from . import sketch
+from .sketch import TRANSCRYPT_INTERPRETER, PYODIDE_INTERPRETER
 from decouple import config
 from pathlib import Path
 
@@ -6,8 +7,5 @@ SKETCHBOOK_DIR = config("SKETCHBOOK_DIR", cast=Path, default=Path.home().joinpat
 
 if not SKETCHBOOK_DIR.exists():
     SKETCHBOOK_DIR.mkdir()
-
-TRANSCRYPT_INTERPRETER = 'transcrypt'
-PYODIDE_INTERPRETER = 'pyodide'
 
 AVAILABLE_INTERPRETERS = [TRANSCRYPT_INTERPRETER, PYODIDE_INTERPRETER]

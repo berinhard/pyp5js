@@ -1,5 +1,7 @@
 import json
 
+TRANSCRYPT_INTERPRETER = 'transcrypt'
+PYODIDE_INTERPRETER = 'pyodide'
 
 class SketchConfig:
 
@@ -15,7 +17,11 @@ class SketchConfig:
     def get_index_template(self):
         from pyp5js.fs import LibFiles
         pyp5js_files = LibFiles()
-        return pyp5js_files.index_html
+        index_map = {
+            TRANSCRYPT_INTERPRETER: pyp5js_files.transcrypt_index_html,
+            PYODIDE_INTERPRETER: pyp5js_files.pyodide_index_html,
+        }
+        return index_map[self.interpreter]
 
     def write(self, fname):
         with open(fname, "w") as fd:
