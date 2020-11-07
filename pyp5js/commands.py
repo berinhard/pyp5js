@@ -10,9 +10,11 @@ from pyp5js.fs import SketchFiles
 from pyp5js.http import pyp5js_web_app
 from pyp5js.monitor import monitor_sketch as monitor_sketch_service
 from pyp5js.templates_renderers import get_sketch_index_content
+from pyp5js.config import TRANSCRYPT_INTERPRETER
 
 
-def new_sketch(sketch_name):
+# TODO precisa aceitar um parâmetro de escolha de compilador
+def new_sketch(sketch_name, interpreter=TRANSCRYPT_INTERPRETER):
     """
     Creates a new sketch with the required assets and a index.html file, based on pyp5js's templates
 
@@ -21,7 +23,7 @@ def new_sketch(sketch_name):
     :return: file names
     :rtype: list of strings
     """
-    sketch_files = SketchFiles(sketch_name)
+    sketch_files = SketchFiles(sketch_name, interpreter=interpreter)
     sketch_files.create_sketch_dir()
 
     templates_files = [

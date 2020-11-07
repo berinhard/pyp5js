@@ -15,7 +15,8 @@ def get_sketch_index_content(sketch_files):
         "p5_js_url": sketch_files.urls.p5_js_url,
         "sketch_js_url":  sketch_files.urls.sketch_js_url,
     }
-    index_template = templates.get_template(pyp5js_files.index_html.name)
+    template_file = sketch_files.config.get_index_template()
+    index_template = templates.get_template(template_file.name)
     return index_template.render(context)
 
 

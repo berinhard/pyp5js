@@ -4,7 +4,7 @@ from unittest import TestCase
 from unittest.mock import Mock, patch
 
 from pyp5js import commands
-from pyp5js.config import SKETCHBOOK_DIR
+from pyp5js.config import SKETCHBOOK_DIR, TRANSCRYPT_INTERPRETER, PYODIDE_INTERPRETER
 from pyp5js.exceptions import PythonSketchDoesNotExist, SketchDirAlreadyExistException, InvalidName
 from pyp5js.fs import SketchFiles
 
@@ -78,6 +78,18 @@ class TestNewSketchCommand(TestCase):
         assert self.sketch_files.index_html.exists()
         assert self.sketch_files.sketch_py.exists()
         assert self.sketch_files.p5js.exists()
+        assert self.sketch_files.config_file.exists()
+        assert self.sketch_files.config.interpreter == TRANSCRYPT_INTERPRETER
+
+    def test_create_pyodide_sketch(self):
+        commands.new_sketch(self.sketch_name, interpreter=PYODIDE_INTERPRETER)
+        self.sketch_files = SketchFiles(self.sketch_name)  # read config after init
+
+        assert self.sketch_files.index_html.exists()
+        assert self.sketch_files.sketch_py.exists()
+        assert self.sketch_files.p5js.exists()
+        assert self.sketch_files.config_file.exists()
+        assert self.sketch_files.config.interpreter == PYODIDE_INTERPRETER
 
     def test_raise_exception_if_dir_already_exist(self):
         self.sketch_files.create_sketch_dir()
