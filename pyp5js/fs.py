@@ -6,6 +6,7 @@ from cprint import cprint
 from collections import namedtuple
 
 from pyp5js import config
+from pyp5js.config.sketch import SketchConfig
 from pyp5js.exceptions import SketchDirAlreadyExistException, InvalidName
 
 
@@ -13,13 +14,19 @@ SketchUrls = namedtuple('SketchUrls', ['p5_js_url', 'sketch_js_url'])
 
 
 class SketchFiles():
+    # TODO now that we have the SketchConfig object, this class name is not good enough
+    # A better name would be Sketch
     TARGET_NAME = 'target'
     STATIC_NAME = 'static'
 
-    def __init__(self, sketch_name):
+    def __init__(self, sketch_name, interpreter=config.TRANSCRYPT_INTERPRETER, **cfg):
         self.sketch_name = sketch_name
         self.from_lib = LibFiles()
-        self.config = config.sketch.SketchConfig(config.TRANSCRYPT_INTERPRETER)
+        if self.config_file.exists():
+            # TODO add warning to let the user know pyp5js is ignoring cfg
+            self.config = SketchConfig.from_json(self.config_file)
+        else:
+            self.config = SketchConfig(interpreter=interpreter, **cfg)
 
     def validate_name(self):
         does_not_start_with_letter_or_underscore = r'^[^a-zA-Z_]'
@@ -37,6 +44,7 @@ class SketchFiles():
         os.makedirs(self.sketch_dir)
         self.static_dir.mkdir()
         self.target_dir.mkdir()
+        self.config.write(self.config_file)
 
     @property
     def sketch_exists(self):
@@ -72,6 +80,10 @@ class SketchFiles():
     @property
     def sketch_py(self):
         return self.sketch_dir.joinpath(f'{self.sketch_name}.py')
+
+    @property
+    def config_file(self):
+        return self.sketch_dir.joinpath('properties.json')
 
     @property
     def target_dir(self):

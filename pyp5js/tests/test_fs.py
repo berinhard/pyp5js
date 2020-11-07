@@ -3,7 +3,7 @@ import shutil
 from pathlib import Path
 from unittest import TestCase
 
-from pyp5js.config import SKETCHBOOK_DIR
+from pyp5js.config import SKETCHBOOK_DIR, PYODIDE_INTERPRETER
 from pyp5js.exceptions import SketchDirAlreadyExistException
 from pyp5js.fs import LibFiles, SketchFiles
 from pyp5js.exceptions import InvalidName
@@ -76,6 +76,7 @@ class SketchFilesTests(TestCase):
         assert self.get_expected_path('static', 'p5.js') == self.files.p5js
         assert self.get_expected_path('foo.py') == self.files.sketch_py
         assert self.get_expected_path('target_sketch.py') == self.files.target_sketch
+        assert self.get_expected_path('properties.json') == self.files.config_file
 
     def test_sketch_files_holds_reference_to_lib_files(self):
         lib_files = LibFiles()
@@ -86,12 +87,14 @@ class SketchFilesTests(TestCase):
         assert self.files.sketch_dir.exists() is False
         assert self.files.static_dir.exists() is False
         assert self.files.target_dir.exists() is False
+        assert self.files.config_file.exists() is False
 
         self.files.create_sketch_dir()
 
         assert self.files.sketch_dir.exists() is True
         assert self.files.static_dir.exists() is True
         assert self.files.target_dir.exists() is True
+        assert self.files.config_file.exists() is True
 
         with pytest.raises(SketchDirAlreadyExistException):
             self.files.create_sketch_dir()
@@ -118,3 +121,12 @@ class SketchFilesTests(TestCase):
     def test_name_should_accept_underscore_in_the_middle(self):
         file = SketchFiles('na_me')
         assert file.sketch_name == 'na_me'
+
+    def test_loads_config_from_config_file(self):
+        files = SketchFiles('bar', interpreter=PYODIDE_INTERPRETER)
+        files.create_sketch_dir()  # writes config file json
+
+        same_files = SketchFiles('bar')
+
+        assert same_files.config_file == files.config_file
+        assert same_files.config.interpreter == PYODIDE_INTERPRETER
