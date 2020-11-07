@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>pyp5js with Pyodide Demo</title>
-    <style> body, html, canvas {padding: 0; margin: 0; overflow: hidden;} </style>
+    <style> body, html, canvas {padding: 0; margin: 0; } </style>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/default.min.css">
     <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
@@ -32,8 +32,7 @@
 
         .demoContainer {
           display: flex;
-          align-items: center;
-          justify-content: center;
+          margin-left: 1em;
         }
 
         #text-editor {
@@ -41,6 +40,7 @@
             height: 600px;
             float: left;
             margin-bottom:1em;
+            margin-right:1em;
         }
 
         .display-none {display:none;}
@@ -48,13 +48,7 @@
   </head>
 
   <body>
-    <p style="background-color: #f6f8fa">
-      pyp5js running on top of pyodide
-    </p>
-    <p style="background-color: #f6f8fa">
-      Based on Luca Damasco <a href="https://github.com/Luxapodular/Py5.js" target="_blank">experiment</a> supported by <a href="https://www.du.edu/ahss/opensourcearts/" target="_blank">COSA (The Clinic for Open Source Arts)</a> at the University of Denver College of Arts and Sciences
-    </p>
-
+<p style="font-family: 'sans'; font-size:18px"><b>pyp5js</b> editor</p>
 
     <div class="demoContainer">
       <div style="display: block">
@@ -71,9 +65,9 @@
         <!-- You sketch will go here! -->
       </div>
     </div>
-
+<div><p style="font-family: 'sans'; font-size:14px">If you execute the code but nothing is being rendered in the broswer, please open your browser's console to read the error traceback (usually you can do this by pressing F12 and clicking in the Console tab).</p></div>
+<div><p style="background-color: #f6f8fa; font-family: 'sans'; font-size:14px"><a href="https://github.com/berinhard/pyp5js"><b>pyp5js</b></a> running on top of pyodide, based on: <a href="https://github.com/Luxapodular/Py5.js" target="_blank">Luca Damasco's experiment</a> supported by <a href="https://www.du.edu/ahss/opensourcearts/" target="_blank">COSA (The Clinic for Open Source Arts)</a> at the University of Denver College of Arts and Sciences.</p></div>
   </body>
-
   <script type="text/javascript">
 let wrapper_content = `
 _P5_INSTANCE = None
@@ -267,9 +261,7 @@ def background(*args):
     return _P5_INSTANCE.background(*args)
 
 def clear(*args):
-    __pragma__('noalias', 'clear')
     p5_clear = _P5_INSTANCE.clear(*args)
-    __pragma__('alias', 'clear', 'py_clear')
     return p5_clear
 
 def erase(*args):
@@ -1003,9 +995,7 @@ def createCanvas(*args):
 
 
 def pop(*args):
-    __pragma__('noalias', 'pop')
     p5_pop = _P5_INSTANCE.pop(*args)
-    __pragma__('alias', 'pop', 'py_pop')
     return p5_pop
 
 
@@ -1282,7 +1272,8 @@ def draw():
     });
 
     function runCode() {
-        let userCode = $("#id_py_code").html();
+        $("#sketch-holder").text("");
+        let userCode = $("#id_py_code").text();
 
         let code = placeholder + "\n" + userCode + "\n" + wrapper_content + '\nstart_p5(setup, draw, {});';
 
@@ -1310,6 +1301,15 @@ def draw():
 
     $("#executeBtn").on("click", () => {runCode()});
     $("#clearBtn").on("click", () => {$("#sketch-holder").html("")});
+
+    $("body").bind("keydown",keyDown);
+
+    function keyDown(e){
+        if((e.ctrlKey) && (e.keyCode == 13)){
+            runCode();
+        }
+    }
+
   </script>
 
 
