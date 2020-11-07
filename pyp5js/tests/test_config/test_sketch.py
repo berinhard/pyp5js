@@ -11,20 +11,29 @@ from pyp5js.config.sketch import SketchConfig
 
 @fixture
 def transcrypt_json_file():
-    with NamedTemporaryFile(mode='w') as fd:
+    try:
+        fd = NamedTemporaryFile(mode='w', delete=False)
         data = {"interpreter": "transcrypt"}
         json.dump(data, fd)
+        filename = fd.name
         fd.seek(0)
-        yield fd
-
+        fd.close()
+        yield filename
+    finally:
+        os.remove(filename)
 
 @fixture
 def pyodide_json_file():
-    with NamedTemporaryFile(mode='w') as fd:
+    try:
+        fd = NamedTemporaryFile(mode='w', delete=False)
         data = {"interpreter": "pyodide"}
         json.dump(data, fd)
+        filename = fd.name
         fd.seek(0)
-        yield fd
+        fd.close()
+        yield filename
+    finally:
+        os.remove(filename)
 
 @fixture
 def transcrypt_config():
@@ -36,12 +45,12 @@ def pyodide_config():
 
 
 def test_init_transcrypt_sketch_config_from_json(transcrypt_json_file):
-    config = SketchConfig.from_json(transcrypt_json_file.name)
+    config = SketchConfig.from_json(transcrypt_json_file)
     assert config.interpreter == TRANSCRYPT_INTERPRETER
 
 
 def test_init_pyodide_sketch_config_from_json(pyodide_json_file):
-    config = SketchConfig.from_json(pyodide_json_file.name)
+    config = SketchConfig.from_json(pyodide_json_file)
     assert config.interpreter == PYODIDE_INTERPRETER
 
 
