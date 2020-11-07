@@ -19,6 +19,7 @@ class SketchFiles():
     def __init__(self, sketch_name):
         self.sketch_name = sketch_name
         self.from_lib = LibFiles()
+        self.config = config.sketch.SketchConfig(config.TRANSCRYPT_INTERPRETER)
 
     def validate_name(self):
         does_not_start_with_letter_or_underscore = r'^[^a-zA-Z_]'
