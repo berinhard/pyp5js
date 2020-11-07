@@ -5,7 +5,7 @@ from cprint import cprint
 import click
 
 from pyp5js import commands
-from pyp5js.config import SKETCHBOOK_DIR
+from pyp5js.config import SKETCHBOOK_DIR, AVAILABLE_INTERPRETERS, PYODIDE_INTERPRETER, TRANSCRYPT_INTERPRETER
 
 
 @click.group()
@@ -19,7 +19,8 @@ def command_line_entrypoint():
 @command_line_entrypoint.command('new')
 @click.argument('sketch_name')
 @click.option('--monitor', '-m', is_flag=True)
-def configure_new_sketch(sketch_name, monitor):
+@click.option('--interpreter', '-i', type=click.Choice(AVAILABLE_INTERPRETERS), default=TRANSCRYPT_INTERPRETER)
+def configure_new_sketch(sketch_name, monitor, interpreter):
     """
     Create dir and configure boilerplate
 
@@ -32,20 +33,20 @@ def configure_new_sketch(sketch_name, monitor):
     Example:
     $ pyp5js new my_sketch
     """
-    files = commands.new_sketch(sketch_name)
+    files = commands.new_sketch(sketch_name, interpreter)
 
     cprint.ok(f"Your sketch was created!")
 
+    compiler = "transcrypt" if interpreter == TRANSCRYPT_INTERPRETER else "pyodide"
     if not monitor:
         cprint.ok(f"Please, open and edit the file {files.sketch_py} to draw. When you're ready to see your results, just run:")
-        cmd = f"\t pyp5js transcrypt {sketch_name}"
+        cmd = f"\t pyp5js {compiler} {sketch_name}"
         cprint.ok(cmd)
         cprint.ok(f"And open file://{files.index_html.absolute()} on your browser to see yor results!")
     else:
         cprint.ok(f"Please, open and edit the file {sketch_py} to draw.")
         cprint.ok(f"And open file://{files.index_html.absolute()} on your browser to see yor results!")
         commands.monitor_sketch(sketch_name)
-
 
 
 @command_line_entrypoint.command("transcrypt")
