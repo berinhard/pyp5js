@@ -5,7 +5,7 @@ from pyp5js.fs import SketchFiles
 def test_get_sketch_index_content():
     sketch_files = SketchFiles('foo')
 
-    expected_template = renderers.templates.get_template(sketch_files.from_lib.index_html.name)
+    expected_template = renderers.templates.get_template(sketch_files.from_lib.transcrypt_index_html.name)
     expected_content = expected_template.render({
         'sketch_name': sketch_files.sketch_name,
         "p5_js_url": sketch_files.STATIC_NAME + "/p5.js",

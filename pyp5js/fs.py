@@ -118,8 +118,12 @@ class LibFiles():
         return self.templates_dir.joinpath('target_sketch.py.template')
 
     @property
-    def index_html(self):
-        return self.templates_dir.joinpath('index.html')
+    def transcrypt_index_html(self):
+        return self.templates_dir.joinpath('transcrypt_index.html')
+
+    @property
+    def pyodide_index_html(self):
+        return self.templates_dir.joinpath('pyodide_index.html')
 
     @property
     def p5js(self):
