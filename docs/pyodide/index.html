@@ -1057,12 +1057,15 @@ class PVector:
 
     def setMag(self, mag):
         self.__vector.setMag(mag)
+        return self
 
     def normalize(self):
         self.__vector.normalize()
+        return self
 
     def limit(self, max):
         self.__vector.limit(max)
+        return self
 
     def heading(self):
         return self.__vector.heading()
