@@ -176,13 +176,14 @@ $ make test
 
 After that, you should have the `pyp5js` command enabled and it will respect all the changes you introduce to the code. Now, a brief explanation about the code under `pyp5js` directory:
 
+- `config` module: centralize pieces of code used to configure how `pyp5js` runs
 - `cli.py`: the entrypoint for `pyp5js` commands such as `new` or `transcrypt`
 - `commands.py`: just functions responsible for the real implementations for `pyp5js` commands
 - `compiler.py`: where all the magic happens!
-- `fs.py`: classes to abstract the files and directories manipulations from the commands
 - `exception.py`: custom exceptions used by `pyp5js`
 - `monitor.py`: module with the objects used by the `monitor` command
 - `pyp5js.py`: module which is imported by the sketches and integrates with P5.js API
+- `sketch.py`: class to abstract Sketches' filesm directories and configuration
 - `template_renderers.py`: simple module with the renderization logic for the code templates like `target_sketch.py`
 - `http/web_app.py`: Flask application for the web interface.
 
