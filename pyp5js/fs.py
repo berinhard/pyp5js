@@ -115,7 +115,7 @@ class LibFiles():
 
     @property
     def static_dir(self):
-        return self.install.joinpath('static')
+        return self.assets_dir.joinpath('static')
 
     @property
     def pytop5js(self):

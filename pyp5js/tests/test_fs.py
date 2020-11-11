@@ -21,7 +21,7 @@ def test_dir_properties(lib_files):
     assert lib_files.templates_dir.exists()
     assert lib_files.assets_dir == pyp5_dir.joinpath('assets')
     assert lib_files.assets_dir.exists()
-    assert lib_files.static_dir == pyp5_dir.joinpath('static')
+    assert lib_files.static_dir == pyp5_dir.joinpath('assets', 'static')
     assert lib_files.static_dir.exists()
 
 
@@ -43,7 +43,7 @@ def test_files_properties(lib_files):
     assert lib_files.pyodide_index_html == pyp5_dir.joinpath('templates', 'pyodide_index.html')
     assert lib_files.pyodide_index_html.exists()
 
-    assert lib_files.p5js == pyp5_dir.joinpath('static', 'p5', 'p5.min.js')
+    assert lib_files.p5js == pyp5_dir.joinpath('assets', 'static', 'p5', 'p5.min.js')
     assert lib_files.p5js.exists()
 
     assert lib_files.p5_yml == pyp5_dir.joinpath('assets', 'p5_reference.yml')
