@@ -1,54 +1,11 @@
 import pytest
 import shutil
-from pathlib import Path
 from unittest import TestCase
 
-from pyp5js.config.fs import PYP5JS_FILES
 from pyp5js.config import SKETCHBOOK_DIR, PYODIDE_INTERPRETER
 from pyp5js.exceptions import SketchDirAlreadyExistException
 from pyp5js.fs import SketchFiles
 from pyp5js.exceptions import InvalidName
-
-pyp5_dir = Path(__file__).parents[2].joinpath('pyp5js')
-
-@pytest.fixture
-def lib_files():
-    return PYP5JS_FILES
-
-def test_dir_properties(lib_files):
-    assert pyp5_dir.exists()
-
-    assert lib_files.templates_dir == pyp5_dir.joinpath('templates')
-    assert lib_files.templates_dir.exists()
-    assert lib_files.assets_dir == pyp5_dir.joinpath('assets')
-    assert lib_files.assets_dir.exists()
-    assert lib_files.static_dir == pyp5_dir.joinpath('assets', 'static')
-    assert lib_files.static_dir.exists()
-
-
-def test_files_properties(lib_files):
-    assert pyp5_dir.exists()
-
-    assert lib_files.pytop5js == pyp5_dir.joinpath('pyp5js.py')
-    assert lib_files.pytop5js.exists()
-
-    assert lib_files.base_sketch == pyp5_dir.joinpath('templates', 'base_sketch.py.template')
-    assert lib_files.base_sketch.exists()
-
-    assert lib_files.target_sketch_template == pyp5_dir.joinpath('templates', 'target_sketch.py.template')
-    assert lib_files.target_sketch_template.exists()
-
-    assert lib_files.transcrypt_index_html == pyp5_dir.joinpath('templates', 'transcrypt_index.html')
-    assert lib_files.transcrypt_index_html.exists()
-
-    assert lib_files.pyodide_index_html == pyp5_dir.joinpath('templates', 'pyodide_index.html')
-    assert lib_files.pyodide_index_html.exists()
-
-    assert lib_files.p5js == pyp5_dir.joinpath('assets', 'static', 'p5', 'p5.min.js')
-    assert lib_files.p5js.exists()
-
-    assert lib_files.p5_yml == pyp5_dir.joinpath('assets', 'p5_reference.yml')
-    assert lib_files.p5_yml.exists()
 
 
 class SketchFilesTests(TestCase):
