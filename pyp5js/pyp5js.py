@@ -947,6 +947,26 @@ popStyle = pop
 pushMatrix = push
 pushStyle = push
 
+# # PVector is a helper/alias to create p5.Vector objects
+def PVector(x=0, y=0, z=0):
+    return _P5_INSTANCE.createVector(x, y, z)
+# # aliases  for p5.Vector class methods
+PVector.dist = p5.Vector.dist
+PVector.dist = p5.Vector.dist
+PVector.add = p5.Vector.add
+PVector.sub = p5.Vector.sub
+PVector.mult = p5.Vector.mult
+PVector.div = p5.Vector.div
+PVector.dot = p5.Vector.dot
+PVector.cross = p5.Vector.cross
+PVector.lerp = p5.Vector.lerp
+PVector.random2D = p5.Vector.random2D
+PVector.random3D = p5.Vector.random3D
+PVector.angleBetween = p5.Vector.angleBetween
+PVector.fromAngle = p5.Vector.fromAngle
+PVector.fromAngles = p5.Vector.fromAngles
+PVector.equals = p5.Vector.equals
+
 def pre_draw(p5_instance, draw_func):
     """
     We need to run this before the actual draw to insert and update p5 env variables
