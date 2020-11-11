@@ -6,7 +6,7 @@ from slugify import slugify
 from pyp5js import commands
 from pyp5js.config import SKETCHBOOK_DIR
 from pyp5js.exceptions import PythonSketchDoesNotExist, SketchDirAlreadyExistException
-from pyp5js.fs import Sketch
+from pyp5js.sketch import Sketch
 
 
 app = Flask(__name__)

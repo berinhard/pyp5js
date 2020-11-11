@@ -1,5 +1,5 @@
 from pyp5js import templates_renderers as renderers
-from pyp5js.fs import Sketch
+from pyp5js.sketch import Sketch
 from pyp5js.config.fs import PYP5JS_FILES
 
 def test_get_sketch_index_content():

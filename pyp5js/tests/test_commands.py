@@ -6,7 +6,7 @@ from unittest.mock import Mock, patch
 from pyp5js import commands
 from pyp5js.config import SKETCHBOOK_DIR, TRANSCRYPT_INTERPRETER, PYODIDE_INTERPRETER
 from pyp5js.exceptions import PythonSketchDoesNotExist, SketchDirAlreadyExistException, InvalidName
-from pyp5js.fs import Sketch
+from pyp5js.sketch import Sketch
 
 
 @pytest.fixture()

@@ -4,7 +4,7 @@ from unittest import TestCase
 
 from pyp5js.config import SKETCHBOOK_DIR, PYODIDE_INTERPRETER
 from pyp5js.exceptions import SketchDirAlreadyExistException
-from pyp5js.fs import Sketch
+from pyp5js.sketch import Sketch
 from pyp5js.exceptions import InvalidName
 
 

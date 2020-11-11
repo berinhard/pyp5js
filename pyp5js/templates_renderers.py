@@ -1,7 +1,7 @@
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 from pyp5js.config.fs import PYP5JS_FILES
-from pyp5js.fs import Sketch
+from pyp5js.sketch import Sketch
 
 templates = Environment(loader=FileSystemLoader(str(PYP5JS_FILES.templates_dir)))
 

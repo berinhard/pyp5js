@@ -7,7 +7,7 @@ from unittest.mock import Mock, patch
 from pyp5js.compiler import Pyp5jsCompiler, compile_sketch_js
 from pyp5js import config
 from pyp5js.config.fs import PYP5JS_FILES
-from pyp5js.fs import Sketch
+from pyp5js.sketch import Sketch
 from pyp5js.templates_renderers import get_target_sketch_content
 
 

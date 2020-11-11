@@ -3,7 +3,7 @@ from unittest import TestCase
 from unittest.mock import Mock, patch
 
 from pyp5js.monitor import TranscryptSketchEventHandler
-from pyp5js.fs import Sketch
+from pyp5js.sketch import Sketch
 
 
 class TranscryptSketchEventHandlerTests(TestCase):
