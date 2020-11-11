@@ -31,13 +31,13 @@ class Sketch:
         contains_non_alphanumerics_except_underscore = r'[^a-zA-Z0-9_]'
         if re.match(does_not_start_with_letter_or_underscore, self.sketch_name) or \
            re.search(contains_non_alphanumerics_except_underscore, self.sketch_name):
-            raise InvalidName(self.sketch_name)
+            raise InvalidName(self)
 
     def create_sketch_dir(self):
         self.validate_name()
 
         if self.sketch_dir.exists():
-            raise SketchDirAlreadyExistException(self.sketch_dir.resolve())
+            raise SketchDirAlreadyExistException(self)
 
         os.makedirs(self.sketch_dir)
         self.static_dir.mkdir()

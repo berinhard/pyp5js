@@ -55,7 +55,7 @@ def transcrypt_sketch(sketch_name):
     sketch.validate_name()
 
     if not sketch.sketch_exists:
-        raise PythonSketchDoesNotExist(sketch.sketch_py.resolve())
+        raise PythonSketchDoesNotExist(sketch)
 
     compile_sketch_js(sketch)
     return sketch
@@ -76,7 +76,7 @@ def monitor_sketch(sketch_name):
     sketch.validate_name()
 
     if not sketch.sketch_exists:
-        raise PythonSketchDoesNotExist(sketch.sketch_py.resolve())
+        raise PythonSketchDoesNotExist(sketch)
 
     cprint(f"Monitoring for changes in {sketch.sketch_dir.resolve()}...")
 
