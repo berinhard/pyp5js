@@ -6,12 +6,12 @@ from unittest.mock import Mock, patch
 from pyp5js import commands
 from pyp5js.config import SKETCHBOOK_DIR, TRANSCRYPT_INTERPRETER, PYODIDE_INTERPRETER
 from pyp5js.exceptions import PythonSketchDoesNotExist, SketchDirAlreadyExistException, InvalidName
-from pyp5js.fs import SketchFiles
+from pyp5js.fs import Sketch
 
 
 @pytest.fixture()
 def files():
-    files = SketchFiles('foo')
+    files = Sketch('foo')
     files.create_sketch_dir()
     yield files
     shutil.rmtree(SKETCHBOOK_DIR)
@@ -66,7 +66,7 @@ class TestNewSketchCommand(TestCase):
 
     def setUp(self):
         self.sketch_name = 'foo'
-        self.sketch_files = SketchFiles(self.sketch_name)
+        self.sketch = Sketch(self.sketch_name)
 
     def tearDown(self):
         if SKETCHBOOK_DIR.exists():
@@ -75,24 +75,24 @@ class TestNewSketchCommand(TestCase):
     def test_create_new_sketch_with_all_required_files(self):
         commands.new_sketch(self.sketch_name)
 
-        assert self.sketch_files.index_html.exists()
-        assert self.sketch_files.sketch_py.exists()
-        assert self.sketch_files.p5js.exists()
-        assert self.sketch_files.config_file.exists()
-        assert self.sketch_files.config.interpreter == TRANSCRYPT_INTERPRETER
+        assert self.sketch.index_html.exists()
+        assert self.sketch.sketch_py.exists()
+        assert self.sketch.p5js.exists()
+        assert self.sketch.config_file.exists()
+        assert self.sketch.config.interpreter == TRANSCRYPT_INTERPRETER
 
     def test_create_pyodide_sketch(self):
         commands.new_sketch(self.sketch_name, interpreter=PYODIDE_INTERPRETER)
-        self.sketch_files = SketchFiles(self.sketch_name)  # read config after init
+        self.sketch = Sketch(self.sketch_name)  # read config after init
 
-        assert self.sketch_files.index_html.exists()
-        assert self.sketch_files.sketch_py.exists()
-        assert self.sketch_files.p5js.exists()
-        assert self.sketch_files.config_file.exists()
-        assert self.sketch_files.config.interpreter == PYODIDE_INTERPRETER
+        assert self.sketch.index_html.exists()
+        assert self.sketch.sketch_py.exists()
+        assert self.sketch.p5js.exists()
+        assert self.sketch.config_file.exists()
+        assert self.sketch.config.interpreter == PYODIDE_INTERPRETER
 
     def test_raise_exception_if_dir_already_exist(self):
-        self.sketch_files.create_sketch_dir()
+        self.sketch.create_sketch_dir()
 
         with pytest.raises(SketchDirAlreadyExistException):
             commands.new_sketch(self.sketch_name)

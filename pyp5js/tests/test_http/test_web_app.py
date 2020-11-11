@@ -28,9 +28,9 @@ class Pyp5jsWebTestCase(TestCase):
         return commands.new_sketch(name)
 
     def create_sketch_with_static_files(self, name):
-        sketch_files = commands.new_sketch(name)
+        sketch = commands.new_sketch(name)
         commands.transcrypt_sketch(name)
-        return sketch_files.sketch_dir
+        return sketch.sketch_dir
 
     def create_file(self, file_name, content=''):
         mode = 'w'
@@ -90,15 +90,15 @@ class SketchViewTests(Pyp5jsWebTestCase):
         self.assert_404(response)
 
     def test_get_sketch_exists(self):
-        sketch_files = self.create_sketch('sketch_exists')
-        py_code = sketch_files.sketch_py.read_text()
+        sketch = self.create_sketch('sketch_exists')
+        py_code = sketch.sketch_py.read_text()
 
         response = self.client.get(self.route + 'sketch_exists/')
         self.assert_200(response)
         self.assert_template_used('view_sketch.html')
-        self.assert_context('p5_js_url', sketch_files.urls.p5_js_url)
-        self.assert_context('sketch_js_url', sketch_files.urls.sketch_js_url)
-        self.assert_context('sketch_name', sketch_files.sketch_name)
+        self.assert_context('p5_js_url', sketch.urls.p5_js_url)
+        self.assert_context('sketch_js_url', sketch.urls.sketch_js_url)
+        self.assert_context('sketch_name', sketch.sketch_name)
         self.assert_context('py_code', py_code)
 
     def test_get_static_file_does_not_exist(self):
@@ -149,8 +149,8 @@ class SketchViewTests(Pyp5jsWebTestCase):
         alien_img = Path(__file__).resolve().parent / 'assets' / img_name
         assert alien_img.exists()
 
-        sketch_files = self.create_sketch('my_sketch_file')
-        shutil.copyfile(alien_img, sketch_files.sketch_dir / img_name)
+        sketch = self.create_sketch('my_sketch_file')
+        shutil.copyfile(alien_img, sketch.sketch_dir / img_name)
 
         response = self.client.get(self.route + f'my_sketch_file/{img_name}')
 
@@ -179,35 +179,35 @@ def draw():
     """.strip()
 
     def test_update_sketch_on_post(self):
-        sketch_files = self.create_sketch('sketch_exists')
+        sketch = self.create_sketch('sketch_exists')
 
         url = self.route + 'sketch_exists/'
         response = self.client.post(url, data={'py_code': self.test_code})
 
-        assert self.test_code == sketch_files.sketch_py.read_text()
+        assert self.test_code == sketch.sketch_py.read_text()
 
     def test_python_code_is_required(self):
-        sketch_files = self.create_sketch('sketch_exists')
-        old_content = sketch_files.sketch_py.read_text()
+        sketch = self.create_sketch('sketch_exists')
+        old_content = sketch.sketch_py.read_text()
 
         url = self.route + 'sketch_exists/'
         response = self.client.post(url, data={'py_code': ''})
 
         self.assert_template_used('view_sketch.html')
         self.assert_context('error', 'You have to input the Python code.')
-        assert old_content == sketch_files.sketch_py.read_text()
+        assert old_content == sketch.sketch_py.read_text()
 
     def test_check_python_syntax_before_updating(self):
         test_code = self.test_code.replace('300)', '300')
-        sketch_files = self.create_sketch('sketch_exists')
-        old_content = sketch_files.sketch_py.read_text()
+        sketch = self.create_sketch('sketch_exists')
+        old_content = sketch.sketch_py.read_text()
 
         url = self.route + 'sketch_exists/'
         response = self.client.post(url, data={'py_code': test_code})
 
         self.assert_template_used('view_sketch.html')
         self.assert_context('error', 'SyntaxError: invalid syntax (sketch_exists.py, line 6)')
-        assert old_content == sketch_files.sketch_py.read_text()
+        assert old_content == sketch.sketch_py.read_text()
 
     def test_check_for_setup_function_before_updating(self):
         test_code = """
@@ -216,15 +216,15 @@ from pyp5js import *
 def draw():
     rect(10, 10, 200, 100)
     """.strip()
-        sketch_files = self.create_sketch('sketch_exists')
-        old_content = sketch_files.sketch_py.read_text()
+        sketch = self.create_sketch('sketch_exists')
+        old_content = sketch.sketch_py.read_text()
 
         url = self.route + 'sketch_exists/'
         response = self.client.post(url, data={'py_code': test_code})
 
         self.assert_template_used('view_sketch.html')
         self.assert_context('error', 'You have to define a setup function.')
-        assert old_content == sketch_files.sketch_py.read_text()
+        assert old_content == sketch.sketch_py.read_text()
 
     def test_check_for_draw_function_before_updating(self):
         test_code = """
@@ -233,12 +233,12 @@ from pyp5js import *
 def setup():
     createCanvas(300, 300)
     """.strip()
-        sketch_files = self.create_sketch('sketch_exists')
-        old_content = sketch_files.sketch_py.read_text()
+        sketch = self.create_sketch('sketch_exists')
+        old_content = sketch.sketch_py.read_text()
 
         url = self.route + 'sketch_exists/'
         response = self.client.post(url, data={'py_code': test_code})
 
         self.assert_template_used('view_sketch.html')
         self.assert_context('error', 'You have to define a draw function.')
-        assert old_content == sketch_files.sketch_py.read_text()
+        assert old_content == sketch.sketch_py.read_text()

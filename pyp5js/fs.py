@@ -10,9 +10,7 @@ from pyp5js.exceptions import SketchDirAlreadyExistException, InvalidName
 SketchUrls = namedtuple('SketchUrls', ['p5_js_url', 'sketch_js_url'])
 
 
-class SketchFiles():
-    # TODO now that we have the SketchConfig object, this class name is not good enough
-    # A better name would be Sketch
+class Sketch():
     TARGET_NAME = 'target'
     STATIC_NAME = 'static'
 

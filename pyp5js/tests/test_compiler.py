@@ -7,13 +7,13 @@ from unittest.mock import Mock, patch
 from pyp5js.compiler import Pyp5jsCompiler, compile_sketch_js
 from pyp5js import config
 from pyp5js.config.fs import PYP5JS_FILES
-from pyp5js.fs import SketchFiles
+from pyp5js.fs import Sketch
 from pyp5js.templates_renderers import get_target_sketch_content
 
 
 @pytest.fixture()
 def files():
-    files = SketchFiles('foo')
+    files = Sketch('foo')
     files.create_sketch_dir()
     yield files
     shutil.rmtree(config.SKETCHBOOK_DIR)
@@ -33,7 +33,7 @@ def test_compile_sketch_js_service(MockedCompiler, files):
 class Pyp5jsCompilerTests(TestCase):
 
     def setUp(self):
-        self.files = SketchFiles('foo')
+        self.files = Sketch('foo')
         self.compiler = Pyp5jsCompiler(self.files)
 
         self.files.create_sketch_dir()
@@ -71,7 +71,7 @@ class Pyp5jsCompilerTests(TestCase):
             dir_with_space.mkdir()
         config.__dict__["SKETCHBOOK_DIR"] = dir_with_space
 
-        self.files = SketchFiles('foo')
+        self.files = Sketch('foo')
         self.compiler = Pyp5jsCompiler(self.files)
         self.files.create_sketch_dir()
         self.files.sketch_py.touch()

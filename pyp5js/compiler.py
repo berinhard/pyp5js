@@ -8,8 +8,8 @@ from pyp5js.templates_renderers import get_target_sketch_content
 
 class Pyp5jsCompiler:
 
-    def __init__(self, sketch_files):
-        self.sketch_files = sketch_files
+    def __init__(self, sketch):
+        self.sketch = sketch
 
     def compile_sketch_js(self):
         self.prepare()
@@ -21,7 +21,7 @@ class Pyp5jsCompiler:
         """
         Path to directory with the js and assets files
         """
-        return self.sketch_files.sketch_dir.joinpath('__target__')
+        return self.sketch.sketch_dir.joinpath('__target__')
 
     @property
     def command_line(self):
@@ -29,7 +29,7 @@ class Pyp5jsCompiler:
         Builds transcrypt command line with the required parameters and flags
         """
         pyp5_dir = PYP5JS_FILES.install
-        target = self.sketch_files.target_sketch
+        target = self.sketch.target_sketch
         return ' '.join([str(c) for c in [
             'transcrypt', '-xp', f'"{pyp5_dir}"', '-k', '-ks', '-b', '-m', '-n', f'"{target}"'
         ]])
@@ -50,22 +50,22 @@ class Pyp5jsCompiler:
 
         This is required because github pages can't deal with assets under a __target__ directory
         """
-        if self.sketch_files.target_dir.exists():
-            shutil.rmtree(self.sketch_files.target_dir)
-        shutil.move(self.target_dir, self.sketch_files.target_dir)
+        if self.sketch.target_dir.exists():
+            shutil.rmtree(self.sketch.target_dir)
+        shutil.move(self.target_dir, self.sketch.target_dir)
 
-        if self.sketch_files.target_sketch.exists():
-            self.sketch_files.target_sketch.unlink()
+        if self.sketch.target_sketch.exists():
+            self.sketch.target_sketch.unlink()
 
     def prepare(self):
         """
         Creates target_sketch.py to import the sketch's functions
         """
-        with self.sketch_files.target_sketch.open('w') as fd:
-            content = get_target_sketch_content(self.sketch_files)
+        with self.sketch.target_sketch.open('w') as fd:
+            content = get_target_sketch_content(self.sketch)
             fd.write(content)
 
 
-def compile_sketch_js(sketch_files):
-    compiler = Pyp5jsCompiler(sketch_files)
+def compile_sketch_js(sketch):
+    compiler = Pyp5jsCompiler(sketch)
     compiler.compile_sketch_js()

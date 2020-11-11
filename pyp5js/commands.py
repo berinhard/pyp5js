@@ -7,7 +7,7 @@ from jinja2 import Environment, FileSystemLoader
 from pyp5js.config.fs import PYP5JS_FILES
 from pyp5js.compiler import compile_sketch_js
 from pyp5js.exceptions import PythonSketchDoesNotExist
-from pyp5js.fs import SketchFiles
+from pyp5js.fs import Sketch
 from pyp5js.http import pyp5js_web_app
 from pyp5js.monitor import monitor_sketch as monitor_sketch_service
 from pyp5js.templates_renderers import get_sketch_index_content
@@ -24,21 +24,21 @@ def new_sketch(sketch_name, interpreter=TRANSCRYPT_INTERPRETER):
     :return: file names
     :rtype: list of strings
     """
-    sketch_files = SketchFiles(sketch_name, interpreter=interpreter)
-    sketch_files.create_sketch_dir()
+    sketch = Sketch(sketch_name, interpreter=interpreter)
+    sketch.create_sketch_dir()
 
     templates_files = [
-        (PYP5JS_FILES.base_sketch, sketch_files.sketch_py),
-        (PYP5JS_FILES.p5js, sketch_files.p5js),
+        (PYP5JS_FILES.base_sketch, sketch.sketch_py),
+        (PYP5JS_FILES.p5js, sketch.p5js),
     ]
     for src, dest in templates_files:
         shutil.copyfile(src, dest)
 
-    index_contet = get_sketch_index_content(sketch_files)
-    with open(sketch_files.index_html, "w") as fd:
+    index_contet = get_sketch_index_content(sketch)
+    with open(sketch.index_html, "w") as fd:
         fd.write(index_contet)
 
-    return sketch_files
+    return sketch
 
 
 def transcrypt_sketch(sketch_name):
@@ -51,14 +51,14 @@ def transcrypt_sketch(sketch_name):
     :rtype: list of strings
     """
 
-    sketch_files = SketchFiles(sketch_name)
-    sketch_files.validate_name()
+    sketch = Sketch(sketch_name)
+    sketch.validate_name()
 
-    if not sketch_files.sketch_exists:
-        raise PythonSketchDoesNotExist(sketch_files.sketch_py.resolve())
+    if not sketch.sketch_exists:
+        raise PythonSketchDoesNotExist(sketch.sketch_py.resolve())
 
-    compile_sketch_js(sketch_files)
-    return sketch_files
+    compile_sketch_js(sketch)
+    return sketch
 
 
 def monitor_sketch(sketch_name):
@@ -72,16 +72,16 @@ def monitor_sketch(sketch_name):
     :rtype: list of strings
     """
 
-    sketch_files = SketchFiles(sketch_name)
-    sketch_files.validate_name()
+    sketch = Sketch(sketch_name)
+    sketch.validate_name()
 
-    if not sketch_files.sketch_exists:
-        raise PythonSketchDoesNotExist(sketch_files.sketch_py.resolve())
+    if not sketch.sketch_exists:
+        raise PythonSketchDoesNotExist(sketch.sketch_py.resolve())
 
-    cprint(f"Monitoring for changes in {sketch_files.sketch_dir.resolve()}...")
+    cprint(f"Monitoring for changes in {sketch.sketch_dir.resolve()}...")
 
     try:
-        monitor_sketch_service(sketch_files)
+        monitor_sketch_service(sketch)
     except KeyboardInterrupt:
         cprint.info("Exiting monitor...")
 

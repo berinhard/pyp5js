@@ -3,19 +3,19 @@ from unittest import TestCase
 from unittest.mock import Mock, patch
 
 from pyp5js.monitor import TranscryptSketchEventHandler
-from pyp5js.fs import SketchFiles
+from pyp5js.fs import Sketch
 
 
 class TranscryptSketchEventHandlerTests(TestCase):
 
     def setUp(self):
-        self.files = Mock(spec=SketchFiles)
+        self.files = Mock(spec=Sketch)
         self.queue = Mock(spec=Queue)
         self.observer = Mock(event_queue=self.queue)
-        self.handler = TranscryptSketchEventHandler(sketch_files=self.files, observer=self.observer)
+        self.handler = TranscryptSketchEventHandler(sketch=self.files, observer=self.observer)
 
     def test_handler_config(self):
-        assert self.files == self.handler.sketch_files
+        assert self.files == self.handler.sketch
         assert ['*.py'] == self.handler.patterns
         assert self.observer == self.handler.observer
 

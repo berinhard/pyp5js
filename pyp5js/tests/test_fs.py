@@ -4,16 +4,16 @@ from unittest import TestCase
 
 from pyp5js.config import SKETCHBOOK_DIR, PYODIDE_INTERPRETER
 from pyp5js.exceptions import SketchDirAlreadyExistException
-from pyp5js.fs import SketchFiles
+from pyp5js.fs import Sketch
 from pyp5js.exceptions import InvalidName
 
 
-class SketchFilesTests(TestCase):
+class SketchTests(TestCase):
 
     def setUp(self):
         self.base_dir = SKETCHBOOK_DIR
         self.sketch_name = 'foo'
-        self.files = SketchFiles(self.sketch_name)
+        self.files = Sketch(self.sketch_name)
 
     def tearDown(self):
         if self.base_dir.exists():
@@ -28,7 +28,7 @@ class SketchFilesTests(TestCase):
         assert self.get_expected_path('target') == self.files.target_dir
         assert self.files.TARGET_NAME == 'target'
 
-    def test_sketch_files(self):
+    def test_sketch(self):
         self.files.check_sketch_dir = False
         assert self.get_expected_path('index.html') == self.files.index_html
         assert self.get_expected_path('static', 'p5.js') == self.files.p5js
@@ -53,33 +53,33 @@ class SketchFilesTests(TestCase):
             self.files.create_sketch_dir()
 
     def test_raise_exception_when_name_starts_with_numbers(self):
-        files = SketchFiles('123name')
+        files = Sketch('123name')
         with pytest.raises(InvalidName):
             files.validate_name()
 
     def test_raise_exception_when_name_contains_non_alphanumeric_chars(self):
-        files = SketchFiles('name&')
+        files = Sketch('name&')
         with pytest.raises(InvalidName):
             files.validate_name()
 
     def test_raise_exception_when_name_creating_dir_with_invalid_name(self):
-        files = SketchFiles('name&')
+        files = Sketch('name&')
         with pytest.raises(InvalidName):
             files.create_sketch_dir()
 
     def test_name_should_accept_underscore_in_the_beginning(self):
-        file = SketchFiles('__name__')
+        file = Sketch('__name__')
         assert file.sketch_name == '__name__'
 
     def test_name_should_accept_underscore_in_the_middle(self):
-        file = SketchFiles('na_me')
+        file = Sketch('na_me')
         assert file.sketch_name == 'na_me'
 
     def test_loads_config_from_config_file(self):
-        files = SketchFiles('bar', interpreter=PYODIDE_INTERPRETER)
+        files = Sketch('bar', interpreter=PYODIDE_INTERPRETER)
         files.create_sketch_dir()  # writes config file json
 
-        same_files = SketchFiles('bar')
+        same_files = Sketch('bar')
 
         assert same_files.config_file == files.config_file
         assert same_files.config.interpreter == PYODIDE_INTERPRETER
