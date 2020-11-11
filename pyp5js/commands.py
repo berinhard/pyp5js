@@ -4,6 +4,7 @@ import shutil
 from cprint import cprint
 from jinja2 import Environment, FileSystemLoader
 
+from pyp5js.config.fs import PYP5JS_FILES
 from pyp5js.compiler import compile_sketch_js
 from pyp5js.exceptions import PythonSketchDoesNotExist
 from pyp5js.fs import SketchFiles
@@ -27,8 +28,8 @@ def new_sketch(sketch_name, interpreter=TRANSCRYPT_INTERPRETER):
     sketch_files.create_sketch_dir()
 
     templates_files = [
-        (sketch_files.from_lib.base_sketch, sketch_files.sketch_py),
-        (sketch_files.from_lib.p5js, sketch_files.p5js),
+        (PYP5JS_FILES.base_sketch, sketch_files.sketch_py),
+        (PYP5JS_FILES.p5js, sketch_files.p5js),
     ]
     for src, dest in templates_files:
         shutil.copyfile(src, dest)

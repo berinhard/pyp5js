@@ -2,6 +2,7 @@ import shutil
 import subprocess
 from cprint import cprint
 
+from pyp5js.config.fs import PYP5JS_FILES
 from pyp5js.templates_renderers import get_target_sketch_content
 
 
@@ -27,7 +28,7 @@ class Pyp5jsCompiler:
         """
         Builds transcrypt command line with the required parameters and flags
         """
-        pyp5_dir = self.sketch_files.from_lib.install
+        pyp5_dir = PYP5JS_FILES.install
         target = self.sketch_files.target_sketch
         return ' '.join([str(c) for c in [
             'transcrypt', '-xp', f'"{pyp5_dir}"', '-k', '-ks', '-b', '-m', '-n', f'"{target}"'

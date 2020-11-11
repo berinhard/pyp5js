@@ -3,16 +3,17 @@ import shutil
 from pathlib import Path
 from unittest import TestCase
 
+from pyp5js.config.fs import PYP5JS_FILES
 from pyp5js.config import SKETCHBOOK_DIR, PYODIDE_INTERPRETER
 from pyp5js.exceptions import SketchDirAlreadyExistException
-from pyp5js.fs import LibFiles, SketchFiles
+from pyp5js.fs import SketchFiles
 from pyp5js.exceptions import InvalidName
 
 pyp5_dir = Path(__file__).parents[2].joinpath('pyp5js')
 
 @pytest.fixture
 def lib_files():
-    return LibFiles()
+    return PYP5JS_FILES
 
 def test_dir_properties(lib_files):
     assert pyp5_dir.exists()
@@ -77,11 +78,6 @@ class SketchFilesTests(TestCase):
         assert self.get_expected_path('foo.py') == self.files.sketch_py
         assert self.get_expected_path('target_sketch.py') == self.files.target_sketch
         assert self.get_expected_path('properties.json') == self.files.config_file
-
-    def test_sketch_files_holds_reference_to_lib_files(self):
-        lib_files = LibFiles()
-        assert isinstance(self.files.from_lib, LibFiles)
-        assert self.files.from_lib.install == lib_files.install
 
     def test_create_dirs(self):
         assert self.files.sketch_dir.exists() is False

@@ -1,8 +1,5 @@
 import os
 import re
-import shutil
-from pathlib import Path
-from cprint import cprint
 from collections import namedtuple
 
 from pyp5js import config
@@ -21,7 +18,6 @@ class SketchFiles():
 
     def __init__(self, sketch_name, interpreter=config.TRANSCRYPT_INTERPRETER, **cfg):
         self.sketch_name = sketch_name
-        self.from_lib = LibFiles()
         if self.config_file.exists():
             # TODO add warning to let the user know pyp5js is ignoring cfg
             self.config = SketchConfig.from_json(self.config_file)
@@ -98,49 +94,3 @@ class SketchFiles():
             p5_js_url=f"{self.STATIC_NAME}/p5.js",
             sketch_js_url=f"{self.TARGET_NAME}/target_sketch.js",
         )
-
-
-class LibFiles():
-
-    def __init__(self):
-        self.install = Path(__file__).parent
-
-    @property
-    def templates_dir(self):
-        return self.install.joinpath('templates')
-
-    @property
-    def assets_dir(self):
-        return self.install.joinpath('assets')
-
-    @property
-    def static_dir(self):
-        return self.assets_dir.joinpath('static')
-
-    @property
-    def pytop5js(self):
-        return self.install.joinpath('pyp5js.py')
-
-    @property
-    def base_sketch(self):
-        return self.templates_dir.joinpath('base_sketch.py.template')
-
-    @property
-    def target_sketch_template(self):
-        return self.templates_dir.joinpath('target_sketch.py.template')
-
-    @property
-    def transcrypt_index_html(self):
-        return self.templates_dir.joinpath('transcrypt_index.html')
-
-    @property
-    def pyodide_index_html(self):
-        return self.templates_dir.joinpath('pyodide_index.html')
-
-    @property
-    def p5js(self):
-        return self.static_dir.joinpath('p5', 'p5.min.js')
-
-    @property
-    def p5_yml(self):
-        return self.assets_dir.joinpath('p5_reference.yml')

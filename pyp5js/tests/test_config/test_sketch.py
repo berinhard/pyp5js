@@ -4,9 +4,9 @@ from pytest import fixture
 from pathlib import Path
 from tempfile import NamedTemporaryFile
 
-from pyp5js.fs import LibFiles
 from pyp5js.config import TRANSCRYPT_INTERPRETER, PYODIDE_INTERPRETER
 from pyp5js.config.sketch import SketchConfig
+from pyp5js.config.fs import PYP5JS_FILES
 
 
 @fixture
@@ -67,12 +67,10 @@ def test_write_sketch_interpreter_config(transcrypt_config):
 
 def test_get_transcrypt_index_template(transcrypt_config):
     template = transcrypt_config.get_index_template()
-    pyp5js_files = LibFiles()
-    assert pyp5js_files.transcrypt_index_html == template
+    assert PYP5JS_FILES.transcrypt_index_html == template
     assert template.exists()
 
 def test_get_pyodide_index_template(pyodide_config):
     template = pyodide_config.get_index_template()
-    pyp5js_files = LibFiles()
-    assert pyp5js_files.pyodide_index_html == template
+    assert PYP5JS_FILES.pyodide_index_html == template
     assert template.exists()

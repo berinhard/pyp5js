@@ -6,7 +6,8 @@ from unittest.mock import Mock, patch
 
 from pyp5js.compiler import Pyp5jsCompiler, compile_sketch_js
 from pyp5js import config
-from pyp5js.fs import SketchFiles, LibFiles
+from pyp5js.config.fs import PYP5JS_FILES
+from pyp5js.fs import SketchFiles
 from pyp5js.templates_renderers import get_target_sketch_content
 
 
@@ -32,7 +33,6 @@ def test_compile_sketch_js_service(MockedCompiler, files):
 class Pyp5jsCompilerTests(TestCase):
 
     def setUp(self):
-        self.pyp5js_files = LibFiles()
         self.files = SketchFiles('foo')
         self.compiler = Pyp5jsCompiler(self.files)
 
@@ -48,7 +48,7 @@ class Pyp5jsCompilerTests(TestCase):
             '__target__') == self.compiler.target_dir
 
     def test_command_line_string(self):
-        pyp5_dir = self.pyp5js_files.install
+        pyp5_dir = PYP5JS_FILES.install
         target = self.files.target_sketch
 
         expected = ' '.join([str(c) for c in [

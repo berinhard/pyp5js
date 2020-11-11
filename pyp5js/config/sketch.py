@@ -1,5 +1,7 @@
 import json
 
+from pyp5js.config.fs import PYP5JS_FILES
+
 TRANSCRYPT_INTERPRETER = 'transcrypt'
 PYODIDE_INTERPRETER = 'pyodide'
 
@@ -15,11 +17,9 @@ class SketchConfig:
         self.interpreter = interpreter
 
     def get_index_template(self):
-        from pyp5js.fs import LibFiles
-        pyp5js_files = LibFiles()
         index_map = {
-            TRANSCRYPT_INTERPRETER: pyp5js_files.transcrypt_index_html,
-            PYODIDE_INTERPRETER: pyp5js_files.pyodide_index_html,
+            TRANSCRYPT_INTERPRETER: PYP5JS_FILES.transcrypt_index_html,
+            PYODIDE_INTERPRETER: PYP5JS_FILES.pyodide_index_html,
         }
         return index_map[self.interpreter]
 
