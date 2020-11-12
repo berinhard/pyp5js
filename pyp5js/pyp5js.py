@@ -601,7 +601,7 @@ def filter(*args):
 
 def get(*args):
     __pragma__('noalias', 'get')
-    p5_get =  _P5_INSTANCE.get(*args)
+    p5_get = _P5_INSTANCE.get(*args)
     __pragma__('alias', 'get', 'py_get')
     return p5_get
 
