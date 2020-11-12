@@ -548,8 +548,32 @@ def saveCanvas(*args):
 def saveFrames(*args):
     return _P5_INSTANCE.saveFrames(*args)
 
+
+def image_proxy(img):
+    """
+    Proxy to turn of transcypt when calling img.get/set methods
+    """
+
+    def _set(*args):
+        __pragma__('noalias', 'set')
+        value = img.set(*args)
+        __pragma__('alias', 'set', 'py_set')
+        return value
+
+    def _get(*args):
+        __pragma__('noalias', 'get')
+        value = img.get(*args)
+        __pragma__('alias', 'get', 'py_get')
+        return value
+
+    img.set = _set
+    img.get = _get
+    return img
+
+
 def loadImage(*args):
-    return _P5_INSTANCE.loadImage(*args)
+    imageObj = _P5_INSTANCE.loadImage(*args)
+    return image_proxy(imageObj)
 
 def image(*args):
     return _P5_INSTANCE.image(*args)
@@ -575,9 +599,11 @@ def filter(*args):
     else:
         return _P5_INSTANCE.filter(*args)
 
-
 def get(*args):
-    return _P5_INSTANCE.get(*args)
+    __pragma__('noalias', 'get')
+    p5_get = _P5_INSTANCE.get(*args)
+    __pragma__('alias', 'get', 'py_get')
+    return p5_get
 
 def loadPixels(*args):
     return _P5_INSTANCE.loadPixels(*args)
@@ -587,7 +613,6 @@ def set(*args):
         return PythonFunctions.set(*args)
     else:
         return _P5_INSTANCE.set(*args)
-
 
 def updatePixels(*args):
     return _P5_INSTANCE.updatePixels(*args)

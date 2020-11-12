@@ -1,5 +1,6 @@
 Development
 -----------
+- Support to get/set pixels with Transcrypt interpreter
 
 0.4.4
 -----

@@ -42,7 +42,7 @@ def configure_new_sketch(sketch_name, monitor):
         cprint.ok(cmd)
         cprint.ok(f"And open file://{files.index_html.absolute()} on your browser to see yor results!")
     else:
-        cprint.ok(f"Please, open and edit the file {sketch_py} to draw.")
+        cprint.ok(f"Please, open and edit the file {files.sketch_py} to draw.")
         cprint.ok(f"And open file://{files.index_html.absolute()} on your browser to see yor results!")
         commands.monitor_sketch(sketch_name)
 
