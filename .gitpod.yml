@@ -1,0 +1,12 @@
+image: gitpod/workspace-full
+  
+
+ports:
+  - port: 5000
+    onOpen: open-preview
+
+
+tasks:
+  - init: 
+      pip install -r dev-requirements.txt && 
+      python setup.py develop
