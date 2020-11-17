@@ -1,6 +1,7 @@
 Development
 -----------
 - Support to get/set pixels with Transcrypt interpreter
+- `pyp5js` can run on top of Gitpod.io
 
 0.4.4
 -----
