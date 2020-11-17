@@ -8,5 +8,8 @@ ports:
 
 tasks:
   - init: 
-      pip install -r dev-requirements.txt && 
-      python setup.py develop
+      python -m venv venv &&
+      venv/bin/pip install -r dev-requirements.txt && 
+      venv/bin/python setup.py develop &&
+      source venv/bin/activate
+  
