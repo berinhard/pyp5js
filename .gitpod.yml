@@ -1,16 +1,16 @@
 image: gitpod/workspace-full
-  
+
 
 ports:
   - port: 5000
-    onOpen: open-preview
+    onOpen: open-browser
 
 
 tasks:
-  - init: 
+  - init:
       python -m venv venv --system-site-packages &&
-      venv/bin/pip install -r dev-requirements.txt && 
+      venv/bin/pip install -r dev-requirements.txt &&
       venv/bin/python setup.py develop &&
       source venv/bin/activate &&
       pytest
-    command: pyp5js serve  
+    command: pyp5js serve
