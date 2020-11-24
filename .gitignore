@@ -14,3 +14,5 @@ dist
 *.egg-info
 demo_sketch
 tests-sketchbook
+venv
+.theia
