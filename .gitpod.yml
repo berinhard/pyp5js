@@ -8,6 +8,7 @@ ports:
 
 tasks:
   - init:
+      export SKETCHBOOK_DIR=sketchbook &&
       python -m venv venv --system-site-packages &&
       venv/bin/pip install -r dev-requirements.txt &&
       venv/bin/python setup.py develop &&
