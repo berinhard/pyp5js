@@ -25,5 +25,6 @@ def get_target_sketch_content(sketch):
     Renders the content to be written in the temporary SKETCH_NAME/target_sketch.py file
     """
     context = {"sketch_name": sketch.sketch_name}
-    index_template = templates.get_template(PYP5JS_FILES.target_sketch_template.name)
+    target_js_file = sketch.config.get_target_js_template()
+    index_template = templates.get_template(target_js_file)
     return index_template.render(context)

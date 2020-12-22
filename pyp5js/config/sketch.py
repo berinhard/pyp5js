@@ -27,3 +27,6 @@ class SketchConfig:
         with open(fname, "w") as fd:
             data = {"interpreter": self.interpreter}
             json.dump(data, fd)
+
+    def get_target_js_template(self):
+        return PYP5JS_FILES.target_sketch_template.name
