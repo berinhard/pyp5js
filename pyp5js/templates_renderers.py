@@ -26,5 +26,5 @@ def get_target_sketch_content(sketch):
     """
     context = {"sketch_name": sketch.sketch_name}
     target_js_file = sketch.config.get_target_js_template()
-    index_template = templates.get_template(target_js_file)
+    index_template = templates.get_template(target_js_file.name)
     return index_template.render(context)

@@ -1216,6 +1216,9 @@ def start_p5(setup_func, draw_func, event_functions):
     """
 
     def sketch_setup(p5_sketch):
+        """
+        Callback function called to configure new p5 instance
+        """
         p5_sketch.setup = global_p5_injection(p5_sketch)(setup_func)
         p5_sketch.draw = global_p5_injection(p5_sketch)(draw_func)
 

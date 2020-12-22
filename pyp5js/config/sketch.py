@@ -29,4 +29,4 @@ class SketchConfig:
             json.dump(data, fd)
 
     def get_target_js_template(self):
-        return PYP5JS_FILES.target_sketch_template.name
+        return PYP5JS_FILES.transcrypt_target_sketch_template
