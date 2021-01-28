@@ -32,10 +32,10 @@ def test_files_properties(lib_files):
     assert lib_files.transcrypt_target_sketch_template == pyp5_dir.joinpath('templates', 'target_sketch.py.template')
     assert lib_files.transcrypt_target_sketch_template.exists()
 
-    assert lib_files.transcrypt_index_html == pyp5_dir.joinpath('templates', 'transcrypt_index.html')
+    assert lib_files.transcrypt_index_html == pyp5_dir.joinpath('templates', 'transcrypt', 'index.html')
     assert lib_files.transcrypt_index_html.exists()
 
-    assert lib_files.pyodide_index_html == pyp5_dir.joinpath('templates', 'pyodide_index.html')
+    assert lib_files.pyodide_index_html == pyp5_dir.joinpath('templates', 'pyodide', 'index.html')
     assert lib_files.pyodide_index_html.exists()
 
     assert lib_files.p5js == pyp5_dir.joinpath('assets', 'static', 'p5', 'p5.min.js')

@@ -6,6 +6,13 @@ from pyp5js.sketch import Sketch
 templates = Environment(loader=FileSystemLoader(str(PYP5JS_FILES.templates_dir)))
 
 
+def _template_from_file(filename, context):
+    templates = Environment(loader=FileSystemLoader(str(filename.parent.resolve())))
+    template = templates.get_template(filename.name)
+    return template.render(context)
+
+
+
 def get_sketch_index_content(sketch):
     """
     Renders SKETCH_NAME/index.html to display the sketch visualization
@@ -16,8 +23,7 @@ def get_sketch_index_content(sketch):
         "sketch_js_url":  sketch.urls.sketch_js_url,
     }
     template_file = sketch.config.get_index_template()
-    index_template = templates.get_template(template_file.name)
-    return index_template.render(context)
+    return _template_from_file(template_file, context)
 
 
 def get_target_sketch_content(sketch):
@@ -26,5 +32,4 @@ def get_target_sketch_content(sketch):
     """
     context = {"sketch_name": sketch.sketch_name}
     target_js_file = sketch.config.get_target_js_template()
-    index_template = templates.get_template(target_js_file.name)
-    return index_template.render(context)
+    return _template_from_file(target_js_file, context)

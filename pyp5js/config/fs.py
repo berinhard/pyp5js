@@ -37,11 +37,11 @@ class LibFiles():
 
     @property
     def transcrypt_index_html(self):
-        return self.templates_dir.joinpath('transcrypt_index.html')
+        return self.templates_dir.joinpath('transcrypt', 'index.html')
 
     @property
     def pyodide_index_html(self):
-        return self.templates_dir.joinpath('pyodide_index.html')
+        return self.templates_dir.joinpath('pyodide', 'index.html')
 
     @property
     def p5js(self):
