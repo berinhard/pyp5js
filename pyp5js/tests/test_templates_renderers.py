@@ -18,7 +18,7 @@ def test_get_sketch_index_content():
 def test_get_target_sketch_content():
     sketch = Sketch('foo')
 
-    expected_template = renderers.templates.get_template(PYP5JS_FILES.target_sketch_template.name)
+    expected_template = renderers.templates.get_template(PYP5JS_FILES.transcrypt_target_sketch_template.name)
     expected_content = expected_template.render({
         'sketch_name': sketch.sketch_name,
     })
