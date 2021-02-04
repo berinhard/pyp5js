@@ -14,12 +14,12 @@ from pyp5js.templates_renderers import get_sketch_index_content
 from pyp5js.config import TRANSCRYPT_INTERPRETER
 
 
-# TODO precisa aceitar um parâmetro de escolha de compilador
 def new_sketch(sketch_name, interpreter=TRANSCRYPT_INTERPRETER):
     """
     Creates a new sketch with the required assets and a index.html file, based on pyp5js's templates
 
     :param sketch_name: name for new sketch
+    :param interpreter: interpreter to use (transcrypt or pyodide)
     :type sketch_name: string
     :return: file names
     :rtype: list of strings
