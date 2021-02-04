@@ -29,7 +29,7 @@ def test_files_properties(lib_files):
     assert lib_files.base_sketch == pyp5_dir.joinpath('templates', 'base_sketch.py.template')
     assert lib_files.base_sketch.exists()
 
-    assert lib_files.transcrypt_target_sketch_template == pyp5_dir.joinpath('templates', 'target_sketch.py.template')
+    assert lib_files.transcrypt_target_sketch_template == pyp5_dir.joinpath('templates', 'transcrypt', 'target_sketch.py.template')
     assert lib_files.transcrypt_target_sketch_template.exists()
 
     assert lib_files.transcrypt_index_html == pyp5_dir.joinpath('templates', 'transcrypt', 'index.html')

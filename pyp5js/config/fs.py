@@ -33,7 +33,7 @@ class LibFiles():
 
     @property
     def transcrypt_target_sketch_template(self):
-        return self.templates_dir.joinpath('target_sketch.py.template')
+        return self.templates_dir.joinpath('transcrypt', 'target_sketch.py.template')
 
     @property
     def transcrypt_index_html(self):
