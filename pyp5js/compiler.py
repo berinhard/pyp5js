@@ -1,20 +1,16 @@
 import shutil
 import subprocess
 from cprint import cprint
+from abc import ABC, abstractmethod
 
 from pyp5js.config.fs import PYP5JS_FILES
 from pyp5js.templates_renderers import get_target_sketch_content
 
 
-class Pyp5jsCompiler:
+class BasePyp5jsCompiler(ABC):
 
     def __init__(self, sketch):
         self.sketch = sketch
-
-    def compile_sketch_js(self):
-        self.prepare()
-        self.run_compiler()
-        self.clean_up()
 
     @property
     def target_dir(self):
@@ -22,6 +18,23 @@ class Pyp5jsCompiler:
         Path to directory with the js and assets files
         """
         return self.sketch.sketch_dir.joinpath('__target__')
+
+    def compile_sketch_js(self):
+        self.prepare()
+        self.run_compiler()
+        self.clean_up()
+
+    def prepare(self):
+        pass
+
+    @abstractmethod
+    def run_compiler(self):
+        pass
+
+    def clean_up(self):
+        pass
+
+class TranscryptCompiler(BasePyp5jsCompiler):
 
     @property
     def command_line(self):
@@ -67,5 +80,5 @@ class Pyp5jsCompiler:
 
 
 def compile_sketch_js(sketch):
-    compiler = Pyp5jsCompiler(sketch)
+    compiler = TranscryptCompiler(sketch)
     compiler.compile_sketch_js()

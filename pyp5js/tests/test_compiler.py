@@ -4,7 +4,7 @@ from pathlib import Path
 from unittest import TestCase
 from unittest.mock import Mock, patch
 
-from pyp5js.compiler import Pyp5jsCompiler, compile_sketch_js
+from pyp5js.compiler import TranscryptCompiler, compile_sketch_js
 from pyp5js import config
 from pyp5js.config.fs import PYP5JS_FILES
 from pyp5js.sketch import Sketch
@@ -19,9 +19,9 @@ def files():
     shutil.rmtree(config.SKETCHBOOK_DIR)
 
 
-@patch('pyp5js.compiler.Pyp5jsCompiler')
+@patch('pyp5js.compiler.TranscryptCompiler')
 def test_compile_sketch_js_service(MockedCompiler, files):
-    compiler = Mock(spec=Pyp5jsCompiler)
+    compiler = Mock(spec=TranscryptCompiler)
     MockedCompiler.return_value = compiler
 
     compile_sketch_js(files)
@@ -30,11 +30,11 @@ def test_compile_sketch_js_service(MockedCompiler, files):
     compiler.compile_sketch_js.assert_called_once_with()
 
 
-class Pyp5jsCompilerTests(TestCase):
+class TranscryptCompilerTests(TestCase):
 
     def setUp(self):
         self.files = Sketch('foo')
-        self.compiler = Pyp5jsCompiler(self.files)
+        self.compiler = TranscryptCompiler(self.files)
 
         self.files.create_sketch_dir()
         self.files.sketch_py.touch()
@@ -72,7 +72,7 @@ class Pyp5jsCompilerTests(TestCase):
         config.__dict__["SKETCHBOOK_DIR"] = dir_with_space
 
         self.files = Sketch('foo')
-        self.compiler = Pyp5jsCompiler(self.files)
+        self.compiler = TranscryptCompiler(self.files)
         self.files.create_sketch_dir()
         self.files.sketch_py.touch()
 
