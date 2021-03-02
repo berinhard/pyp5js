@@ -30,6 +30,12 @@ def get_target_sketch_content(sketch):
     """
     Renders the content to be written in the temporary SKETCH_NAME/target_sketch.py file
     """
-    context = {"sketch_name": sketch.sketch_name}
+    with sketch.sketch_py.open() as fd:
+        content = fd.read()
+
+    context = {
+        "sketch_name": sketch.sketch_name,
+        "sketch_content": content,
+    }
     target_js_file = sketch.config.get_target_js_template()
     return _template_from_file(target_js_file, context)

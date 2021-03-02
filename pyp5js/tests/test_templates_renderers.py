@@ -2,9 +2,9 @@ from pyp5js import templates_renderers as renderers
 from pyp5js.sketch import Sketch
 from pyp5js.config.fs import PYP5JS_FILES
 
-def test_get_sketch_index_content():
-    sketch = Sketch('foo')
+from .fixtures import sketch
 
+def test_get_sketch_index_content(sketch):
     expected_template = renderers.templates.get_template('transcrypt/index.html')
     expected_content = expected_template.render({
         'sketch_name': sketch.sketch_name,
@@ -15,12 +15,14 @@ def test_get_sketch_index_content():
     assert expected_content == renderers.get_sketch_index_content(sketch)
 
 
-def test_get_target_sketch_content():
-    sketch = Sketch('foo')
+def test_get_target_sketch_content(sketch):
+    with open(sketch.sketch_py, 'w') as fd:
+        fd.write('content')
 
     expected_template = renderers.templates.get_template('transcrypt/target_sketch.py.template')
     expected_content = expected_template.render({
         'sketch_name': sketch.sketch_name,
+        'sketch_content': 'content'
     })
     content = renderers.get_target_sketch_content(sketch)
 
