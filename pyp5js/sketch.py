@@ -73,7 +73,16 @@ class Sketch:
 
     @property
     def target_sketch(self):
-        return self.sketch_dir.joinpath("target_sketch.py")
+        # TODO: There is a potential major refactoring here that's to create
+        # base sketch classes and specific implementations. One for a TranscryptSketch
+        # and another one for a PyodideSketch. I think the config
+        # attribute strategy can escalate complexity quickly and it
+        # was a bad idea, but have been working so far...
+        # bonus: opens path to a BrythonSketch ;]
+        if self.config.interpreter == config.TRANSCRYPT_INTERPRETER:
+            return self.sketch_dir.joinpath("target_sketch.py")
+        else:
+            return self.sketch_dir.joinpath("target_sketch.js")
 
     @property
     def sketch_py(self):

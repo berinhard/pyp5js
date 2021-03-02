@@ -33,8 +33,12 @@ class SketchTests(TestCase):
         assert self.get_expected_path('index.html') == self.files.index_html
         assert self.get_expected_path('static', 'p5.js') == self.files.p5js
         assert self.get_expected_path('foo.py') == self.files.sketch_py
-        assert self.get_expected_path('target_sketch.py') == self.files.target_sketch
         assert self.get_expected_path('properties.json') == self.files.config_file
+
+    def test_target_sketch_variations(self):
+        assert self.get_expected_path('target_sketch.py') == self.files.target_sketch
+        self.files.config.interpreter = PYODIDE_INTERPRETER
+        assert self.get_expected_path('target_sketch.js') == self.files.target_sketch
 
     def test_create_dirs(self):
         assert self.files.sketch_dir.exists() is False

@@ -1,13 +1,12 @@
 import shutil
 import subprocess
 from cprint import cprint
-from abc import ABC, abstractmethod
 
 from pyp5js.config.fs import PYP5JS_FILES
 from pyp5js.templates_renderers import get_target_sketch_content
 
 
-class BasePyp5jsCompiler(ABC):
+class BasePyp5jsCompiler:
 
     def __init__(self, sketch):
         self.sketch = sketch
@@ -24,15 +23,20 @@ class BasePyp5jsCompiler(ABC):
         self.run_compiler()
         self.clean_up()
 
-    def prepare(self):
-        pass
-
-    @abstractmethod
     def run_compiler(self):
         pass
 
     def clean_up(self):
         pass
+
+    def prepare(self):
+        """
+        Creates target_sketch.py to import the sketch's functions
+        """
+        content = get_target_sketch_content(self.sketch)
+        with self.sketch.target_sketch.open('w') as fd:
+            fd.write(content)
+
 
 class TranscryptCompiler(BasePyp5jsCompiler):
 
@@ -65,18 +69,16 @@ class TranscryptCompiler(BasePyp5jsCompiler):
         """
         if self.sketch.target_dir.exists():
             shutil.rmtree(self.sketch.target_dir)
+        # mv __target__ target
         shutil.move(self.target_dir, self.sketch.target_dir)
 
         if self.sketch.target_sketch.exists():
             self.sketch.target_sketch.unlink()
 
-    def prepare(self):
-        """
-        Creates target_sketch.py to import the sketch's functions
-        """
-        with self.sketch.target_sketch.open('w') as fd:
-            content = get_target_sketch_content(self.sketch)
-            fd.write(content)
+
+class PyodideCompiler(BasePyp5jsCompiler):
+
+    pass
 
 
 def compile_sketch_js(sketch):
