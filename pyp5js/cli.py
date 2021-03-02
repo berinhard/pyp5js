@@ -18,20 +18,12 @@ def command_line_entrypoint():
 
 @command_line_entrypoint.command('new')
 @click.argument('sketch_name')
-@click.option('--monitor', '-m', is_flag=True)
-@click.option('--interpreter', '-i', type=click.Choice(AVAILABLE_INTERPRETERS), default=TRANSCRYPT_INTERPRETER)
+@click.option('--monitor', '-m', is_flag=True, help='Starts the monitor command too')
+@click.option('--interpreter', '-i', type=click.Choice(AVAILABLE_INTERPRETERS), default=TRANSCRYPT_INTERPRETER, help='Which python tool to use to run the sketch. (defaults to transcrypt)')
 def configure_new_sketch(sketch_name, monitor, interpreter):
     """
-    Create dir and configure boilerplate
-
-    Params:
-    - sketch_name: name of the sketch (will create a {sketch_name}.py)
-
-    Opitionals:
-    - monitor: start the monitor command as well
-
-    Example:
-    $ pyp5js new my_sketch
+    Create dir and configure boilerplate - Example:\n
+    $ pyp5js new my_sketch -i pyodide
     """
     files = commands.new_sketch(sketch_name, interpreter)
 
