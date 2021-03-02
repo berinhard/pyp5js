@@ -5,9 +5,7 @@ from pyp5js.config.fs import PYP5JS_FILES
 
 pyp5_dir = Path(__file__).parents[3].joinpath('pyp5js')
 
-@pytest.fixture
-def lib_files():
-    return PYP5JS_FILES
+from ..fixtures import lib_files
 
 def test_dir_properties(lib_files):
     assert pyp5_dir.exists()

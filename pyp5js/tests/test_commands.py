@@ -8,54 +8,48 @@ from pyp5js.config import SKETCHBOOK_DIR, TRANSCRYPT_INTERPRETER, PYODIDE_INTERP
 from pyp5js.exceptions import PythonSketchDoesNotExist, SketchDirAlreadyExistException, InvalidName
 from pyp5js.sketch import Sketch
 
-
-@pytest.fixture()
-def files():
-    files = Sketch('foo')
-    files.create_sketch_dir()
-    yield files
-    shutil.rmtree(SKETCHBOOK_DIR)
+from .fixtures import sketch
 
 
-def test_transcrypt_sketch(files):
-    files.sketch_py.touch()
+def test_transcrypt_sketch(sketch):
+    sketch.sketch_py.touch()
     with patch('pyp5js.commands.compile_sketch_js') as compiler:
         output = commands.transcrypt_sketch('foo')
 
-        assert output == files
-        compiler.assert_called_once_with(files)
+        assert output == sketch
+        compiler.assert_called_once_with(sketch)
 
 
-def test_transcrypt_sketch_error_if_sketch_does_not_exist(files):
+def test_transcrypt_sketch_error_if_sketch_does_not_exist(sketch):
     with patch('pyp5js.commands.compile_sketch_js') as compiler:
         with pytest.raises(PythonSketchDoesNotExist):
             commands.transcrypt_sketch('foo')
         assert not compiler.called
 
 
-def test_transcrypt_sketch_error_if_invalid_sketch(files):
+def test_transcrypt_sketch_error_if_invalid_sketch(sketch):
     with patch('pyp5js.commands.compile_sketch_js') as compiler:
         with pytest.raises(InvalidName):
             commands.transcrypt_sketch('123foo')
         assert not compiler.called
 
 
-def test_monitor_sketch(files):
-    files.sketch_py.touch()
+def test_monitor_sketch(sketch):
+    sketch.sketch_py.touch()
     with patch('pyp5js.commands.monitor_sketch_service') as monitor:
         commands.monitor_sketch('foo')
 
-        monitor.assert_called_once_with(files)
+        monitor.assert_called_once_with(sketch)
 
 
-def test_monitor_sketch_error_if_sketch_does_not_exist(files):
+def test_monitor_sketch_error_if_sketch_does_not_exist(sketch):
     with patch('pyp5js.commands.monitor_sketch_service') as monitor:
         with pytest.raises(PythonSketchDoesNotExist):
             commands.monitor_sketch('foo')
         assert not monitor.called
 
 
-def test_monitor_sketch_error_if_invalid_name(files):
+def test_monitor_sketch_error_if_invalid_name(sketch):
     with patch('pyp5js.commands.monitor_sketch_service') as monitor:
         with pytest.raises(InvalidName):
             commands.monitor_sketch('1234foo')

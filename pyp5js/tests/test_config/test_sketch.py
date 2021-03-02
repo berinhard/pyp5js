@@ -1,47 +1,12 @@
 import json
 import os
-from pytest import fixture
-from pathlib import Path
 from tempfile import NamedTemporaryFile
 
 from pyp5js.config import TRANSCRYPT_INTERPRETER, PYODIDE_INTERPRETER
 from pyp5js.config.sketch import SketchConfig
 from pyp5js.config.fs import PYP5JS_FILES
 
-
-@fixture
-def transcrypt_json_file():
-    try:
-        fd = NamedTemporaryFile(mode='w', delete=False)
-        data = {"interpreter": "transcrypt"}
-        json.dump(data, fd)
-        filename = fd.name
-        fd.seek(0)
-        fd.close()
-        yield filename
-    finally:
-        os.remove(filename)
-
-@fixture
-def pyodide_json_file():
-    try:
-        fd = NamedTemporaryFile(mode='w', delete=False)
-        data = {"interpreter": "pyodide"}
-        json.dump(data, fd)
-        filename = fd.name
-        fd.seek(0)
-        fd.close()
-        yield filename
-    finally:
-        os.remove(filename)
-
-@fixture
-def transcrypt_config():
-    return SketchConfig(interpreter=TRANSCRYPT_INTERPRETER)
-
-@fixture
-def pyodide_config():
-    return SketchConfig(interpreter=PYODIDE_INTERPRETER)
+from ..fixtures import transcrypt_json_file, pyodide_json_file, transcrypt_config, pyodide_config
 
 
 def test_init_transcrypt_sketch_config_from_json(transcrypt_json_file):
