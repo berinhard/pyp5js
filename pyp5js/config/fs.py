@@ -11,6 +11,8 @@ class LibFiles():
     def __init__(self):
         self.install = Path(__file__).parents[1]
 
+    ##### GENERAL PURPOSE
+
     @property
     def templates_dir(self):
         return self.install.joinpath('templates')
@@ -32,24 +34,32 @@ class LibFiles():
         return self.templates_dir.joinpath('base_sketch.py.template')
 
     @property
-    def transcrypt_target_sketch_template(self):
-        return self.templates_dir.joinpath('transcrypt', 'target_sketch.py.template')
-
-    @property
-    def transcrypt_index_html(self):
-        return self.templates_dir.joinpath('transcrypt', 'index.html')
-
-    @property
-    def pyodide_index_html(self):
-        return self.templates_dir.joinpath('pyodide', 'index.html')
-
-    @property
     def p5js(self):
         return self.static_dir.joinpath('p5', 'p5.min.js')
 
     @property
     def p5_yml(self):
         return self.assets_dir.joinpath('p5_reference.yml')
+
+    ##### TRANSCRYPT SPECIFICS
+
+    @property
+    def transcrypt_index_html(self):
+        return self.templates_dir.joinpath('transcrypt', 'index.html')
+
+    @property
+    def transcrypt_target_sketch_template(self):
+        return self.templates_dir.joinpath('transcrypt', 'target_sketch.py.template')
+
+    ##### PYODIDE SPECIFICS
+
+    @property
+    def pyodide_target_sketch_template(self):
+        return self.templates_dir.joinpath('pyodide', 'target_sketch.js.template')
+
+    @property
+    def pyodide_index_html(self):
+        return self.templates_dir.joinpath('pyodide', 'index.html')
 
 
 PYP5JS_FILES = LibFiles()

@@ -29,4 +29,8 @@ class SketchConfig:
             json.dump(data, fd)
 
     def get_target_js_template(self):
-        return PYP5JS_FILES.transcrypt_target_sketch_template
+        target_map = {
+            TRANSCRYPT_INTERPRETER: PYP5JS_FILES.transcrypt_target_sketch_template,
+            PYODIDE_INTERPRETER: PYP5JS_FILES.pyodide_target_sketch_template,
+        }
+        return target_map[self.interpreter]

@@ -74,3 +74,13 @@ def test_get_pyodide_index_template(pyodide_config):
     template = pyodide_config.get_index_template()
     assert PYP5JS_FILES.pyodide_index_html == template
     assert template.exists()
+
+def test_get_transcrypt_target_js_template(transcrypt_config):
+    template = transcrypt_config.get_target_js_template()
+    assert PYP5JS_FILES.transcrypt_target_sketch_template == template
+    assert template.exists()
+
+def test_get_pyodide_target_js_template(pyodide_config):
+    template = pyodide_config.get_target_js_template()
+    assert PYP5JS_FILES.pyodide_target_sketch_template == template
+    assert template.exists()
