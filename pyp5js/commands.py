@@ -41,7 +41,7 @@ def new_sketch(sketch_name, interpreter=TRANSCRYPT_INTERPRETER):
     return sketch
 
 
-def transcrypt_sketch(sketch_name):
+def compile_sketch(sketch_name):
     """
     Transcrypt the sketch python code to javascript.
 

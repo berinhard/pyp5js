@@ -80,7 +80,7 @@ def render_sketch_view(sketch_name, static_path):
 
     if not error:
         try:
-            commands.transcrypt_sketch(sketch_name)
+            commands.compile_sketch(sketch_name)
         except PythonSketchDoesNotExist:
             return f"There's no sketch in {sketch.sketch_dir.resolve()}", 404
 

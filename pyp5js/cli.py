@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import warnings
 from pathlib import Path
 
 from cprint import cprint
@@ -48,12 +49,20 @@ def transcrypt_sketch(sketch_name):
     Command to generate the P5.js code for a python sketch
 
     Params:
+
     - sketch_name: name of the sketch
 
     Example:
     $ pyp5js transcrypt my_sketch
     """
-    files = commands.transcrypt_sketch(sketch_name)
+    msg = f"transcript command is deprecated. Instead, please run: \n\n\tpyp5js compile {sketch_name}\n"
+    warnings.warn(msg, UserWarning)
+
+
+@command_line_entrypoint.command("compile")
+@click.argument("sketch_name")
+def compile_sketch(sketch_name):
+    files = commands.compile_sketch(sketch_name)
     cprint.ok(f"Your sketch is ready and available at file://{files.index_html.absolute()}")
 
 
@@ -65,9 +74,11 @@ def monitor_sketch(sketch_name):
     it'll automatically generate the JS files as in pyp5js transcrypt command
 
     Params:
+
     - sketch_name: name of the sketch
 
     Example:
+
     $ pyp5js monitor my_sketch
     """
     commands.monitor_sketch(sketch_name)

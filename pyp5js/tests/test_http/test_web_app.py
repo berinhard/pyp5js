@@ -29,7 +29,7 @@ class Pyp5jsWebTestCase(TestCase):
 
     def create_sketch_with_static_files(self, name):
         sketch = commands.new_sketch(name)
-        commands.transcrypt_sketch(name)
+        commands.compile_sketch(name)
         return sketch.sketch_dir
 
     def create_file(self, file_name, content=''):

@@ -11,26 +11,26 @@ from pyp5js.sketch import Sketch
 from .fixtures import sketch
 
 
-def test_transcrypt_sketch(sketch):
+def test_compile_sketch(sketch):
     sketch.sketch_py.touch()
     with patch('pyp5js.commands.compile_sketch_js') as compiler:
-        output = commands.transcrypt_sketch('foo')
+        output = commands.compile_sketch('foo')
 
         assert output == sketch
         compiler.assert_called_once_with(sketch)
 
 
-def test_transcrypt_sketch_error_if_sketch_does_not_exist(sketch):
+def test_compile_sketch_error_if_sketch_does_not_exist(sketch):
     with patch('pyp5js.commands.compile_sketch_js') as compiler:
         with pytest.raises(PythonSketchDoesNotExist):
-            commands.transcrypt_sketch('foo')
+            commands.compile_sketch('foo')
         assert not compiler.called
 
 
-def test_transcrypt_sketch_error_if_invalid_sketch(sketch):
+def test_compile_sketch_error_if_invalid_sketch(sketch):
     with patch('pyp5js.commands.compile_sketch_js') as compiler:
         with pytest.raises(InvalidName):
-            commands.transcrypt_sketch('123foo')
+            commands.compile_sketch('123foo')
         assert not compiler.called
 
 
