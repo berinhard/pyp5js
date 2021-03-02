@@ -34,8 +34,11 @@ class BasePyp5jsCompiler:
         Creates target_sketch.py to import the sketch's functions
         """
         content = get_target_sketch_content(self.sketch)
+
         with self.sketch.target_sketch.open('w') as fd:
             fd.write(content)
+
+        cprint.info(f"{self.sketch.target_sketch.resolve()} updated with sketch code")
 
 
 class TranscryptCompiler(BasePyp5jsCompiler):
@@ -77,10 +80,12 @@ class TranscryptCompiler(BasePyp5jsCompiler):
 
 
 class PyodideCompiler(BasePyp5jsCompiler):
-
     pass
 
 
 def compile_sketch_js(sketch):
-    compiler = TranscryptCompiler(sketch)
+    if sketch.config.is_transcrypt:
+        compiler = TranscryptCompiler(sketch)
+    else:
+        compiler = PyodideCompiler(sketch)
     compiler.compile_sketch_js()

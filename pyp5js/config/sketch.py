@@ -16,6 +16,10 @@ class SketchConfig:
     def __init__(self, interpreter):
         self.interpreter = interpreter
 
+    @property
+    def is_transcrypt(self):
+        return self.interpreter == TRANSCRYPT_INTERPRETER
+
     def get_index_template(self):
         index_map = {
             TRANSCRYPT_INTERPRETER: PYP5JS_FILES.transcrypt_index_html,
