@@ -3,6 +3,10 @@ Development
 
 0.4.5
 -----
+- Support to Pyodide as the Python interpreter
+
+0.4.5
+-----
 - Support to get/set pixels with Transcrypt interpreter
 - `pyp5js` can run on top of Gitpod.io
 
