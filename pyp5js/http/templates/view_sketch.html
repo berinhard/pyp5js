@@ -86,7 +86,6 @@
       $(document).ready(() => {
         $("#executeBtn").on("click", () => {
           const code = editor.getSession().getValue();
-          console.log(code);
           window.runSketchCode(code);
         });
 
