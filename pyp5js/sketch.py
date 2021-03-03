@@ -21,7 +21,6 @@ class Sketch:
     def __init__(self, sketch_name, interpreter=config.TRANSCRYPT_INTERPRETER, **cfg):
         self.sketch_name = sketch_name
         if self.config_file.exists():
-            # TODO add warning to let the user know pyp5js is ignoring cfg
             self.config = SketchConfig.from_json(self.config_file)
         else:
             self.config = SketchConfig(interpreter=interpreter, **cfg)
@@ -79,10 +78,10 @@ class Sketch:
         # attribute strategy can escalate complexity quickly and it
         # was a bad idea, but have been working so far...
         # bonus: opens path to a BrythonSketch ;]
-        if self.config.interpreter == config.TRANSCRYPT_INTERPRETER:
+        if self.config.is_transcrypt:
             return self.sketch_dir.joinpath("target_sketch.py")
         else:
-            return self.sketch_dir.joinpath("target_sketch.js")
+            return self.target_dir.joinpath("target_sketch.js")
 
     @property
     def sketch_py(self):

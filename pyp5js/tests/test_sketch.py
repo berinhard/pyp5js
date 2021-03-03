@@ -38,7 +38,7 @@ class SketchTests(TestCase):
     def test_target_sketch_variations(self):
         assert self.get_expected_path('target_sketch.py') == self.files.target_sketch
         self.files.config.interpreter = PYODIDE_INTERPRETER
-        assert self.get_expected_path('target_sketch.js') == self.files.target_sketch
+        assert self.get_expected_path('target', 'target_sketch.js') == self.files.target_sketch
 
     def test_create_dirs(self):
         assert self.files.sketch_dir.exists() is False
