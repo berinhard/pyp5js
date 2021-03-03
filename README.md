@@ -6,7 +6,7 @@
 
 > [Processing](https://processing.org) ideas and Python 3 together with [P5.js](https://p5js.org) in the browser.
 
-Python 3 drawing in the web 🐍 🐍 🐍  Try it [here](https://berinhard.github.io/pyp5js/pyodide/)!
+Python 3 drawing in the web! Try it [here](https://berinhard.github.io/pyp5js/pyodide/)!
 
 Here's an example of a valid Python code using P5.js API:
 
