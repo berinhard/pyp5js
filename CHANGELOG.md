@@ -1,7 +1,11 @@
 Development
 -----------
 
-0.4.5
+0.5.1
+-----
+- Minor fix in view sketch HTML
+
+0.5.0
 -----
 - Support to Pyodide as the Python interpreter
 
