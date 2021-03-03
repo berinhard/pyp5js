@@ -9,9 +9,6 @@ Python 3 drawing in the web 🐍 🐍 🐍  Try it [here](/docs/pyodide)!
 `pyp5js` covers **all** the methods, variables and event handlers listed in [the p5.js API documentation](https://p5js.org/reference/). Here's an example of a valid Python code using p5.js API:
 
 ```python
-from pyp5js import *
-
-
 def setup():
     createCanvas(200, 200)
     background(160)

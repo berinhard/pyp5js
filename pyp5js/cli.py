@@ -20,7 +20,7 @@ def command_line_entrypoint():
 @command_line_entrypoint.command('new')
 @click.argument('sketch_name')
 @click.option('--monitor', '-m', is_flag=True, help='Starts the monitor command too')
-@click.option('--interpreter', '-i', type=click.Choice(AVAILABLE_INTERPRETERS), default=TRANSCRYPT_INTERPRETER, help='Which python tool to use to run the sketch. (defaults to transcrypt)')
+@click.option('--interpreter', '-i', type=click.Choice(AVAILABLE_INTERPRETERS), default=PYODIDE_INTERPRETER, help='Which python tool to use to run the sketch. (defaults to pyodide)')
 def configure_new_sketch(sketch_name, monitor, interpreter):
     """
     Create dir and configure boilerplate - Example:\n
