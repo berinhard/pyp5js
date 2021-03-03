@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, send_from_directory
 from slugify import slugify
 
 from pyp5js import commands
-from pyp5js.config import SKETCHBOOK_DIR
+from pyp5js.config import SKETCHBOOK_DIR, PYODIDE_INTERPRETER
 from pyp5js.exceptions import PythonSketchDoesNotExist, SketchDirAlreadyExistException
 from pyp5js.sketch import Sketch
 
@@ -41,7 +41,9 @@ def add_new_sketch_view():
             context['error'] = "You have to input a sketch name to proceed."
         else:
             try:
-                files = commands.new_sketch(sketch_name)
+                # web client only supports pyodide mode for now
+                # TODO: improve post payload to accept a select
+                files = commands.new_sketch(sketch_name, interpreter=PYODIDE_INTERPRETER)
                 template = 'new_sketch_success.html'
                 context.update({
                     'files': files,
@@ -90,6 +92,8 @@ def render_sketch_view(sketch_name, static_path):
         'sketch_name': sketch.sketch_name,
         'py_code': sketch.sketch_py.read_text(),
         'error': error,
+        'js_as_module': sketch.config.is_transcrypt,
+        'live_run': sketch.config.is_pyodide,
     }
     return render_template('view_sketch.html', **context)
 

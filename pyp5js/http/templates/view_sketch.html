@@ -24,6 +24,10 @@
             float: left;
             margin: 1.5em;
         }
+
+        #sketch-buttons {
+            margin: 0 1.5em;
+        }
     </style>
 {% endblock %}
 
@@ -31,13 +35,17 @@
     <div class="demoContainer">
 
       <div style="display: block">
+          <a href="/">Back to sketchbook</a>
           <form action="." method="POST">
             <textarea class="display-none" id="id_py_code" name="py_code">{{ py_code }}</textarea>
 
             <div id="text-editor">{{ py_code }}</div>
 
-            <div class="clearfix">
-              <input class="btn rounded py1 px2 mb1" type="submit" value="Save">
+            <div id="sketch-buttons" class="clearfix">
+              {% if live_run %}
+              <button id="executeBtn" title="(Ctrl + Enter) to refresh the skecth" type="button" class="btn rounded py1 px2 mb1">Update</button>
+              {% endif %}
+              <input style="float: right" class="btn rounded py1 px2 mb1" type="submit" value="Save">
             </div>
           </form>
       </div>
@@ -49,6 +57,7 @@
 {% endblock content %}
 
 {% block custom_js %}
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
     <script src="/static/js/ace/ace.js"></script>
 
     <script type="text/javascript">
@@ -70,5 +79,28 @@
     <script src="https://pyodide-cdn2.iodide.io/v0.15.0/full/pyodide.js"></script>
 
     <script src="{{ p5_js_url }}"></script>
-    <script src="{{ sketch_js_url }}"  type="module"></script>
+
+    <script src="{{ sketch_js_url }}" {% if js_as_module %}type="module"{% endif %}></script>
+
+    <script type="text/javascript">
+      $(document).ready(() => {
+        $("#executeBtn").on("click", () => {
+          const code = editor.getSession().getValue();
+          console.log(code);
+          window.runSketchCode(code);
+        });
+
+
+        $("body").bind("keydown",keyDown);
+
+        function keyDown(e){
+            if((e.ctrlKey) && (e.keyCode == 13)){
+              const code = editor.getSession().getValue();
+              console.log(code);
+              window.runSketchCode(code);
+            }
+        }
+
+      });
+    </script>
 {% endblock %}
