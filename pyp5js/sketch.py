@@ -89,7 +89,7 @@ class Sketch:
 
     @property
     def config_file(self):
-        return self.sketch_dir.joinpath('properties.json')
+        return self.sketch_dir.joinpath('.properties.json')
 
     @property
     def target_dir(self):
