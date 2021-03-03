@@ -28,7 +28,7 @@ def new_sketch(sketch_name, interpreter=TRANSCRYPT_INTERPRETER):
     sketch.create_sketch_dir()
 
     templates_files = [
-        (PYP5JS_FILES.base_sketch, sketch.sketch_py),
+        (sketch.config.get_base_sketch_template(), sketch.sketch_py),
         (PYP5JS_FILES.p5js, sketch.p5js),
     ]
     for src, dest in templates_files:

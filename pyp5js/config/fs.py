@@ -30,10 +30,6 @@ class LibFiles():
         return self.install.joinpath('pyp5js.py')
 
     @property
-    def base_sketch(self):
-        return self.templates_dir.joinpath('base_sketch.py.template')
-
-    @property
     def p5js(self):
         return self.static_dir.joinpath('p5', 'p5.min.js')
 
@@ -51,6 +47,10 @@ class LibFiles():
     def transcrypt_target_sketch_template(self):
         return self.templates_dir.joinpath('transcrypt', 'target_sketch.py.template')
 
+    @property
+    def transcrypt_base_sketch_template(self):
+        return self.templates_dir.joinpath('transcrypt', 'base_sketch.py.template')
+
     ##### PYODIDE SPECIFICS
 
     @property
@@ -60,6 +60,10 @@ class LibFiles():
     @property
     def pyodide_index_html(self):
         return self.templates_dir.joinpath('pyodide', 'index.html')
+
+    @property
+    def pyodide_base_sketch_template(self):
+        return self.templates_dir.joinpath('pyodide', 'base_sketch.py.template')
 
 
 PYP5JS_FILES = LibFiles()

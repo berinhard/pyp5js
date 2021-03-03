@@ -16,6 +16,11 @@ class SketchConfig:
     def __init__(self, interpreter):
         self.interpreter = interpreter
 
+    def write(self, fname):
+        with open(fname, "w") as fd:
+            data = {"interpreter": self.interpreter}
+            json.dump(data, fd)
+
     @property
     def is_transcrypt(self):
         return self.interpreter == TRANSCRYPT_INTERPRETER
@@ -31,14 +36,16 @@ class SketchConfig:
         }
         return index_map[self.interpreter]
 
-    def write(self, fname):
-        with open(fname, "w") as fd:
-            data = {"interpreter": self.interpreter}
-            json.dump(data, fd)
-
     def get_target_js_template(self):
         target_map = {
             TRANSCRYPT_INTERPRETER: PYP5JS_FILES.transcrypt_target_sketch_template,
             PYODIDE_INTERPRETER: PYP5JS_FILES.pyodide_target_sketch_template,
         }
         return target_map[self.interpreter]
+
+    def get_base_sketch_template(self):
+        base_map = {
+            TRANSCRYPT_INTERPRETER: PYP5JS_FILES.transcrypt_base_sketch_template,
+            PYODIDE_INTERPRETER: PYP5JS_FILES.pyodide_base_sketch_template,
+        }
+        return base_map[self.interpreter]
