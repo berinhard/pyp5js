@@ -6,7 +6,7 @@ from cprint import cprint
 import click
 
 from pyp5js import commands
-from pyp5js.config import SKETCHBOOK_DIR, AVAILABLE_INTERPRETERS, PYODIDE_INTERPRETER, TRANSCRYPT_INTERPRETER
+from pyp5js.config import SKETCHBOOK_DIR, AVAILABLE_INTERPRETERS, PYODIDE_INTERPRETER
 
 
 @click.group()
@@ -30,10 +30,9 @@ def configure_new_sketch(sketch_name, monitor, interpreter):
 
     cprint.ok(f"Your sketch was created!")
 
-    compiler = "transcrypt" if interpreter == TRANSCRYPT_INTERPRETER else "pyodide"
     if not monitor:
         cprint.ok(f"Please, open and edit the file {files.sketch_py} to draw. When you're ready to see your results, just run:")
-        cmd = f"\t pyp5js {compiler} {sketch_name}"
+        cmd = f"\t pyp5js compile {sketch_name}"
         cprint.ok(cmd)
         cprint.ok(f"And open file://{files.index_html.absolute()} on your browser to see yor results!")
     else:

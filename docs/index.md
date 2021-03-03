@@ -183,7 +183,7 @@ After that, you should have the `pyp5js` command enabled and it will respect all
 - `exception.py`: custom exceptions used by `pyp5js`
 - `monitor.py`: module with the objects used by the `monitor` command
 - `pyp5js.py`: module which is imported by the sketches and integrates with P5.js API
-- `sketch.py`: class to abstract Sketches' filesm directories and configuration
+- `sketch.py`: class to abstract Sketches' files, directories and configuration
 - `template_renderers.py`: simple module with the renderization logic for the code templates like `target_sketch.py`
 - `http/web_app.py`: Flask application for the web interface.
 

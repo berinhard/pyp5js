@@ -12,7 +12,6 @@ def _template_from_file(filename, context):
     return template.render(context)
 
 
-
 def get_sketch_index_content(sketch):
     """
     Renders SKETCH_NAME/index.html to display the sketch visualization
