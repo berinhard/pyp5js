@@ -22,7 +22,7 @@ def sketches_list_view():
         if sketch.has_all_files:
             sketches.append({
                 'name': name,
-                'url': f'/sketch/{name}'
+                'url': f'/sketch/{name}/'
             })
 
     sketches = sorted(sketches, key=lambda s: s['name'])
