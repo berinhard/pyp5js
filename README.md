@@ -2,13 +2,11 @@
 
 [![PyPI version](https://badge.fury.io/py/pyp5js.svg)](https://badge.fury.io/py/pyp5js) ![Continuous Integration](https://github.com/berinhard/pyp5js/workflows/Continuous%20Integration/badge.svg?branch=develop&event=push)
 
-> [Processing](https://processing.org) ideas and Python 3 together with [P5.js](https://p5js.org) in the browser, using [Transcrypt](https://transcrypt.org/).
+> [Processing](https://processing.org) ideas and Python 3 together with [P5.js](https://p5js.org) in the browser.
 
 Here's an example of a valid Python code using P5.js API:
 
 ```python
-from pyp5js import *
-
 def setup():
     createCanvas(200, 200)
     background(160)
