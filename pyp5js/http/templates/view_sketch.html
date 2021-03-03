@@ -44,8 +44,9 @@
             <div id="sketch-buttons" class="clearfix">
               {% if live_run %}
               <button id="executeBtn" title="(Ctrl + Enter) to refresh the skecth" type="button" class="btn rounded py1 px2 mb1">Update</button>
+              <button id="clearBtn" title="(Ctrl + .) to clear the skecth" type="button" class="btn rounded py1 px2 mb1">Clear</button>
               {% endif %}
-              <input style="float: right" class="btn rounded py1 px2 mb1" type="submit" value="Save">
+              <input id="submitBtn" title="(Ctrl + s) to save the sketch" style="float: right" class="btn rounded py1 px2 mb1" type="submit" value="Save">
             </div>
           </form>
       </div>
@@ -90,13 +91,25 @@
         });
 
 
+        $("#clearBtn").on("click", () => {
+          $("#sketch-holder").html("");
+        });
+
         $("body").bind("keydown",keyDown);
 
         function keyDown(e){
-            if((e.ctrlKey) && (e.keyCode == 13)){
+            if((e.ctrlKey) && (e.keyCode == 83)){  // Ctrl + s to save
+              e.preventDefault();
+              $("#submitBtn").click();
+            {% if live_run %}
+            } else if ((e.ctrlKey) && (e.keyCode == 13)) {  // Ctrl + Enter to run
+              e.preventDefault();
               const code = editor.getSession().getValue();
-              console.log(code);
               window.runSketchCode(code);
+            } else if((e.ctrlKey) && (e.keyCode == 190)){  // Ctrl + . to clear
+              e.preventDefault();
+              $("#clearBtn").click();
+            {% endif %}
             }
         }
 
