@@ -1211,5 +1211,11 @@ languagePluginLoader.then(() => {
       from js import pyodide, p5, window, document
       print(sys.version)
     `)
+
+    window.runSketchCode = (code) => {
+      userCode = code;
+      runCode();
+    }
+
     runCode();
 });
