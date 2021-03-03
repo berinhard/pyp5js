@@ -7,7 +7,7 @@
 
 > [Processing](https://processing.org) ideas and Python 3 together with [P5.js](https://p5js.org) in the browser, using [Transcrypt](https://transcrypt.org/).
 
-Python 3 drawing in the web 🐍 🐍 🐍  Try it [here](/docs/pyodide)!
+Python 3 drawing in the web 🐍 🐍 🐍  Try it [here](https://berinhard.github.io/pyp5js/pyodide/)!
 
 `pyp5js` covers **all** the methods, variables and event handlers listed in [the p5.js API documentation](https://p5js.org/reference/). Here's an example of a valid Python code using p5.js API:
 
