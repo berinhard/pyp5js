@@ -3,6 +3,7 @@ import shutil
 from pathlib import Path
 
 from pyp5js import commands
+from pyp5js.sketch import Sketch
 from pyp5js.config import SKETCHBOOK_DIR
 from pyp5js.http.web_app import app as web_app
 from flask_testing import TestCase
@@ -80,6 +81,7 @@ class NewSketchViewTests(Pyp5jsWebTestCase):
     def test_post_with_sketch_name_should_render_success_form(self):
         self.client.post(self.route, data={'sketch_name': 'a_name'})
         self.assert_template_used('new_sketch_success.html')
+        assert Sketch('a_name').config.is_pyodide
 
 
 class SketchViewTests(Pyp5jsWebTestCase):

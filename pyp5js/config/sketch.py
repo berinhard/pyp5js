@@ -20,6 +20,10 @@ class SketchConfig:
     def is_transcrypt(self):
         return self.interpreter == TRANSCRYPT_INTERPRETER
 
+    @property
+    def is_pyodide(self):
+        return self.interpreter == PYODIDE_INTERPRETER
+
     def get_index_template(self):
         index_map = {
             TRANSCRYPT_INTERPRETER: PYP5JS_FILES.transcrypt_index_html,
