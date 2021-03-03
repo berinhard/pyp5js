@@ -4,20 +4,18 @@ Test file to guarantee the Python code that'll be translated to JS
 from pyaml import yaml
 import pytest
 
-from pyp5js.fs import LibFiles
-
-LIB_FILES = LibFiles()
+from pyp5js.config.fs import PYP5JS_FILES
 
 
 @pytest.fixture
 def pyp5js():
-    with LIB_FILES.pytop5js.open('r') as fd:
+    with PYP5JS_FILES.pytop5js.open('r') as fd:
         return fd.read()
 
 
 @pytest.fixture
 def p5_reference():
-    with LIB_FILES.p5_yml.open('r') as fd:
+    with PYP5JS_FILES.p5_yml.open('r') as fd:
         return yaml.load(fd)
 
 

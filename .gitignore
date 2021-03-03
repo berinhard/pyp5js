@@ -15,4 +15,5 @@ dist
 demo_sketch
 tests-sketchbook
 venv
+docs/examples/dev*
 .theia

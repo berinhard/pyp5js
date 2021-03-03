@@ -1,5 +1,6 @@
 Development
 -----------
+- Support to Pyodide as the Python interpreter
 
 0.4.5
 -----

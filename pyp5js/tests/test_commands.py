@@ -4,58 +4,52 @@ from unittest import TestCase
 from unittest.mock import Mock, patch
 
 from pyp5js import commands
-from pyp5js.config import SKETCHBOOK_DIR
+from pyp5js.config import SKETCHBOOK_DIR, TRANSCRYPT_INTERPRETER, PYODIDE_INTERPRETER
 from pyp5js.exceptions import PythonSketchDoesNotExist, SketchDirAlreadyExistException, InvalidName
-from pyp5js.fs import SketchFiles
+from pyp5js.sketch import Sketch
+
+from .fixtures import sketch
 
 
-@pytest.fixture()
-def files():
-    files = SketchFiles('foo')
-    files.create_sketch_dir()
-    yield files
-    shutil.rmtree(SKETCHBOOK_DIR)
-
-
-def test_transcrypt_sketch(files):
-    files.sketch_py.touch()
+def test_compile_sketch(sketch):
+    sketch.sketch_py.touch()
     with patch('pyp5js.commands.compile_sketch_js') as compiler:
-        output = commands.transcrypt_sketch('foo')
+        output = commands.compile_sketch('foo')
 
-        assert output == files
-        compiler.assert_called_once_with(files)
+        assert output == sketch
+        compiler.assert_called_once_with(sketch)
 
 
-def test_transcrypt_sketch_error_if_sketch_does_not_exist(files):
+def test_compile_sketch_error_if_sketch_does_not_exist(sketch):
     with patch('pyp5js.commands.compile_sketch_js') as compiler:
         with pytest.raises(PythonSketchDoesNotExist):
-            commands.transcrypt_sketch('foo')
+            commands.compile_sketch('foo')
         assert not compiler.called
 
 
-def test_transcrypt_sketch_error_if_invalid_sketch(files):
+def test_compile_sketch_error_if_invalid_sketch(sketch):
     with patch('pyp5js.commands.compile_sketch_js') as compiler:
         with pytest.raises(InvalidName):
-            commands.transcrypt_sketch('123foo')
+            commands.compile_sketch('123foo')
         assert not compiler.called
 
 
-def test_monitor_sketch(files):
-    files.sketch_py.touch()
+def test_monitor_sketch(sketch):
+    sketch.sketch_py.touch()
     with patch('pyp5js.commands.monitor_sketch_service') as monitor:
         commands.monitor_sketch('foo')
 
-        monitor.assert_called_once_with(files)
+        monitor.assert_called_once_with(sketch)
 
 
-def test_monitor_sketch_error_if_sketch_does_not_exist(files):
+def test_monitor_sketch_error_if_sketch_does_not_exist(sketch):
     with patch('pyp5js.commands.monitor_sketch_service') as monitor:
         with pytest.raises(PythonSketchDoesNotExist):
             commands.monitor_sketch('foo')
         assert not monitor.called
 
 
-def test_monitor_sketch_error_if_invalid_name(files):
+def test_monitor_sketch_error_if_invalid_name(sketch):
     with patch('pyp5js.commands.monitor_sketch_service') as monitor:
         with pytest.raises(InvalidName):
             commands.monitor_sketch('1234foo')
@@ -66,7 +60,7 @@ class TestNewSketchCommand(TestCase):
 
     def setUp(self):
         self.sketch_name = 'foo'
-        self.sketch_files = SketchFiles(self.sketch_name)
+        self.sketch = Sketch(self.sketch_name)
 
     def tearDown(self):
         if SKETCHBOOK_DIR.exists():
@@ -75,12 +69,24 @@ class TestNewSketchCommand(TestCase):
     def test_create_new_sketch_with_all_required_files(self):
         commands.new_sketch(self.sketch_name)
 
-        assert self.sketch_files.index_html.exists()
-        assert self.sketch_files.sketch_py.exists()
-        assert self.sketch_files.p5js.exists()
+        assert self.sketch.index_html.exists()
+        assert self.sketch.sketch_py.exists()
+        assert self.sketch.p5js.exists()
+        assert self.sketch.config_file.exists()
+        assert self.sketch.config.interpreter == TRANSCRYPT_INTERPRETER
+
+    def test_create_pyodide_sketch(self):
+        commands.new_sketch(self.sketch_name, interpreter=PYODIDE_INTERPRETER)
+        self.sketch = Sketch(self.sketch_name)  # read config after init
+
+        assert self.sketch.index_html.exists()
+        assert self.sketch.sketch_py.exists()
+        assert self.sketch.p5js.exists()
+        assert self.sketch.config_file.exists()
+        assert self.sketch.config.interpreter == PYODIDE_INTERPRETER
 
     def test_raise_exception_if_dir_already_exist(self):
-        self.sketch_files.create_sketch_dir()
+        self.sketch.create_sketch_dir()
 
         with pytest.raises(SketchDirAlreadyExistException):
             commands.new_sketch(self.sketch_name)

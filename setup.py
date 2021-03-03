@@ -39,7 +39,7 @@ setup(
     package_data={
         'pyp5js': [
             'assets/*',
-            'static/**/*',
+            'assets/static/**/*',
             'templates/*',
             'http/templates/*',
             'http/static/*',
