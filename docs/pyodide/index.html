@@ -56,8 +56,8 @@
 
           <div id="text-editor"></div>
           <div class="clearfix">
-            <input disabled id="executeBtn" class="btn rounded py1 px2 mb1" type="submit" value="Execute">
-            <input id="clearBtn" class="btn rounded py1 px2 mb1" type="submit" value="Clear">
+            <input disabled id="executeBtn" class="btn rounded py1 px2 mb1" type="submit" value="Run" title="(Ctrl/Cmd + Enter) to run the sketch">
+            <input id="clearBtn" class="btn rounded py1 px2 mb1" type="submit" value="Clear" title="(Ctrl/Cmd + .) to clear the sketch">
           </div>
       </div>
 
@@ -1256,7 +1256,7 @@ def add_library(lib_name):
     script.onload = logOnloaded
     script.src = src
     document.head.appendChild(script)
-`
+`;
 
 let placeholder = `
 def setup():
@@ -1264,7 +1264,20 @@ def setup():
 
 def draw():
     pass
-`
+`;
+
+const initialSketch = `
+def setup():
+    createCanvas(200, 200)
+    background(160)
+
+def draw():
+    fill("blue")
+    background(200)
+    radius = sin(frameCount / 60) * 50 + 50
+    ellipse(100, 100, radius, radius)
+`;
+
     languagePluginLoader.then(() => {
         pyodide.runPython(`
           import io, code, sys
@@ -1297,6 +1310,8 @@ def draw():
     editor.session.setOptions({
       tabSize: 4,
     });
+    editor.setValue(initialSketch, -1);
+    document.getElementById("id_py_code").innerHTML = initialSketch;
 
     editor.session.on('change', function(){
       document.getElementById("id_py_code").innerHTML = editor.getSession().getValue();
@@ -1307,12 +1322,22 @@ def draw():
 
     $("body").bind("keydown",keyDown);
 
-    function keyDown(e){
-        if((e.ctrlKey) && (e.keyCode == 13)){
-            runCode();
-        }
+    function cleanKeyCode(e) {
+      // Shortcuts work for Ctrl or Cmd
+      if (e.ctrlKey || e.metaKey) {
+        return e.keyCode;
+      }
     }
 
+    function keyDown(e){
+        if (cleanKeyCode(e) === 13) {  // Ctrl + Enter to run
+          e.preventDefault();
+          $("#executeBtn").click();
+        } else if(cleanKeyCode(e) === 190){  // Ctrl + . to clear
+          e.preventDefault();
+          $("#clearBtn").click();
+        }
+    }
   </script>
 
 
