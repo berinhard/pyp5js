@@ -1,19 +1,17 @@
-# pyp5js: Python to P5.js Transcriptor
+## pyp5js: drawing with Python 3
 
-[![PyPI version](https://badge.fury.io/py/pyp5js.svg)](https://badge.fury.io/py/pyp5js) ![Continuous Integration](https://github.com/berinhard/pyp5js/workflows/Continuous%20Integration/badge.svg?branch=develop&event=push)
+[![PyPI version](https://badge.fury.io/py/pyp5js.svg)](https://badge.fury.io/py/pyp5js)
+![Continuous Integration](https://github.com/berinhard/pyp5js/workflows/Continuous%20Integration/badge.svg?branch=develop&event=push)
+[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/berinhard/pyp5js/tree/main)
+
 
 > [Processing](https://processing.org) ideas and Python 3 together with [P5.js](https://p5js.org) in the browser, using [Transcrypt](https://transcrypt.org/).
 
-This project started from a proof of concept based in [Axel Tanner's "Transcrypt & p5js" blogpost](https://4nomore.net/2018/transcrypt_p5js/). The source code in [this Github repo](https://github.com/berinhard/pyp5js).
-
-The project's main goal was to use Tanner's approach combined with decorator and global variables control to enable P5.js API from being called "directly" from the Python code as clean as possible.
+Python 3 drawing in the web 🐍 🐍 🐍  Try it [here](https://berinhard.github.io/pyp5js/pyodide/)!
 
 `pyp5js` covers **all** the methods, variables and event handlers listed in [the p5.js API documentation](https://p5js.org/reference/). Here's an example of a valid Python code using p5.js API:
 
 ```python
-from pyp5js import *
-
-
 def setup():
     createCanvas(200, 200)
     background(160)
@@ -110,16 +108,16 @@ $ pyp5js serve
 ```
 
 If you just want to compile your code (without running the Web server) there's
-the `transcrypt` command:
+the `compile` command:
 
 ```
-$ pyp5js transcrypt my_sketch
+$ pyp5js compile my_sketch
 ```
 
 If you're lazy as me, you can use the `monitor` command instead of the previous
 one. The command will monitor your sketch directory and keep track of any
 changes on any `.py` files. When it notices a new change, it automatically runs
-the transcrypt process for you:
+the compile process for you:
 
 ```
 $ pyp5js monitor my_sketch
@@ -139,7 +137,7 @@ $ pyp5js --help
 ```
 
 
-### Known [issues](https://github.com/berinhard/pyp5js/issues) and differences to the Processing.Py and P5.js ways of doing things
+### Known [issues](https://github.com/berinhard/pyp5js/issues), differences to the Processing.Py and P5.js ways of doing things and limitations
 
 - Remember to use **P5.js** method names & conventions for most things.
 
@@ -147,9 +145,11 @@ $ pyp5js --help
 
 - There are no `PVector` objects, with their nice syntatic operator overloaded sugar - use `p5.Vector` with `createVector()` and P5.js conventions ... for now...
 
+- For the `mouseWheel()` event funtion, use `def mouseWheel()` with NO parameters, then, inside the function, the magic `event.delta` will have a value equivalent to the one returned by Java&Python Mode's `event.getCount()`.
+
 - At this point, it is a known limitation that you have to "declare" global variables before `setup()` and `draw()`, maybe using `name = None`, as they can't be created inside methods.
 
-- For the `mouseWheel()` event funtion, use `def mouseWheel()` with NO parameters, then, inside the function, the magic `event.delta` will have a value equivalent to the one returned by Java&Python Mode's `event.getCount()`.
+- Not all Python libs are available when using Transcrypt because they required a JS-version to be enabled. In [this link](https://github.com/QQuick/Transcrypt/tree/master/transcrypt/modules) you can take a look in all modules Transcrypt enables.
 
 ## How can I contribute?
 
@@ -176,14 +176,21 @@ $ make test
 
 After that, you should have the `pyp5js` command enabled and it will respect all the changes you introduce to the code. Now, a brief explanation about the code under `pyp5js` directory:
 
-- `cli.py`: the entrypoint for `pyp5js` commands such as `new` or `transcrypt`
+- `config` module: centralize pieces of code used to configure how `pyp5js` runs
+- `cli.py`: the entrypoint for `pyp5js` commands such as `new` or `compile`
 - `commands.py`: just functions responsible for the real implementations for `pyp5js` commands
 - `compiler.py`: where all the magic happens!
-- `fs.py`: classes to abstract the files and directories manipulations from the commands
 - `exception.py`: custom exceptions used by `pyp5js`
 - `monitor.py`: module with the objects used by the `monitor` command
 - `pyp5js.py`: module which is imported by the sketches and integrates with P5.js API
+- `sketch.py`: class to abstract Sketches' files, directories and configuration
 - `template_renderers.py`: simple module with the renderization logic for the code templates like `target_sketch.py`
 - `http/web_app.py`: Flask application for the web interface.
 
 Now go [fetch yourself an issue](https://github.com/berinhard/pyp5js/issues) and happy hacking!
+
+### References
+
+This project started from a proof of concept based in [Axel Tanner's "Transcrypt & p5js" blogpost](https://4nomore.net/2018/transcrypt_p5js/). The source code in [this Github repo](https://github.com/berinhard/pyp5js).
+
+The [Pyodide](https://github.com/iodide-project/pyodide) interpreter was implemented based on [Luca Damasco's experiment](https://github.com/Luxapodular/Py5.js) supported by [COSA (The Clinic for Open Source Arts)](https://www.du.edu/ahss/opensourcearts/) at the University of Denver College of Arts and Sciences.

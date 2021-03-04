@@ -1,6 +1,19 @@
 Development
 -----------
 
+0.5.1
+-----
+- Minor fix in view sketch HTML
+
+0.5.0
+-----
+- Support to Pyodide as the Python interpreter
+
+0.4.5
+-----
+- Support to get/set pixels with Transcrypt interpreter
+- `pyp5js` can run on top of Gitpod.io
+
 0.4.4
 -----
 - Fix to allow directories name with spaces - PR #127

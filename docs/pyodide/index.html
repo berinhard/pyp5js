@@ -56,8 +56,8 @@
 
           <div id="text-editor"></div>
           <div class="clearfix">
-            <input disabled id="executeBtn" class="btn rounded py1 px2 mb1" type="submit" value="Execute">
-            <input id="clearBtn" class="btn rounded py1 px2 mb1" type="submit" value="Clear">
+            <input disabled id="executeBtn" class="btn rounded py1 px2 mb1" type="submit" value="Run" title="(Ctrl/Cmd + Enter) to run the sketch">
+            <input id="clearBtn" class="btn rounded py1 px2 mb1" type="submit" value="Clear" title="(Ctrl/Cmd + .) to clear the sketch">
           </div>
       </div>
 
@@ -66,7 +66,7 @@
       </div>
     </div>
 <div><p style="font-family: 'sans'; font-size:14px">If you execute the code but nothing is being rendered in the broswer, please open your browser's console to read the error traceback (usually you can do this by pressing F12 and clicking in the Console tab).</p></div>
-<div><p style="background-color: #f6f8fa; font-family: 'sans'; font-size:14px"><a href="https://github.com/berinhard/pyp5js"><b>pyp5js</b></a> running on top of pyodide, based on: <a href="https://github.com/Luxapodular/Py5.js" target="_blank">Luca Damasco's experiment</a> supported by <a href="https://www.du.edu/ahss/opensourcearts/" target="_blank">COSA (The Clinic for Open Source Arts)</a> at the University of Denver College of Arts and Sciences.</p></div>
+<div><p style="background-color: #f6f8fa; font-family: 'sans'; font-size:14px"><a href="https://github.com/berinhard/pyp5js"><b>pyp5js</b></a> running on top of <a href="https://github.com/iodide-project/pyodide" target="_blank">pyodide</a></p></div>
   </body>
   <script type="text/javascript">
 let wrapper_content = `
@@ -1216,6 +1216,9 @@ def start_p5(setup_func, draw_func, event_functions):
     """
 
     def sketch_setup(p5_sketch):
+        """
+        Callback function called to configure new p5 instance
+        """
         p5_sketch.setup = global_p5_injection(p5_sketch)(setup_func)
         p5_sketch.draw = global_p5_injection(p5_sketch)(draw_func)
 
@@ -1253,7 +1256,7 @@ def add_library(lib_name):
     script.onload = logOnloaded
     script.src = src
     document.head.appendChild(script)
-`
+`;
 
 let placeholder = `
 def setup():
@@ -1261,7 +1264,20 @@ def setup():
 
 def draw():
     pass
-`
+`;
+
+const initialSketch = `
+def setup():
+    createCanvas(200, 200)
+    background(160)
+
+def draw():
+    fill("blue")
+    background(200)
+    radius = sin(frameCount / 60) * 50 + 50
+    ellipse(100, 100, radius, radius)
+`;
+
     languagePluginLoader.then(() => {
         pyodide.runPython(`
           import io, code, sys
@@ -1294,6 +1310,8 @@ def draw():
     editor.session.setOptions({
       tabSize: 4,
     });
+    editor.setValue(initialSketch, -1);
+    document.getElementById("id_py_code").innerHTML = initialSketch;
 
     editor.session.on('change', function(){
       document.getElementById("id_py_code").innerHTML = editor.getSession().getValue();
@@ -1304,12 +1322,22 @@ def draw():
 
     $("body").bind("keydown",keyDown);
 
-    function keyDown(e){
-        if((e.ctrlKey) && (e.keyCode == 13)){
-            runCode();
-        }
+    function cleanKeyCode(e) {
+      // Shortcuts work for Ctrl or Cmd
+      if (e.ctrlKey || e.metaKey) {
+        return e.keyCode;
+      }
     }
 
+    function keyDown(e){
+        if (cleanKeyCode(e) === 13) {  // Ctrl + Enter to run
+          e.preventDefault();
+          $("#executeBtn").click();
+        } else if(cleanKeyCode(e) === 190){  // Ctrl + . to clear
+          e.preventDefault();
+          $("#clearBtn").click();
+        }
+    }
   </script>
 
 

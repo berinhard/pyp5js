@@ -6,12 +6,12 @@ from watchdog.observers import Observer
 from pyp5js.compiler import compile_sketch_js
 
 
-def monitor_sketch(sketch_files):
+def monitor_sketch(sketch):
     observer = Observer()
 
-    event_handler = TranscryptSketchEventHandler(sketch_files=sketch_files, observer=observer)
+    event_handler = TranscryptSketchEventHandler(sketch=sketch, observer=observer)
 
-    observer.schedule(event_handler, str(sketch_files.sketch_dir.resolve()))
+    observer.schedule(event_handler, str(sketch.sketch_dir.resolve()))
     observer.start()
     try:
         while True:
@@ -26,7 +26,7 @@ class TranscryptSketchEventHandler(PatternMatchingEventHandler):
     patterns = ["*.py"]
 
     def __init__(self, *args, **kwargs):
-        self.sketch_files = kwargs.pop('sketch_files')
+        self.sketch = kwargs.pop('sketch')
         self.observer = kwargs.pop('observer')
         self._last_event = None
         super().__init__(*args, **kwargs)
@@ -38,11 +38,11 @@ class TranscryptSketchEventHandler(PatternMatchingEventHandler):
         handlers_config = self.observer._handlers.copy()
         handlers_copy = {}
 
-        compile_sketch_js(self.sketch_files)
+        compile_sketch_js(self.sketch)
 
         queue = self.observer.event_queue
         while queue.qsize():
             queue.get()
 
-        index_file = self.sketch_files.index_html
+        index_file = self.sketch.index_html
         cprint.ok(f"Your sketch is ready and available at file://{index_file.absolute()}")
