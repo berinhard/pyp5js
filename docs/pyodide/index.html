@@ -1256,7 +1256,7 @@ def add_library(lib_name):
     script.onload = logOnloaded
     script.src = src
     document.head.appendChild(script)
-`
+`;
 
 let placeholder = `
 def setup():
@@ -1264,7 +1264,20 @@ def setup():
 
 def draw():
     pass
-`
+`;
+
+const initialSketch = `
+def setup():
+    createCanvas(200, 200)
+    background(160)
+
+def draw():
+    fill("blue")
+    background(200)
+    radius = sin(frameCount / 60) * 50 + 50
+    ellipse(100, 100, radius, radius)
+`;
+
     languagePluginLoader.then(() => {
         pyodide.runPython(`
           import io, code, sys
@@ -1297,6 +1310,8 @@ def draw():
     editor.session.setOptions({
       tabSize: 4,
     });
+    editor.setValue(initialSketch, -1);
+    document.getElementById("id_py_code").innerHTML = initialSketch;
 
     editor.session.on('change', function(){
       document.getElementById("id_py_code").innerHTML = editor.getSession().getValue();
