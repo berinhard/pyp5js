@@ -56,8 +56,8 @@
 
           <div id="text-editor"></div>
           <div class="clearfix">
-            <input disabled id="executeBtn" class="btn rounded py1 px2 mb1" type="submit" value="Execute">
-            <input id="clearBtn" class="btn rounded py1 px2 mb1" type="submit" value="Clear">
+            <input disabled id="executeBtn" class="btn rounded py1 px2 mb1" type="submit" value="Run" title="(Ctrl/Cmd + Enter) to run the sketch">
+            <input id="clearBtn" class="btn rounded py1 px2 mb1" type="submit" value="Clear" title="(Ctrl/Cmd + .) to clear the sketch">
           </div>
       </div>
 
@@ -1307,12 +1307,22 @@ def draw():
 
     $("body").bind("keydown",keyDown);
 
-    function keyDown(e){
-        if((e.ctrlKey) && (e.keyCode == 13)){
-            runCode();
-        }
+    function cleanKeyCode(e) {
+      // Shortcuts work for Ctrl or Cmd
+      if (e.ctrlKey || e.metaKey) {
+        return e.keyCode;
+      }
     }
 
+    function keyDown(e){
+        if (cleanKeyCode(e) === 13) {  // Ctrl + Enter to run
+          e.preventDefault();
+          $("#executeBtn").click();
+        } else if(cleanKeyCode(e) === 190){  // Ctrl + . to clear
+          e.preventDefault();
+          $("#clearBtn").click();
+        }
+    }
   </script>
 
 
