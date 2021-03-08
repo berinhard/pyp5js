@@ -1,5 +1,6 @@
 Development
 -----------
+- Pyodide mode bugfix for missing `P3D` global definition
 
 0.5.1
 -----
