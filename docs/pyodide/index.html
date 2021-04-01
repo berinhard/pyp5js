@@ -211,6 +211,7 @@ pRotationY = None
 pRotationZ = None
 turnAxis = None
 keyIsPressed = None
+keyPressed = None
 key = None
 keyCode = None
 mouseX = None
@@ -223,6 +224,7 @@ pwinMouseX = None
 pwinMouseY = None
 mouseButton = None
 mouseIsPressed = None
+mousePressed = None
 touches = None
 pixels = None
 
@@ -1349,6 +1351,8 @@ def pre_draw(p5_instance, draw_func):
     global pRotationX, pRotationY, pRotationZ, turnAxis, keyIsPressed, key, keyCode, mouseX, mouseY, pmouseX, pmouseY
     global winMouseX, winMouseY, pwinMouseX, pwinMouseY, mouseButton, mouseIsPressed, touches, pixels
 
+    global mousePressed, keyPressed
+
     _CTX_MIDDLE = p5_instance._CTX_MIDDLE
     _DEFAULT_FILL = p5_instance._DEFAULT_FILL
     _DEFAULT_LEADMULT = p5_instance._DEFAULT_LEADMULT
@@ -1488,6 +1492,7 @@ def pre_draw(p5_instance, draw_func):
     pRotationZ = p5_instance.pRotationZ
     turnAxis = p5_instance.turnAxis
     keyIsPressed = p5_instance.keyIsPressed
+    keyPressed = p5_instance.keyIsPressed
     key = p5_instance.key
     keyCode = p5_instance.keyCode
     mouseX = p5_instance.mouseX
@@ -1500,6 +1505,7 @@ def pre_draw(p5_instance, draw_func):
     pwinMouseY = p5_instance.pwinMouseY
     mouseButton = p5_instance.mouseButton
     mouseIsPressed = p5_instance.mouseIsPressed
+    mousePressed = p5_instance.mouseIsPressed
     touches = p5_instance.touches
     pixels = p5_instance.pixels
 
@@ -1589,15 +1595,15 @@ def draw():
 
 const initialSketch = `
 def setup():
-    createCanvas(200, 200)
-    background(160)
+    size(600, 600)
 
 def draw():
-    fill("blue")
     background(200)
-    radius = sin(frameCount / 60) * 50 + 50
-    ellipse(100, 100, radius, radius)
+    diameter = sin(frameCount / 60) * 100 + 200
+    fill(0, 0, 200)
+    circle(width / 2, height / 2, diameter)
 `;
+
 
     languagePluginLoader.then(() => {
         pyodide.runPython(`
