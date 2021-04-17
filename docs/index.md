@@ -45,9 +45,9 @@ $ pip install pyp5js
 
 Since you'll be writting Python code and then generating the correspondent
 P5.js code from it, pyp5js provides a web application interface to help you
-to generate the files.
+generate the files.
 
-So, to start a the application, you'll have to run:
+So, to start the application, you'll have to run:
 
 ```bash
 $ pyp5js serve
@@ -114,7 +114,7 @@ the `compile` command:
 $ pyp5js compile my_sketch
 ```
 
-If you're lazy as me, you can use the `monitor` command instead of the previous
+If you're lazy like me, you can use the `monitor` command instead of the previous
 one. The command will monitor your sketch directory and keep track of any
 changes on any `.py` files. When it notices a new change, it automatically runs
 the compile process for you:
@@ -123,7 +123,7 @@ the compile process for you:
 $ pyp5js monitor my_sketch
 ```
 
-You can also use the `monitor` command within the `new` by running:
+You can also use the `--monitor` option within the `new` command by running:
 
 ```
 $ pyp5js new my_sketch --monitor
