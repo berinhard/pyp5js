@@ -1,6 +1,12 @@
 Development
 -----------
 
+0.5.2
+-----
+- Pyodide mode bugfix for missing `P3D` global definition
+- Processing-like PVector class under transcrypt mode
+- Processing-like PVector class under pyodide mode
+
 0.5.1
 -----
 - Minor fix in view sketch HTML

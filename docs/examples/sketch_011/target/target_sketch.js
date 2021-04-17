@@ -1504,7 +1504,17 @@ def draw():
 `;
 
 let userCode = `
-{{ sketch_content }}
+def setup():
+    createCanvas(200, 250)
+    background(160)
+
+
+def draw():
+    fill("blue")
+    background(200)
+    radius = sin(frameCount / 60) * 50 + 50
+    ellipse(100, 100, radius, radius)
+
 `;
 
 function runCode() {

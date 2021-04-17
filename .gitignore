@@ -17,3 +17,4 @@ tests-sketchbook
 venv
 docs/examples/dev*
 .theia
+.envrc

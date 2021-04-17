@@ -20,3 +20,5 @@
 - [sketch_009](https://github.com/berinhard/pyp5js/tree/develop/docs/examples/sketch_009): [**Working with images**](sketch_009/index.html)
 
 - [sketch_010](https://github.com/berinhard/pyp5js/tree/develop/docs/examples/sketch_010): [**Complex shapes**](sketch_010/index.html) by [Pedro Queiroga](https://github.com/pedroqueiroga/pqueiroga.github.io/blob/master/curveVertexExample/main.js)
+
+- [sketch_011](https://github.com/berinhard/pyp5js/tree/develop/docs/examples/sketch_011): [**PVector**](sketch_011/index.html) processing-like implementation by [Alexandre Villares](sketch_011/index.html)
