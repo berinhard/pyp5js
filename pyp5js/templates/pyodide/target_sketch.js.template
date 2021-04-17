@@ -976,11 +976,17 @@ def __mouseMoved(e):
   except:
     pass
 
+def _bind_event_function(func, *args, **kwargs):
+    try:
+      func(*args, **kwargs)
+    except TypeError:
+      func()
+
 def __mouseDragged(e):
   try:
-    mouseDragged(e)
-  except:
-    pass
+    _bind_event_function(mouseDragged, e)
+  except NameError:
+      pass
 
 def __mousePressed(e):
   try:
