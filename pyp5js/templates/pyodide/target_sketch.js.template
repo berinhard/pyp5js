@@ -926,6 +926,13 @@ def createCanvas(*args):
 
     return canvas
 
+def __mouseDragged(e):
+    try:
+        mouseDragged(e)
+    except:
+        print('nao encontrou mouseDragged')
+        pass
+
 
 def pop(*args):
     p5_pop = _P5_INSTANCE.pop(*args)
@@ -1436,6 +1443,8 @@ def pre_draw(p5_instance, draw_func):
     mouseIsPressed = p5_instance.mouseIsPressed
     touches = p5_instance.touches
     pixels = p5_instance.pixels
+
+    p5_instance.mouseDragged = lambda e: __mouseDragged(e)
 
     return draw_func()
 
