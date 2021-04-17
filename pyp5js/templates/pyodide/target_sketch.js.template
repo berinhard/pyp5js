@@ -928,59 +928,60 @@ def createCanvas(*args):
 
 # Thanks to Luca Damasco for also helping us to
 # figure out how to bind events functions.
+def _bind_event_function(func, *args, **kwargs):
+    func = global_p5_injection(_P5_INSTANCE)(func)
+    try:
+      func(*args, **kwargs)  # try to execute passing parameters
+    except TypeError:
+      func()  # execute without parameters (are opitional)
+
 def __deviceMoved(e):
   try:
-    deviceMoved(e)
-  except:
+    _bind_event_function(deviceMoved, e)
+  except NameError:
     pass
 
 def __deviceTurned(e):
   try:
-    deviceTurned(e)
-  except:
+    _bind_event_function(deviceTurned, e)
+  except NameError:
     pass
 
 def __deviceShaken(e):
   try:
-    deviceShaken(e)
-  except:
+    _bind_event_function(deviceShaken, e)
+  except NameError:
     pass
 
 def __touchEnded(e):
   try:
-    touchEnded(e)
-  except:
+    _bind_event_function(deviceShaken, e)
+  except NameError:
     pass
 
 def __touchStarted(e):
   try:
-    touchStarted(e)
-  except:
+    _bind_event_function(touchStarted, e)
+  except NameError:
     pass
 
 def __windowResized(e):
   try:
-    windowResized(e)
-  except:
+    _bind_event_function(windowResized, e)
+  except NameError:
     pass
 
 def __touchMoved(e):
   try:
-    touchMoved(e)
-  except:
+    _bind_event_function(touchMoved, e)
+  except NameError:
     pass
 
 def __mouseMoved(e):
   try:
-    mouseMoved(e)
-  except:
+    _bind_event_function(mouseMoved, e)
+  except NameError:
     pass
-
-def _bind_event_function(func, *args, **kwargs):
-    try:
-      func(*args, **kwargs)
-    except TypeError:
-      func()
 
 def __mouseDragged(e):
   try:
@@ -990,56 +991,56 @@ def __mouseDragged(e):
 
 def __mousePressed(e):
   try:
-    mousePressed(e)
-  except:
+    _bind_event_function(mousePressed, e)
+  except NameError:
     pass
 
 def __mouseReleased(e):
   try:
-    mouseReleased(e)
-  except:
+    _bind_event_function(mouseReleased, e)
+  except NameError:
     pass
 
 def __mouseClicked(e):
   try:
-    mouseClicked(e)
-  except:
+    _bind_event_function(mouseClicked, e)
+  except NameError:
     pass
 
 def __doubleClicked(e):
   try:
-    doubleClicked(e)
-  except:
+    _bind_event_function(doubleClicked, e)
+  except NameError:
     pass
 
 def __mouseWheel(e):
   try:
-    mouseWheel(e)
-  except:
+    _bind_event_function(mouseWheel, e)
+  except NameError:
     pass
 
 def __keyPressed(e):
   try:
-    keyPressed(e)
-  except:
+    _bind_event_function(keyPressed, e)
+  except NameError:
     pass
 
 def __keyReleased(e):
   try:
-    keyReleased(e)
-  except:
+    _bind_event_function(keyReleased, e)
+  except NameError:
     pass
 
 def __keyTyped(e):
   try:
-    keyTyped(e)
-  except:
+    _bind_event_function(keyTyped, e)
+  except NameError:
     pass
 
 def __keyIsDown(e):
   try:
-    keyIsDown(e)
-  except:
+    _bind_event_function(keyIsDown, e)
+  except NameError:
     pass
 
 def pop(*args):
@@ -1376,7 +1377,7 @@ class PVector:
         return self
 
 
-def pre_draw(p5_instance, draw_func):
+def pre_draw(p5_instance, draw_func, *args, **kwargs):
     """
     We need to run this before the actual draw to insert and update p5 env variables
     """
@@ -1552,28 +1553,7 @@ def pre_draw(p5_instance, draw_func):
     touches = p5_instance.touches
     pixels = p5_instance.pixels
 
-    p5_instance.mouseDragged = lambda e: __mouseDragged(e)
-
-    p5_instance.deviceMoved= lambda e: __deviceMoved(e)
-    p5_instance.deviceTurned= lambda e: __deviceTurned(e)
-    p5_instance.deviceShaken= lambda e: __deviceShaken(e)
-    p5_instance.touchStarted= lambda e: __touchStarted(e)
-    p5_instance.touchMoved= lambda e: __touchMoved(e)
-    p5_instance.touchEnded= lambda e: __touchEnded(e)
-    p5_instance.windowResized = lambda e: __windowResized (e)
-    p5_instance.mouseMoved = lambda e: __mouseMoved(e)
-    p5_instance.mouseDragged = lambda e: __mouseDragged(e)
-    p5_instance.mousePressed = lambda e: __mousePressed(e)
-    p5_instance.mouseReleased = lambda e: __mouseReleased(e)
-    p5_instance.mouseClicked = lambda e: __mouseClicked(e)
-    p5_instance.doubleClicked = lambda e: __doubleClicked(e)
-    p5_instance.mouseWheel = lambda e: __mouseWheel(e)
-    p5_instance.keyTyped = lambda e: __keyTyped(e)
-    p5_instance.keyPressed = lambda e: __keyPressed(e)
-    p5_instance.keyReleased = lambda e: __keyReleased(e)
-    p5_instance.keyIsDown = lambda e: __keyIsDown(e)  # TODO review this func
-
-    return draw_func()
+    return draw_func(*args, **kwargs)
 
 
 def global_p5_injection(p5_sketch):
@@ -1581,11 +1561,11 @@ def global_p5_injection(p5_sketch):
     Injects the p5js's skecth instance as a global variable to setup and draw functions
     """
 
-    def decorator(f):
-        def wrapper():
+    def decorator(f, *args, **kwargs):
+        def wrapper(*args, **kwargs):
             global _P5_INSTANCE
             _P5_INSTANCE = p5_sketch
-            return pre_draw(_P5_INSTANCE, f)
+            return pre_draw(_P5_INSTANCE, f, *args, **kwargs)
 
 
         return wrapper
@@ -1612,23 +1592,29 @@ def start_p5(setup_func, draw_func, event_functions):
         """
         p5_sketch.setup = global_p5_injection(p5_sketch)(setup_func)
         p5_sketch.draw = global_p5_injection(p5_sketch)(draw_func)
+        # Register event functions
+        p5_sketch.mouseDragged = lambda e: __mouseDragged(e)
+        p5_sketch.deviceMoved= lambda e: __deviceMoved(e)
+        p5_sketch.deviceTurned= lambda e: __deviceTurned(e)
+        p5_sketch.deviceShaken= lambda e: __deviceShaken(e)
+        p5_sketch.touchStarted= lambda e: __touchStarted(e)
+        p5_sketch.touchMoved= lambda e: __touchMoved(e)
+        p5_sketch.touchEnded= lambda e: __touchEnded(e)
+        p5_sketch.windowResized = lambda e: __windowResized (e)
+        p5_sketch.mouseMoved = lambda e: __mouseMoved(e)
+        p5_sketch.mouseDragged = lambda e: __mouseDragged(e)
+        p5_sketch.mousePressed = lambda e: __mousePressed(e)
+        p5_sketch.mouseReleased = lambda e: __mouseReleased(e)
+        p5_sketch.mouseClicked = lambda e: __mouseClicked(e)
+        p5_sketch.doubleClicked = lambda e: __doubleClicked(e)
+        p5_sketch.mouseWheel = lambda e: __mouseWheel(e)
+        p5_sketch.keyTyped = lambda e: __keyTyped(e)
+        p5_sketch.keyPressed = lambda e: __keyPressed(e)
+        p5_sketch.keyReleased = lambda e: __keyReleased(e)
+        p5_sketch.keyIsDown = lambda e: __keyIsDown(e)  # TODO review this func
 
 
     window.instance = p5.new(sketch_setup, 'sketch-holder')
-
-    # inject event functions into p5
-    event_function_names = (
-        "deviceMoved", "deviceTurned", "deviceShaken", "windowResized",
-        "keyPressed", "keyReleased", "keyTyped",
-        "mousePressed", "mouseReleased", "mouseClicked", "doubleClicked",
-        "mouseMoved", "mouseDragged", "mouseWheel",
-        "touchStarted", "touchMoved", "touchEnded"
-    )
-
-    for f_name in [f for f in event_function_names if event_functions.get(f, None)]:
-        func = event_functions[f_name]
-        event_func = global_p5_injection(instance)(func)
-        setattr(instance, f_name, event_func)
 `;
 
 let placeholder = `
