@@ -926,13 +926,115 @@ def createCanvas(*args):
 
     return canvas
 
-def __mouseDragged(e):
-    try:
-        mouseDragged(e)
-    except:
-        print('nao encontrou mouseDragged')
-        pass
+# Thanks to Luca Damasco for also helping us to
+# figure out how to bind events functions.
+def __deviceMoved(e):
+  try:
+    deviceMoved(e)
+  except:
+    pass
 
+def __deviceTurned(e):
+  try:
+    deviceTurned(e)
+  except:
+    pass
+
+def __deviceShaken(e):
+  try:
+    deviceShaken(e)
+  except:
+    pass
+
+def __touchEnded(e):
+  try:
+    touchEnded(e)
+  except:
+    pass
+
+def __touchStarted(e):
+  try:
+    touchStarted(e)
+  except:
+    pass
+
+def __windowResized(e):
+  try:
+    windowResized(e)
+  except:
+    pass
+
+def __touchMoved(e):
+  try:
+    touchMoved(e)
+  except:
+    pass
+
+def __mouseMoved(e):
+  try:
+    mouseMoved(e)
+  except:
+    pass
+
+def __mouseDragged(e):
+  try:
+    mouseDragged(e)
+  except:
+    pass
+
+def __mousePressed(e):
+  try:
+    mousePressed(e)
+  except:
+    pass
+
+def __mouseReleased(e):
+  try:
+    mouseReleased(e)
+  except:
+    pass
+
+def __mouseClicked(e):
+  try:
+    mouseClicked(e)
+  except:
+    pass
+
+def __doubleClicked(e):
+  try:
+    doubleClicked(e)
+  except:
+    pass
+
+def __mouseWheel(e):
+  try:
+    mouseWheel(e)
+  except:
+    pass
+
+def __keyPressed(e):
+  try:
+    keyPressed(e)
+  except:
+    pass
+
+def __keyReleased(e):
+  try:
+    keyReleased(e)
+  except:
+    pass
+
+def __keyTyped(e):
+  try:
+    keyTyped(e)
+  except:
+    pass
+
+def __keyIsDown(e):
+  try:
+    keyIsDown(e)
+  except:
+    pass
 
 def pop(*args):
     p5_pop = _P5_INSTANCE.pop(*args)
@@ -1445,6 +1547,25 @@ def pre_draw(p5_instance, draw_func):
     pixels = p5_instance.pixels
 
     p5_instance.mouseDragged = lambda e: __mouseDragged(e)
+
+    p5_instance.deviceMoved= lambda e: __deviceMoved(e)
+    p5_instance.deviceTurned= lambda e: __deviceTurned(e)
+    p5_instance.deviceShaken= lambda e: __deviceShaken(e)
+    p5_instance.touchStarted= lambda e: __touchStarted(e)
+    p5_instance.touchMoved= lambda e: __touchMoved(e)
+    p5_instance.touchEnded= lambda e: __touchEnded(e)
+    p5_instance.windowResized = lambda e: __windowResized (e)
+    p5_instance.mouseMoved = lambda e: __mouseMoved(e)
+    p5_instance.mouseDragged = lambda e: __mouseDragged(e)
+    p5_instance.mousePressed = lambda e: __mousePressed(e)
+    p5_instance.mouseReleased = lambda e: __mouseReleased(e)
+    p5_instance.mouseClicked = lambda e: __mouseClicked(e)
+    p5_instance.doubleClicked = lambda e: __doubleClicked(e)
+    p5_instance.mouseWheel = lambda e: __mouseWheel(e)
+    p5_instance.keyTyped = lambda e: __keyTyped(e)
+    p5_instance.keyPressed = lambda e: __keyPressed(e)
+    p5_instance.keyReleased = lambda e: __keyReleased(e)
+    p5_instance.keyIsDown = lambda e: __keyIsDown(e)  # TODO review this func
 
     return draw_func()
 
