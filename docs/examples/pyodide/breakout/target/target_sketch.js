@@ -1626,178 +1626,165 @@ def draw():
 `;
 
 let userCode = `
-# From Prof. Claudio Esperança examples for BrythonIDE
-# https://github.com/esperanc/brythonide/blob/master/demoSketches/boids.py
+# Inspired by Mats Lund:
+# https://github.com/CoderMats/breakout 
+# Completely rewritten
 
-boids = []
+WIDTH =  640    # canvas width
+HEIGHT = 480    # canvas height
+P_WIDTH =  50   # paddle halfwidth
+P_HEIGHT = 8    # paddle halfheight
+B_ROWS = 5      # bricks, number of rows
+B_COLS = 10     # bricks, number of columns
+B_MARGINS = 15  # margins for bricks (bottom, side)
+BALL_DIAM = 10  # diameter of ball
+FPS = 30        # frames per second
+
+# block width, height, total space
+b_width = (WIDTH - 2 * B_MARGINS) // B_COLS
+b_height = 40  
+b_gap = 15      # gap between blocks
+
+# constants, helper variables
+bw2 = b_width // 2 
+bh2 = b_height // 2
+dw = (b_width - b_gap) // 2
+dh = (b_height - b_gap) // 2
+r = BALL_DIAM // 2    # ball diameter
+y_paddle = HEIGHT - 30
+
+cell_colors = {1:"green" , 2:"blue" , 3:"red" , 4:"yellow"}
+
+game = None
 
 def setup():
-    createCanvas(720, 400)
-    # Add an initial set of boids into the system
-    for i in range(30):
-        boids.append (Boid(random(720), random(400)))
-    # frameRate(60)
-    
+    global game
+    createCanvas(WIDTH, HEIGHT, P2D)
+    rectMode(CENTER)
+    frameRate(FPS)
+    noCursor()
+    game = Game()
+            
 def draw():
-    background(51)
-    # Run all the boids
-    for boid in boids: 
-        boid.run(boids)
+    global game    
+    if (keyIsPressed and (key == ' ') or game.blocks_gone):
+        new_level = game.level + int(game.blocks_gone)
+        game = Game(level=new_level)                
+    game.update()        
+    
+class Ball(object):
+    def __init__(self,level=1):
+        # ball velocity
+        self.vel = PVector(3 + int(1.5 * level),-3 - int(1.5 * level))
+        xp = WIDTH // 2 + int(random(-P_WIDTH - 40,P_WIDTH + 40))
+        yp = y_paddle - P_HEIGHT // 2 - r - 1      
+        self.pos = PVector(xp,yp)                   # ball position
+
+    def update(self):    
+        self.pos = PVector.add(self.pos,self.vel)
+        if (self.pos.x >= WIDTH or self.pos.x <= 0):  
+            self.vel.x = -self.vel.x
+        if (self.pos.y <= 0):
+            self.vel.y = -self.vel.y
+
+class Game(object):
+    def __init__(self,level=1):
+        self.paddle = PVector(WIDTH // 2, HEIGHT - 30)
+        self.level = level
+        self.ball = Ball()
+        self.score = 0 
+        self.blocks = [int(random(1.5,4.5)) for k in  range(B_ROWS * B_COLS)]
+        self.game_over = False
+        self.blocks_gone = False
+
+        
+    def update_ball(self):
+        self.ball.update()
+        px, py = self.paddle.x, self.paddle.y
+        if ((px - P_WIDTH -r) <= self.ball.pos.x
+             <= (px + P_WIDTH + r) and 
+            (py - P_HEIGHT - r <= self.ball.pos.y 
+             <= py - P_HEIGHT)):
+            # ball is hitting paddle rectangle, reverse y_speed
+            self.ball.vel.y = -self.ball.vel.y
+            self.score = self.score + 1
+        fill(100,100,200)
+        ellipse(self.ball.pos.x, self.ball.pos.y, BALL_DIAM, BALL_DIAM)
+
+            
+    def update_paddle(self):
+        if keyIsPressed:
+            if (keyCode == RIGHT_ARROW) and (not self.game_over):  # Move right
+                self.paddle.x = min(self.paddle.x + 12, WIDTH - P_WIDTH) 
+            elif (keyCode == LEFT_ARROW) and (not self.game_over): # Move left
+                self.paddle.x = max(self.paddle.x - 12, P_WIDTH)
+
+        fill(0,255,0)
+        rect(self.paddle.x, self.paddle.y, 2 * P_WIDTH, 2* P_HEIGHT)
+        if (self.ball.pos.y >= HEIGHT):
+            fill(255) 
+            textSize(40)
+            textAlign(CENTER)
+            text("Game over", WIDTH // 2, HEIGHT // 2 + 40)
+            self.game_over = True 
+    
+    def update_texts(self):            
+        background(25)
+        noStroke()
+        # Set fill color to white
         fill(255)
+        # Display score
+        textSize(16)
+        textAlign(RIGHT)
+        text("Score", 80, HEIGHT - 6)
+        textAlign(LEFT)
+        text(self.score, 90, HEIGHT - 6)
+        # text("Frames: %.1f" %frameRate(), 130, HEIGHT - 6) 
+        # Display level
+        textAlign(RIGHT)
+        text("Level", WIDTH - 50, HEIGHT - 6)
+        textAlign(LEFT)
+        text(self.level, WIDTH - 40, HEIGHT - 6)
 
-    # Display score
-    textSize(16)
-    textAlign(LEFT)
-    text("Frames: %.1f" %frameRate(), 150, 390) 
+    def update_blocks(self):
+        self.blocks_gone = True
+        # Loop through all the potential blocks
+        for i in range(B_ROWS * B_COLS):
+        # Calculate the x, y position of block center
+            x_cent = (i % B_COLS) * b_width + B_MARGINS + bw2
+            y_cent= b_height * (i // B_COLS) + B_MARGINS + bh2
 
-# Boid class
-# Methods for Separation, Cohesion, Alignment added
-class Boid(object):
+            # Check if we have that block
+            if (self.blocks[i]):
+                # Draw the block
+                fill(cell_colors[self.blocks[i]])
+                rect(x_cent, y_cent, 2 * dw, 2 * dh)
+                self.blocks_gone = False
+                
+                bx, by = self.ball.pos.x, self.ball.pos.y     
+                # check bounce on top/bottom
+                if ((x_cent - dw - r < bx < x_cent + dw + r) and 
+                    ((y_cent + dh < by < y_cent + dh + r) or 
+                     (y_cent -dh - r < by < y_cent - dh))):
+                    self.blocks[i] = 0
+                    self.ball.vel.y = -self.ball.vel.y
+                    self.score = self.score + 5
 
-    def __init__(self, x, y):
-        self.acceleration = PVector(0, 0)
-        self.velocity = PVector.random2D()
-        self.position = PVector(x, y)
-        self.r = 3.0
-        self.maxspeed = 3    # Maximum speed
-        self.maxforce = 0.05 # Maximum steering force
+                # check bounce on left/right
+                if ((y_cent - dh - r < by < y_cent + dh + r) and 
+                    ((x_cent + dw < bx < x_cent + dw + r) or 
+                     (x_cent - dw -r < bx < x_cent - dw))):
+                    self.blocks[i] = 0
+                    self.ball.vel.x = -self.ball.vel.x
+                    self.score = self.score + 5
 
-    def run(self, boids):
-        self.flock(boids)
-        self.update()
-        self.borders()
-        self.render()
-
-    # Forces go into acceleration
-    def applyForce(self,force):
-        self.acceleration = self.acceleration + force
-
-    # We accumulate a new acceleration each time based on three rules
-    def flock(self, boids):
-        sep = self.separate(boids) # Separation
-        ali = self.align(boids)    # Alignment
-        coh = self.cohesion(boids) # Cohesion
-        # Arbitrarily weight these forces
-        sep = 2.5 * sep
-        ali = 1.0 * ali
-        coh = 1.0 * coh
-        # Add the force vectors to acceleration
-        self.applyForce(sep)
-        self.applyForce(ali)
-        self.applyForce(coh)
-
-    # Method to update location
     def update(self):
-        # Update velocity
-        self.velocity = self.velocity + self.acceleration
-        # Limit speed
-        self.velocity.limit(self.maxspeed)
-        self.position = self.position + self.velocity
-        # Reset acceleration to 0 each cycle
-        self.acceleration = 0 * self.acceleration
+        self.update_texts()
+        self.update_ball()
+        self.update_paddle()
+        self.update_blocks()    
 
-    # A method that calculates and applies a steering force towards a target
-    # STEER = DESIRED MINUS VELOCITY
-    def seek(self,target):
-        desired = target - self.position # A vector pointing from the location to the target
-        # Normalize desired and scale to maximum speed
-        desired.normalize()
-        desired = desired * self.maxspeed
-        # Steering = Desired minus Velocity
-        steer = desired - self.velocity
-        steer.limit(self.maxforce) # Limit to maximum steering force
-        return steer
-
-    # Draw boid as a circle
-    def render(self):
-        fill(127, 127)
-        stroke(200)
-        ellipse(self.position.x, self.position.y, 16, 16)
-
-    # Wraparound
-    def borders(self):
-        if (self.position.x < -self.r): 
-            self.position.x = width + self.r
-        if (self.position.y < -self.r): 
-            self.position.y = height + self.r
-        if (self.position.x > width + self.r): 
-            self.position.x = -self.r
-        if (self.position.y > height + self.r): 
-            self.position.y = -self.r
-
-
-    # Separation
-    # Method checks for nearby boids and steers away
-    def separate(self, boids):
-        desiredseparation = 25.0
-        steer = PVector(0, 0)
-        count = 0
-        # For every boid in the system, check if it's too close
-        for i in range(len(boids)):
-            d = PVector.dist(self.position, boids[i].position)
-            # If the distance is greater than 0 and less than an arbitrary amount (0 when you are yourself)
-            if (0 < d < desiredseparation) :
-                # Calculate vector pointing away from neighbor
-                diff = self.position - boids[i].position
-                diff.normalize()
-                diff = diff / d
-                steer = steer + diff
-                count += 1 # Keep track of how many
-        # Average -- divide by how many
-        if (count > 0):
-            steer = steer/count
-
-        # As long as the vector is greater than 0
-        if (steer.mag() > 0):
-            # Implement Reynolds: Steering = Desired - Velocity
-            steer.normalize()
-            steer = steer * self.maxspeed
-            steer = steer - self.velocity  
-            steer.limit(self.maxforce)
-
-        return steer
-
-
-    # Alignment
-    # For every nearby boid in the system, calculate the average velocity
-    def align(self, boids):
-        neighbordist = 50
-        summ = PVector(0, 0)
-        count = 0
-        for i in range(len(boids)):
-            d = PVector.dist(self.position, boids[i].position)
-            if (0 < d < neighbordist):
-                summ = summ + boids[i].velocity
-                count += 1
-
-        if (count > 0) :
-            summ = summ/count
-            summ.normalize()
-            summ = summ * self.maxspeed
-            steer = summ - self.velocity
-            steer.limit(self.maxforce)
-            return steer
-        else:
-            return PVector(0, 0)
-
-    # Cohesion
-    # For the average location (i.e. center) of all nearby boids, calculate steering vector towards that location
-    def cohesion(self, boids) :
-        neighbordist = 50
-        summ = PVector(0, 0) # Start with empty vector to accumulate all locations
-        count = 0
-        for i in range(len(boids)):
-            d = PVector.dist(self.position, boids[i].position)
-            if (0 < d < neighbordist) :
-                summ = summ + boids[i].position   # Add location
-                count += 1
-
-        if (count > 0) :
-            summ = summ / count
-            return self.seek(summ) # Steer towards the location
-        else:
-            return PVector(0, 0)
-
+                  
 `;
 
 function runCode() {
