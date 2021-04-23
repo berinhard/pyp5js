@@ -14,14 +14,12 @@ Python 3 drawing in the web 🐍 🐍 🐍  Try it [here](https://berinhard.gith
 ```python
 def setup():
     createCanvas(200, 200)
-    background(160)
-
 
 def draw():
-    fill("blue")
     background(200)
-    radius = sin(frameCount / 60) * 50 + 50
-    ellipse(100, 100, radius, radius)
+    diameter = sin(frameCount / 60) * 50 + 50
+    fill("blue")
+    ellipse(100, 100, diameter, diameter)
 ```
 <iframe src="/pyp5js/examples/sketch_000/" style="width: 200px; height: 200px; border: 0px"></iframe>
 
