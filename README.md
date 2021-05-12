@@ -13,13 +13,12 @@ Here's an example of a valid Python code using P5.js API:
 ```python
 def setup():
     createCanvas(200, 200)
-    background(160)
 
 def draw():
-    fill('blue')
     background(200)
-    r = sin(frameCount / 60) * 50 + 50
-    ellipse(100, 100, r, r)
+    diameter = sin(frameCount / 60) * 50 + 50
+    fill('blue')
+    ellipse(100, 100, diameter, diameter)
 ```
 
 ### [Documentation](https://berinhard.github.io/pyp5js)
