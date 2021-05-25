@@ -46,13 +46,14 @@ def draw():
     global game
     if game.blocks_gone:
         new_game()    
-    if not game.game_over:
-        game.paddle.x = min(WIDTH - P_WIDTH, max(mouseX, P_WIDTH))
+    if keyIsPressed:
+        if (keyCode == RIGHT_ARROW) and (not game.game_over):  # Move right
+            game.paddle.x = min(game.paddle.x + 12, WIDTH - P_WIDTH) 
+        elif (keyCode == LEFT_ARROW) and (not game.game_over): # Move left
+            game.paddle.x = max(game.paddle.x - 12, P_WIDTH)
+        elif (key == ' '):
+            new_game()
     game.update()        
-
-def keyPressed():
-    if key == " ":
-        new_game()
 
 class Ball(object):
     def __init__(self,level=1):
