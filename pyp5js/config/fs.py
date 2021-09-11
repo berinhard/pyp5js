@@ -40,6 +40,10 @@ class LibFiles():
     ##### TRANSCRYPT SPECIFICS
 
     @property
+    def transcrypt_conf_dir(self):
+        return self.templates_dir.joinpath('transcrypt')
+
+    @property
     def transcrypt_index_html(self):
         return self.templates_dir.joinpath('transcrypt', 'index.html')
 

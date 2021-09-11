@@ -1,4 +1,4 @@
-from pyp5js.python_functions import PythonFunctions
+from python_functions import PythonFunctions
 
 _P5_INSTANCE = None
 
