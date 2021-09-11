@@ -1,24 +1,23 @@
 ### Examples list
 
-- [sketch_001](https://github.com/berinhard/pyp5js/tree/develop/docs/examples/sketch_001): [**Angles and mouse coordinates**](sketch_001/index.html)
+- **Angles and mouse coordinates** - [transcrypt](sketch_001/index.html)
 
-- [sketch_002](https://github.com/berinhard/pyp5js/tree/develop/docs/examples/sketch_002): [**Move Eye**](sketch_002/index.html), an example by Simon Greenwold, ported by [@villares](https://github.com/villares)
+- **Move Eye**, an example by Simon Greenwold, ported by [@villares](https://github.com/villares) - [transcrypt](sketch_002/index.html)
 
-- [sketch_004](https://github.com/berinhard/pyp5js/tree/develop/docs/examples/sketch_004): [**Rotating 3D box**](sketch_003/index.html)
+- **Rotating 3D box** - [transcrypt](sketch_003/index.html)
 
-- [sketch_004](https://github.com/berinhard/pyp5js/tree/develop/docs/examples/sketch_004): [**Boids**](sketch_004/index.html)
-, from [@esperanc](https://github.com/esperanc) [BrythonIDE examples](https://github.com/esperanc/brythonide/blob/master/demoSketches/boids.py)
+- **Boids** - [transcrypt](sketch_004/index.html)
 
-- [sketch_005](https://github.com/berinhard/pyp5js/tree/develop/docs/examples/sketch_005): [**Globals variables (HSB and CENTER)**](sketch_005/index.html)
+- **Globals variables (HSB and CENTER)** - [transcrypt](sketch_005/index.html)
 
-- [sketch_006](https://github.com/berinhard/pyp5js/tree/develop/docs/examples/sketch_006): [**Registering event functions such as keyPressed**](sketch_006/index.html)
+- **Registering event functions such as keyPressed** - ["transcrypt"](sketch_006/index.html)
 
-- [sketch_007](https://github.com/berinhard/pyp5js/tree/develop/docs/examples/sketch_007): [**p5.Vector static methods**](sketch_007/index.html)
+- **p5.Vector static methods** - [transcrypt](sketch_007/index.html)
 
-- [sketch_008](https://github.com/berinhard/pyp5js/tree/develop/docs/examples/sketch_008): [**p5.dom.js usage**](sketch_008/index.html)
+- **p5.dom.js usage** - [transcrypt](sketch_008/index.html)
 
-- [sketch_009](https://github.com/berinhard/pyp5js/tree/develop/docs/examples/sketch_009): [**Working with images**](sketch_009/index.html)
+- **Working with images** - [transcrypt](sketch_009/index.html)
 
-- [sketch_010](https://github.com/berinhard/pyp5js/tree/develop/docs/examples/sketch_010): [**Complex shapes**](sketch_010/index.html) by [Pedro Queiroga](https://github.com/pedroqueiroga/pqueiroga.github.io/blob/master/curveVertexExample/main.js)
+- **Complex shapes** by [Pedro Queiroga](https://github.com/pedroqueiroga/pqueiroga.github.io/blob/master/curveVertexExample/main.js) - [transcrypt](sketch_010/index.html)
 
-- [sketch_011](https://github.com/berinhard/pyp5js/tree/develop/docs/examples/sketch_011): [**PVector**](sketch_011/index.html) processing-like implementation by [Alexandre Villares](sketch_011/index.html)
+- **PVector**, processing-like implementation by [pyodide](pyodide/sketch_011/index.html)
