@@ -21,6 +21,18 @@ def draw():
     ellipse(100, 100, diameter, diameter)
 ```
 
+## Project setup
+
+```
+$ git clone git@github.com:YOUR_GITHUB_PROFILE/pyp5js.git
+$ cd pyp5js
+$ pip install -r dev-requirements.txt
+$ python setup.py develop
+$ make test
+```
+
+## More references
+
 ### [Documentation](https://berinhard.github.io/pyp5js)
 
 ### [Examples](https://berinhard.github.io/pyp5js/examples/)
