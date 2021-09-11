@@ -27,7 +27,7 @@ class LibFiles():
 
     @property
     def pytop5js(self):
-        return self.install.joinpath('pyp5js.py')
+        return self.transcrypt_conf_dir.joinpath('pyp5js.py')
 
     @property
     def p5js(self):
@@ -38,6 +38,10 @@ class LibFiles():
         return self.assets_dir.joinpath('p5_reference.yml')
 
     ##### TRANSCRYPT SPECIFICS
+
+    @property
+    def transcrypt_conf_dir(self):
+        return self.templates_dir.joinpath('transcrypt')
 
     @property
     def transcrypt_index_html(self):

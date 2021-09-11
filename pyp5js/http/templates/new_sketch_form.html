@@ -11,11 +11,20 @@
       {% if error %}
       <p class="regular red">{{error}}</p>
       {% endif %}
-      <div class="flex flex-wrap items-center clearfix">
+      <div class="flex flex-column clearfix">
+        <div class="flex flex-center">
           <label class="label mr1 mb1" for="sketch_name">Sketch name</label>
           <input class="input rounded border p1 mr1 mb1 sm-col-3" type="text" name="sketch_name">
-          <input class="btn rounded border-none py1 px2 mb1" type="submit" value="Create">
+        </div>
+        <div class="flex flex-center">
+          <label class="label mr1 mb1" for="sketch_name">Interpreter</label>
+          <select class="input rounded border p1 mr1 mb1 sm-col-3" name="interpreter">
+            <option value="{{ pyodide_interpreter }}" selected>Pyodide</option>
+            <option value="{{ transcrypt_interpreter }}">Transcrypt</option>
+          </select>
+        </div>
       </div>
+      <input class="btn btn-primary rounded border-none py1 px2 mb1" type="submit" value="Create">
   </form>
 </div>
 {% endblock content %}

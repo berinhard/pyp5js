@@ -42,7 +42,7 @@ class TranscryptCompilerTests(TestCase):
             '__target__') == self.compiler.target_dir
 
     def test_command_line_string(self):
-        pyp5_dir = PYP5JS_FILES.install
+        pyp5_dir = PYP5JS_FILES.transcrypt_conf_dir
         target = self.sketch.target_sketch
 
         expected = ' '.join([str(c) for c in [
