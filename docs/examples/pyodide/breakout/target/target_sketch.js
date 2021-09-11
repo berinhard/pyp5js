@@ -1631,7 +1631,7 @@ let userCode = `
 # Completely rewritten
 
 WIDTH =  640    # canvas width
-HEIGHT = 480    # canvas height
+HEIGHT = 400    # canvas height
 P_WIDTH =  50   # paddle halfwidth
 P_HEIGHT = 8    # paddle halfheight
 B_ROWS = 5      # bricks, number of rows
@@ -1664,14 +1664,24 @@ def setup():
     frameRate(FPS)
     noCursor()
     game = Game()
-            
+
+def new_game():
+    global game
+    new_level = game.level + int(game.blocks_gone)
+    game = Game(level=new_level)
+        
 def draw():
-    global game    
-    if (keyIsPressed and (key == ' ') or game.blocks_gone):
-        new_level = game.level + int(game.blocks_gone)
-        game = Game(level=new_level)                
+    global game
+    if game.blocks_gone:
+        new_game()    
+    if not game.game_over:
+        game.paddle.x = min(WIDTH - P_WIDTH, max(mouseX, P_WIDTH))
     game.update()        
-    
+
+def keyPressed():
+    if key == " ":
+        new_game()
+
 class Ball(object):
     def __init__(self,level=1):
         # ball velocity
@@ -1696,8 +1706,11 @@ class Game(object):
         self.blocks = [int(random(1.5,4.5)) for k in  range(B_ROWS * B_COLS)]
         self.game_over = False
         self.blocks_gone = False
+        # x, y positions of block centers
+        self.centers = [((i % B_COLS) * b_width + B_MARGINS + bw2,
+                         b_height * (i // B_COLS) + B_MARGINS + bh2) 
+                         for i in range(B_ROWS * B_COLS)]
 
-        
     def update_ball(self):
         self.ball.update()
         px, py = self.paddle.x, self.paddle.y
@@ -1713,12 +1726,6 @@ class Game(object):
 
             
     def update_paddle(self):
-        if keyIsPressed:
-            if (keyCode == RIGHT_ARROW) and (not self.game_over):  # Move right
-                self.paddle.x = min(self.paddle.x + 12, WIDTH - P_WIDTH) 
-            elif (keyCode == LEFT_ARROW) and (not self.game_over): # Move left
-                self.paddle.x = max(self.paddle.x - 12, P_WIDTH)
-
         fill(0,255,0)
         rect(self.paddle.x, self.paddle.y, 2 * P_WIDTH, 2* P_HEIGHT)
         if (self.ball.pos.y >= HEIGHT):
@@ -1749,41 +1756,50 @@ class Game(object):
     def update_blocks(self):
         self.blocks_gone = True
         # Loop through all the potential blocks
-        for i in range(B_ROWS * B_COLS):
-        # Calculate the x, y position of block center
-            x_cent = (i % B_COLS) * b_width + B_MARGINS + bw2
-            y_cent= b_height * (i // B_COLS) + B_MARGINS + bh2
+        collide = False
 
+        for i in range(B_ROWS * B_COLS):
             # Check if we have that block
             if (self.blocks[i]):
-                # Draw the block
-                fill(cell_colors[self.blocks[i]])
-                rect(x_cent, y_cent, 2 * dw, 2 * dh)
+                x_cent, y_cent = self.centers[i]
                 self.blocks_gone = False
-                
-                bx, by = self.ball.pos.x, self.ball.pos.y     
-                # check bounce on top/bottom
-                if ((x_cent - dw - r < bx < x_cent + dw + r) and 
-                    ((y_cent + dh < by < y_cent + dh + r) or 
-                     (y_cent -dh - r < by < y_cent - dh))):
-                    self.blocks[i] = 0
-                    self.ball.vel.y = -self.ball.vel.y
-                    self.score = self.score + 5
-
-                # check bounce on left/right
-                if ((y_cent - dh - r < by < y_cent + dh + r) and 
-                    ((x_cent + dw < bx < x_cent + dw + r) or 
-                     (x_cent - dw -r < bx < x_cent - dw))):
-                    self.blocks[i] = 0
-                    self.ball.vel.x = -self.ball.vel.x
-                    self.score = self.score + 5
-
+                    
+                if not collide:
+                    bx, by = self.ball.pos.x, self.ball.pos.y     
+                    # check bounce on top/bottom
+                    if ((x_cent - dw - r < bx < x_cent + dw + r) and 
+                        ((y_cent + dh < by < y_cent + dh + r) or 
+                        (y_cent -dh - r < by < y_cent - dh))):
+                        self.blocks[i] = 0
+                        self.ball.vel.y = -self.ball.vel.y
+                        self.score = self.score + 5
+                        collide = True
+                     
+                    # check bounce on left/right
+                    if ((y_cent - dh - r < by < y_cent + dh + r) and 
+                        ((x_cent + dw < bx < x_cent + dw + r) or 
+                        (x_cent - dw -r < bx < x_cent - dw))):
+                        self.blocks[i] = 0
+                        self.ball.vel.x = -self.ball.vel.x
+                        self.score = self.score + 5
+                        collide = True
+            if collide:
+                break
+                    
+    def draw_blocks(self):
+        for i in range(B_ROWS * B_COLS):
+            if (self.blocks[i]):
+                fill(cell_colors[self.blocks[i]])
+                x_cent, y_cent = self.centers[i]
+                rect(x_cent, y_cent, 2 * dw, 2 * dh)
+                        
     def update(self):
         self.update_texts()
         self.update_ball()
         self.update_paddle()
         self.update_blocks()    
-
+        self.draw_blocks()
+        
                   
 `;
 
@@ -1803,17 +1819,22 @@ function runCode() {
     pyodide.runPython(code);
 }
 
-languagePluginLoader.then(() => {
-    pyodide.runPython(`
-      import io, code, sys
-      from js import pyodide, p5, window, document
-      print(sys.version)
-    `)
 
-    window.runSketchCode = (code) => {
+async function main() {
+    await loadPyodide({ indexURL : "https://pyodide-cdn2.iodide.io/v0.17.0/full/" });
+    // await pyodide.loadPackage('numpy');
+    // Pyodide is now ready to use...
+    console.log(pyodide.runPython(`
+        import io, code, sys
+        from js import pyodide, p5, window, document
+        print(sys.version)
+  `));
+   window.runSketchCode = (code) => {
       userCode = code;
       runCode();
     }
 
     runCode();
-});
+};
+
+main();
