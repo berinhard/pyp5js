@@ -22,7 +22,7 @@ def test_files_properties(lib_files):
     assert pyp5_dir.exists()
 
     ##### GENERAL PURPOSE
-    assert lib_files.pytop5js == pyp5_dir.joinpath('pyp5js.py')
+    assert lib_files.pytop5js == pyp5_dir.joinpath('templates', 'transcrypt', 'pyp5js.py')
     assert lib_files.pytop5js.exists()
 
     assert lib_files.p5js == pyp5_dir.joinpath('assets', 'static', 'p5', 'p5.min.js')

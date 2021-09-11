@@ -27,7 +27,7 @@ class LibFiles():
 
     @property
     def pytop5js(self):
-        return self.install.joinpath('pyp5js.py')
+        return self.transcrypt_conf_dir.joinpath('pyp5js.py')
 
     @property
     def p5js(self):
