@@ -72,7 +72,6 @@
         });
 
         editor.session.on('change', function(){
-          console.log('code update');
           document.getElementById("id_py_code").innerHTML = editor.getSession().getValue();
         });
     </script>
