@@ -48,6 +48,12 @@ class Sketch:
         return self.sketch_py.exists()
 
     @property
+    def sketch_content(self):
+        with self.sketch_py.open() as fd:
+            return fd.read()
+
+
+    @property
     def has_all_files(self):
         return all([
             self.sketch_exists,
