@@ -14,12 +14,13 @@ from pyp5js.templates_renderers import get_sketch_index_content
 from pyp5js.config import PYODIDE_INTERPRETER
 
 
-def new_sketch(sketch_name, interpreter=PYODIDE_INTERPRETER):
+def new_sketch(sketch_name, interpreter=PYODIDE_INTERPRETER, template_file=None):
     """
     Creates a new sketch with the required assets and a index.html file, based on pyp5js's templates
 
     :param sketch_name: name for new sketch
     :param interpreter: interpreter to use (transcrypt or pyodide)
+    :param template_file: use a custom template for index.html instead of default one
     :type sketch_name: string
     :return: file names
     :rtype: list of strings
@@ -34,7 +35,7 @@ def new_sketch(sketch_name, interpreter=PYODIDE_INTERPRETER):
     for src, dest in templates_files:
         shutil.copyfile(src, dest)
 
-    index_contet = get_sketch_index_content(sketch)
+    index_contet = get_sketch_index_content(sketch, template_file=template_file)
     with open(sketch.index_html, "w") as fd:
         fd.write(index_contet)
 

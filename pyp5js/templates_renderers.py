@@ -12,16 +12,18 @@ def _template_from_file(filename, context):
     return template.render(context)
 
 
-def get_sketch_index_content(sketch):
+def get_sketch_index_content(sketch, template_file=None):
     """
-    Renders SKETCH_NAME/index.html to display the sketch visualization
+    Renders SKETCH_NAME/index.html to display the sketch visualization.
+    template can be a pathlib.Path object with a specified custom template path
     """
     context = {
         "sketch_name": sketch.sketch_name,
         "p5_js_url": sketch.urls.p5_js_url,
         "sketch_js_url":  sketch.urls.sketch_js_url,
+        "sketch_content": sketch.sketch_content,
     }
-    template_file = sketch.config.get_index_template()
+    template_file = template_file or sketch.config.get_index_template()
     return _template_from_file(template_file, context)
 
 
