@@ -14,17 +14,18 @@ from pyp5js.templates_renderers import get_sketch_index_content
 from pyp5js.config import PYODIDE_INTERPRETER
 
 
-def new_sketch(sketch_name, interpreter=PYODIDE_INTERPRETER):
+def new_sketch(sketch_name, interpreter=PYODIDE_INTERPRETER, template_file=""):
     """
     Creates a new sketch with the required assets and a index.html file, based on pyp5js's templates
 
     :param sketch_name: name for new sketch
     :param interpreter: interpreter to use (transcrypt or pyodide)
+    :param template_file: use a custom template for index.html instead of default one
     :type sketch_name: string
     :return: file names
     :rtype: list of strings
     """
-    sketch = Sketch(sketch_name, interpreter=interpreter)
+    sketch = Sketch(sketch_name, interpreter=interpreter, index_template=template_file)
     sketch.create_sketch_dir()
 
     templates_files = [
@@ -41,11 +42,12 @@ def new_sketch(sketch_name, interpreter=PYODIDE_INTERPRETER):
     return sketch
 
 
-def compile_sketch(sketch_name):
+def compile_sketch(sketch_name, generate_index=False):
     """
     Transcrypt the sketch python code to javascript.
 
     :param sketch_name: name for new sketch
+    :param generate_index: boolean to flag if the index.html file should be updated
     :type sketch_name: string
     :return: file names
     :rtype: list of strings
@@ -58,6 +60,12 @@ def compile_sketch(sketch_name):
         raise PythonSketchDoesNotExist(sketch)
 
     compile_sketch_js(sketch)
+    if generate_index:
+        index_contet = get_sketch_index_content(sketch)
+        with open(sketch.index_html, "w") as fd:
+            fd.write(index_contet)
+        cprint.info(f"{sketch.index_html.resolve()} updated")
+
     return sketch
 
 

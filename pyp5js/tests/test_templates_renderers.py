@@ -1,8 +1,11 @@
+from jinja2 import Environment, FileSystemLoader
+
 from pyp5js import templates_renderers as renderers
 from pyp5js.sketch import Sketch
 from pyp5js.config.fs import PYP5JS_FILES
 
 from .fixtures import sketch
+
 
 def test_get_sketch_index_content(sketch):
     expected_template = renderers.templates.get_template('transcrypt/index.html')
