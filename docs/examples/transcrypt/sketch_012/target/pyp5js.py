@@ -1,10 +1,4 @@
-let wrapper_content = `
-class PythonFunctions: pass
-
-setattr(PythonFunctions, 'map', map)
-setattr(PythonFunctions, 'filter', filter)
-setattr(PythonFunctions, 'set', set)
-
+from python_functions import PythonFunctions
 
 _P5_INSTANCE = None
 
@@ -132,6 +126,7 @@ windowWidth = None
 windowHeight = None
 width = None
 height = None
+disableFriendlyErrors = None
 deviceOrientation = None
 accelerationX = None
 accelerationY = None
@@ -197,7 +192,9 @@ def background(*args):
     return _P5_INSTANCE.background(*args)
 
 def clear(*args):
+    __pragma__('noalias', 'clear')
     p5_clear = _P5_INSTANCE.clear(*args)
+    __pragma__('alias', 'clear', 'py_clear')
     return p5_clear
 
 def erase(*args):
@@ -377,6 +374,12 @@ def getURLParams(*args):
 def preload(*args):
     return _P5_INSTANCE.preload(*args)
 
+def setup(*args):
+    return _P5_INSTANCE.setup(*args)
+
+def draw(*args):
+    return _P5_INSTANCE.draw(*args)
+
 def remove(*args):
     return _P5_INSTANCE.remove(*args)
 
@@ -545,8 +548,32 @@ def saveCanvas(*args):
 def saveFrames(*args):
     return _P5_INSTANCE.saveFrames(*args)
 
+
+def image_proxy(img):
+    """
+    Proxy to turn of transcypt when calling img.get/set methods
+    """
+
+    def _set(*args):
+        __pragma__('noalias', 'set')
+        value = img.set(*args)
+        __pragma__('alias', 'set', 'py_set')
+        return value
+
+    def _get(*args):
+        __pragma__('noalias', 'get')
+        value = img.get(*args)
+        __pragma__('alias', 'get', 'py_get')
+        return value
+
+    img.set = _set
+    img.get = _get
+    return img
+
+
 def loadImage(*args):
-    return _P5_INSTANCE.loadImage(*args)
+    imageObj = _P5_INSTANCE.loadImage(*args)
+    return image_proxy(imageObj)
 
 def image(*args):
     return _P5_INSTANCE.image(*args)
@@ -573,7 +600,10 @@ def filter(*args):
         return _P5_INSTANCE.filter(*args)
 
 def get(*args):
-    return _P5_INSTANCE.get(*args)
+    __pragma__('noalias', 'get')
+    p5_get = _P5_INSTANCE.get(*args)
+    __pragma__('alias', 'get', 'py_get')
+    return p5_get
 
 def loadPixels(*args):
     return _P5_INSTANCE.loadPixels(*args)
@@ -682,6 +712,7 @@ def map(*args):
         return PythonFunctions.map(*args)
     else:
         return _P5_INSTANCE.map(*args)
+
 
 def max(*args):
     return _P5_INSTANCE.max(*args)
@@ -928,7 +959,9 @@ def createCanvas(*args):
 
 
 def pop(*args):
+    __pragma__('noalias', 'pop')
     p5_pop = _P5_INSTANCE.pop(*args)
+    __pragma__('alias', 'pop', 'py_pop')
     return p5_pop
 
 
@@ -939,327 +972,24 @@ popStyle = pop
 pushMatrix = push
 pushStyle = push
 
-# PVector is a wrapper/helper class for p5.Vector objets
-# providing names similar to Processing Python or Java modes
-# but mostly keeping p5js functionality
-
-from numbers import Number
-
-class PVector:
-
-    def __init__(self, x=0, y=0, z=0):
-        self.__vector = createVector(x, y, z)
-        self.add = self.__instance_add__
-        self.sub = self.__instance_sub__
-        self.mult = self.__instance_mult__
-        self.div = self.__instance_div__
-        self.cross = self.__instance_cross__
-        self.dist = self.__instance_dist__
-        self.dot = self.__instance_dot__
-        self.lerp = self.__instance_lerp__
-
-    @property
-    def x(self):
-        return self.__vector.x
-
-    @x.setter
-    def x(self, x):
-        self.__vector.x = x
-
-    @property
-    def y(self):
-        return self.__vector.y
-
-    @y.setter
-    def y(self, y):
-        self.__vector.y = y
-
-    @property
-    def z(self):
-        return self.__vector.z
-
-    @z.setter
-    def z(self, z):
-        self.__vector.z = z
-
-    def mag(self):
-        return self.__vector.mag()
-
-    def magSq(self):
-        return self.__vector.magSq()
-
-    def setMag(self, mag):
-        self.__vector.setMag(mag)
-        return self
-
-    def normalize(self):
-        self.__vector.normalize()
-        return self
-
-    def limit(self, max):
-        self.__vector.limit(max)
-        return self
-
-    def heading(self):
-        return self.__vector.heading()
-
-    def rotate(self, angle):
-        self.__vector.rotate(angle)
-        return self
-
-    def __instance_add__(self, *args):
-        if len(args) == 1:
-            return PVector.add(self, args[0], self)
-        else:
-            return PVector.add(self, PVector(*args), self)
-
-    def __instance_sub__(self, *args):
-        if len(args) == 1:
-            return PVector.sub(self, args[0], self)
-        else:
-            return PVector.sub(self, PVector(*args), self)
-
-    def __instance_mult__(self, o):
-        return PVector.mult(self, o, self)
-
-    def __instance_div__(self, f):
-        return PVector.div(self, f, self)
-
-    def __instance_cross__(self, o):
-        return PVector.cross(self, o, self)
-
-    def __instance_dist__(self, o):
-        return PVector.dist(self, o)
-
-    def __instance_dot__(self, *args):
-        if len(args) == 1:
-            v = args[0]
-        else:
-            v = args
-        return self.x * v[0] + self.y * v[1] + self.z * v[2]
-
-    def __instance_lerp__(self, *args):
-        if len(args) == 2:
-            return PVector.lerp(self, args[0], args[1], self)
-        else:
-            vx, vy, vz, f = args
-            return PVector.lerp(self, PVector(vx, vy, vz), f, self)
-
-    def get(self):
-        return PVector(self.x, self.y, self.z)
-
-    def copy(self):
-        return PVector(self.x, self.y, self.z)
-
-    def __getitem__(self, k):
-        return getattr(self, ('x', 'y', 'z')[k])
-
-    def __setitem__(self, k, v):
-        setattr(self, ('x', 'y', 'z')[k], v)
-
-    def __copy__(self):
-        return PVector(self.x, self.y, self.z)
-
-    def __deepcopy__(self, memo):
-        return PVector(self.x, self.y, self.z)
-
-    def __repr__(self):  # PROVISÓRIO
-        return f'PVector({self.x}, {self.y}, {self.z})'
-
-    def set(self, *args):
-        """
-        Sets the x, y, and z component of the vector using two or three separate
-        variables, the data from a p5.Vector, or the values from a float array.
-        """
-        self.__vector.set(*args)
-
-    @classmethod
-    def add(cls, a, b, dest=None):
-        if dest is None:
-            return PVector(a.x + b[0], a.y + b[1], a.z + b[2])
-        dest.__vector.set(a.x + b[0], a.y + b[1], a.z + b[2])
-        return dest
-
-    @classmethod
-    def sub(cls, a, b, dest=None):
-        if dest is None:
-            return PVector(a.x - b[0], a.y - b[1], a.z - b[2])
-        dest.__vector.set(a.x - b[0], a.y - b[1], a.z - b[2])
-        return dest
-
-    @classmethod
-    def mult(cls, a, b, dest=None):
-        if dest is None:
-            return PVector(a.x * b, a.y * b, a.z * b)
-        dest.__vector.set(a.x * b, a.y * b, a.z * b)
-        return dest
-
-    @classmethod
-    def div(cls, a, b, dest=None):
-        if dest is None:
-            return PVector(a.x / b, a.y / b, a.z / b)
-        dest.__vector.set(a.x / b, a.y / b, a.z / b)
-        return dest
-
-    @classmethod
-    def dist(cls, a, b):
-        return a.__vector.dist(b.__vector)
-
-    @classmethod
-    def dot(cls, a, b):
-        return a.__vector.dot(b.__vector)
-
-    def __add__(a, b):
-        return PVector.add(a, b, None)
-
-    def __sub__(a, b):
-        return PVector.sub(a, b, None)
-
-    def __isub__(a, b):
-        a.sub(b)
-        return a
-
-    def __iadd__(a, b):
-        a.add(b)
-        return a
-
-    def __mul__(a, b):
-        if not isinstance(b, Number):
-            raise TypeError(
-                "The * operator can only be used to multiply a PVector by a number")
-        return PVector.mult(a, float(b), None)
-
-    def __rmul__(a, b):
-        if not isinstance(b, Number):
-            raise TypeError(
-                "The * operator can only be used to multiply a PVector by a number")
-        return PVector.mult(a, float(b), None)
-
-    def __imul__(a, b):
-        if not isinstance(b, Number):
-            raise TypeError(
-                "The *= operator can only be used to multiply a PVector by a number")
-        a.__vector.mult(float(b))
-        return a
-
-    def __truediv__(a, b):
-        if not isinstance(b, Number):
-            raise TypeError(
-                "The * operator can only be used to multiply a PVector by a number")
-        return PVector(a.x / float(b), a.y / float(b), a.z / float(b))
-
-    def __itruediv__(a, b):
-        if not isinstance(b, Number):
-            raise TypeError(
-                "The /= operator can only be used to multiply a PVector by a number")
-        a.__vector.set(a.x / float(b), a.y / float(b), a.z / float(b))
-        return a
-
-    def __eq__(a, b):
-        return a.x == b[0] and a.y == b[1] and a.z == b[2]
-
-    def __lt__(a, b):
-        return a.magSq() < b.magSq()
-
-    def __le__(a, b):
-        return a.magSq() <= b.magSq()
-
-    def __gt__(a, b):
-        return a.magSq() > b.magSq()
-
-    def __ge__(a, b):
-        return a.magSq() >= b.magSq()
-
-    # Problematic class methods, we would rather use p5.Vector when possible...
-
-    @classmethod
-    def lerp(cls, a, b, f, dest=None):
-        v = createVector(a.x, a.y, a.z)
-        v.lerp(b.__vector, f)
-        if dest is None:
-            return PVector(v.x, v.y, v.z)
-        dest.set(v.x, v.y, v.z)
-        return dest
-
-    @classmethod
-    def cross(cls, a, b, dest=None):
-        x = a.y * b[2] - b[1] * a.z
-        y = a.z * b[0] - b[2] * a.x
-        z = a.x * b[1] - b[0] * a.y
-        if dest is None:
-            return PVector(x, y, z)
-        dest.set(x, y, z)
-        return dest
-
-    @classmethod
-    def fromAngle(cls, angle, length=1):
-        # https://github.com/processing/p5.js/blob/3f0b2f0fe575dc81c724474154f5b23a517b7233/src/math/p5.Vector.js
-        return PVector(length * cos(angle), length * sin(angle), 0)
-
-    @classmethod
-    def fromAngles(theta, phi, length=1):
-        # https://github.com/processing/p5.js/blob/3f0b2f0fe575dc81c724474154f5b23a517b7233/src/math/p5.Vector.js
-        cosPhi = cos(phi)
-        sinPhi = sin(phi)
-        cosTheta = cos(theta)
-        sinTheta = sin(theta)
-        return PVector(length * sinTheta * sinPhi,
-                       -length * cosTheta,
-                       length * sinTheta * cosPhi)
-
-    @classmethod
-    def random2D(cls):
-        return PVector.fromAngle(random(TWO_PI))
-
-    @classmethod
-    def random3D(cls, dest=None):
-        angle = random(TWO_PI)
-        vz = random(2) - 1
-        mult = sqrt(1 - vz * vz)
-        vx = mult * cos(angle)
-        vy = mult * sin(angle)
-        if dest is None:
-            return PVector(vx, vy, vz)
-        dest.set(vx, vy, vz)
-        return dest
-
-    @classmethod
-    def angleBetween(cls, a, b):
-        return acos(a.dot(b) / sqrt(a.magSq() * b.magSq()))
-
-    # Other harmless p5js methods
-
-    def equals(self, v):
-        return self == v
-
-    def heading2D(self):
-        return self.__vector.heading()
-
-    def reflect(self, *args):
-        # Reflect the incoming vector about a normal to a line in 2D, or about
-        # a normal to a plane in 3D This method acts on the vector directly
-        r = self.__vector.reflect(*args)
-        return r
-
-    def array(self):
-        # Return a representation of this vector as a float array. This is only
-        # for temporary use. If used in any w fashion, the contents should be
-        # copied by using the p5.Vector.copy() method to copy into your own
-        # array.
-        return self.__vector.array()
-
-    def toString(self):
-        # Returns a string representation of a vector v by calling String(v) or v.toString().
-        # return self.__vector.toString() would be something like "p5.vector
-        # Object […, …, …]"
-        return str(self)
-
-    def rem(self, *args):
-        # Gives remainder of a vector when it is divided by anw vector. See
-        # examples for more context.
-        self.__vector.rem(*args)
-        return self
-
+# PVector is a helper/alias to create p5.Vector objects
+def PVector(x=0, y=0, z=0):
+    return _P5_INSTANCE.createVector(x, y, z)
+# aliases  for p5.Vector class methods
+setattr(PVector, 'dist', p5.Vector.dist)
+setattr(PVector, 'add', p5.Vector.add)
+setattr(PVector, 'sub', p5.Vector.sub)
+setattr(PVector, 'mult', p5.Vector.mult)
+setattr(PVector, 'div', p5.Vector.div)
+setattr(PVector, 'dot', p5.Vector.dot)
+setattr(PVector, 'cross', p5.Vector.cross)
+setattr(PVector, 'lerp', p5.Vector.lerp)
+setattr(PVector, 'random2D', p5.Vector.random2D)
+setattr(PVector, 'random3D', p5.Vector.random3D)
+setattr(PVector, 'angleBetween', p5.Vector.angleBetween)
+setattr(PVector, 'fromAngle', p5.Vector.fromAngle)
+setattr(PVector, 'fromAngles', p5.Vector.fromAngles)
+setattr(PVector, 'equals', p5.Vector.equals)
 
 def pre_draw(p5_instance, draw_func):
     """
@@ -1272,13 +1002,13 @@ def pre_draw(p5_instance, draw_func):
     global DEG_TO_RAD, DEGREES, DELETE, DIFFERENCE, DILATE, DODGE, DOWN_ARROW, ENTER, ERODE, ESCAPE, EXCLUSION
     global FILL, GRAY, GRID, HALF_PI, HAND, HARD_LIGHT, HSB, HSL, IMAGE, IMMEDIATE, INVERT, ITALIC, LANDSCAPE
     global LEFT, LEFT_ARROW, LIGHTEST, LINE_LOOP, LINE_STRIP, LINEAR, LINES, MIRROR, MITER, MOVE, MULTIPLY, NEAREST
-    global NORMAL, OPAQUE, OPEN, OPTION, OVERLAY, P2D, P3D, PI, PIE, POINTS, PORTRAIT, POSTERIZE, PROJECT, QUAD_STRIP
-    global QUADRATIC, QUADS, QUARTER_PI, RAD_TO_DEG, RADIANS, RADIUS, REPEAT, REPLACE, RETURN, RGB, RIGHT, RIGHT_ARROW
+    global NORMAL, OPAQUE, OPEN, OPTION, OVERLAY, P2D, PI, PIE, POINTS, PORTRAIT, POSTERIZE, PROJECT, QUAD_STRIP, QUADRATIC
+    global QUADS, QUARTER_PI, RAD_TO_DEG, RADIANS, RADIUS, REPEAT, REPLACE, RETURN, RGB, RIGHT, RIGHT_ARROW
     global ROUND, SCREEN, SHIFT, SOFT_LIGHT, SQUARE, STROKE, SUBTRACT, TAB, TAU, TEXT, TEXTURE, THRESHOLD, TOP
     global TRIANGLE_FAN, TRIANGLE_STRIP, TRIANGLES, TWO_PI, UP_ARROW, VIDEO, WAIT, WEBGL
 
     global frameCount, focused, displayWidth, displayHeight, windowWidth, windowHeight, width, height
-    global deviceOrientation, accelerationX, accelerationY, accelerationZ
+    global disableFriendlyErrors, deviceOrientation, accelerationX, accelerationY, accelerationZ
     global pAccelerationX, pAccelerationY, pAccelerationZ, rotationX, rotationY, rotationZ
     global pRotationX, pRotationY, pRotationZ, turnAxis, keyIsPressed, key, keyCode, mouseX, mouseY, pmouseX, pmouseY
     global winMouseX, winMouseY, pwinMouseX, pwinMouseY, mouseButton, mouseIsPressed, touches, pixels
@@ -1407,6 +1137,7 @@ def pre_draw(p5_instance, draw_func):
     windowHeight = p5_instance.windowHeight
     width = p5_instance.width
     height = p5_instance.height
+    disableFriendlyErrors = p5_instance.disableFriendlyErrors
     deviceOrientation = p5_instance.deviceOrientation
     accelerationX = p5_instance.accelerationX
     accelerationY = p5_instance.accelerationY
@@ -1471,14 +1202,11 @@ def start_p5(setup_func, draw_func, event_functions):
     """
 
     def sketch_setup(p5_sketch):
-        """
-        Callback function called to configure new p5 instance
-        """
         p5_sketch.setup = global_p5_injection(p5_sketch)(setup_func)
         p5_sketch.draw = global_p5_injection(p5_sketch)(draw_func)
 
 
-    window.instance = p5.new(sketch_setup, 'sketch-holder')
+    instance = __new__(p5(sketch_setup, 'sketch-holder'))
 
     # inject event functions into p5
     event_function_names = (
@@ -1493,350 +1221,21 @@ def start_p5(setup_func, draw_func, event_functions):
         func = event_functions[f_name]
         event_func = global_p5_injection(instance)(func)
         setattr(instance, f_name, event_func)
-`;
-
-let placeholder = `
-def setup():
-    pass
-
-def draw():
-    pass
-`;
-
-let userCode = `
-from random import randint
-import os
-import sys 
-import time
-from time import sleep
-print(sys.path)
-
-class Node:
-
-    def __init__(self, x, y):
-
-        self.x = x 
-        self.y = y
-        self.f = 0
-        self.g = 0
-        self.h = 0
-        self.neighbors = []
-        self.previous = None
-        self. obstacle = False
 
 
-    def add_neighbors(self,grid, columns, rows):
-
-        neighbor_x = self.x
-        neighbor_y = self.y
-    
-        if neighbor_x < columns - 1:
-            self.neighbors.append(grid[neighbor_x+1][neighbor_y])
-        if neighbor_x > 0:
-            self.neighbors.append(grid[neighbor_x-1][neighbor_y])
-        if neighbor_y < rows -1:
-            self.neighbors.append(grid[neighbor_x][neighbor_y +1])
-        if neighbor_y > 0: 
-            self.neighbors.append(grid[neighbor_x][neighbor_y-1])
-        #diagonals
-        """ if neighbor_x > 0 and neighbor_y > 0:
-            self.neighbors.append(grid[neighbor_x-1][neighbor_y-1])
-        if neighbor_x < columns -1 and neighbor_y > 0:
-            self.neighbors.append(grid[neighbor_x+1][neighbor_y-1])
-        if neighbor_x > 0 and neighbor_y <rows -1:
-            self.neighbors.append(grid[neighbor_x-1][neighbor_y+1])
-        if neighbor_x < columns -1 and neighbor_y < rows -1:
-            self.neighbors.append(grid[neighbor_x+1][neighbor_y+1]) """
+def logOnloaded():
+    console.log("Lib loaded!")
 
 
-        
-class AStar:
+def add_library(lib_name):
+    # placeholder for https://github.com/berinhard/pyp5js/issues/31
+    src = ''
 
-    def __init__(self, cols, rows, start, end):
+    return console.log("Lib name is not valid:", lib_name)
 
-        self.cols = cols
-        self.rows = rows
-        self.start = start
-        self.end = end
-        self.obstacle_ratio = False
-        self.obstacle_list = False
+    console.log("Importing:", src)
 
-    @staticmethod
-    def clean_open_set(open_set, current_node):
-
-        for i in range(len(open_set)):
-            if open_set[i] == current_node:
-                open_set.pop(i)
-                break
-
-        return open_set
-
-    @staticmethod
-    def h_score(current_node, end):
-
-        distance =  abs(current_node.x - end.x) + abs(current_node.y - end.y)
-        
-        return distance
-
-    @staticmethod
-    def create_grid(cols, rows):
-
-        grid = []
-        for _ in range(cols):
-            grid.append([])
-            for _ in range(rows):
-                grid[-1].append(0)
-        
-        return grid
-
-    @staticmethod
-    def fill_grids(grid, cols, rows, obstacle_ratio = False, obstacle_list = False):
-
-        for i in range(cols):
-            for j in range(rows):
-                grid[i][j] = Node(i,j)
-                if obstacle_ratio == False:
-                    pass
-                else:
-                    n = randint(0,100)
-                    if n < obstacle_ratio: grid[i][j].obstacle = True
-        if obstacle_list == False:
-            pass
-        else:
-            for i in range(len(obstacle_list)):
-                grid[obstacle_list[i][0]][obstacle_list[i][1]].obstacle = True
-
-        return grid
-
-    @staticmethod
-    def get_neighbors(grid, cols, rows):
-        for i in range(cols):
-            for j in range(rows):
-                grid[i][j].add_neighbors(grid, cols, rows)
-        return grid
-    
-    @staticmethod
-    def start_path(open_set, closed_set, current_node, end):
-
-        best_way = 0
-        for i in range(len(open_set)):
-            if open_set[i].f < open_set[best_way].f:
-                best_way = i
-
-        current_node = open_set[best_way]
-        final_path = []
-        if current_node == end:
-            temp = current_node
-            while temp.previous:
-                final_path.append(temp.previous)
-                temp = temp.previous
-
-        open_set = AStar.clean_open_set(open_set, current_node)
-        closed_set.append(current_node)
-        neighbors = current_node.neighbors
-        for neighbor in neighbors:
-            if (neighbor in closed_set) or (neighbor.obstacle == True):
-                continue
-            else:
-                temp_g = current_node.g + 1
-                control_flag = 0
-                for k in range(len(open_set)):
-                    if neighbor.x == open_set[k].x and neighbor.y == open_set[k].y:
-                        if temp_g < open_set[k].g:
-                            open_set[k].g = temp_g
-                            open_set[k].h= AStar.h_score(open_set[k], end)
-                            open_set[k].f = open_set[k].g + open_set[k].h
-                            open_set[k].previous = current_node
-                        else:
-                            pass
-                        control_flag = 1
-                if control_flag == 1:
-                    pass
-                else:
-                    neighbor.g = temp_g
-                    neighbor.h = AStar.h_score(neighbor, end)
-                    neighbor.f = neighbor.g + neighbor.h
-                    neighbor.previous = current_node
-                    open_set.append(neighbor)
-
-        return open_set, closed_set, current_node, final_path
-
-    def main(self):
-
-        grid = AStar.create_grid(self.cols, self.rows)
-        grid = AStar.fill_grids(grid, self.cols, self.rows, obstacle_ratio = 30)
-        grid = AStar.get_neighbors(grid, self.cols, self.rows)
-        open_set  = []
-        closed_set  = []
-        current_node = None
-        final_path  = []
-        open_set.append(grid[self.start[0]][self.start[1]])
-        self.end = grid[self.end[0]][self.end[1]]
-        while len(open_set) > 0:
-            open_set, closed_set, current_node, final_path = AStar.start_path(open_set, closed_set, current_node, self.end)
-            if len(final_path) > 0:
-                break
-
-        return final_path
-
-
-cols = 25
-rows = 25 
-start = [0,0]
-end = [24,24]
-open_set  = []
-closed_set  = []
-current_node = None
-final_path  = []
-grid = []
-
-
-def show_func(grid_element,color, width,height): 
-    if grid_element.obstacle == True:
-            fill("black")
-    else:
-        fill(color)
-    noStroke()
-    rect(grid_element.x * width, grid_element.y * height, width-1 , height-1)
-
-
-def setup():
-    global grid
-    createCanvas(500, 500)
-    background(160)
-
-        
-    
-flag = False   
-
-
-def draw():
-    
-    global grid
-    global end
-    global open_set
-    global closed_set
-    global final_path
-    global current_node
-    global flag
-    global start
-
-    global cols 
-    global rows 
-  
-    frameRate(60)
-    w = width / cols
-    h = height / rows
-    if flag == False:
-        
- 
-
-        grid = AStar.create_grid(cols, rows)   
-        grid = AStar.fill_grids(grid, cols, rows, obstacle_ratio = 30)
-        grid = AStar.get_neighbors(grid, cols, rows)
-        start = grid[start[0]][start[1]]
-        end = grid[end[0]][end[1]]
-        end.obstacle = False
-        start.obstacle = False
-
-        background(0)
-        for i in range(cols):
-            for j in range(rows):
-                show_func(grid[i][j], color(255),w,h)
-        stroke(0,0,0)
-        line(0, 0, 0, width)
-        line(0,0,height, 1)
-        open_set.append(start)
-
-        
-        flag = True
-
-    if len(open_set) > 0:
-        open_set, closed_set, current_node, final_path = AStar.start_path(open_set, closed_set, current_node, end)
-
-    
-    #grid
-        show_func(start, "green", w,h)
-        show_func(end, "red",w,h)
-        for i in range(len(open_set)):
-            #show_func(open_set[i], "#00ffbf",w,h)
-            show_func(open_set[i], "#00ffbf",w,h)
-
-        for i in range(len(closed_set)):
-            show_func(closed_set[i], "#ffa500",w,h)
-            show_func(start, "green", w,h)
-
-        show_func(current_node, "#8a2be2",w,h)
-
-        if len(open_set) == 0:
-            print("No way!")
-            #noLoop()
-    
-            frameRate(1)
-            cols = 25
-            rows = 25 
-            start = [0,0]
-            end = [24,24]
-            open_set  = []
-            closed_set  = []
-            current_node = None
-            final_path  = []
-            grid = []
-            flag = False
-            
-
-        if len(final_path) > 0:
-            for i in range(len(final_path)):
-                show_func(final_path[i], "#8a2be2",w,h)
-                #show_func(final_path[i], "red",w,h)
-            show_func(start, "green", w,h)
-            show_func(end, "red",w,h)
-
-            print("Done!!")
-            frameRate(1)
-            cols = 25
-            rows = 25 
-            start = [0,0]
-            end = [24,24]
-            open_set  = []
-            closed_set  = []
-            current_node = None
-            final_path  = []
-            grid = []
-            flag = False
-            
-   
-            
-
-`;
-
-function runCode() {
-    let code = [
-        placeholder,
-        userCode,
-        wrapper_content,
-        'start_p5(setup, draw, {});',
-    ].join('\n');
-
-    if (window.instance) {
-      window.instance.canvas.remove();
-    }
-
-    console.log("Python execution output:");
-    pyodide.runPython(code);
-}
-
-languagePluginLoader.then(() => {
-    pyodide.runPython(`
-      import io, code, sys
-      from js import pyodide, p5, window, document
-      print(sys.version)
-    `)
-
-    window.runSketchCode = (code) => {
-      userCode = code;
-      runCode();
-    }
-
-    runCode();
-});
+    script = document.createElement("script")
+    script.onload = logOnloaded
+    script.src = src
+    document.head.appendChild(script)

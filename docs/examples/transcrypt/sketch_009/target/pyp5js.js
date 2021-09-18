@@ -1,6 +1,6 @@
-// Transcrypt'ed from Python, 2020-04-28 21:58:31
+// Transcrypt'ed from Python, 2021-09-18 19:59:21
 import {AssertionError, AttributeError, BaseException, DeprecationWarning, Exception, IndexError, IterableError, KeyError, NotImplementedError, RuntimeWarning, StopIteration, UserWarning, ValueError, Warning, __JsIterator__, __PyIterator__, __Terminal__, __add__, __and__, __call__, __class__, __envir__, __eq__, __floordiv__, __ge__, __get__, __getcm__, __getitem__, __getslice__, __getsm__, __gt__, __i__, __iadd__, __iand__, __idiv__, __ijsmod__, __ilshift__, __imatmul__, __imod__, __imul__, __in__, __init__, __ior__, __ipow__, __irshift__, __isub__, __ixor__, __jsUsePyNext__, __jsmod__, __k__, __kwargtrans__, __le__, __lshift__, __lt__, __matmul__, __mergefields__, __mergekwargtrans__, __mod__, __mul__, __ne__, __neg__, __nest__, __or__, __pow__, __pragma__, __proxy__, __pyUseJsNext__, __rshift__, __setitem__, __setproperty__, __setslice__, __sort__, __specialattrib__, __sub__, __super__, __t__, __terminal__, __truediv__, __withblock__, __xor__, all, any, assert, bool, bytearray, bytes, callable, chr, deepcopy, delattr, dict, dir, divmod, enumerate, getattr, hasattr, isinstance, issubclass, len, list, object, ord, print, property, py_TypeError, py_iter, py_metatype, py_next, py_reversed, py_typeof, range, repr, setattr, sorted, sum, tuple, zip} from './org.transcrypt.__runtime__.js';
-import {PythonFunctions} from './pyp5js.python_functions.js';
+import {PythonFunctions} from './python_functions.js';
 var __name__ = 'pyp5js';
 export var _P5_INSTANCE = null;
 export var _CTX_MIDDLE = null;
@@ -335,6 +335,36 @@ export var py_clear = function () {
 	}
 	var p5_clear = _P5_INSTANCE.clear (...args);
 	return p5_clear;
+};
+export var erase = function () {
+	if (arguments.length) {
+		var __ilastarg0__ = arguments.length - 1;
+		if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
+			var __allkwargs0__ = arguments [__ilastarg0__--];
+			for (var __attrib0__ in __allkwargs0__) {
+			}
+		}
+		var args = tuple ([].slice.apply (arguments).slice (0, __ilastarg0__ + 1));
+	}
+	else {
+		var args = tuple ();
+	}
+	return _P5_INSTANCE.erase (...args);
+};
+export var noErase = function () {
+	if (arguments.length) {
+		var __ilastarg0__ = arguments.length - 1;
+		if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
+			var __allkwargs0__ = arguments [__ilastarg0__--];
+			for (var __attrib0__ in __allkwargs0__) {
+			}
+		}
+		var args = tuple ([].slice.apply (arguments).slice (0, __ilastarg0__ + 1));
+	}
+	else {
+		var args = tuple ();
+	}
+	return _P5_INSTANCE.noErase (...args);
 };
 export var colorMode = function () {
 	if (arguments.length) {
@@ -2061,6 +2091,56 @@ export var saveFrames = function () {
 	}
 	return _P5_INSTANCE.saveFrames (...args);
 };
+export var image_proxy = function (img) {
+	if (arguments.length) {
+		var __ilastarg0__ = arguments.length - 1;
+		if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
+			var __allkwargs0__ = arguments [__ilastarg0__--];
+			for (var __attrib0__ in __allkwargs0__) {
+				switch (__attrib0__) {
+					case 'img': var img = __allkwargs0__ [__attrib0__]; break;
+				}
+			}
+		}
+	}
+	else {
+	}
+	var _set = function () {
+		if (arguments.length) {
+			var __ilastarg0__ = arguments.length - 1;
+			if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
+				var __allkwargs0__ = arguments [__ilastarg0__--];
+				for (var __attrib0__ in __allkwargs0__) {
+				}
+			}
+			var args = tuple ([].slice.apply (arguments).slice (0, __ilastarg0__ + 1));
+		}
+		else {
+			var args = tuple ();
+		}
+		var value = img.set (...args);
+		return value;
+	};
+	var _get = function () {
+		if (arguments.length) {
+			var __ilastarg0__ = arguments.length - 1;
+			if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
+				var __allkwargs0__ = arguments [__ilastarg0__--];
+				for (var __attrib0__ in __allkwargs0__) {
+				}
+			}
+			var args = tuple ([].slice.apply (arguments).slice (0, __ilastarg0__ + 1));
+		}
+		else {
+			var args = tuple ();
+		}
+		var value = img.get (...args);
+		return value;
+	};
+	img.py_set = _set;
+	img.py_get = _get;
+	return img;
+};
 export var loadImage = function () {
 	if (arguments.length) {
 		var __ilastarg0__ = arguments.length - 1;
@@ -2074,7 +2154,8 @@ export var loadImage = function () {
 	else {
 		var args = tuple ();
 	}
-	return _P5_INSTANCE.loadImage (...args);
+	var imageObj = _P5_INSTANCE.loadImage (...args);
+	return image_proxy (imageObj);
 };
 export var image = function () {
 	if (arguments.length) {
@@ -2199,7 +2280,8 @@ export var py_get = function () {
 	else {
 		var args = tuple ();
 	}
-	return _P5_INSTANCE.py_get (...args);
+	var p5_get = _P5_INSTANCE.get (...args);
+	return p5_get;
 };
 export var loadPixels = function () {
 	if (arguments.length) {
@@ -2216,7 +2298,7 @@ export var loadPixels = function () {
 	}
 	return _P5_INSTANCE.loadPixels (...args);
 };
-export var set = function () {
+export var py_set = function () {
 	if (arguments.length) {
 		var __ilastarg0__ = arguments.length - 1;
 		if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
@@ -2230,10 +2312,10 @@ export var set = function () {
 		var args = tuple ();
 	}
 	if (len (args) <= 1) {
-		return PythonFunctions.set (...args);
+		return PythonFunctions.py_set (...args);
 	}
 	else {
-		return _P5_INSTANCE.set (...args);
+		return _P5_INSTANCE.py_set (...args);
 	}
 };
 export var updatePixels = function () {
@@ -3930,6 +4012,47 @@ export var popMatrix = py_pop;
 export var popStyle = py_pop;
 export var pushMatrix = push;
 export var pushStyle = push;
+export var PVector = function (x, y, z) {
+	if (typeof x == 'undefined' || (x != null && x.hasOwnProperty ("__kwargtrans__"))) {;
+		var x = 0;
+	};
+	if (typeof y == 'undefined' || (y != null && y.hasOwnProperty ("__kwargtrans__"))) {;
+		var y = 0;
+	};
+	if (typeof z == 'undefined' || (z != null && z.hasOwnProperty ("__kwargtrans__"))) {;
+		var z = 0;
+	};
+	if (arguments.length) {
+		var __ilastarg0__ = arguments.length - 1;
+		if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
+			var __allkwargs0__ = arguments [__ilastarg0__--];
+			for (var __attrib0__ in __allkwargs0__) {
+				switch (__attrib0__) {
+					case 'x': var x = __allkwargs0__ [__attrib0__]; break;
+					case 'y': var y = __allkwargs0__ [__attrib0__]; break;
+					case 'z': var z = __allkwargs0__ [__attrib0__]; break;
+				}
+			}
+		}
+	}
+	else {
+	}
+	return _P5_INSTANCE.createVector (x, y, z);
+};
+setattr (PVector, 'dist', p5.Vector.dist);
+setattr (PVector, 'add', p5.Vector.add);
+setattr (PVector, 'sub', p5.Vector.sub);
+setattr (PVector, 'mult', p5.Vector.mult);
+setattr (PVector, 'div', p5.Vector.div);
+setattr (PVector, 'dot', p5.Vector.dot);
+setattr (PVector, 'cross', p5.Vector.cross);
+setattr (PVector, 'lerp', p5.Vector.lerp);
+setattr (PVector, 'random2D', p5.Vector.random2D);
+setattr (PVector, 'random3D', p5.Vector.random3D);
+setattr (PVector, 'angleBetween', p5.Vector.angleBetween);
+setattr (PVector, 'fromAngle', p5.Vector.fromAngle);
+setattr (PVector, 'fromAngles', p5.Vector.fromAngles);
+setattr (PVector, 'equals', p5.Vector.equals);
 export var pre_draw = function (p5_instance, draw_func) {
 	if (arguments.length) {
 		var __ilastarg0__ = arguments.length - 1;

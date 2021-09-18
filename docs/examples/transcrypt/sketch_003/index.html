@@ -12,7 +12,7 @@
     <script src="static/p5.js"></script>
     <script src="target/target_sketch.js"  type="module"></script>
 
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/default.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
 
@@ -36,16 +36,17 @@
 
   <body>
     <p style="background-color: #f6f8fa">
-      Python code <a href="https://github.com/berinhard/pyp5js/blob/develop/docs/examples/sketch_003" target="_blank">here</a>.
+      Python code <a href="https://github.com/berinhard/pyp5js/blob/develop/docs/examples/transcrypt/sketch_003" target="_blank">here</a>.
     </p>
 
     <div class="demoContainer">
-        <div id="sketch-holder">
+        <div id="sketch-holder" style="">
               <!-- You sketch will go here! -->
         </div>
 
-        <pre>
-           <code>
+        <div style="">
+          <pre>
+             <code>
 # 3d example
 from pyp5js import *
 
@@ -54,17 +55,19 @@ def setup():
     createCanvas(600, 600, WEBGL)
 
 def draw():
-  background(200)
-  translate(-100, -100, 0)
-  push()
-  normalMaterial()
-  rotateZ(frameCount * 0.01)
-  rotateX(frameCount * 0.01)
-  rotateY(frameCount * 0.01)
-  box(50, 70, 100)
-  pop()
-           </code>
-        </pre>
+    background(200)
+    translate(-100, -100, 0)
+    push()
+    normalMaterial()
+    rotateZ(frameCount * 0.01)
+    rotateX(frameCount * 0.01)
+    rotateY(frameCount * 0.01)
+    box(50, 70, 100)
+    pop()
+
+              </code>
+          </pre>
+        </div>
 
     </div>
   </body>

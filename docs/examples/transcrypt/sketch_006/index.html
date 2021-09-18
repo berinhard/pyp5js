@@ -12,7 +12,7 @@
     <script src="static/p5.js"></script>
     <script src="target/target_sketch.js"  type="module"></script>
 
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/default.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
 
@@ -36,17 +36,17 @@
 
   <body>
     <p style="background-color: #f6f8fa">
-      Python code <a href="https://github.com/berinhard/pyp5js/blob/develop/docs/examples/sketch_006" target="_blank">here</a>.
+      Python code <a href="https://github.com/berinhard/pyp5js/blob/develop/docs/examples/transcrypt/sketch_006" target="_blank">here</a>.
     </p>
 
-    <p>Press "n" or click and drag your mouse to add more squares...</p>
     <div class="demoContainer">
-        <div id="sketch-holder">
+        <div id="sketch-holder" style="">
               <!-- You sketch will go here! -->
         </div>
 
-        <pre>
-           <code>
+        <div style="">
+          <pre>
+             <code>
 from pyp5js import *
 
 r = None
@@ -76,8 +76,10 @@ def mouseDragged():
     global r
     r = random(100, 700)
     redraw()
-           </code>
-        </pre>
+
+              </code>
+          </pre>
+        </div>
 
     </div>
   </body>
