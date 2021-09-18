@@ -23,10 +23,13 @@ class SketchConfig:
         return Path(self.index_template).absolute()
 
     def write(self, fname):
+        index_template = ""
+        if self.index_template and self.index_template_path.exists():
+            index_template = str(self.index_template_path.resolve())
         with open(fname, "w") as fd:
             data = {
                 "interpreter": self.interpreter,
-                "index_template": str(Path(self.index_template_path).resolve())
+                "index_template": index_template
             }
             json.dump(data, fd)
 

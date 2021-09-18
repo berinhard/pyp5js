@@ -29,8 +29,18 @@ def test_write_sketch_interpreter_config(custom_index_json_file):
         data = json.load(fd)
 
     assert data["interpreter"] == TRANSCRYPT_INTERPRETER
-    assert config.index_template in data["index_template"]
-    os.remove(fd.name)
+    assert str(config.index_template_path.resolve()) == data["index_template"]
+
+
+def test_wrrite_defaults():
+    config = SketchConfig(PYODIDE_INTERPRETER)
+    fd = NamedTemporaryFile(mode="w", delete=False)
+    config.write(fd.name)
+    fd.close()
+    with open(fd.name) as fd:
+        data = json.load(fd)
+
+    assert "" == data["index_template"]
 
 
 def test_get_transcrypt_index_template(transcrypt_config):

@@ -75,6 +75,7 @@ class TestNewSketchCommand(TestCase):
         assert self.sketch.p5js.exists()
         assert self.sketch.config_file.exists()
         assert self.sketch.config.interpreter == TRANSCRYPT_INTERPRETER
+        assert self.sketch.config.index_template == ""
 
     def test_create_pyodide_sketch(self):
         commands.new_sketch(self.sketch_name, interpreter=PYODIDE_INTERPRETER)
