@@ -61,8 +61,9 @@ def transcrypt_sketch(sketch_name):
 
 @command_line_entrypoint.command("compile")
 @click.argument("sketch_name")
-def compile_sketch(sketch_name):
-    files = commands.compile_sketch(sketch_name)
+@click.option('--refresh', is_flag=True, help="Update the skech index.html before it ends.")
+def compile_sketch(sketch_name, refresh):
+    files = commands.compile_sketch(sketch_name, refresh)
     cprint.ok(f"Your sketch is ready and available at file://{files.index_html.absolute()}")
 
 

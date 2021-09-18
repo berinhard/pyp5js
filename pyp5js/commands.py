@@ -42,11 +42,12 @@ def new_sketch(sketch_name, interpreter=PYODIDE_INTERPRETER, template_file=""):
     return sketch
 
 
-def compile_sketch(sketch_name):
+def compile_sketch(sketch_name, generate_index=False):
     """
     Transcrypt the sketch python code to javascript.
 
     :param sketch_name: name for new sketch
+    :param generate_index: boolean to flag if the index.html file should be updated
     :type sketch_name: string
     :return: file names
     :rtype: list of strings
@@ -59,6 +60,12 @@ def compile_sketch(sketch_name):
         raise PythonSketchDoesNotExist(sketch)
 
     compile_sketch_js(sketch)
+    if generate_index:
+        index_contet = get_sketch_index_content(sketch)
+        with open(sketch.index_html, "w") as fd:
+            fd.write(index_contet)
+        cprint.info(f"{sketch.index_html.resolve()} updated")
+
     return sketch
 
 
