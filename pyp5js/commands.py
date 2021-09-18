@@ -14,7 +14,7 @@ from pyp5js.templates_renderers import get_sketch_index_content
 from pyp5js.config import PYODIDE_INTERPRETER
 
 
-def new_sketch(sketch_name, interpreter=PYODIDE_INTERPRETER, template_file=None):
+def new_sketch(sketch_name, interpreter=PYODIDE_INTERPRETER, template_file=""):
     """
     Creates a new sketch with the required assets and a index.html file, based on pyp5js's templates
 
@@ -25,7 +25,7 @@ def new_sketch(sketch_name, interpreter=PYODIDE_INTERPRETER, template_file=None)
     :return: file names
     :rtype: list of strings
     """
-    sketch = Sketch(sketch_name, interpreter=interpreter)
+    sketch = Sketch(sketch_name, interpreter=interpreter, index_template=template_file)
     sketch.create_sketch_dir()
 
     templates_files = [
@@ -35,7 +35,7 @@ def new_sketch(sketch_name, interpreter=PYODIDE_INTERPRETER, template_file=None)
     for src, dest in templates_files:
         shutil.copyfile(src, dest)
 
-    index_contet = get_sketch_index_content(sketch, template_file=template_file)
+    index_contet = get_sketch_index_content(sketch)
     with open(sketch.index_html, "w") as fd:
         fd.write(index_contet)
 

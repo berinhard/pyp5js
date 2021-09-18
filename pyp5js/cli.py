@@ -27,8 +27,6 @@ def configure_new_sketch(sketch_name, monitor, interpreter, template):
     Create dir and configure boilerplate - Example:\n
     $ pyp5js new my_sketch -i pyodide
     """
-    if template:
-        template = Path(template)
     files = commands.new_sketch(sketch_name, interpreter, template_file=template)
 
     cprint.ok(f"Your sketch was created!")
