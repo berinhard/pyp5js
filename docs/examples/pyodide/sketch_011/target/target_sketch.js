@@ -926,6 +926,122 @@ def createCanvas(*args):
 
     return canvas
 
+# Thanks to Luca Damasco for also helping us to
+# figure out how to bind events functions.
+def _bind_event_function(func, *args, **kwargs):
+    func = global_p5_injection(_P5_INSTANCE)(func)
+    try:
+      func(*args, **kwargs)  # try to execute passing parameters
+    except TypeError:
+      func()  # execute without parameters (are opitional)
+
+def __deviceMoved(e):
+  try:
+    _bind_event_function(deviceMoved, e)
+  except NameError:
+    pass
+
+def __deviceTurned(e):
+  try:
+    _bind_event_function(deviceTurned, e)
+  except NameError:
+    pass
+
+def __deviceShaken(e):
+  try:
+    _bind_event_function(deviceShaken, e)
+  except NameError:
+    pass
+
+def __touchEnded(e):
+  try:
+    _bind_event_function(deviceShaken, e)
+  except NameError:
+    pass
+
+def __touchStarted(e):
+  try:
+    _bind_event_function(touchStarted, e)
+  except NameError:
+    pass
+
+def __windowResized(e):
+  try:
+    _bind_event_function(windowResized, e)
+  except NameError:
+    pass
+
+def __touchMoved(e):
+  try:
+    _bind_event_function(touchMoved, e)
+  except NameError:
+    pass
+
+def __mouseMoved(e):
+  try:
+    _bind_event_function(mouseMoved, e)
+  except NameError:
+    pass
+
+def __mouseDragged(e):
+  try:
+    _bind_event_function(mouseDragged, e)
+  except NameError:
+      pass
+
+def __mousePressed(e):
+  try:
+    _bind_event_function(mousePressed, e)
+  except NameError:
+    pass
+
+def __mouseReleased(e):
+  try:
+    _bind_event_function(mouseReleased, e)
+  except NameError:
+    pass
+
+def __mouseClicked(e):
+  try:
+    _bind_event_function(mouseClicked, e)
+  except NameError:
+    pass
+
+def __doubleClicked(e):
+  try:
+    _bind_event_function(doubleClicked, e)
+  except NameError:
+    pass
+
+def __mouseWheel(e):
+  try:
+    _bind_event_function(mouseWheel, e)
+  except NameError:
+    pass
+
+def __keyPressed(e):
+  try:
+    _bind_event_function(keyPressed, e)
+  except NameError:
+    pass
+
+def __keyReleased(e):
+  try:
+    _bind_event_function(keyReleased, e)
+  except NameError:
+    pass
+
+def __keyTyped(e):
+  try:
+    _bind_event_function(keyTyped, e)
+  except NameError:
+    pass
+
+def __keyIsDown(e):
+  try:
+    _bind_event_function(keyIsDown, e)
+  except NameError:
+    pass
 
 def pop(*args):
     p5_pop = _P5_INSTANCE.pop(*args)
@@ -1261,7 +1377,7 @@ class PVector:
         return self
 
 
-def pre_draw(p5_instance, draw_func):
+def pre_draw(p5_instance, draw_func, *args, **kwargs):
     """
     We need to run this before the actual draw to insert and update p5 env variables
     """
@@ -1437,7 +1553,7 @@ def pre_draw(p5_instance, draw_func):
     touches = p5_instance.touches
     pixels = p5_instance.pixels
 
-    return draw_func()
+    return draw_func(*args, **kwargs)
 
 
 def global_p5_injection(p5_sketch):
@@ -1445,11 +1561,11 @@ def global_p5_injection(p5_sketch):
     Injects the p5js's skecth instance as a global variable to setup and draw functions
     """
 
-    def decorator(f):
-        def wrapper():
+    def decorator(f, *args, **kwargs):
+        def wrapper(*args, **kwargs):
             global _P5_INSTANCE
             _P5_INSTANCE = p5_sketch
-            return pre_draw(_P5_INSTANCE, f)
+            return pre_draw(_P5_INSTANCE, f, *args, **kwargs)
 
 
         return wrapper
@@ -1476,23 +1592,29 @@ def start_p5(setup_func, draw_func, event_functions):
         """
         p5_sketch.setup = global_p5_injection(p5_sketch)(setup_func)
         p5_sketch.draw = global_p5_injection(p5_sketch)(draw_func)
+        # Register event functions
+        p5_sketch.mouseDragged = lambda e: __mouseDragged(e)
+        p5_sketch.deviceMoved= lambda e: __deviceMoved(e)
+        p5_sketch.deviceTurned= lambda e: __deviceTurned(e)
+        p5_sketch.deviceShaken= lambda e: __deviceShaken(e)
+        p5_sketch.touchStarted= lambda e: __touchStarted(e)
+        p5_sketch.touchMoved= lambda e: __touchMoved(e)
+        p5_sketch.touchEnded= lambda e: __touchEnded(e)
+        p5_sketch.windowResized = lambda e: __windowResized (e)
+        p5_sketch.mouseMoved = lambda e: __mouseMoved(e)
+        p5_sketch.mouseDragged = lambda e: __mouseDragged(e)
+        p5_sketch.mousePressed = lambda e: __mousePressed(e)
+        p5_sketch.mouseReleased = lambda e: __mouseReleased(e)
+        p5_sketch.mouseClicked = lambda e: __mouseClicked(e)
+        p5_sketch.doubleClicked = lambda e: __doubleClicked(e)
+        p5_sketch.mouseWheel = lambda e: __mouseWheel(e)
+        p5_sketch.keyTyped = lambda e: __keyTyped(e)
+        p5_sketch.keyPressed = lambda e: __keyPressed(e)
+        p5_sketch.keyReleased = lambda e: __keyReleased(e)
+        p5_sketch.keyIsDown = lambda e: __keyIsDown(e)  # TODO review this func
 
 
     window.instance = p5.new(sketch_setup, 'sketch-holder')
-
-    # inject event functions into p5
-    event_function_names = (
-        "deviceMoved", "deviceTurned", "deviceShaken", "windowResized",
-        "keyPressed", "keyReleased", "keyTyped",
-        "mousePressed", "mouseReleased", "mouseClicked", "doubleClicked",
-        "mouseMoved", "mouseDragged", "mouseWheel",
-        "touchStarted", "touchMoved", "touchEnded"
-    )
-
-    for f_name in [f for f in event_function_names if event_functions.get(f, None)]:
-        func = event_functions[f_name]
-        event_func = global_p5_injection(instance)(func)
-        setattr(instance, f_name, event_func)
 `;
 
 let placeholder = `
@@ -1504,16 +1626,189 @@ def draw():
 `;
 
 let userCode = `
+# Made for  https://berinhard.github.io/pyp5js/pyodide/
+
 def setup():
-    createCanvas(200, 250)
-    background(160)
+    size(500, 500)
+    test()
 
+def test():
+    """
+    Mostly from JDF py.processing tests
+    """
+    a = PVector()
+    assert a.x == 0
+    assert a.y == 0
+    assert a.z == 0
 
-def draw():
-    fill("blue")
-    background(200)
-    radius = sin(frameCount / 60) * 50 + 50
-    ellipse(100, 100, radius, radius)
+    a = PVector(5, 7, 11)
+    b = PVector(13, 17, 23)
+    assert a - b == PVector(-8.0, -10.0, -12.0)
+    assert b - a == PVector(8, 10, 12)
+    c = PVector(18, 24, 34)
+    assert b + a == c
+    assert a + b == c
+    assert PVector.add(a, b) == c
+    assert PVector.add(a, b) == c
+    a.add(b)
+    assert a == c
+    a.add(b)
+    assert a == PVector(31.0, 41.0, 57.0)
+
+    c = PVector(310.0, 410.0, 570.0)
+    assert a * 10 == c
+    assert a * 10 == c
+    assert PVector.mult(a, 10) == c
+
+    assert PVector.mult(a, 10) == c
+    a.mult(10)
+    assert a == c
+
+    assert int(1000 * PVector.dist(a, b)) == 736116
+    assert PVector.cross(a, b) == PVector(-260.0, 280.0, -60.0)
+    assert a.cross(b) == PVector(-260.0, 280.0, -60.0)
+    assert PVector.dot(a, b) == 0
+
+    d = a.get()
+    d += b
+    assert d == a + b
+    d = a.get()
+    d -= c
+    assert d == a - c
+    d = a.get()
+    d *= 5.0
+    assert d == a * 5.0
+    d = a.get()
+
+    d /= 5.0
+    assert d == a / 5.0
+
+    assert b * 5 == b * 5.0
+    assert b / 5 == b / 5.0
+    d = b.get()
+    d *= 391
+    assert d == b * 391.0
+    d = b.get()
+    d /= 10203
+    assert d == b / 10203.0
+
+    d = a.get()
+    d += a + a
+    assert d == a + a + a
+
+    assert a * 57.0 == 57.0 * a
+
+    assert (a / 5.0) == (1.0 / 5.0) * a
+
+    m, n = b, c
+    a += b * 5 - c / 2 + PVector(0, 1, 2)
+    assert (m, n) == (b, c)
+
+    import copy
+    x = [a, b]
+    y = copy.deepcopy(x)
+
+    assert x == y
+    x[0].sub(PVector(100, 100, 100))
+    assert x != y
+
+    a = PVector(1, 1)
+    b = PVector(-2, -2)
+    assert a < b
+    assert a <= b
+    assert b > a
+    assert b >= a
+    a = PVector(1, 2, 3)
+    b = PVector(3, 2, 1)
+    assert a != b
+    assert a >= b
+    assert b >= a
+    assert a.magSq() == b.magSq()
+
+    v1 = PVector(10, 20)
+    v2 = PVector(60, 80)
+    a = PVector.angleBetween(v1, v2)
+    # Java implementation gives slightly different value:
+    # assert a == 0.17985349893569946  # more or less
+    assert int(a * 1e8) == 17985349  # more or less
+
+    # Regression test for https://github.com/jdf/Processing.py-Bugs/issues/67
+    assert isinstance(PVector(1, 2), PVector)
+
+    # Regression test for https://github.com/jdf/Processing.py-Bugs/issues/101
+    v = PVector(10, 20, 0)
+    d = v.dot(60, 80, 0)
+    assert d == 2200.0
+    v2 = PVector(60, 80, 0)
+    d = v.dot(v2)
+    assert d == 2200.0
+
+    # PVector.add w/multiple arguments
+    v = PVector(40, 20, 0)
+    v.add(25, 50, 0)
+    assert (v.x, v.y, v.z) == (65, 70, 0)
+
+    # PVector.sub w/multiple arguments
+    v = PVector(40, 20, 0)
+    v.sub(25, 50, 0)
+    assert (v.x, v.y, v.z) == (15, -30, 0)
+
+    # Regression test for https://github.com/jdf/Processing.py-Bugs/issues/102
+    start = PVector(0.0, 0.0)
+    end = PVector(100.0, 100.0)
+    middle = PVector.lerp(start, end, 0.5)
+    assert middle == PVector(50.0, 50.0)
+    assert start == PVector(0, 0)
+    start.lerp(end, .75)
+    assert start == PVector(75, 75)
+    assert end == PVector(100.0, 100.0)
+    end.lerp(200, 200, 0, .5)
+    assert end == PVector(150.0, 150.0)
+
+    # test that instance op returns self
+    a = PVector(3, 5, 7)
+    b = a * 10
+    assert a.mult(10) == b
+
+    # test that a vector can do arithmetic with a tuple
+    assert PVector(1, 2, 3) == (1, 2, 3)
+    assert (PVector(1, 2, 3) + (3, 3, 3)) == (4, 5, 6)
+    assert (PVector(5, 5, 5) - (1, 2, 3)) == (4, 3, 2)
+
+    # Regression test for https://github.com/jdf/processing.py/issues/317
+    r = PVector.random2D() * 10
+    assert -10 <= r.x <= 10
+    assert -10 <= r.y <= 10
+    assert r.z == 0
+
+    PVector.random3D(r)
+    r += (1, 1, 1)
+    assert 0 <= r.x <= 2
+    assert 0 <= r.y <= 2
+    assert 0 <= r.z <= 2
+
+    # Regression test for https://github.com/jdf/processing.py/issues/334
+    r = PVector.fromAngle(0) * 10
+    assert r.x == 10
+    assert r.y == 0
+    assert r.z == 0
+
+    # Other p5js methods
+    text(r.toString(), 120, 120)
+    r.setMag(100)
+    assert r.mag() == 100
+    r.normalize()
+    assert r.mag() == 1
+    r.limit(10)
+    assert r.mag() == 1
+    r.limit(0.1)
+    assert r.mag() == 0.1
+
+    assert r.heading() == 0
+    r.rotate(PI)
+    assert r.heading() == PI
+
+    text('OK - ALL PASSED!', 100, 200)
 
 `;
 
@@ -1533,17 +1828,22 @@ function runCode() {
     pyodide.runPython(code);
 }
 
-languagePluginLoader.then(() => {
-    pyodide.runPython(`
-      import io, code, sys
-      from js import pyodide, p5, window, document
-      print(sys.version)
-    `)
 
-    window.runSketchCode = (code) => {
+async function main() {
+    await loadPyodide({ indexURL : "https://pyodide-cdn2.iodide.io/v0.17.0/full/" });
+    // await pyodide.loadPackage('numpy');
+    // Pyodide is now ready to use...
+    console.log(pyodide.runPython(`
+        import io, code, sys
+        from js import pyodide, p5, window, document
+        print(sys.version)
+  `));
+   window.runSketchCode = (code) => {
       userCode = code;
       runCode();
     }
 
     runCode();
-});
+};
+
+main();

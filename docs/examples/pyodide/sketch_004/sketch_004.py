@@ -6,21 +6,21 @@ boids = []
 def setup():
     createCanvas(720, 400)
     # Add an initial set of boids into the system
-    for i in range(30):
+    for i in range(10):
         boids.append (Boid(random(720), random(400)))
     # frameRate(60)
-    
+
 def draw():
     background(51)
     # Run all the boids
-    for boid in boids: 
+    for boid in boids:
         boid.run(boids)
         fill(255)
 
     # Display score
     textSize(16)
     textAlign(LEFT)
-    text("Frames: %.1f" %frameRate(), 150, 390) 
+    text("Frames: %.1f" %frameRate(), 150, 390)
 
 # Boid class
 # Methods for Separation, Cohesion, Alignment added
@@ -88,13 +88,13 @@ class Boid(object):
 
     # Wraparound
     def borders(self):
-        if (self.position.x < -self.r): 
+        if (self.position.x < -self.r):
             self.position.x = width + self.r
-        if (self.position.y < -self.r): 
+        if (self.position.y < -self.r):
             self.position.y = height + self.r
-        if (self.position.x > width + self.r): 
+        if (self.position.x > width + self.r):
             self.position.x = -self.r
-        if (self.position.y > height + self.r): 
+        if (self.position.y > height + self.r):
             self.position.y = -self.r
 
 
@@ -124,7 +124,7 @@ class Boid(object):
             # Implement Reynolds: Steering = Desired - Velocity
             steer.normalize()
             steer = steer * self.maxspeed
-            steer = steer - self.velocity  
+            steer = steer - self.velocity
             steer.limit(self.maxforce)
 
         return steer

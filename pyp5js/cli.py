@@ -13,6 +13,9 @@ from pyp5js.config import SKETCHBOOK_DIR, AVAILABLE_INTERPRETERS, PYODIDE_INTERP
 def command_line_entrypoint():
     """
     pyp5js is a command line tool to conver Python 3 code to p5.js.
+
+    Every sketch will be stored in ~/sketchbook-pyp5js/. You can customize this
+    by defining an env variable SKETCHBOOK_DIR.
     """
     pass
 
@@ -63,7 +66,7 @@ def compile_sketch(sketch_name, refresh):
     \nExample:
     $ pyp5js compile my_sketch
     """
-    files = commands.compile_sketch(sketch_name, refresh)
+    files = commands.compile_sketch(sketch_name.replace("/", ""), refresh)
     cprint.ok(f"Your sketch is ready and available at file://{files.index_html.absolute()}")
 
 
