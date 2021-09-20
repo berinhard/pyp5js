@@ -6,11 +6,11 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>sketch_005 - pyp5js</title>
+    <title>{{ sketch_name }} - pyp5js</title>
     <style> body, html, canvas {padding: 0; margin: 0; overflow: hidden;} </style>
 
-    <script src="static/p5.js"></script>
-    <script src="target/target_sketch.js"  type="module"></script>
+    <script src="{{ p5_js_url }}"></script>
+    <script src="{{ sketch_js_url }}"  type="module"></script>
 
     <script src="https://pyodide-cdn2.iodide.io/v0.17.0/full/pyodide.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/default.min.css">
@@ -37,7 +37,7 @@
 
   <body>
     <p style="background-color: #f6f8fa">
-      Python code <a href="https://github.com/berinhard/pyp5js/blob/develop/docs/examples/pyodide/sketch_005" target="_blank">here</a>.
+      Python code <a href="https://github.com/berinhard/pyp5js/blob/develop/docs/examples/pyodide/{{ sketch_name }}" target="_blank">here</a>.
     </p>
 
     <div class="demoContainer">
@@ -46,20 +46,7 @@
         </div>
 
         <div style="">
-          <pre><code>
-def setup():
-    createCanvas(600,600)
-    noStroke()
-    rectMode(CENTER)
-
-
-def draw():
-    colorMode(HSB,100)
-    h = map(mouseY,0,600,0,100)
-    background(h,100,100)
-    fill(100-h,100,100)
-    rect(300,300,mouseX+1,mouseX+1)
-</code></pre>
+          <pre><code>{{ sketch_content }}</code></pre>
         </div>
 
     </div>

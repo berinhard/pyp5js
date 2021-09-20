@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<!-- pyp5js index.html boilerplate -->
+<!-- Template file used to generate the examples using Transcrypt interpreter -->
 <html lang="">
   <head>
 
@@ -13,7 +13,7 @@
     <script src="target/target_sketch.js"  type="module"></script>
 
     <script src="https://pyodide-cdn2.iodide.io/v0.17.0/full/pyodide.js"></script>
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/default.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
 
@@ -25,7 +25,7 @@
 
         .demoContainer {
           display: flex;
-          align-items: top;
+          align-items: center;
           justify-content: center;
         }
 
@@ -37,19 +37,16 @@
 
   <body>
     <p style="background-color: #f6f8fa">
-      Python code <a href="https://github.com/berinhard/pyp5js/blob/develop/docs/examples/sketch_011" target="_blank">here</a>.
+      Python code <a href="https://github.com/berinhard/pyp5js/blob/develop/docs/examples/pyodide/sketch_011" target="_blank">here</a>.
     </p>
 
-
     <div class="demoContainer">
-        <div id="sketch-holder">
+        <div id="sketch-holder" style="">
               <!-- You sketch will go here! -->
         </div>
 
-        <pre>
-           <code>
-# Made for  https://berinhard.github.io/pyp5js/pyodide/
-# Tests to ensure a Processing-like PVector API under Pyodide
+        <div style="">
+          <pre><code># Made for  https://berinhard.github.io/pyp5js/pyodide/
 
 def setup():
     size(500, 500)
@@ -232,10 +229,9 @@ def test():
     assert r.heading() == PI
 
     text('OK - ALL PASSED!', 100, 200)
-           </code>
-        </pre>
+</code></pre>
+        </div>
 
     </div>
-
   </body>
 </html>

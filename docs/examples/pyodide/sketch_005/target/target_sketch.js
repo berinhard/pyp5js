@@ -1658,17 +1658,22 @@ function runCode() {
     pyodide.runPython(code);
 }
 
-languagePluginLoader.then(() => {
-    pyodide.runPython(`
-      import io, code, sys
-      from js import pyodide, p5, window, document
-      print(sys.version)
-    `)
 
-    window.runSketchCode = (code) => {
+async function main() {
+    await loadPyodide({ indexURL : "https://pyodide-cdn2.iodide.io/v0.17.0/full/" });
+    // await pyodide.loadPackage('numpy');
+    // Pyodide is now ready to use...
+    console.log(pyodide.runPython(`
+        import io, code, sys
+        from js import pyodide, p5, window, document
+        print(sys.version)
+  `));
+   window.runSketchCode = (code) => {
       userCode = code;
       runCode();
     }
 
     runCode();
-});
+};
+
+main();
