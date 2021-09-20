@@ -22,12 +22,12 @@ Here you find a list of examples using pyp5js. They can have lnks to working exa
 
 **Complex shapes**, by [Pedro Queiroga](https://github.com/pedroqueiroga/pqueiroga.github.io/blob/master/curveVertexExample/main.js) | [pyodide](pyodide/sketch_010/index.html) | [transcrypt](transcrypt/sketch_010/index.html)
 
-**A-start search algoritm**, by [@ademakdogan](https://github.com/ademakdogan) | [pyodide](pyodide/sketch_012/index.html)
+**A-star search algoritm**, by [@ademakdogan](https://github.com/ademakdogan) | [pyodide](pyodide/sketch_012/index.html)
 
-**Breakout**, by [https://github.com/misolietavec](https://github.com/misolietavec) | [pyodide](pyodide/breakout/index.html)
+**Breakout**, by [@misolietavec](https://github.com/misolietavec) | [pyodide](pyodide/breakout/index.html)
 
-**Flappy bird**, by [https://github.com/misolietavec](https://github.com/misolietavec) | [pyodide](pyodide/flappybird/index.html)
+**Flappy bird**, by [@misolietavec](https://github.com/misolietavec) | [pyodide](pyodide/flappybird/index.html)
 
-**Memory**, by [https://github.com/misolietavec](https://github.com/misolietavec) | [pyodide](pyodide/memory/index.html)
+**Memory**, by [@misolietavec](https://github.com/misolietavec) | [pyodide](pyodide/memory/index.html)
 
-**Same game**, by [https://github.com/misolietavec](https://github.com/misolietavec) | [pyodide](pyodide/samegame/index.html)
+**Same game**, by [@misolietavec](https://github.com/misolietavec) | [pyodide](pyodide/samegame/index.html)
