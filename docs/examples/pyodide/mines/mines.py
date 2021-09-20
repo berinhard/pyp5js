@@ -1,9 +1,9 @@
 from random import randint
 
 def load_image(img_file, im_dir="images",ext="png"):
-    img = loadImage("%s/%s.%s" %(im_dir,img_file,ext))    
+    img = loadImage("%s/%s.%s" %(im_dir,img_file,ext))
     return img
-     
+
 class Actor:
     def __init__(self,img,x=0,y=0):
         self.img = load_image(img)
@@ -44,7 +44,7 @@ def draw():
     ypos = -CELLSIZE
     for row in range(NROWS):
         ypos += CELLSIZE
-        xpos = -CELLSIZE 
+        xpos = -CELLSIZE
         for col in range(NCOLS):
             xpos += CELLSIZE
             gridpos = base_grid[row][col]
@@ -53,7 +53,7 @@ def draw():
     ypos = -CELLSIZE
     for row in range(NROWS):
         ypos += CELLSIZE
-        xpos = -CELLSIZE 
+        xpos = -CELLSIZE
         for col in range(NCOLS):
             xpos += CELLSIZE
             if top_grid[row][col] == 1:
@@ -63,7 +63,7 @@ def draw():
                 flag.x, flag.y = xpos, ypos
                 flag.draw()
 
-def mousePressed():
+def mousePressed(*args, **kwargs):
     col, row = mouseX // CELLSIZE, mouseY // CELLSIZE
     if not ((0 <= col < NCOLS) and (0 <= row < NROWS)):
         return
