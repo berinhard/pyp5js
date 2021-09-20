@@ -66,7 +66,7 @@ def compile_sketch(sketch_name, refresh):
     \nExample:
     $ pyp5js compile my_sketch
     """
-    files = commands.compile_sketch(sketch_name, refresh)
+    files = commands.compile_sketch(sketch_name.replace("/", ""), refresh)
     cprint.ok(f"Your sketch is ready and available at file://{files.index_html.absolute()}")
 
 
