@@ -1606,8 +1606,8 @@ def setup():
     for _ in range(iterations):
         result = ''
         for symbol in starting_phrase:
-            substituir = rules.get(symbol, symbol)
-            result = result + substituir
+            replacement = rules.get(symbol, symbol)
+            result = result + replacement
         #print(starting_phrase, result)
         starting_phrase = result    
     print(len(result))
