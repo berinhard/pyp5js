@@ -19,3 +19,4 @@ docs/examples/dev*
 .theia
 .envrc
 *.properties.json
+.idea/*
