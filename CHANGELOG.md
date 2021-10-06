@@ -3,7 +3,7 @@ Development
 - Add transcrypt interpreter choice to web editor
 - Pyodide examples in the docs
 - Upgrade Transcrypt to 3.9.0
-- Upgrade Pyodide to v0.17.0
+- Upgrade Pyodide to v0.18.1
 - Enable to use custom templates files to generate and compile index.html
 - Add docs on Pyodide examples
 
