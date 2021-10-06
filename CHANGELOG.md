@@ -1,6 +1,14 @@
 Development
 -----------
 
+0.6.0
+-----
+- Add transcrypt interpreter choice to web editor [PR #175](https://github.com/berinhard/pyp5js/pull/175)
+- Upgrade Transcrypt to 3.9.0
+- Upgrade Pyodide to v0.18.1 [PR #181](https://github.com/berinhard/pyp5js/pull/181)
+- Enable to use custom templates files to generate and compile index.html [PR #177](https://github.com/berinhard/pyp5js/pull/177)
+- Add docs on Pyodide examples [PR #178](https://github.com/berinhard/pyp5js/pull/178)
+
 0.5.2
 -----
 - Pyodide mode bugfix for missing `P3D` global definition

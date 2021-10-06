@@ -14,14 +14,12 @@ Python 3 drawing in the web 🐍 🐍 🐍  Try it [here](https://berinhard.gith
 ```python
 def setup():
     createCanvas(200, 200)
-    background(160)
-
 
 def draw():
-    fill("blue")
     background(200)
-    radius = sin(frameCount / 60) * 50 + 50
-    ellipse(100, 100, radius, radius)
+    diameter = sin(frameCount / 60) * 50 + 50
+    fill("blue")
+    ellipse(100, 100, diameter, diameter)
 ```
 <iframe src="/pyp5js/examples/sketch_000/" style="width: 200px; height: 200px; border: 0px"></iframe>
 
@@ -45,9 +43,9 @@ $ pip install pyp5js
 
 Since you'll be writting Python code and then generating the correspondent
 P5.js code from it, pyp5js provides a web application interface to help you
-to generate the files.
+generate the files.
 
-So, to start a the application, you'll have to run:
+So, to start the application, you'll have to run:
 
 ```bash
 $ pyp5js serve
@@ -114,7 +112,7 @@ the `compile` command:
 $ pyp5js compile my_sketch
 ```
 
-If you're lazy as me, you can use the `monitor` command instead of the previous
+If you're lazy like me, you can use the `monitor` command instead of the previous
 one. The command will monitor your sketch directory and keep track of any
 changes on any `.py` files. When it notices a new change, it automatically runs
 the compile process for you:
@@ -123,7 +121,7 @@ the compile process for you:
 $ pyp5js monitor my_sketch
 ```
 
-You can also use the `monitor` command within the `new` by running:
+You can also use the `--monitor` option within the `new` command by running:
 
 ```
 $ pyp5js new my_sketch --monitor
@@ -167,7 +165,6 @@ Okay, if you want to contribute with pyp5js's code, let's go! I really advise yo
 
 ```
 $ git clone git@github.com:YOUR_GITHUB_PROFILE/pyp5js.git
-$ mkvirtualenv pyp5js -p /usr/bin/python3  # python3 path can change depending on your system
 $ cd pyp5js
 $ pip install -r dev-requirements.txt
 $ python setup.py develop
@@ -182,7 +179,6 @@ After that, you should have the `pyp5js` command enabled and it will respect all
 - `compiler.py`: where all the magic happens!
 - `exception.py`: custom exceptions used by `pyp5js`
 - `monitor.py`: module with the objects used by the `monitor` command
-- `pyp5js.py`: module which is imported by the sketches and integrates with P5.js API
 - `sketch.py`: class to abstract Sketches' files, directories and configuration
 - `template_renderers.py`: simple module with the renderization logic for the code templates like `target_sketch.py`
 - `http/web_app.py`: Flask application for the web interface.

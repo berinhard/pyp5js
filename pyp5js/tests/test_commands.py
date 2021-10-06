@@ -5,6 +5,7 @@ from unittest.mock import Mock, patch
 
 from pyp5js import commands
 from pyp5js.config import SKETCHBOOK_DIR, TRANSCRYPT_INTERPRETER, PYODIDE_INTERPRETER
+from pyp5js.config.fs import PYP5JS_FILES
 from pyp5js.exceptions import PythonSketchDoesNotExist, SketchDirAlreadyExistException, InvalidName
 from pyp5js.sketch import Sketch
 
@@ -74,6 +75,7 @@ class TestNewSketchCommand(TestCase):
         assert self.sketch.p5js.exists()
         assert self.sketch.config_file.exists()
         assert self.sketch.config.interpreter == TRANSCRYPT_INTERPRETER
+        assert self.sketch.config.index_template == ""
 
     def test_create_pyodide_sketch(self):
         commands.new_sketch(self.sketch_name, interpreter=PYODIDE_INTERPRETER)
@@ -90,3 +92,12 @@ class TestNewSketchCommand(TestCase):
 
         with pytest.raises(SketchDirAlreadyExistException):
             commands.new_sketch(self.sketch_name)
+
+    def test_create_sketch_with_custom_index(self):
+        template = PYP5JS_FILES.install.parent / "docs" / "examples" / "transcrypt" / "index.html.template"
+        commands.new_sketch(self.sketch_name, template_file=template)
+
+        assert self.sketch.index_html.exists()
+        with open(self.sketch.index_html) as fd:
+            content = fd.read()
+        assert "demoContainer" in content

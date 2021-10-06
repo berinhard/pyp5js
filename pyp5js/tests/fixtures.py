@@ -50,6 +50,19 @@ def pyodide_json_file():
         os.remove(filename)
 
 @fixture
+def custom_index_json_file():
+    try:
+        fd = NamedTemporaryFile(mode='w', delete=False)
+        data = {"interpreter": "transcrypt", "index_template": "docs/examples/transcrypt/index.html.template"}
+        json.dump(data, fd)
+        filename = fd.name
+        fd.seek(0)
+        fd.close()
+        yield filename
+    finally:
+        os.remove(filename)
+
+@fixture
 def transcrypt_config():
     return SketchConfig(interpreter=TRANSCRYPT_INTERPRETER)
 

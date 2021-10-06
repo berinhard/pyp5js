@@ -1,4 +1,5 @@
 import json
+from pathlib import Path
 
 from pyp5js.config.fs import PYP5JS_FILES
 
@@ -13,12 +14,23 @@ class SketchConfig:
             config_data = json.load(fd)
             return cls(**config_data)
 
-    def __init__(self, interpreter):
+    def __init__(self, interpreter, index_template=""):
         self.interpreter = interpreter
+        self.index_template = index_template # must be a string
+
+    @property
+    def index_template_path(self):
+        return Path(self.index_template).absolute()
 
     def write(self, fname):
+        index_template = ""
+        if self.index_template and self.index_template_path.exists():
+            index_template = str(self.index_template_path.resolve())
         with open(fname, "w") as fd:
-            data = {"interpreter": self.interpreter}
+            data = {
+                "interpreter": self.interpreter,
+                "index_template": index_template
+            }
             json.dump(data, fd)
 
     @property
@@ -30,6 +42,8 @@ class SketchConfig:
         return self.interpreter == PYODIDE_INTERPRETER
 
     def get_index_template(self):
+        if self.index_template and self.index_template_path.exists():
+            return self.index_template_path
         index_map = {
             TRANSCRYPT_INTERPRETER: PYP5JS_FILES.transcrypt_index_html,
             PYODIDE_INTERPRETER: PYP5JS_FILES.pyodide_index_html,

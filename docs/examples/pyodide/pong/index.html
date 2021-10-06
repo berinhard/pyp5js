@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+
+<!-- Template file used to generate the examples using Transcrypt interpreter -->
+<html lang="">
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pong - pyp5js</title>
+    <style> body, html, canvas {padding: 0; margin: 0; overflow: hidden;} </style>
+
+    <script src="static/p5.js"></script>
+    <script src="target/target_sketch.js"  type="module"></script>
+
+    <script src="https://pyodide-cdn2.iodide.io/v0.17.0/full/pyodide.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    <style>
+        html {
+          overflow-y: scroll;
+          overflow-x: scroll;
+        }
+
+        .demoContainer {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        pre {
+            padding-left: 2em;
+        }
+    </style>
+  </head>
+
+  <body>
+    <p style="background-color: #f6f8fa">
+      Python code <a href="https://github.com/berinhard/pyp5js/blob/develop/docs/examples/pyodide/pong" target="_blank">here</a>.
+    </p>
+
+    <div class="demoContainer">
+        <div id="sketch-holder" style="">
+              <!-- You sketch will go here! -->
+        </div>
+
+        <div style="">
+          <pre><code>RAD =    10
+P_RAD =  30
+WIDTH =  600
+HEIGHT = 300
+
+class Ball:
+    def __init__self(x, y, sx, sy): 
+        self.x = x
+        self.y = y
+        self.sx = sx
+        self.sy = sy
+        
+    def draw(self):
+        circle(self.x, self.y, 2 * RAD)
+        
+    def reset(self):
+        self.x = WIDTH // 2
+        self.y = HEIGHT // 2
+        self.sx = 4
+        self.sy = 0
+        self.play = True
+
+ball = Ball()
+
+class Player:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y 
+
+    def reset(self):
+        self.y = HEIGHT // 2
+
+    def set_pos(self,y):
+        self.y = min(HEIGHT, max(y, 0))
+
+    def draw(self):
+        strokeWeight(2)
+        line(self.x, self.y - P_RAD, self.x, self.y + P_RAD)
+
+
+player1 = Player(10, HEIGHT // 2)
+player2 = Player(WIDTH - 10, HEIGHT // 2)
+
+game = None
+
+def setup():
+    global game
+    createCanvas(WIDTH, HEIGHT)
+    stroke(255)
+    fill(255)
+    game = Game()
+    game.reset()
+    
+class Game:
+    def __init__(self):
+        self.over = False
+  
+    def reset(self):
+        self.over = False
+        ball.reset()
+        player1.reset()
+        player2.reset()
+
+    def tick(self):
+        if not self.over:
+        #  y: keep ball inside of vertical bounds
+            if (ball.y < 10) or (ball.y > height - 10): 
+                ball.sy *= -1
+
+            ball.y += ball.sy
+
+            # x: player 2
+            if (ball.x + RAD >= player2.x):
+                ball.sx *= -1
+
+            # x: player 1
+            if (ball.x - RAD <= player1.x):
+                if ((ball.y > player1.y - P_RAD) and
+                    (ball.y < player1.y + P_RAD)):
+                    # player 1 hits the ball
+
+                    # bounce back
+                    ball.sx *= -1
+                    # get ball-paddle angle
+                    angle = ball.y - player1.y
+                    ball.sy = angle / 9
+                    ball.sx = map(abs(angle), 0, P_RAD, 3, 9)
+
+                else:
+                    # player misses the ball
+                    self.over = True
+              
+        if (ball.x < -100):
+                game.reset()    
+        ball.x += ball.sx
+        ball.draw()
+
+
+def draw(): 
+    if not game.over:
+        background(0)
+    else:
+        background(255,0,0)
+
+    player1.set_pos(mouseY)
+    player1.draw()
+
+    player2.set_pos(ball.y)
+    player2.draw()
+
+    game.tick()
+</code></pre>
+        </div>
+
+    </div>
+  </body>
+</html>
