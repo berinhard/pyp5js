@@ -1642,17 +1642,20 @@ function runCode() {
     }
 
     console.log("Python execution output:");
-    pyodide.runPython(code);
+    window.pyodide.runPython(code);
 }
 
 
 async function main() {
-    await loadPyodide({ indexURL : "https://pyodide-cdn2.iodide.io/v0.17.0/full/" });
-    // await pyodide.loadPackage('numpy');
+    const config = {
+        indexURL : "https://pyodide-cdn2.iodide.io/v0.18.1/full/",
+        fullStdLib: false,
+    }
+    window.pyodide = await loadPyodide(config);
     // Pyodide is now ready to use...
-    console.log(pyodide.runPython(`
+    console.log(window.pyodide.runPython(`
         import io, code, sys
-        from js import pyodide, p5, window, document
+        from js import p5, window, document
         print(sys.version)
   `));
    window.runSketchCode = (code) => {
