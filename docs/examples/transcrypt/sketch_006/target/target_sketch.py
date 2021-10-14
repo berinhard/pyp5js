@@ -1,24 +1,78 @@
-import sketch_006 as source_sketch
 from pyp5js import *
 
+def setup():
+    pass
+
+def draw():
+    pass
+
+deviceMoved = None
+deviceTurned = None
+deviceShaken = None
+keyPressed = None
+keyReleased = None
+keyTyped = None
+mouseMoved = None
+mouseDragged = None
+mousePressed = None
+mouseReleased = None
+mouseClicked = None
+doubleClicked = None
+mouseWheel = None
+touchStarted = None
+touchMoved = None
+touchEnded = None
+windowResized = None
+
+
+r = None
+def setup():
+    global r
+
+    createCanvas(900, 900)
+    r = random(100, 700)
+    noFill()
+
+
+def draw():
+    x, y = 100, 100
+    rect(x, y, r, r)
+
+
+def keyPressed():
+    console.log("Key pressed event")
+
+    if key == "n":
+        global r
+        r = random(100, 700)
+        redraw()
+
+
+def mouseDragged():
+    global r
+    r = random(100, 700)
+    redraw()
+
+
+
 event_functions = {
-    "deviceMoved": source_sketch.deviceMoved,
-    "deviceTurned": source_sketch.deviceTurned,
-    "deviceShaken": source_sketch.deviceShaken,
-    "keyPressed": source_sketch.keyPressed,
-    "keyReleased": source_sketch.keyReleased,
-    "keyTyped": source_sketch.keyTyped,
-    "mouseMoved": source_sketch.mouseMoved,
-    "mouseDragged": source_sketch.mouseDragged,
-    "mousePressed": source_sketch.mousePressed,
-    "mouseReleased": source_sketch.mouseReleased,
-    "mouseClicked": source_sketch.mouseClicked,
-    "doubleClicked": source_sketch.doubleClicked,
-    "mouseWheel": source_sketch.mouseWheel,
-    "touchStarted": source_sketch.touchStarted,
-    "touchMoved": source_sketch.touchMoved,
-    "touchEnded": source_sketch.touchEnded,
-    "windowResized": source_sketch.windowResized,
+    "deviceMoved": deviceMoved,
+    "deviceTurned": deviceTurned,
+    "deviceShaken": deviceShaken,
+    "keyPressed": keyPressed,
+    "keyReleased": keyReleased,
+    "keyTyped": keyTyped,
+    "mouseMoved": mouseMoved,
+    "mouseDragged": mouseDragged,
+    "mousePressed": mousePressed,
+    "mouseReleased": mouseReleased,
+    "mouseClicked": mouseClicked,
+    "doubleClicked": doubleClicked,
+    "mouseWheel": mouseWheel,
+    "touchStarted": touchStarted,
+    "touchMoved": touchMoved,
+    "touchEnded": touchEnded,
+    "windowResized": windowResized,
 }
 
-start_p5(source_sketch.setup, source_sketch.draw, event_functions)
+start_p5(setup, draw, event_functions)

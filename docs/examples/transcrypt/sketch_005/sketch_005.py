@@ -1,6 +1,3 @@
-from pyp5js import *
-
-
 def setup():
     createCanvas(600,600)
     noStroke()
