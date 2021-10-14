@@ -58,7 +58,6 @@
 {% endblock content %}
 
 {% block custom_js %}
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
     <script src="/static/js/ace/ace.js"></script>
 
     <script type="text/javascript">
@@ -85,18 +84,22 @@
     <script src="{{ sketch_js_url }}" {% if js_as_module %}type="module"{% endif %}></script>
 
     <script type="text/javascript">
-      $(document).ready(() => {
-        $("#executeBtn").on("click", () => {
+      document.addEventListener("DOMContentLoaded", () => {
+        const submitBtn = document.getElementById("submitBtn");
+        const executeBtn = document.getElementById("executeBtn");
+        const clearBtn = document.getElementById("clearBtn");
+
+        executeBtn.addEventListener("click", () => {
           const code = editor.getSession().getValue();
           window.runSketchCode(code);
         });
 
 
-        $("#clearBtn").on("click", () => {
-          $("#sketch-holder").html("");
+        clearBtn.addEventListener("click", () => {
+          document.getElementById("sketch-holder").innerHTML = "";
         });
 
-        $("body").bind("keydown",keyDown);
+        document.body.addEventListener("keydown", keyDown);
 
         function cleanKeyCode(e) {
           // Shortcuts work for Ctrl or Cmd
@@ -108,14 +111,14 @@
         function keyDown(e){
             if(cleanKeyCode(e) === 83){  // Ctrl + s to save
               e.preventDefault();
-              $("#submitBtn").click();
+              submitBtn.click();
             {% if live_run %}
             } else if (cleanKeyCode(e) === 13) {  // Ctrl + Enter to run
               e.preventDefault();
-              $("#executeBtn").click();
+              executeBtn.click();
             } else if(cleanKeyCode(e) === 190){  // Ctrl + . to clear
               e.preventDefault();
-              $("#clearBtn").click();
+              clearBtn.click();
             {% endif %}
             }
         }
