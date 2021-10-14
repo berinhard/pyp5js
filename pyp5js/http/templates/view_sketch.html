@@ -18,10 +18,17 @@
             margin-right: 2em;
         }
 
+        .text-editor-box {
+          margin: 0 1.5em;
+          max-width: 800px;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+        }
+
         #text-editor {
           float: left;
-          margin: 1.5em;
-          margin-right: 0;
+          margin: 0.5em 0;
           height: 800px;
          }
 
@@ -32,8 +39,15 @@
         }
 
         #sketch-buttons {
-          margin: 0 1.5em;
+          width: 100%;
           min-width: 250px;
+          display: flex;
+          justify-content: space-between;
+          align-self: flex-start;
+        }
+
+        .left-buttons {
+          width: 100%;
         }
 
         .hidden-editor {
@@ -49,11 +63,6 @@
           justify-content: flex-start;
         }
 
-        #collapseBtn {
-          margin-top: 2em;
-          margin-left: -1em;
-          margin-right: 1.5em;
-        }
     </style>
 {% endblock %}
 
@@ -66,21 +75,23 @@
           <textarea class="display-none" id="id_py_code" name="py_code">{{ py_code }}</textarea>
           <div class="code-container">
             <div class="text-editor-box">
+              <button id="collapseBtn" title="Collapse the code editor" type="button"
+                class="btn btn-primary bg-orange rounded py1 px2 pb3">
+                ⮜ Collapse</button>
               <div id="text-editor" class="text-editor">{{ py_code }}</div>
               <div id="sketch-buttons" class="clearfix">
                 {% if live_run %}
-                <button id="executeBtn" title="(Ctrl/Cmd + Enter) to refresh the skecth" type="button"
-                  class="btn btn-primary bg-green rounded py1 px2 mb1">Update</button>
-                <button id="clearBtn" title="(Ctrl/Cmd + .) to clear the skecth" type="button"
-                  class="btn btn-primary rounded bg-red py1 px2 mb1">Clear</button>
+                <div class="left-buttons">
+                  <button id="executeBtn" title="(Ctrl/Cmd + Enter) to refresh the skecth" type="button"
+                    class="btn btn-primary bg-green rounded py1 px2 mb1">Update</button>
+                  <button id="clearBtn" title="(Ctrl/Cmd + .) to clear the skecth" type="button"
+                    class="btn btn-primary rounded bg-red py1 px2 mb1">Clear</button>
+                </div>
                 {% endif %}
-                <input id="submitBtn" title="(Ctrl/Cmd + s) to save the sketch" style="float: right"
-                  class="btn btn-primary rounded py1 px2 mb1" type="submit" value="Save">
+                <input id="submitBtn" title="(Ctrl/Cmd + s) to save the sketch" class="btn btn-primary rounded py1 px2 mb1"
+                  type="submit" value="Save">
               </div>
             </div>
-            <button id="collapseBtn" title="Collapse the code editor" type="button" 
-              class="btn btn-primary bg-orange rounded py1 px2 mb1 pb3">
-              ⮜ Collapse</button>
           </div>
         </form>
       </div>
@@ -132,7 +143,7 @@
         collapseBtn.addEventListener("click", () => {
           const textEditorEl = document.getElementById("text-editor");
           textEditorEl.classList.toggle("hidden-editor");
-          collapseBtn.textContent = (collapseBtn.textContent.includes("Collapse")) ? "Expand ⮞" : "⮜ Collapse"
+          collapseBtn.textContent = (collapseBtn.textContent.includes("Collapse")) ? "Expand ⮞" : "⮜ Collapse";
         })
 
         clearBtn.addEventListener("click", () => {
