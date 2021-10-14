@@ -1,6 +1,3 @@
-from pyp5js import *
-
-
 MY_POINTS = [
     (100, 50),
     (300, 100),

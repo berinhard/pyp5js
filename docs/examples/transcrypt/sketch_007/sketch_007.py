@@ -1,6 +1,3 @@
-from pyp5js import *
-
-
 def setup():
     createCanvas(900, 900)
     stroke(27, 27, 27, 10)
