@@ -12,4 +12,4 @@ refresh_transcrypt_docs:
 	cd docs/examples/transcrypt; for x in `ls -d */`; do SKETCHBOOK_DIR="/home/bernardo/envs/pyp5js/docs/examples/transcrypt/" pyp5js compile $$x --refresh --template "/home/bernardo/envs/pyp5js/docs/examples/transcrypt/index.html.template"; done;
 
 refresh_pyodide_docs:
-	cd docs/examples/pyodide; for x in `ls -d */`; do SKETCHBOOK_DIR="/home/bernardo/envs/pyp5js/docs/examples/pyodide" pyp5js compile $$x --refresh; done;
+	cd docs/examples/pyodide; for x in `ls -d */`; do SKETCHBOOK_DIR="/home/bernardo/envs/pyp5js/docs/examples/pyodide" pyp5js compile $$x --refresh --template "/home/bernardo/envs/pyp5js/docs/examples/pyodide/index.html.template"; done;
