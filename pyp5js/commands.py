@@ -42,7 +42,7 @@ def new_sketch(sketch_name, interpreter=PYODIDE_INTERPRETER, template_file=""):
     return sketch
 
 
-def compile_sketch(sketch_name, generate_index=False):
+def compile_sketch(sketch_name, generate_index=False, index_template=None):
     """
     Transcrypt the sketch python code to javascript.
 
@@ -61,6 +61,9 @@ def compile_sketch(sketch_name, generate_index=False):
 
     compile_sketch_js(sketch)
     if generate_index:
+        # to be able to overwrite default index template file
+        # useful for generating the docs or debugging
+        sketch.config.index_template = index_template
         index_contet = get_sketch_index_content(sketch)
         with open(sketch.index_html, "w") as fd:
             fd.write(index_contet)
