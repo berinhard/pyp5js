@@ -1,5 +1,4 @@
 # 3d example
-from pyp5js import *
 
 
 def setup():
