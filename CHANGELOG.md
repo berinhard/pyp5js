@@ -1,5 +1,7 @@
-Development
+Development (0.7.0)
 -----------
+- Remove `from pyp5js import *` requirement under transcrypt [PR #183](https://github.com/berinhard/pyp5js/pull/183/)
+- Make local code editor collapsible [PR #184](https://github.com/berinhard/pyp5js/pull/184/)
 
 0.6.0
 -----
