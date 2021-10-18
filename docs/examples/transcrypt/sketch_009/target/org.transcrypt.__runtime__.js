@@ -1,10 +1,10 @@
-// Transcrypt'ed from Python, 2021-09-20 17:40:40
+// Transcrypt'ed from Python, 2021-10-14 12:26:27
 var __name__ = 'org.transcrypt.__runtime__';
 export var __envir__ = {};
 __envir__.interpreter_name = 'python';
 __envir__.transpiler_name = 'transcrypt';
 __envir__.executor_name = __envir__.transpiler_name;
-__envir__.transpiler_version = '3.7.16';
+__envir__.transpiler_version = '3.9.0';
 
 export function __nest__ (headObject, tailNames, value) {
     var current = headObject;
@@ -38,15 +38,14 @@ export function __init__ (module) {
     }
     return module.__all__;
 };
-export var __proxy__ = false;
-export function __get__ (self, func, quotedFuncName) {
-    if (self) {
-        if (self.hasOwnProperty ('__class__') || typeof self == 'string' || self instanceof String) {
+export function __get__ (aThis, func, quotedFuncName) {
+    if (aThis) {
+        if (aThis.hasOwnProperty ('__class__') || typeof aThis == 'string' || aThis instanceof String) {
             if (quotedFuncName) {
-                Object.defineProperty (self, quotedFuncName, {
+                Object.defineProperty (aThis, quotedFuncName, {
                     value: function () {
                         var args = [] .slice.apply (arguments);
-                        return func.apply (null, [self] .concat (args));
+                        return func.apply (null, [aThis] .concat (args));
                     },
                     writable: true,
                     enumerable: true,
@@ -55,7 +54,7 @@ export function __get__ (self, func, quotedFuncName) {
             }
             return function () {
                 var args = [] .slice.apply (arguments);
-                return func.apply (null, [self] .concat (args));
+                return func.apply (null, [aThis.__proxy__ ? aThis.__proxy__ : aThis] .concat (args));
             };
         }
         else {
@@ -66,21 +65,21 @@ export function __get__ (self, func, quotedFuncName) {
         return func;
     }
 };
-export function __getcm__ (self, func, quotedFuncName) {
-    if (self.hasOwnProperty ('__class__')) {
+export function __getcm__ (aThis, func, quotedFuncName) {
+    if (aThis.hasOwnProperty ('__class__')) {
         return function () {
             var args = [] .slice.apply (arguments);
-            return func.apply (null, [self.__class__] .concat (args));
+            return func.apply (null, [aThis.__class__] .concat (args));
         };
     }
     else {
         return function () {
             var args = [] .slice.apply (arguments);
-            return func.apply (null, [self] .concat (args));
+            return func.apply (null, [aThis] .concat (args));
         };
     }
 };
-export function __getsm__ (self, func, quotedFuncName) {
+export function __getsm__ (aThis, func, quotedFuncName) {
     return func;
 };
 export var py_metatype = {
@@ -95,6 +94,9 @@ export var py_metatype = {
             var base = bases [index];
             for (var attrib in base) {
                 var descrip = Object.getOwnPropertyDescriptor (base, attrib);
+                if (descrip == null) {
+                    continue;
+                }
                 Object.defineProperty (cls, attrib, descrip);
             }
             for (let symbol of Object.getOwnPropertySymbols (base)) {
@@ -125,7 +127,7 @@ export var object = {
     __new__: function (args) {
         var instance = Object.create (this, {__class__: {value: this, enumerable: true}});
         if ('__getattr__' in this || '__setattr__' in this) {
-            instance = new Proxy (instance, {
+            instance.__proxy__ = new Proxy (instance, {
                 get: function (target, name) {
                     let result = target [name];
                     if (result == undefined) {
@@ -145,6 +147,7 @@ export var object = {
                     return true;
                 }
             })
+			instance = instance.__proxy__
         }
         this.__init__.apply (null, [instance] .concat (args));
         return instance;
@@ -1830,10 +1833,13 @@ export var Exception =  __class__ ('Exception', [BaseException], {
 			var args = tuple ();
 		}
 		self.__args__ = args;
-		try {
+		if (kwargs.error != null) {
 			self.stack = kwargs.error.stack;
 		}
-		catch (__except0__) {
+		else if (Error) {
+			self.stack = new Error ().stack;
+		}
+		else {
 			self.stack = 'No stack trace available';
 		}
 	});},

@@ -30,4 +30,3 @@ def test_get_target_sketch_content(sketch):
     content = renderers.get_target_sketch_content(sketch)
 
     assert expected_content == content
-    assert "import foo as source_sketch" in content

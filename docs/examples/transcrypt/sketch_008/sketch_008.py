@@ -1,6 +1,3 @@
-from pyp5js import *
-
-
 rect_base_size = 30
 positions = []
 rect_size = None

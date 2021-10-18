@@ -20,7 +20,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js" integrity="sha512-GZ1RIgZaSc8rnco/8CXfRdCpDxRCphenIiZ2ztLy3XQfCbQUSCuk8IudvNHxkRA3oUg6q0qejgN/qqyG1duv5Q==" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/mode-python.min.js" integrity="sha512-2Ke4vMGrMfYRM55pT1aA5bw7Pl82Sc7K5Hg8XZYZu+EQrb0AO1mNYTagwZm+MFVAImYS9Mlnm73zcgc01wPXxA==" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/theme-monokai.min.js" integrity="sha512-S4i/WUGRs22+8rjUVu4kBjfNuBNp8GVsgcK2lbaFdws4q6TF3Nd00LxqnHhuxS9iVDfNcUh0h6OxFUMP5DBD+g==" crossorigin="anonymous"></script>
-    <script src="target/target_sketch.js"  type="module"></script>
+    <script src="{{ sketch_js_url }}"  type="module"></script>
 
     <script>hljs.initHighlightingOnLoad();</script>
 
@@ -69,15 +69,7 @@
 <div><p style="background-color: #f6f8fa; font-family: 'sans'; font-size:14px"><a href="https://github.com/berinhard/pyp5js"><b>pyp5js</b></a> running on top of <a href="https://github.com/iodide-project/pyodide" target="_blank">pyodide</a></p></div>
   </body>
   <script type="text/javascript">
-    const initialSketch = `def setup():
-    createCanvas(200, 200)
-
-def draw():
-    background(200)
-    diameter = sin(frameCount / 60) * 50 + 50
-    fill("blue")
-    ellipse(100, 100, diameter, diameter)
-`;
+    const initialSketch = `{{ sketch_content }}`;
 
     //// Configure ACE edtior
     var editor = ace.edit("text-editor");
