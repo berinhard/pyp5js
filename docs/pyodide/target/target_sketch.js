@@ -1693,11 +1693,11 @@ async function main() {
         print(sys.version)
   `));
    window.runSketchCode = (code) => {
-      let userCode = code;
+      userCode = code;
       runCode();
     }
 
     runCode();
 };
 
-main();
+await main();

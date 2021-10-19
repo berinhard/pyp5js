@@ -16,3 +16,6 @@ refresh_pyodide_docs:
 
 refresh_demo:
 	SKETCHBOOK_DIR="/home/bernardo/envs/pyp5js/docs/" pyp5js compile pyodide --refresh --template "/home/bernardo/envs/pyp5js/docs/pyodide/index.html.template";
+
+run_demo:
+	cd docs/pyodide && python -m http.server

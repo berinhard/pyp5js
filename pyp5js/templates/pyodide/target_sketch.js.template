@@ -1692,4 +1692,4 @@ async function main() {
     runCode();
 };
 
-main();
+await main();
