@@ -16,6 +16,7 @@ demo_sketch
 tests-sketchbook
 venv
 docs/examples/dev*
+docs/examples/issue*
 .theia
 .envrc
 *.properties.json
