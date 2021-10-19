@@ -1659,7 +1659,7 @@ async function main() {
         print(sys.version)
   `));
    window.runSketchCode = (code) => {
-      userCode = code;
+      let userCode = code;
       runCode();
     }
 
