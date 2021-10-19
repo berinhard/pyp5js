@@ -29,7 +29,6 @@ keyIsDown = None
 {{ sketch_content }}
 
 
-# TODO deprecate event_functions dict
 event_functions = {
     "deviceMoved": deviceMoved,
     "deviceTurned": deviceTurned,
