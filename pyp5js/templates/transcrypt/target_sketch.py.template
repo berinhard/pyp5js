@@ -23,6 +23,7 @@ touchStarted = None
 touchMoved = None
 touchEnded = None
 windowResized = None
+keyIsDown = None
 
 
 {{ sketch_content }}
@@ -47,6 +48,7 @@ event_functions = {
     "touchMoved": touchMoved,
     "touchEnded": touchEnded,
     "windowResized": windowResized,
+    "keyIsDown": keyIsDown,
 }
 
 start_p5(setup, draw, event_functions)
