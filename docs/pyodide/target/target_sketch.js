@@ -1,4 +1,4 @@
-let wrapper_content = `
+const wrapperContent = `
 class PythonFunctions: pass
 
 setattr(PythonFunctions, 'map', map)
@@ -926,15 +926,6 @@ def createCanvas(*args):
 
     return canvas
 
-# Thanks to Luca Damasco for also helping us to
-# figure out how to bind events functions.
-def _bind_event_function(func, *args, **kwargs):
-    func = global_p5_injection(_P5_INSTANCE)(func)
-    try:
-      func(*args, **kwargs)  # try to execute passing parameters
-    except TypeError:
-      func()  # execute without parameters (are opitional)
-
 def __deviceMoved(e):
   try:
     _bind_event_function(deviceMoved, e)
@@ -1592,37 +1583,48 @@ def start_p5(setup_func, draw_func, event_functions):
         """
         p5_sketch.setup = global_p5_injection(p5_sketch)(setup_func)
         p5_sketch.draw = global_p5_injection(p5_sketch)(draw_func)
-        # Register event functions
-        p5_sketch.mouseDragged = lambda e: __mouseDragged(e)
-        p5_sketch.deviceMoved= lambda e: __deviceMoved(e)
-        p5_sketch.deviceTurned= lambda e: __deviceTurned(e)
-        p5_sketch.deviceShaken= lambda e: __deviceShaken(e)
-        p5_sketch.touchStarted= lambda e: __touchStarted(e)
-        p5_sketch.touchMoved= lambda e: __touchMoved(e)
-        p5_sketch.touchEnded= lambda e: __touchEnded(e)
-        p5_sketch.windowResized = lambda e: __windowResized (e)
-        p5_sketch.mouseMoved = lambda e: __mouseMoved(e)
-        p5_sketch.mouseDragged = lambda e: __mouseDragged(e)
-        p5_sketch.mousePressed = lambda e: __mousePressed(e)
-        p5_sketch.mouseReleased = lambda e: __mouseReleased(e)
-        p5_sketch.mouseClicked = lambda e: __mouseClicked(e)
-        p5_sketch.doubleClicked = lambda e: __doubleClicked(e)
-        p5_sketch.mouseWheel = lambda e: __mouseWheel(e)
-        p5_sketch.keyTyped = lambda e: __keyTyped(e)
-        p5_sketch.keyPressed = lambda e: __keyPressed(e)
-        p5_sketch.keyReleased = lambda e: __keyReleased(e)
-        p5_sketch.keyIsDown = lambda e: __keyIsDown(e)  # TODO review this func
 
 
     window.instance = p5.new(sketch_setup, 'sketch-holder')
+
+    # Register event functions
+    event_function_names = (
+        "deviceMoved", "deviceTurned", "deviceShaken", "windowResized",
+        "keyPressed", "keyReleased", "keyTyped",
+        "mousePressed", "mouseReleased", "mouseClicked", "doubleClicked",
+        "mouseMoved", "mouseDragged", "mouseWheel",
+        "touchStarted", "touchMoved", "touchEnded", "keyIsDown",
+    )
+    for f_name in [f for f in event_function_names if event_functions.get(f, None)]:
+        func = event_functions[f_name]
+        event_func = global_p5_injection(window.instance)(func)
+        setattr(window.instance, f_name, event_func)
 `;
 
-let placeholder = `
+const placeholder = `
 def setup():
     pass
 
 def draw():
     pass
+
+deviceMoved = None
+deviceTurned = None
+deviceShaken = None
+keyPressed = None
+keyReleased = None
+keyTyped = None
+mouseMoved = None
+mouseDragged = None
+mousePressed = None
+mouseReleased = None
+mouseClicked = None
+doubleClicked = None
+mouseWheel = None
+touchStarted = None
+touchMoved = None
+touchEnded = None
+windowResized = None
 `;
 
 let userCode = `
@@ -1637,12 +1639,36 @@ def draw():
 
 `;
 
+const startCode = `
+event_functions = {
+    "deviceMoved": deviceMoved,
+    "deviceTurned": deviceTurned,
+    "deviceShaken": deviceShaken,
+    "keyPressed": keyPressed,
+    "keyReleased": keyReleased,
+    "keyTyped": keyTyped,
+    "mouseMoved": mouseMoved,
+    "mouseDragged": mouseDragged,
+    "mousePressed": mousePressed,
+    "mouseReleased": mouseReleased,
+    "mouseClicked": mouseClicked,
+    "doubleClicked": doubleClicked,
+    "mouseWheel": mouseWheel,
+    "touchStarted": touchStarted,
+    "touchMoved": touchMoved,
+    "touchEnded": touchEnded,
+    "windowResized": windowResized,
+}
+
+start_p5(setup, draw, event_functions)
+`;
+
 function runCode() {
     let code = [
         placeholder,
         userCode,
-        wrapper_content,
-        'start_p5(setup, draw, {});',
+        wrapperContent,
+        startCode,
     ].join('\n');
 
     if (window.instance) {
@@ -1674,4 +1700,4 @@ async function main() {
     runCode();
 };
 
-main();
+await main();
