@@ -34,6 +34,8 @@ def get_target_sketch_content(sketch):
     context = {
         "sketch_name": sketch.sketch_name,
         "sketch_content": sketch.sketch_content,
+        # TODO: if pyodide, add the pyodide indexUrl here too
+        # (details about this here https://github.com/berinhard/pyp5js/pull/186#pullrequestreview-782362038)
     }
     target_js_file = sketch.config.get_target_js_template()
     return _template_from_file(target_js_file, context)

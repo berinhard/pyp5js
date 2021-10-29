@@ -106,3 +106,4 @@ class TestNewSketchCommand(TestCase):
         commands.new_sketch(self.sketch_name, use_cdn=False)
 
         assert self.sketch.p5js.exists()
+        # TODO: assertion on pyodide assets too

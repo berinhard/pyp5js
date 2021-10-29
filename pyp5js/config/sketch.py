@@ -32,6 +32,7 @@ class SketchConfig:
             data = {
                 "interpreter": self.interpreter,
                 "index_template": index_template,
+                # TODO: also store pyodide_js_url
                 "p5_js_url": self.p5_js_url,
             }
             json.dump(data, fd)

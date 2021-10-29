@@ -32,6 +32,7 @@ def new_sketch(sketch_name, interpreter=PYODIDE_INTERPRETER, template_file="", u
     }
     if not use_cdn:
         cfg["p5_js_url"] = "/static/p5.js"
+        # TODO: static version for pyodide too
 
     sketch = Sketch(sketch_name, **cfg)
     sketch.create_sketch_dir()
@@ -41,6 +42,7 @@ def new_sketch(sketch_name, interpreter=PYODIDE_INTERPRETER, template_file="", u
     ]
     if not use_cdn:
         templates_files.append((PYP5JS_FILES.p5js, sketch.p5js))
+        # TODO: copy pyodide files to static dir too
     for src, dest in templates_files:
         shutil.copyfile(src, dest)
 
