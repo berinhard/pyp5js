@@ -1214,7 +1214,7 @@ def start_p5(setup_func, draw_func, event_functions):
         "keyPressed", "keyReleased", "keyTyped",
         "mousePressed", "mouseReleased", "mouseClicked", "doubleClicked",
         "mouseMoved", "mouseDragged", "mouseWheel",
-        "touchStarted", "touchMoved", "touchEnded"
+        "touchStarted", "touchMoved", "touchEnded", "keyIsDown"
     )
 
     for f_name in [f for f in event_function_names if event_functions.get(f, None)]:
