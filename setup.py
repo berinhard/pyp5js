@@ -38,8 +38,6 @@ setup(
     packages=find_packages(exclude=["pyp5js.tests"]),
     package_data={
         'pyp5js': [
-            'assets/*',
-            'assets/static/**/*',
             'templates/*',
             'http/templates/*',
             'http/static/*',
