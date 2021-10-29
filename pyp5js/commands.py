@@ -14,24 +14,33 @@ from pyp5js.templates_renderers import get_sketch_index_content
 from pyp5js.config import PYODIDE_INTERPRETER
 
 
-def new_sketch(sketch_name, interpreter=PYODIDE_INTERPRETER, template_file=""):
+def new_sketch(sketch_name, interpreter=PYODIDE_INTERPRETER, template_file="", use_cdn=True):
     """
     Creates a new sketch with the required assets and a index.html file, based on pyp5js's templates
 
     :param sketch_name: name for new sketch
     :param interpreter: interpreter to use (transcrypt or pyodide)
     :param template_file: use a custom template for index.html instead of default one
+    :param use_cdn: if false, the sketch will have copies of required static assets (p5.js and pyodide)
     :type sketch_name: string
     :return: file names
     :rtype: list of strings
     """
-    sketch = Sketch(sketch_name, interpreter=interpreter, index_template=template_file)
+    cfg = {
+        "interpreter": interpreter,
+        "index_template": template_file,
+    }
+    if not use_cdn:
+        cfg["p5_js_url"] = "/static/p5.js"
+
+    sketch = Sketch(sketch_name, **cfg)
     sketch.create_sketch_dir()
 
     templates_files = [
         (sketch.config.get_base_sketch_template(), sketch.sketch_py),
-        (PYP5JS_FILES.p5js, sketch.p5js),
     ]
+    if not use_cdn:
+        templates_files.append((PYP5JS_FILES.p5js, sketch.p5js))
     for src, dest in templates_files:
         shutil.copyfile(src, dest)
 
