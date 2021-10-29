@@ -1,5 +1,7 @@
 Development
 -----------
+- Serve pyodide JS files locally [PR #186](https://github.com/berinhard/pyp5js/pull/186)
+- Create sketch using p5.js from CDN [PR #191](https://github.com/berinhard/pyp5js/pull/191)
 
 0.7.0
 -----
