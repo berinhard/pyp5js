@@ -25,12 +25,13 @@ def command_line_entrypoint():
 @click.option('--monitor', '-m', is_flag=True, help='Starts the monitor command too')
 @click.option('--interpreter', '-i', type=click.Choice(AVAILABLE_INTERPRETERS), default=PYODIDE_INTERPRETER, help='Which python tool to use to run the sketch. (defaults to pyodide)')
 @click.option('--template', '-t', type=click.Path(exists=True), help='Specify a custom index.html template to use.')
-def configure_new_sketch(sketch_name, monitor, interpreter, template):
+@click.option('--cdn/--local', default=True)
+def configure_new_sketch(sketch_name, monitor, interpreter, template, use_cdn):
     """
     Create dir and configure boilerplate - Example:\n
     $ pyp5js new my_sketch -i pyodide
     """
-    files = commands.new_sketch(sketch_name, interpreter, template_file=template)
+    files = commands.new_sketch(sketch_name, interpreter, template_file=template, use_cdn=use_cdn)
 
     cprint.ok(f"Your sketch was created!")
 

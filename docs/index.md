@@ -69,11 +69,7 @@ $ SKETCHBOOK_DIR='~/my-custom-sketchbook' pyp5js serve
 
 Now, have fun =]
 
-## Internals details
-
-The web application is an interface to reduce barriers on playing around with
-`pyp5js` to newcomers and people who don't feel confortable with the terminal
-interface. But if you want to use the terminal, `pyp5js` also exposes a CLI.
+## Command Line Interface
 
 So, to start a new sketch, you'll have to run:
 
@@ -86,7 +82,7 @@ This command will create a directory with the following code structure using **p
 ```
 ~ my_sketch/
   ~ static /
-    - p5.js
+  ~ target /
   - index.html
   - my_sketch.py
 ```
@@ -132,6 +128,10 @@ as specifying the sketch directory. You can check them by running:
 
 ```
 $ pyp5js --help
+
+# or also
+
+$ pyp5js new --help
 ```
 
 
