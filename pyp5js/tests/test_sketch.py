@@ -87,3 +87,9 @@ class SketchTests(TestCase):
 
         assert same_files.config_file == files.config_file
         assert same_files.config.interpreter == PYODIDE_INTERPRETER
+
+    def test_sketch_urls(self):
+        urls = self.files.urls
+
+        assert "static/p5.js" == urls.p5_js_url
+        assert "target/target_sketch.js" == urls.sketch_js_url
