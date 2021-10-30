@@ -3,6 +3,7 @@ import shutil
 from unittest import TestCase
 
 from pyp5js.config import SKETCHBOOK_DIR, PYODIDE_INTERPRETER
+from pyp5js.config.sketch import P5_JS_CDN
 from pyp5js.exceptions import SketchDirAlreadyExistException
 from pyp5js.sketch import Sketch
 from pyp5js.exceptions import InvalidName
@@ -87,3 +88,14 @@ class SketchTests(TestCase):
 
         assert same_files.config_file == files.config_file
         assert same_files.config.interpreter == PYODIDE_INTERPRETER
+
+    def test_sketch_custom_urls(self):
+        files = Sketch(self.files.sketch_name, p5_js_url="static/p5.js")
+        urls = files.urls
+        assert "static/p5.js" == urls.p5_js_url
+        assert "target/target_sketch.js" == urls.sketch_js_url
+
+    def test_sketch_urls(self):
+        urls = self.files.urls
+        assert P5_JS_CDN == urls.p5_js_url
+        assert "target/target_sketch.js" == urls.sketch_js_url

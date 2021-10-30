@@ -1674,7 +1674,7 @@ function runCode() {
 
 async function main() {
     const config = {
-        indexURL : "/static/js/pyodide/",
+        indexURL : "/static/js/pyodide/",  # TODO: replace hardcoded string by {{ indexURL }}
         fullStdLib: false,
     }
     window.pyodide = await loadPyodide(config);

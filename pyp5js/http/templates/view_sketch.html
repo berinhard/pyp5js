@@ -67,7 +67,7 @@
 
 {% block content %}
     <div class="demoContainer">
-    
+
       <div style="display: block">
         <a href="/">Back to sketchbook</a>
         <form action="." method="POST">
@@ -94,7 +94,7 @@
           </div>
         </form>
       </div>
-    
+
       <div id="sketch-holder">
         <!-- You sketch will go here! -->
       </div>
@@ -123,8 +123,7 @@
     <script src="/static/js/pyodide/pyodide_v0.18.1.js"></script>
     {% endif %}
 
-    <script src="{{ p5_js_url }}"></script>
-
+    <script src="/static/p5/p5.js.min"></script>
     <script src="{{ sketch_js_url }}" {% if js_as_module %}type="module"{% endif %}></script>
 
     <script type="text/javascript">

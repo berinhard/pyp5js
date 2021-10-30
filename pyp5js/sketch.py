@@ -109,6 +109,7 @@ class Sketch:
     @property
     def urls(self):
         return SketchUrls(
-            p5_js_url=f"{self.STATIC_NAME}/p5.js",
+            # TODO: add pyodide_js_url
+            p5_js_url=self.config.p5_js_url,
             sketch_js_url=f"{self.TARGET_NAME}/target_sketch.js",
         )
