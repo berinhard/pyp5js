@@ -35,7 +35,7 @@ def new_sketch(sketch_name, interpreter=PYODIDE_INTERPRETER, template_file="", u
     sketch.copy_initial_files(use_cdn=use_cdn)
 
     index_contet = get_sketch_index_content(sketch)
-    with open(sketch.index_html, "w") as fd:
+    with open(sketch.index_html, "w", encoding="utf-8") as fd:
         fd.write(index_contet)
 
     return sketch
@@ -64,7 +64,7 @@ def compile_sketch(sketch_name, generate_index=False, index_template=None):
         # useful for generating the docs or debugging
         sketch.config.index_template = index_template
         index_contet = get_sketch_index_content(sketch)
-        with open(sketch.index_html, "w") as fd:
+        with open(sketch.index_html, "w", encoding="utf-8") as fd:
             fd.write(index_contet)
         cprint.info(f"{sketch.index_html.resolve()} updated")
 

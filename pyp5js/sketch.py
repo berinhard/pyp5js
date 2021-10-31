@@ -77,7 +77,7 @@ class Sketch:
     def sketch_content(self):
         if not self.sketch_py.exists():
             return ""
-        with self.sketch_py.open() as fd:
+        with self.sketch_py.open(encoding="utf-8") as fd:
             return fd.read()
 
     @property
