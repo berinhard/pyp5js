@@ -1,5 +1,23 @@
 Development
 -----------
+- Serve pyodide JS files locally [PR #186](https://github.com/berinhard/pyp5js/pull/186)
+- Create sketch using p5.js from CDN [PR #191](https://github.com/berinhard/pyp5js/pull/191)
+- Add `keyIsDown` event to Transcrypt mode - [PR #187](https://github.com/berinhard/pyp5js/pull/187)
+- Fix bug with multiple events calls - PR #187 too
+
+0.7.0
+-----
+- Remove `from pyp5js import *` requirement under transcrypt [PR #183](https://github.com/berinhard/pyp5js/pull/183/)
+- Make local code editor collapsible [PR #184](https://github.com/berinhard/pyp5js/pull/184/)
+- Add `mouseWheel` event to Pyodide's demo [PR #185](https://github.com/berinhard/pyp5js/pull/185/)
+
+0.6.0
+-----
+- Add transcrypt interpreter choice to web editor - [PR #175](https://github.com/berinhard/pyp5js/pull/175)
+- Upgrade Transcrypt to 3.9.0
+- Upgrade Pyodide to v0.18.1 - [PR #181](https://github.com/berinhard/pyp5js/pull/181)
+- Enable to use custom templates files to generate and compile index.html - [PR #177](https://github.com/berinhard/pyp5js/pull/177)
+- Add docs on Pyodide examples - [PR #178](https://github.com/berinhard/pyp5js/pull/178)
 
 0.5.2
 -----

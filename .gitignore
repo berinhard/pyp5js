@@ -8,6 +8,7 @@
 *.swn
 *.sqlite3
 *.map
+!pyodide.js.map
 __target__
 build
 dist
@@ -16,5 +17,8 @@ demo_sketch
 tests-sketchbook
 venv
 docs/examples/dev*
+docs/examples/issue*
 .theia
 .envrc
+*.properties.json
+.idea/*

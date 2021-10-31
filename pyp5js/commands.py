@@ -14,23 +14,35 @@ from pyp5js.templates_renderers import get_sketch_index_content
 from pyp5js.config import PYODIDE_INTERPRETER
 
 
-def new_sketch(sketch_name, interpreter=PYODIDE_INTERPRETER):
+def new_sketch(sketch_name, interpreter=PYODIDE_INTERPRETER, template_file="", use_cdn=True):
     """
     Creates a new sketch with the required assets and a index.html file, based on pyp5js's templates
 
     :param sketch_name: name for new sketch
     :param interpreter: interpreter to use (transcrypt or pyodide)
+    :param template_file: use a custom template for index.html instead of default one
+    :param use_cdn: if false, the sketch will have copies of required static assets (p5.js and pyodide)
     :type sketch_name: string
     :return: file names
     :rtype: list of strings
     """
-    sketch = Sketch(sketch_name, interpreter=interpreter)
+    cfg = {
+        "interpreter": interpreter,
+        "index_template": template_file,
+    }
+    if not use_cdn:
+        cfg["p5_js_url"] = "/static/p5.js"
+        # TODO: static version for pyodide too
+
+    sketch = Sketch(sketch_name, **cfg)
     sketch.create_sketch_dir()
 
     templates_files = [
         (sketch.config.get_base_sketch_template(), sketch.sketch_py),
-        (PYP5JS_FILES.p5js, sketch.p5js),
     ]
+    if not use_cdn:
+        templates_files.append((PYP5JS_FILES.p5js, sketch.p5js))
+        # TODO: copy pyodide files to static dir too
     for src, dest in templates_files:
         shutil.copyfile(src, dest)
 
@@ -41,11 +53,12 @@ def new_sketch(sketch_name, interpreter=PYODIDE_INTERPRETER):
     return sketch
 
 
-def compile_sketch(sketch_name):
+def compile_sketch(sketch_name, generate_index=False, index_template=None):
     """
     Transcrypt the sketch python code to javascript.
 
     :param sketch_name: name for new sketch
+    :param generate_index: boolean to flag if the index.html file should be updated
     :type sketch_name: string
     :return: file names
     :rtype: list of strings
@@ -58,6 +71,15 @@ def compile_sketch(sketch_name):
         raise PythonSketchDoesNotExist(sketch)
 
     compile_sketch_js(sketch)
+    if generate_index:
+        # to be able to overwrite default index template file
+        # useful for generating the docs or debugging
+        sketch.config.index_template = index_template
+        index_contet = get_sketch_index_content(sketch)
+        with open(sketch.index_html, "w") as fd:
+            fd.write(index_contet)
+        cprint.info(f"{sketch.index_html.resolve()} updated")
+
     return sketch
 
 

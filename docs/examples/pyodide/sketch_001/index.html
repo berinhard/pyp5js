@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+
+<!-- Template file used to generate the examples using Transcrypt interpreter -->
+<html lang="">
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sketch_001 - pyp5js</title>
+    <style> body, html, canvas {padding: 0; margin: 0; overflow: hidden;} </style>
+
+    <script src="static/p5.js"></script>
+    <script src="target/target_sketch.js"  type="module"></script>
+
+    <script src="https://pyodide-cdn2.iodide.io/v0.17.0/full/pyodide.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    <style>
+        html {
+          overflow-y: scroll;
+          overflow-x: scroll;
+        }
+
+        .demoContainer {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        pre {
+            padding-left: 2em;
+        }
+    </style>
+  </head>
+
+  <body>
+    <p style="background-color: #f6f8fa">
+      Python code <a href="https://github.com/berinhard/pyp5js/blob/develop/docs/examples/pyodide/sketch_001" target="_blank">here</a>.
+    </p>
+
+    <div class="demoContainer">
+        <div id="sketch-holder" style="">
+              <!-- You sketch will go here! -->
+        </div>
+
+        <div style="">
+          <pre><code># https://p5js.org/examples/interaction-wavemaker.html
+
+t = 0
+
+def setup():
+    createCanvas(600, 600)
+    stroke(250)
+    strokeWeight(3)
+    fill(40, 200, 40)
+
+
+def draw():
+    global t
+    background(10, 10)
+
+    xAngle = map(mouseX, 0, width, -4 * PI, 4 * PI, True)
+    yAngle = map(mouseY, 0, height, -4 * PI, 4 * PI, True)
+    for x in range(0, width, 30):
+        for y in range(0, height, 30):
+
+            angle = xAngle * (x / width) + yAngle * (y / height)
+
+            myX = x + 20 * cos(2 * PI * t + angle)
+            myY = y + 20 * sin(2 * TWO_PI * t + angle)
+
+            ellipse(myX, myY, 10)
+
+    t = t + 0.01
+</code></pre>
+        </div>
+
+    </div>
+  </body>
+</html>

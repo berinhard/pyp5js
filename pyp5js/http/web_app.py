@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, send_from_directory
 from slugify import slugify
 
 from pyp5js import commands
-from pyp5js.config import SKETCHBOOK_DIR, PYODIDE_INTERPRETER
+from pyp5js.config import SKETCHBOOK_DIR, PYODIDE_INTERPRETER, AVAILABLE_INTERPRETERS, TRANSCRYPT_INTERPRETER
 from pyp5js.exceptions import PythonSketchDoesNotExist, SketchDirAlreadyExistException
 from pyp5js.sketch import Sketch
 
@@ -32,18 +32,23 @@ def sketches_list_view():
 @app.route("/new-sketch/", methods=['GET', 'POST'])
 def add_new_sketch_view():
     template = 'new_sketch_form.html'
-    context = {'sketches_dir': SKETCHBOOK_DIR.resolve()}
+    context = {
+        'sketches_dir': SKETCHBOOK_DIR.resolve(),
+        'pyodide_interpreter': PYODIDE_INTERPRETER,
+        'transcrypt_interpreter': TRANSCRYPT_INTERPRETER,
+    }
 
     if request.method == 'POST':
         sketch_name = slugify(request.form.get(
             'sketch_name', '').strip(), separator='_')
+        interpreter = request.form.get('interpreter', PYODIDE_INTERPRETER)
         if not sketch_name:
             context['error'] = "You have to input a sketch name to proceed."
+        elif interpreter not in AVAILABLE_INTERPRETERS:
+            context['error'] = f"The interpreter {interpreter} is not valid. Please, select a valid one."
         else:
             try:
-                # web client only supports pyodide mode for now
-                # TODO: improve post payload to accept a select
-                files = commands.new_sketch(sketch_name, interpreter=PYODIDE_INTERPRETER)
+                files = commands.new_sketch(sketch_name, interpreter=interpreter)
                 template = 'new_sketch_success.html'
                 context.update({
                     'files': files,

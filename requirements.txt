@@ -1,6 +1,6 @@
 Click==7.1.1
 Jinja2==2.11.3
-Transcrypt==3.7.16
+Transcrypt==3.9.0
 cprint==1.1
 gunicorn==19.9.0
 watchdog==0.9.0

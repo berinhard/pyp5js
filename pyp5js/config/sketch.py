@@ -1,9 +1,11 @@
 import json
+from pathlib import Path
 
 from pyp5js.config.fs import PYP5JS_FILES
 
 TRANSCRYPT_INTERPRETER = 'transcrypt'
 PYODIDE_INTERPRETER = 'pyodide'
+P5_JS_CDN = 'https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.min.js'
 
 class SketchConfig:
 
@@ -13,12 +15,26 @@ class SketchConfig:
             config_data = json.load(fd)
             return cls(**config_data)
 
-    def __init__(self, interpreter):
+    def __init__(self, interpreter, **kwargs):
         self.interpreter = interpreter
+        self.index_template = kwargs.get("index_template", "")
+        self.p5_js_url = kwargs.get("p5_js_url", P5_JS_CDN)
+
+    @property
+    def index_template_path(self):
+        return Path(self.index_template).absolute()
 
     def write(self, fname):
+        index_template = ""
+        if self.index_template and self.index_template_path.exists():
+            index_template = str(self.index_template_path.resolve())
         with open(fname, "w") as fd:
-            data = {"interpreter": self.interpreter}
+            data = {
+                "interpreter": self.interpreter,
+                "index_template": index_template,
+                # TODO: also store pyodide_js_url
+                "p5_js_url": self.p5_js_url,
+            }
             json.dump(data, fd)
 
     @property
@@ -30,6 +46,8 @@ class SketchConfig:
         return self.interpreter == PYODIDE_INTERPRETER
 
     def get_index_template(self):
+        if self.index_template and self.index_template_path.exists():
+            return self.index_template_path
         index_map = {
             TRANSCRYPT_INTERPRETER: PYP5JS_FILES.transcrypt_index_html,
             PYODIDE_INTERPRETER: PYP5JS_FILES.pyodide_index_html,

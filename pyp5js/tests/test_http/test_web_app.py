@@ -4,7 +4,7 @@ from pathlib import Path
 
 from pyp5js import commands
 from pyp5js.sketch import Sketch
-from pyp5js.config import SKETCHBOOK_DIR
+from pyp5js.config import SKETCHBOOK_DIR, PYODIDE_INTERPRETER, TRANSCRYPT_INTERPRETER
 from pyp5js.http.web_app import app as web_app
 from flask_testing import TestCase
 
@@ -25,11 +25,11 @@ class Pyp5jsWebTestCase(TestCase):
         if SKETCHBOOK_DIR.exists():
             shutil.rmtree(SKETCHBOOK_DIR)
 
-    def create_sketch(self, name):
-        return commands.new_sketch(name)
+    def create_sketch(self, name, interpreter=PYODIDE_INTERPRETER):
+        return commands.new_sketch(name, interpreter=interpreter)
 
-    def create_sketch_with_static_files(self, name):
-        sketch = commands.new_sketch(name)
+    def create_sketch_with_static_files(self, name, use_cdn=True):
+        sketch = commands.new_sketch(name, use_cdn=use_cdn)
         commands.compile_sketch(name)
         return sketch.sketch_dir
 
@@ -65,6 +65,9 @@ class NewSketchViewTests(Pyp5jsWebTestCase):
     def test_get_new_sketch_renders_new_sketch_form_template(self):
         self.client.get(self.route)
         self.assert_template_used('new_sketch_form.html')
+        self.assert_context('sketches_dir', SKETCHBOOK_DIR.resolve())
+        self.assert_context('pyodide_interpreter', PYODIDE_INTERPRETER)
+        self.assert_context('transcrypt_interpreter', TRANSCRYPT_INTERPRETER)
 
     def test_post_without_sketch_name_should_render_form_with_error(self):
         self.client.post(self.route, data={'sketch_name': ''})
@@ -82,6 +85,18 @@ class NewSketchViewTests(Pyp5jsWebTestCase):
         self.client.post(self.route, data={'sketch_name': 'a_name'})
         self.assert_template_used('new_sketch_success.html')
         assert Sketch('a_name').config.is_pyodide
+
+    def test_can_specify_the_compiler_for_sketch(self):
+        data = {'sketch_name': 'a_name', 'interpreter': 'transcrypt'}
+        self.client.post(self.route, data=data)
+        self.assert_template_used('new_sketch_success.html')
+        assert Sketch('a_name').config.is_transcrypt
+
+    def test_error_if_invalid_p5js_interpreter(self):
+        data = {'sketch_name': 'a_name', 'interpreter': 'foo'}
+        self.client.post(self.route, data=data)
+        self.assert_template_used('new_sketch_form.html')
+        self.assert_context('error', f'The interpreter foo is not valid. Please, select a valid one.')
 
 
 class SketchViewTests(Pyp5jsWebTestCase):
@@ -102,13 +117,23 @@ class SketchViewTests(Pyp5jsWebTestCase):
         self.assert_context('sketch_js_url', sketch.urls.sketch_js_url)
         self.assert_context('sketch_name', sketch.sketch_name)
         self.assert_context('py_code', py_code)
+        self.assert_context('js_as_module', False)
+        self.assert_context('live_run', True)
+
+    def test_get_transcrypt_sketch(self):
+        sketch = self.create_sketch('sketch_exists', interpreter=TRANSCRYPT_INTERPRETER)
+        response = self.client.get(self.route + 'sketch_exists/')
+        self.assert_200(response)
+        self.assert_context('js_as_module', True)
+        self.assert_context('live_run', False)
+
 
     def test_get_static_file_does_not_exist(self):
         response = self.client.get(self.route + 'foo/static/file.js')
         self.assert_404(response)
 
     def test_get_static_javascript_file(self):
-        self.create_sketch_with_static_files('sketch_with_static_js')
+        self.create_sketch_with_static_files('sketch_with_static_js', use_cdn=False)
         response = self.client.get(self.route + 'sketch_with_static_js/static/p5.js')
         self.assert_200(response)
         self.assertEqual(response.headers['Content-Type'], 'application/javascript; charset=utf-8')

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+
+<!-- Template file used to generate the examples using Transcrypt interpreter -->
+<html lang="">
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sketch_008 - pyp5js (using Transcrypt)</title>
+    <style> body, html, canvas {padding: 0; margin: 0; overflow: hidden;} </style>
+
+    <script src="static/p5.js"></script>
+    <script src="target/target_sketch.js"  type="module"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    <style>
+        html {
+          overflow-y: scroll;
+          overflow-x: scroll;
+        }
+
+        .demoContainer {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        pre {
+            padding-left: 2em;
+        }
+    </style>
+  </head>
+
+  <body>
+    <p style="background-color: #f6f8fa">
+      Python code <a href="https://github.com/berinhard/pyp5js/blob/develop/docs/examples/transcrypt/sketch_008" target="_blank">here</a>.
+    </p>
+
+    <div class="demoContainer">
+        <div id="sketch-holder" style="">
+              <!-- You sketch will go here! -->
+        </div>
+
+        <div style="">
+          <pre>
+             <code>
+rect_base_size = 30
+positions = []
+rect_size = None
+
+def setup():
+    global rect_size
+
+    createP("Hi! This is an example of how to use p5.dom.js with pyp5js")
+
+    # creates a container div
+    slider_div = createDiv()
+    slider_div.style("display", "block")
+
+    # creates the slider
+    rect_size = createSlider(0, 600, 100)
+    rect_size.style('width', '50%')
+
+    # adds the slider to the container div
+    slider_div.child(rect_size)
+
+    createCanvas(600, 600)
+
+    for x in range(-rect_base_size, width + rect_base_size, rect_base_size):
+        for y in range(-rect_base_size, height + rect_base_size, rect_base_size):
+            positions.append((x, y))
+
+    noFill()
+    strokeWeight(2)
+    rectMode(CENTER)
+
+
+def draw():
+    background(255)
+    size = rect_size.value()
+    for x, y in positions:
+        rect(x, y, size, size)
+
+              </code>
+          </pre>
+        </div>
+
+    </div>
+  </body>
+</html>

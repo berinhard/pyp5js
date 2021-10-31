@@ -2,7 +2,6 @@
 {% block title %}{{ sketch_name }}{% endblock title %}
 
 {% block extra_head %}
-    <link rel="stylesheet" href="/static/styles/highlightjs.min.css">
     <style>
         html {
           overflow-y: scroll;
@@ -15,19 +14,54 @@
         }
 
         pre {
-            margin-right: 2em;
+          margin-right: 2em;
+        }
+
+        .text-editor-box {
+          margin: 0 1.5em;
+          max-width: 800px;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
         }
 
         #text-editor {
-            width: 700px;
-            height: 800px;
-            float: left;
-            margin: 1.5em;
+          float: left;
+          margin: 0.5em 0;
+          height: 800px;
+         }
+
+        .text-editor {
+          width: 700px;
+          transition-property: width;
+          transition: 500ms ease-out;
         }
 
         #sketch-buttons {
-            margin: 0 1.5em;
+          width: 100%;
+          min-width: 250px;
+          display: flex;
+          justify-content: space-between;
+          align-self: flex-start;
         }
+
+        .left-buttons {
+          width: 100%;
+        }
+
+        .hidden-editor {
+          opacity: 0.2;
+          width: 250px;
+          transition-property: width;
+          transition: 500ms ease-in;
+        }
+
+        .code-container {
+          display: flex;
+          align-items: flex-start;
+          justify-content: flex-start;
+        }
+
     </style>
 {% endblock %}
 
@@ -35,20 +69,30 @@
     <div class="demoContainer">
 
       <div style="display: block">
-          <a href="/">Back to sketchbook</a>
-          <form action="." method="POST">
-            <textarea class="display-none" id="id_py_code" name="py_code">{{ py_code }}</textarea>
-
-            <div id="text-editor">{{ py_code }}</div>
-
-            <div id="sketch-buttons" class="clearfix">
-              {% if live_run %}
-              <button id="executeBtn" title="(Ctrl/Cmd + Enter) to refresh the skecth" type="button" class="btn rounded py1 px2 mb1">Update</button>
-              <button id="clearBtn" title="(Ctrl/Cmd + .) to clear the skecth" type="button" class="btn rounded py1 px2 mb1">Clear</button>
-              {% endif %}
-              <input id="submitBtn" title="(Ctrl/Cmd + s) to save the sketch" style="float: right" class="btn rounded py1 px2 mb1" type="submit" value="Save">
+        <a href="/">Back to sketchbook</a>
+        <form action="." method="POST">
+          <textarea class="display-none" id="id_py_code" name="py_code">{{ py_code }}</textarea>
+          <div class="code-container">
+            <div class="text-editor-box">
+              <button id="collapseBtn" title="Collapse the code editor" type="button"
+                class="btn btn-primary bg-orange rounded py1 px2 pb3">
+                Collapse</button>
+              <div id="text-editor" class="text-editor">{{ py_code }}</div>
+              <div id="sketch-buttons" class="clearfix">
+                {% if live_run %}
+                <div class="left-buttons">
+                  <button id="executeBtn" title="(Ctrl/Cmd + Enter) to refresh the skecth" type="button"
+                    class="btn btn-primary bg-green rounded py1 px2 mb1">Update</button>
+                  <button id="clearBtn" title="(Ctrl/Cmd + .) to clear the skecth" type="button"
+                    class="btn btn-primary rounded bg-red py1 px2 mb1">Clear</button>
+                </div>
+                {% endif %}
+                <input id="submitBtn" title="(Ctrl/Cmd + s) to save the sketch" class="btn btn-primary rounded py1 px2 mb1"
+                  type="submit" value="Save">
+              </div>
             </div>
-          </form>
+          </div>
+        </form>
       </div>
 
       <div id="sketch-holder">
@@ -58,7 +102,6 @@
 {% endblock content %}
 
 {% block custom_js %}
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
     <script src="/static/js/ace/ace.js"></script>
 
     <script type="text/javascript">
@@ -72,30 +115,40 @@
         });
 
         editor.session.on('change', function(){
-          console.log('code update');
           document.getElementById("id_py_code").innerHTML = editor.getSession().getValue();
         });
     </script>
 
-    <script src="https://pyodide-cdn2.iodide.io/v0.15.0/full/pyodide.js"></script>
+    {% if live_run %}
+    <script src="/static/js/pyodide/pyodide_v0.18.1.js"></script>
+    {% endif %}
 
-    <script src="{{ p5_js_url }}"></script>
-
+    <script src="/static/p5/p5.js.min"></script>
     <script src="{{ sketch_js_url }}" {% if js_as_module %}type="module"{% endif %}></script>
 
     <script type="text/javascript">
-      $(document).ready(() => {
-        $("#executeBtn").on("click", () => {
+      document.addEventListener("DOMContentLoaded", () => {
+        const submitBtn = document.getElementById("submitBtn");
+        const executeBtn = document.getElementById("executeBtn");
+        const clearBtn = document.getElementById("clearBtn");
+
+        executeBtn.addEventListener("click", () => {
           const code = editor.getSession().getValue();
           window.runSketchCode(code);
         });
 
+        const collapseBtn = document.getElementById("collapseBtn");
+        collapseBtn.addEventListener("click", () => {
+          const textEditorEl = document.getElementById("text-editor");
+          textEditorEl.classList.toggle("hidden-editor");
+          collapseBtn.textContent = (collapseBtn.textContent.includes("Collapse")) ? "Expand" : "Collapse";
+        })
 
-        $("#clearBtn").on("click", () => {
-          $("#sketch-holder").html("");
+        clearBtn.addEventListener("click", () => {
+          document.getElementById("sketch-holder").innerHTML = "";
         });
 
-        $("body").bind("keydown",keyDown);
+        document.body.addEventListener("keydown", keyDown);
 
         function cleanKeyCode(e) {
           // Shortcuts work for Ctrl or Cmd
@@ -107,14 +160,14 @@
         function keyDown(e){
             if(cleanKeyCode(e) === 83){  // Ctrl + s to save
               e.preventDefault();
-              $("#submitBtn").click();
+              submitBtn.click();
             {% if live_run %}
             } else if (cleanKeyCode(e) === 13) {  // Ctrl + Enter to run
               e.preventDefault();
-              $("#executeBtn").click();
+              executeBtn.click();
             } else if(cleanKeyCode(e) === 190){  // Ctrl + . to clear
               e.preventDefault();
-              $("#clearBtn").click();
+              clearBtn.click();
             {% endif %}
             }
         }

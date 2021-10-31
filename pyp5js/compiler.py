@@ -48,7 +48,7 @@ class TranscryptCompiler(BasePyp5jsCompiler):
         """
         Builds transcrypt command line with the required parameters and flags
         """
-        pyp5_dir = PYP5JS_FILES.install
+        pyp5_dir = PYP5JS_FILES.transcrypt_conf_dir
         target = self.sketch.target_sketch
         return ' '.join([str(c) for c in [
             'transcrypt', '-xp', f'"{pyp5_dir}"', '-k', '-ks', '-b', '-m', '-n', f'"{target}"'
@@ -76,6 +76,7 @@ class TranscryptCompiler(BasePyp5jsCompiler):
         shutil.move(self.target_dir, self.sketch.target_dir)
 
         if self.sketch.target_sketch.exists():
+
             self.sketch.target_sketch.unlink()
 
 

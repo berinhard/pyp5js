@@ -16,7 +16,7 @@ def pyp5js():
 @pytest.fixture
 def p5_reference():
     with PYP5JS_FILES.p5_yml.open('r') as fd:
-        return yaml.load(fd)
+        return yaml.safe_load(fd)
 
 
 special_methods = ['pop', 'clear', 'get']

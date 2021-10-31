@@ -12,15 +12,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/default.min.css">
     <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
-    <script src="https://pyodide-cdn2.iodide.io/v0.15.0/full/pyodide.js"></script>
+    <script src="https://pyodide-cdn2.iodide.io/v0.18.1/full/pyodide.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.3.2/styles/default.min.css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.3.2/highlight.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js" integrity="sha512-GZ1RIgZaSc8rnco/8CXfRdCpDxRCphenIiZ2ztLy3XQfCbQUSCuk8IudvNHxkRA3oUg6q0qejgN/qqyG1duv5Q==" crossorigin="anonymous"></script>
- <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/mode-python.min.js" integrity="sha512-2Ke4vMGrMfYRM55pT1aA5bw7Pl82Sc7K5Hg8XZYZu+EQrb0AO1mNYTagwZm+MFVAImYS9Mlnm73zcgc01wPXxA==" crossorigin="anonymous"></script>
- <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/theme-monokai.min.js" integrity="sha512-S4i/WUGRs22+8rjUVu4kBjfNuBNp8GVsgcK2lbaFdws4q6TF3Nd00LxqnHhuxS9iVDfNcUh0h6OxFUMP5DBD+g==" crossorigin="anonymous"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/mode-python.min.js" integrity="sha512-2Ke4vMGrMfYRM55pT1aA5bw7Pl82Sc7K5Hg8XZYZu+EQrb0AO1mNYTagwZm+MFVAImYS9Mlnm73zcgc01wPXxA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/theme-monokai.min.js" integrity="sha512-S4i/WUGRs22+8rjUVu4kBjfNuBNp8GVsgcK2lbaFdws4q6TF3Nd00LxqnHhuxS9iVDfNcUh0h6OxFUMP5DBD+g==" crossorigin="anonymous"></script>
+    <script src="target/target_sketch.js"  type="module"></script>
 
     <script>hljs.initHighlightingOnLoad();</script>
 
@@ -48,7 +48,7 @@
   </head>
 
   <body>
-<p style="font-family: 'sans'; font-size:18px"><b>pyp5js</b> editor</p>
+<p style="font-family: 'sans'; font-size:18px"><b>pyp5js</b> demo editor</p>
 
     <div class="demoContainer">
       <div style="display: block">
@@ -56,7 +56,7 @@
 
           <div id="text-editor"></div>
           <div class="clearfix">
-            <input disabled id="executeBtn" class="btn rounded py1 px2 mb1" type="submit" value="Run" title="(Ctrl/Cmd + Enter) to run the sketch">
+            <input  id="executeBtn" class="btn rounded py1 px2 mb1" type="submit" value="Run" title="(Ctrl/Cmd + Enter) to run the sketch">
             <input id="clearBtn" class="btn rounded py1 px2 mb1" type="submit" value="Clear" title="(Ctrl/Cmd + .) to clear the sketch">
           </div>
       </div>
@@ -1711,49 +1711,30 @@ def draw():
     ellipse(100, 100, diameter, diameter)
 `;
 
-    languagePluginLoader.then(() => {
-        pyodide.runPython(`
-          import io, code, sys
-          from js import pyodide, p5, window, document
-          print(sys.version)
-        `)
-        $("#executeBtn").removeAttr("disabled");
-    });
-
-    function runCode() {
-        $("#sketch-holder").text("");
-        let userCode = $("#id_py_code").text();
-
-        let code = placeholder + "\n" + userCode + "\n" + wrapper_content + '\nstart_p5(setup, draw, {});';
-
-        if (window.instance) {
-          window.instance.canvas.remove();
-        }
-
-        console.log("Output da execução:");
-        pyodide.runPython(code);
-    }
-
-
+    //// Configure ACE edtior
     var editor = ace.edit("text-editor");
-
     editor.setTheme("ace/theme/monokai");
     editor.session.setMode("ace/mode/python");
     editor.setFontSize(18);
     editor.session.setOptions({
       tabSize: 4,
     });
-    editor.setValue(initialSketch, -1);
-    document.getElementById("id_py_code").innerHTML = initialSketch;
+    editor.setValue(initialSketch);
 
+    //// Update div's content with most up to date code
     editor.session.on('change', function(){
       document.getElementById("id_py_code").innerHTML = editor.getSession().getValue();
     });
+    document.getElementById("id_py_code").innerHTML = initialSketch;
 
-    $("#executeBtn").on("click", () => {runCode()});
-    $("#clearBtn").on("click", () => {$("#sketch-holder").html("")});
+    //// Event functions
+    function runCode() {
+      $("#sketch-holder").text("");
+      let userCode = $("#id_py_code").text();
 
-    $("body").bind("keydown",keyDown);
+      // from pyp5js
+      window.runSketchCode(userCode);
+    }
 
     function cleanKeyCode(e) {
       // Shortcuts work for Ctrl or Cmd
@@ -1763,14 +1744,18 @@ def draw():
     }
 
     function keyDown(e){
-        if (cleanKeyCode(e) === 13) {  // Ctrl + Enter to run
-          e.preventDefault();
-          $("#executeBtn").click();
-        } else if(cleanKeyCode(e) === 190){  // Ctrl + . to clear
-          e.preventDefault();
-          $("#clearBtn").click();
-        }
+      if (cleanKeyCode(e) === 13) {  // Ctrl + Enter to run
+        e.preventDefault();
+        $("#executeBtn").click();
+      } else if(cleanKeyCode(e) === 190){  // Ctrl + . to clear
+        e.preventDefault();
+        $("#clearBtn").click();
+      }
     }
+
+    $("#executeBtn").on("click", () => {runCode()});
+    $("#clearBtn").on("click", () => {$("#sketch-holder").html("")});
+    $("body").bind("keydown",keyDown);
   </script>
 
 
