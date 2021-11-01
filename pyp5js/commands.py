@@ -4,7 +4,6 @@ import shutil
 from cprint import cprint
 from jinja2 import Environment, FileSystemLoader
 
-from pyp5js.config.fs import PYP5JS_FILES
 from pyp5js.compiler import compile_sketch_js
 from pyp5js.exceptions import PythonSketchDoesNotExist
 from pyp5js.sketch import Sketch
@@ -30,21 +29,10 @@ def new_sketch(sketch_name, interpreter=PYODIDE_INTERPRETER, template_file="", u
         "interpreter": interpreter,
         "index_template": template_file,
     }
-    if not use_cdn:
-        cfg["p5_js_url"] = "/static/p5.js"
-        # TODO: static version for pyodide too
 
     sketch = Sketch(sketch_name, **cfg)
     sketch.create_sketch_dir()
-
-    templates_files = [
-        (sketch.config.get_base_sketch_template(), sketch.sketch_py),
-    ]
-    if not use_cdn:
-        templates_files.append((PYP5JS_FILES.p5js, sketch.p5js))
-        # TODO: copy pyodide files to static dir too
-    for src, dest in templates_files:
-        shutil.copyfile(src, dest)
+    sketch.copy_initial_files(use_cdn=use_cdn)
 
     index_contet = get_sketch_index_content(sketch)
     with open(sketch.index_html, "w") as fd:

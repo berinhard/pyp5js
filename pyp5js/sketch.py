@@ -1,13 +1,12 @@
 import os
 import re
+import shutil
 from collections import namedtuple
-from pathlib import Path
-
 
 from pyp5js import config
+from pyp5js.config.fs import PYP5JS_FILES
 from pyp5js.config.sketch import SketchConfig
 from pyp5js.exceptions import SketchDirAlreadyExistException, InvalidName
-
 
 SketchUrls = namedtuple('SketchUrls', ['p5_js_url', 'pyodide_js_url', 'sketch_js_url'])
 
@@ -31,10 +30,13 @@ class Sketch:
         does_not_start_with_letter_or_underscore = r'^[^a-zA-Z_]'
         contains_non_alphanumerics_except_underscore = r'[^a-zA-Z0-9_]'
         if re.match(does_not_start_with_letter_or_underscore, self.sketch_name) or \
-           re.search(contains_non_alphanumerics_except_underscore, self.sketch_name):
+                re.search(contains_non_alphanumerics_except_underscore, self.sketch_name):
             raise InvalidName(self)
 
     def create_sketch_dir(self):
+        """
+        Create sketch required directories
+        """
         self.validate_name()
 
         if self.sketch_dir.exists():
@@ -44,6 +46,23 @@ class Sketch:
         self.static_dir.mkdir()
         self.target_dir.mkdir()
         self.config.write(self.config_file)
+
+    def copy_initial_files(self, use_cdn=True):
+        """
+        Copy requlred template files to the sketch directory
+        """
+        if not use_cdn:
+            self.config.p5_js_url = "/static/p5.js"
+            # TODO: static version for pyodide too
+
+        templates_files = [
+            (self.config.get_base_sketch_template(), self.sketch_py),
+        ]
+        if not use_cdn:
+            templates_files.append((PYP5JS_FILES.p5js, self.p5js))
+            # TODO: copy pyodide files to static dir too
+        for src, dest in templates_files:
+            shutil.copyfile(src, dest)
 
     @property
     def sketch_exists(self):
@@ -55,7 +74,6 @@ class Sketch:
             return ""
         with self.sketch_py.open() as fd:
             return fd.read()
-
 
     @property
     def has_all_files(self):
@@ -129,3 +147,4 @@ class Sketch:
             index = "/".join(self.config.pyodide_js_url.split("/")[:-1]) + "/"
             context.update({'pyodide_index_url': index})
         return context
+
