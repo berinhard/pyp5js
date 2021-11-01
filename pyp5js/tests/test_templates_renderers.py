@@ -38,7 +38,7 @@ def test_get_pyodide_index_content(sketch_pyodide):
     assert expected_content == content
 
 
-def test_get_target_sketch_content(sketch):
+def test_get_transcrypt_target_sketch_content(sketch):
     with open(sketch.sketch_py, 'w') as fd:
         fd.write('content')
 
@@ -48,5 +48,20 @@ def test_get_target_sketch_content(sketch):
         'sketch_content': 'content'
     })
     content = renderers.get_target_sketch_content(sketch)
+
+    assert expected_content == content
+
+
+def test_get_pyodide_target_sketch_content(sketch_pyodide):
+    with open(sketch_pyodide.sketch_py, 'w') as fd:
+        fd.write('content')
+
+    expected_template = renderers.templates.get_template('pyodide/target_sketch.js.template')
+    expected_content = expected_template.render({
+        'sketch_name': sketch_pyodide.sketch_name,
+        'sketch_content': 'content',
+        'pyodide_index_url': 'https://cdn.jsdelivr.net/pyodide/v0.18.1/full/',
+    })
+    content = renderers.get_target_sketch_content(sketch_pyodide)
 
     assert expected_content == content

@@ -3,7 +3,7 @@ import shutil
 from unittest import TestCase
 
 from pyp5js.config import SKETCHBOOK_DIR, PYODIDE_INTERPRETER
-from pyp5js.config.sketch import P5_JS_CDN
+from pyp5js.config.sketch import P5_JS_CDN, PYODIDE_JS_CDN
 from pyp5js.exceptions import SketchDirAlreadyExistException
 from pyp5js.sketch import Sketch
 from pyp5js.exceptions import InvalidName
@@ -101,3 +101,14 @@ class SketchTests(TestCase):
         assert P5_JS_CDN == urls.p5_js_url
         assert PYODIDE_JS_CDN == urls.pyodide_js_url
         assert "target/target_sketch.js" == urls.sketch_js_url
+
+    def test_get_target_sketch_context_for_local_pyodide(self):
+        files = Sketch(
+            self.files.sketch_name, pyodide_js_url="static/pyodide/pyodide.js",
+            interpreter=PYODIDE_INTERPRETER)
+        expected_context = {
+            "sketch_name": files.sketch_name,
+            "sketch_content": files.sketch_content,
+            "pyodide_index_url": "static/pyodide/"
+        }
+        assert expected_context == files.get_target_sketch_context()

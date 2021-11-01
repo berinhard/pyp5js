@@ -1,6 +1,8 @@
 import os
 import re
 from collections import namedtuple
+from pathlib import Path
+
 
 from pyp5js import config
 from pyp5js.config.sketch import SketchConfig
@@ -115,10 +117,15 @@ class Sketch:
         )
 
     def get_target_sketch_context(self):
+        """
+        This method is used by the template renderers to get the context to be used
+        to render final target/target_sketch.js file.
+        """
         context = {
             "sketch_name": self.sketch_name,
             "sketch_content": self.sketch_content,
-            # TODO: if pyodide, add the pyodide indexUrl here too
-            # (details about this here https://github.com/berinhard/pyp5js/pull/186#pullrequestreview-782362038)
         }
+        if self.config.is_pyodide:
+            index = "/".join(self.config.pyodide_js_url.split("/")[:-1]) + "/"
+            context.update({'pyodide_index_url': index})
         return context
