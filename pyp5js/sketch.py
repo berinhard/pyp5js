@@ -113,3 +113,12 @@ class Sketch:
             pyodide_js_url=self.config.pyodide_js_url,
             sketch_js_url=f"{self.TARGET_NAME}/target_sketch.js",
         )
+
+    def get_target_sketch_context(self):
+        context = {
+            "sketch_name": self.sketch_name,
+            "sketch_content": self.sketch_content,
+            # TODO: if pyodide, add the pyodide indexUrl here too
+            # (details about this here https://github.com/berinhard/pyp5js/pull/186#pullrequestreview-782362038)
+        }
+        return context

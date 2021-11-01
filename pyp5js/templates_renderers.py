@@ -32,11 +32,6 @@ def get_target_sketch_content(sketch):
     """
     Renders the content to be written in the temporary SKETCH_NAME/target_sketch.py file
     """
-    context = {
-        "sketch_name": sketch.sketch_name,
-        "sketch_content": sketch.sketch_content,
-        # TODO: if pyodide, add the pyodide indexUrl here too
-        # (details about this here https://github.com/berinhard/pyp5js/pull/186#pullrequestreview-782362038)
-    }
+    context = sketch.get_target_sketch_context()
     target_js_file = sketch.config.get_target_js_template()
     return _template_from_file(target_js_file, context)
