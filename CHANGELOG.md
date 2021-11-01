@@ -1,9 +1,9 @@
 Development
 -----------
-- Serve pyodide JS files locally [PR #186](https://github.com/berinhard/pyp5js/pull/186)
 - Create sketch using p5.js from CDN [PR #191](https://github.com/berinhard/pyp5js/pull/191)
 - Add `keyIsDown` event to Transcrypt mode - [PR #187](https://github.com/berinhard/pyp5js/pull/187)
 - Fix bug with multiple events calls - PR #187 too
+- Serve JS files if `--local` flag [PR #195](https://github.com/berinhard/pyp5js/pull/195)
 
 0.7.0
 -----
