@@ -1692,4 +1692,6 @@ async function main() {
     runCode();
 };
 
-await main();
+document.addEventListener('DOMContentLoaded', async function() {
+   await main()
+}, false);
