@@ -65,5 +65,9 @@ class LibFiles():
     def pyodide_base_sketch_template(self):
         return self.templates_dir.joinpath('pyodide', 'base_sketch.py.template')
 
+    @property
+    def pyodide_js_dir(self):
+        return self.static_dir / "js" / "pyodide"
+
 
 PYP5JS_FILES = LibFiles()

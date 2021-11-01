@@ -4,7 +4,7 @@ from pathlib import Path
 from tempfile import NamedTemporaryFile
 
 from pyp5js.config import TRANSCRYPT_INTERPRETER, PYODIDE_INTERPRETER
-from pyp5js.config.sketch import SketchConfig, P5_JS_CDN
+from pyp5js.config.sketch import SketchConfig, P5_JS_CDN, PYODIDE_JS_CDN
 from pyp5js.config.fs import PYP5JS_FILES
 
 from ..fixtures import transcrypt_json_file, pyodide_json_file, transcrypt_config, pyodide_config, custom_index_json_file
@@ -36,7 +36,7 @@ def test_write_sketch_interpreter_config(custom_index_json_file):
     assert data == expected
 
 
-def test_wrrite_defaults():
+def test_write_defaults():
     config = SketchConfig(PYODIDE_INTERPRETER)
     fd = NamedTemporaryFile(mode="w", delete=False)
     config.write(fd.name)
@@ -44,7 +44,9 @@ def test_wrrite_defaults():
     with open(fd.name) as fd:
         data = json.load(fd)
 
-    assert "" == data["index_template"]
+    assert PYODIDE_INTERPRETER == data["interpreter"]
+    assert P5_JS_CDN == data["p5_js_url"]
+    assert PYODIDE_JS_CDN == data["pyodide_js_url"]
 
 
 def test_get_transcrypt_index_template(transcrypt_config):

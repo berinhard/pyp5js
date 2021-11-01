@@ -63,6 +63,11 @@
         }
 
     </style>
+
+    <script src="/static/js/p5/p5.js"></script>
+    {% if live_run %}
+      <script src="/static/js/pyodide/pyodide_v0.18.1.js"></script>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -119,11 +124,6 @@
         });
     </script>
 
-    {% if live_run %}
-    <script src="/static/js/pyodide/pyodide_v0.18.1.js"></script>
-    {% endif %}
-
-    <script src="/static/p5/p5.js.min"></script>
     <script src="{{ sketch_js_url }}" {% if js_as_module %}type="module"{% endif %}></script>
 
     <script type="text/javascript">
@@ -171,7 +171,7 @@
             {% endif %}
             }
         }
-
       });
     </script>
+
 {% endblock %}

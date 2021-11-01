@@ -6,6 +6,8 @@ from pyp5js.config.fs import PYP5JS_FILES
 TRANSCRYPT_INTERPRETER = 'transcrypt'
 PYODIDE_INTERPRETER = 'pyodide'
 P5_JS_CDN = 'https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.min.js'
+PYODIDE_JS_CDN = 'https://cdn.jsdelivr.net/pyodide/v0.18.1/full/pyodide.js'
+
 
 class SketchConfig:
 
@@ -19,6 +21,7 @@ class SketchConfig:
         self.interpreter = interpreter
         self.index_template = kwargs.get("index_template", "")
         self.p5_js_url = kwargs.get("p5_js_url", P5_JS_CDN)
+        self.pyodide_js_url = kwargs.get("pyodide_js_url", PYODIDE_JS_CDN)
 
     @property
     def index_template_path(self):
@@ -31,10 +34,12 @@ class SketchConfig:
         with open(fname, "w") as fd:
             data = {
                 "interpreter": self.interpreter,
-                "index_template": index_template,
-                # TODO: also store pyodide_js_url
                 "p5_js_url": self.p5_js_url,
             }
+            if self.index_template:
+                data.update({"index_template": index_template})
+            if self.is_pyodide:
+                data.update({"pyodide_js_url": self.pyodide_js_url})
             json.dump(data, fd)
 
     @property
