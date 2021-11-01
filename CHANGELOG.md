@@ -4,6 +4,7 @@ Development
 - Add `keyIsDown` event to Transcrypt mode - [PR #187](https://github.com/berinhard/pyp5js/pull/187)
 - Fix bug with multiple events calls - PR #187 too
 - Serve JS files if `--local` flag [PR #195](https://github.com/berinhard/pyp5js/pull/195)
+- Force `utf-8` as the lib's default encoding [PR #193](https://github.com/berinhard/pyp5js/pull/193)
 
 0.7.0
 -----
