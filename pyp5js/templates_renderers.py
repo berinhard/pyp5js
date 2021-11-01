@@ -20,6 +20,7 @@ def get_sketch_index_content(sketch):
     context = {
         "sketch_name": sketch.sketch_name,
         "p5_js_url": sketch.urls.p5_js_url,
+        "pyodide_js_url": sketch.urls.pyodide_js_url,
         "sketch_js_url":  sketch.urls.sketch_js_url,
         "sketch_content": sketch.sketch_content,
     }

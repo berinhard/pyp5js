@@ -7,7 +7,7 @@ from pyp5js.config.sketch import SketchConfig
 from pyp5js.exceptions import SketchDirAlreadyExistException, InvalidName
 
 
-SketchUrls = namedtuple('SketchUrls', ['p5_js_url', 'sketch_js_url'])
+SketchUrls = namedtuple('SketchUrls', ['p5_js_url', 'pyodide_js_url', 'sketch_js_url'])
 
 
 class Sketch:
@@ -109,7 +109,7 @@ class Sketch:
     @property
     def urls(self):
         return SketchUrls(
-            # TODO: add pyodide_js_url
             p5_js_url=self.config.p5_js_url,
+            pyodide_js_url=self.config.pyodide_js_url,
             sketch_js_url=f"{self.TARGET_NAME}/target_sketch.js",
         )
