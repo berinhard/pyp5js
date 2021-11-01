@@ -1692,6 +1692,5 @@ async function main() {
     runCode();
 };
 
-document.addEventListener('DOMContentLoaded', async function() {
-   await main()
-}, false);
+// async method
+main();
