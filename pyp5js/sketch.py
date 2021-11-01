@@ -53,14 +53,19 @@ class Sketch:
         """
         if not use_cdn:
             self.config.p5_js_url = "/static/p5.js"
-            # TODO: static version for pyodide too
+            if self.config.is_pyodide:
+                self.config.pyodide_js_url = "/static/pyodide/pyodide_v0.18.1.js"
 
         templates_files = [
             (self.config.get_base_sketch_template(), self.sketch_py),
         ]
         if not use_cdn:
             templates_files.append((PYP5JS_FILES.p5js, self.p5js))
-            # TODO: copy pyodide files to static dir too
+            if self.config.is_pyodide:
+                shutil.copytree(PYP5JS_FILES.pyodide_js_dir, self.static_dir / "pyodide")
+                # delete packages.json that's not necessary
+                (self.static_dir / "pyodide" / "packages.json").unlink()
+
         for src, dest in templates_files:
             shutil.copyfile(src, dest)
 

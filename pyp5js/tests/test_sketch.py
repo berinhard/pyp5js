@@ -112,3 +112,21 @@ class SketchTests(TestCase):
             "pyodide_index_url": "static/pyodide/"
         }
         assert expected_context == files.get_target_sketch_context()
+
+    def test_copy_local_files_if_not_using_cdn(self):
+        files = Sketch('test', interpreter=PYODIDE_INTERPRETER)
+        files.create_sketch_dir()
+        files.copy_initial_files(use_cdn=False)
+        pyodide_js_dir = files.static_dir / "pyodide"
+
+        assert files.config.p5_js_url == "/static/p5.js"
+        assert files.config.pyodide_js_url == "/static/pyodide/pyodide_v0.18.1.js"
+        assert files.p5js.exists()
+        assert pyodide_js_dir.exists()
+
+        assert (pyodide_js_dir / "pyodide.asm.data").exists()
+        assert (pyodide_js_dir / "pyodide.asm.js").exists()
+        assert (pyodide_js_dir / "pyodide.asm.wasm").exists()
+        assert (pyodide_js_dir / "pyodide.js.map").exists()
+        assert (pyodide_js_dir / "pyodide_v0.18.1.js").exists()
+        assert not (pyodide_js_dir / "packages.json").exists()
