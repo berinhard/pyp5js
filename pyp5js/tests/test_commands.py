@@ -18,7 +18,7 @@ def test_compile_sketch(sketch):
         output = commands.compile_sketch('foo')
 
         assert output == sketch
-        compiler.assert_called_once_with(sketch)
+        compiler.assert_called_once_with(sketch, force_local=False)
 
 
 def test_compile_sketch_error_if_sketch_does_not_exist(sketch):
