@@ -1,5 +1,8 @@
 from pyp5js import *
 
+def preload():
+    pass
+
 def setup():
     pass
 
@@ -50,4 +53,4 @@ event_functions = {
     "keyIsDown": keyIsDown,
 }
 
-start_p5(setup, draw, event_functions)
+start_p5(preload, setup, draw, event_functions)

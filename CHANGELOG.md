@@ -5,6 +5,7 @@ Development
 - Fix bug with multiple events calls - PR #187 too
 - Serve JS files if `--local` flag [PR #195](https://github.com/berinhard/pyp5js/pull/195)
 - Force `utf-8` as the lib's default encoding [PR #193](https://github.com/berinhard/pyp5js/pull/193)
+- Fix preload function bug in both modes - [PR #196](https://github.com/berinhard/pyp5js/pull/196)
 
 0.7.0
 -----
