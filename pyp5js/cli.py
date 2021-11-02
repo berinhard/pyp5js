@@ -25,12 +25,13 @@ def command_line_entrypoint():
 @click.option('--monitor', '-m', is_flag=True, help='Starts the monitor command too')
 @click.option('--interpreter', '-i', type=click.Choice(AVAILABLE_INTERPRETERS), default=PYODIDE_INTERPRETER, help='Which python tool to use to run the sketch. (defaults to pyodide)')
 @click.option('--template', '-t', type=click.Path(exists=True), help='Specify a custom index.html template to use.')
-def configure_new_sketch(sketch_name, monitor, interpreter, template):
+@click.option('--cdn/--local', default=True)
+def configure_new_sketch(sketch_name, monitor, interpreter, template, cdn):
     """
     Create dir and configure boilerplate - Example:\n
     $ pyp5js new my_sketch -i pyodide
     """
-    files = commands.new_sketch(sketch_name, interpreter, template_file=template)
+    files = commands.new_sketch(sketch_name, interpreter, template_file=template, use_cdn=cdn)
 
     cprint.ok(f"Your sketch was created!")
 
@@ -60,13 +61,14 @@ def transcrypt_sketch(sketch_name):
 @command_line_entrypoint.command("compile")
 @click.argument("sketch_name")
 @click.option('--refresh', is_flag=True, help="Update the skech index.html before it ends.")
-def compile_sketch(sketch_name, refresh):
+@click.option('--template', '-t', type=click.Path(exists=True), help='Specify a custom index.html template to use. Must be used with --refresh in order to work.')
+def compile_sketch(sketch_name, refresh, template):
     """
     Command to update your sketch files (index, js codes etc)
     \nExample:
     $ pyp5js compile my_sketch
     """
-    files = commands.compile_sketch(sketch_name.replace("/", ""), refresh)
+    files = commands.compile_sketch(sketch_name.replace("/", ""), refresh, template)
     cprint.ok(f"Your sketch is ready and available at file://{files.index_html.absolute()}")
 
 

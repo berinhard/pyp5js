@@ -72,7 +72,7 @@ class TestNewSketchCommand(TestCase):
 
         assert self.sketch.index_html.exists()
         assert self.sketch.sketch_py.exists()
-        assert self.sketch.p5js.exists()
+        assert not self.sketch.p5js.exists()
         assert self.sketch.config_file.exists()
         assert self.sketch.config.interpreter == TRANSCRYPT_INTERPRETER
         assert self.sketch.config.index_template == ""
@@ -83,7 +83,7 @@ class TestNewSketchCommand(TestCase):
 
         assert self.sketch.index_html.exists()
         assert self.sketch.sketch_py.exists()
-        assert self.sketch.p5js.exists()
+        assert not self.sketch.p5js.exists()
         assert self.sketch.config_file.exists()
         assert self.sketch.config.interpreter == PYODIDE_INTERPRETER
 
@@ -101,3 +101,8 @@ class TestNewSketchCommand(TestCase):
         with open(self.sketch.index_html) as fd:
             content = fd.read()
         assert "demoContainer" in content
+
+    def test_create_sketch_using_local_installed_assets(self):
+        commands.new_sketch(self.sketch_name, use_cdn=False)
+
+        assert self.sketch.p5js.exists()

@@ -28,8 +28,8 @@ class Pyp5jsWebTestCase(TestCase):
     def create_sketch(self, name, interpreter=PYODIDE_INTERPRETER):
         return commands.new_sketch(name, interpreter=interpreter)
 
-    def create_sketch_with_static_files(self, name):
-        sketch = commands.new_sketch(name)
+    def create_sketch_with_static_files(self, name, use_cdn=True):
+        sketch = commands.new_sketch(name, use_cdn=use_cdn)
         commands.compile_sketch(name)
         return sketch.sketch_dir
 
@@ -133,7 +133,7 @@ class SketchViewTests(Pyp5jsWebTestCase):
         self.assert_404(response)
 
     def test_get_static_javascript_file(self):
-        self.create_sketch_with_static_files('sketch_with_static_js')
+        self.create_sketch_with_static_files('sketch_with_static_js', use_cdn=False)
         response = self.client.get(self.route + 'sketch_with_static_js/static/p5.js')
         self.assert_200(response)
         self.assertEqual(response.headers['Content-Type'], 'application/javascript; charset=utf-8')

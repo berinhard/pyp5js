@@ -1,5 +1,3 @@
-from pyp5js import *
-
 from random import choice
 
 

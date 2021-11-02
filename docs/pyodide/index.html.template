@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+
+<!-- pyp5js index.html boilerplate -->
+<html lang="">
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pyp5js with Pyodide Demo</title>
+    <style> body, html, canvas {padding: 0; margin: 0; } </style>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/default.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+    <script src="https://pyodide-cdn2.iodide.io/v0.18.1/full/pyodide.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.3.2/styles/default.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.3.2/highlight.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js" integrity="sha512-GZ1RIgZaSc8rnco/8CXfRdCpDxRCphenIiZ2ztLy3XQfCbQUSCuk8IudvNHxkRA3oUg6q0qejgN/qqyG1duv5Q==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/mode-python.min.js" integrity="sha512-2Ke4vMGrMfYRM55pT1aA5bw7Pl82Sc7K5Hg8XZYZu+EQrb0AO1mNYTagwZm+MFVAImYS9Mlnm73zcgc01wPXxA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/theme-monokai.min.js" integrity="sha512-S4i/WUGRs22+8rjUVu4kBjfNuBNp8GVsgcK2lbaFdws4q6TF3Nd00LxqnHhuxS9iVDfNcUh0h6OxFUMP5DBD+g==" crossorigin="anonymous"></script>
+    <script src="{{ sketch_js_url }}"  type="module"></script>
+
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    <style>
+        html {
+          overflow-y: scroll;
+          overflow-x: scroll;
+        }
+
+        .demoContainer {
+          display: flex;
+          margin-left: 1em;
+        }
+
+        #text-editor {
+            width: 700px;
+            height: 600px;
+            float: left;
+            margin-bottom:1em;
+            margin-right:1em;
+        }
+
+        .display-none {display:none;}
+    </style>
+  </head>
+
+  <body>
+<p style="font-family: 'sans'; font-size:18px"><b>pyp5js</b> demo editor</p>
+
+    <div class="demoContainer">
+      <div style="display: block">
+          <textarea class="display-none" id="id_py_code" name="py_code"></textarea>
+
+          <div id="text-editor"></div>
+          <div class="clearfix">
+            <input  id="executeBtn" class="btn rounded py1 px2 mb1" type="submit" value="Run" title="(Ctrl/Cmd + Enter) to run the sketch">
+            <input id="clearBtn" class="btn rounded py1 px2 mb1" type="submit" value="Clear" title="(Ctrl/Cmd + .) to clear the sketch">
+          </div>
+      </div>
+
+      <div id="sketch-holder">
+        <!-- You sketch will go here! -->
+      </div>
+    </div>
+<div><p style="font-family: 'sans'; font-size:14px">If you execute the code but nothing is being rendered in the broswer, please open your browser's console to read the error traceback (usually you can do this by pressing F12 and clicking in the Console tab).</p></div>
+<div><p style="background-color: #f6f8fa; font-family: 'sans'; font-size:14px"><a href="https://github.com/berinhard/pyp5js"><b>pyp5js</b></a> running on top of <a href="https://github.com/iodide-project/pyodide" target="_blank">pyodide</a></p></div>
+  </body>
+  <script type="text/javascript">
+    const initialSketch = `{{ sketch_content }}`;
+
+    //// Configure ACE edtior
+    var editor = ace.edit("text-editor");
+    editor.setTheme("ace/theme/monokai");
+    editor.session.setMode("ace/mode/python");
+    editor.setFontSize(18);
+    editor.session.setOptions({
+      tabSize: 4,
+    });
+    editor.setValue(initialSketch);
+
+    //// Update div's content with most up to date code
+    editor.session.on('change', function(){
+      document.getElementById("id_py_code").innerHTML = editor.getSession().getValue();
+    });
+    document.getElementById("id_py_code").innerHTML = initialSketch;
+
+    //// Event functions
+    function runCode() {
+      $("#sketch-holder").text("");
+      let userCode = $("#id_py_code").text();
+
+      // from pyp5js
+      window.runSketchCode(userCode);
+    }
+
+    function cleanKeyCode(e) {
+      // Shortcuts work for Ctrl or Cmd
+      if (e.ctrlKey || e.metaKey) {
+        return e.keyCode;
+      }
+    }
+
+    function keyDown(e){
+      if (cleanKeyCode(e) === 13) {  // Ctrl + Enter to run
+        e.preventDefault();
+        $("#executeBtn").click();
+      } else if(cleanKeyCode(e) === 190){  // Ctrl + . to clear
+        e.preventDefault();
+        $("#clearBtn").click();
+      }
+    }
+
+    $("#executeBtn").on("click", () => {runCode()});
+    $("#clearBtn").on("click", () => {$("#sketch-holder").html("")});
+    $("body").bind("keydown",keyDown);
+  </script>
+
+
+</html>

@@ -23,6 +23,14 @@ def sketch():
     yield files
     shutil.rmtree(SKETCHBOOK_DIR)
 
+
+@fixture()
+def sketch_pyodide():
+    files = Sketch('foo', interpreter=PYODIDE_INTERPRETER)
+    files.create_sketch_dir()
+    yield files
+    shutil.rmtree(SKETCHBOOK_DIR)
+
 @fixture
 def transcrypt_json_file():
     try:

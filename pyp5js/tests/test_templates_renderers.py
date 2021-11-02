@@ -1,24 +1,44 @@
-from jinja2 import Environment, FileSystemLoader
-
 from pyp5js import templates_renderers as renderers
-from pyp5js.sketch import Sketch
-from pyp5js.config.fs import PYP5JS_FILES
 
-from .fixtures import sketch
+from .fixtures import sketch, sketch_pyodide
+from ..config.sketch import P5_JS_CDN, PYODIDE_JS_CDN
 
 
-def test_get_sketch_index_content(sketch):
+def test_get_transcrypt_index_content(sketch):
     expected_template = renderers.templates.get_template('transcrypt/index.html')
+    url = sketch.TARGET_NAME + "/target_sketch.js"
     expected_content = expected_template.render({
-        'sketch_name': sketch.sketch_name,
-        "p5_js_url": sketch.STATIC_NAME + "/p5.js",
-        "sketch_js_url": sketch.TARGET_NAME + "/target_sketch.js",
+        "sketch_name": sketch.sketch_name,
+        "p5_js_url": P5_JS_CDN,
+        "sketch_js_url": url,
     })
 
-    assert expected_content == renderers.get_sketch_index_content(sketch)
+    content = renderers.get_sketch_index_content(sketch)
+    assert expected_content == content
+    assert sketch.sketch_name in content
+    assert P5_JS_CDN in content
+    assert url in content
 
 
-def test_get_target_sketch_content(sketch):
+def test_get_pyodide_index_content(sketch_pyodide):
+    expected_template = renderers.templates.get_template('pyodide/index.html')
+    url = sketch_pyodide.TARGET_NAME + "/target_sketch.js"
+    expected_content = expected_template.render({
+        "sketch_name": sketch_pyodide.sketch_name,
+        "p5_js_url": P5_JS_CDN,
+        "sketch_js_url": url,
+        "pyodide_js_url": PYODIDE_JS_CDN,
+    })
+
+    content = renderers.get_sketch_index_content(sketch_pyodide)
+    assert sketch_pyodide.sketch_name in content
+    assert P5_JS_CDN in content
+    assert PYODIDE_JS_CDN in content
+    assert url in content
+    assert expected_content == content
+
+
+def test_get_transcrypt_target_sketch_content(sketch):
     with open(sketch.sketch_py, 'w') as fd:
         fd.write('content')
 
@@ -30,4 +50,18 @@ def test_get_target_sketch_content(sketch):
     content = renderers.get_target_sketch_content(sketch)
 
     assert expected_content == content
-    assert "import foo as source_sketch" in content
+
+
+def test_get_pyodide_target_sketch_content(sketch_pyodide):
+    with open(sketch_pyodide.sketch_py, 'w') as fd:
+        fd.write('content')
+
+    expected_template = renderers.templates.get_template('pyodide/target_sketch.js.template')
+    expected_content = expected_template.render({
+        'sketch_name': sketch_pyodide.sketch_name,
+        'sketch_content': 'content',
+        'pyodide_index_url': 'https://cdn.jsdelivr.net/pyodide/v0.18.1/full/',
+    })
+    content = renderers.get_target_sketch_content(sketch_pyodide)
+
+    assert expected_content == content
