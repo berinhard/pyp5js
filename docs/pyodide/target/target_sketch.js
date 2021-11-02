@@ -1684,7 +1684,7 @@ function runCode() {
 
 async function main() {
     const config = {
-        indexURL : "https://pyodide-cdn2.iodide.io/v0.18.1/full/",
+        indexURL : "https://cdn.jsdelivr.net/pyodide/v0.18.1/full/",
         fullStdLib: false,
     }
     window.pyodide = await loadPyodide(config);
