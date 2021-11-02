@@ -87,7 +87,8 @@ def render_sketch_view(sketch_name, static_path):
 
     if not error:
         try:
-            commands.compile_sketch(sketch_name)
+            # web editor must always use local install of JS dependencies
+            commands.compile_sketch(sketch_name, force_local=True)
         except PythonSketchDoesNotExist:
             return f"There's no sketch in {sketch.sketch_dir.resolve()}", 404
 

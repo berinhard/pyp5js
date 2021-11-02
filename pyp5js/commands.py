@@ -41,12 +41,13 @@ def new_sketch(sketch_name, interpreter=PYODIDE_INTERPRETER, template_file="", u
     return sketch
 
 
-def compile_sketch(sketch_name, generate_index=False, index_template=None):
+def compile_sketch(sketch_name, generate_index=False, index_template=None, force_local=False):
     """
     Transcrypt the sketch python code to javascript.
 
     :param sketch_name: name for new sketch
     :param generate_index: boolean to flag if the index.html file should be updated
+    :param force_local: boolean to flag to force local run (used by web editor only)
     :type sketch_name: string
     :return: file names
     :rtype: list of strings
@@ -58,7 +59,7 @@ def compile_sketch(sketch_name, generate_index=False, index_template=None):
     if not sketch.sketch_exists:
         raise PythonSketchDoesNotExist(sketch)
 
-    compile_sketch_js(sketch)
+    compile_sketch_js(sketch, force_local=force_local)
     if generate_index:
         # to be able to overwrite default index template file
         # useful for generating the docs or debugging

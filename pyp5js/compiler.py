@@ -8,8 +8,9 @@ from pyp5js.templates_renderers import get_target_sketch_content
 
 class BasePyp5jsCompiler:
 
-    def __init__(self, sketch):
+    def __init__(self, sketch, force_local=False):
         self.sketch = sketch
+        self.force_local = force_local
 
     @property
     def target_dir(self):
@@ -81,12 +82,17 @@ class TranscryptCompiler(BasePyp5jsCompiler):
 
 
 class PyodideCompiler(BasePyp5jsCompiler):
-    pass
+
+    def prepare(self):
+        # this is a hack for web editor to always run using local JS files
+        if self.force_local:
+            self.sketch.config.pyodide_js_url = "/static/js/pyodide/pyodide_v0.18.1.js"
+        return super().prepare()
 
 
-def compile_sketch_js(sketch):
+def compile_sketch_js(sketch, force_local=False):
     if sketch.config.is_transcrypt:
-        compiler = TranscryptCompiler(sketch)
+        compiler = TranscryptCompiler(sketch, force_local=force_local)
     else:
-        compiler = PyodideCompiler(sketch)
+        compiler = PyodideCompiler(sketch, force_local=force_local)
     compiler.compile_sketch_js()
