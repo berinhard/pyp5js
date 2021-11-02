@@ -1,5 +1,8 @@
 from pyp5js import *
 
+def preload():
+    pass
+
 def setup():
     pass
 
@@ -23,6 +26,7 @@ touchStarted = None
 touchMoved = None
 touchEnded = None
 windowResized = None
+keyIsDown = None
 
 
 rect_base_size = 30
@@ -82,6 +86,7 @@ event_functions = {
     "touchMoved": touchMoved,
     "touchEnded": touchEnded,
     "windowResized": windowResized,
+    "keyIsDown": keyIsDown,
 }
 
-start_p5(setup, draw, event_functions)
+start_p5(preload, setup, draw, event_functions)

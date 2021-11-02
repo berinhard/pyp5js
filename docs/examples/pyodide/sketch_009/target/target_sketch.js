@@ -1,4 +1,4 @@
-let wrapper_content = `
+const wrapperContent = `
 class PythonFunctions: pass
 
 setattr(PythonFunctions, 'map', map)
@@ -373,9 +373,6 @@ def getURLPath(*args):
 
 def getURLParams(*args):
     return _P5_INSTANCE.getURLParams(*args)
-
-def preload(*args):
-    return _P5_INSTANCE.preload(*args)
 
 def remove(*args):
     return _P5_INSTANCE.remove(*args)
@@ -925,15 +922,6 @@ def createCanvas(*args):
     height = _P5_INSTANCE.height
 
     return canvas
-
-# Thanks to Luca Damasco for also helping us to
-# figure out how to bind events functions.
-def _bind_event_function(func, *args, **kwargs):
-    func = global_p5_injection(_P5_INSTANCE)(func)
-    try:
-      func(*args, **kwargs)  # try to execute passing parameters
-    except TypeError:
-      func()  # execute without parameters (are opitional)
 
 def __deviceMoved(e):
   try:
@@ -1574,10 +1562,11 @@ def global_p5_injection(p5_sketch):
     return decorator
 
 
-def start_p5(setup_func, draw_func, event_functions):
+def start_p5(preload_func, setup_func, draw_func, event_functions):
     """
     This is the entrypoint function. It accepts 2 parameters:
 
+    - preload_func: A Python preload callable
     - setup_func: a Python setup callable
     - draw_func: a Python draw callable
     - event_functions: a config dict for the event functions in the format:
@@ -1590,39 +1579,54 @@ def start_p5(setup_func, draw_func, event_functions):
         """
         Callback function called to configure new p5 instance
         """
+        p5_sketch.preload = global_p5_injection(p5_sketch)(preload_func)
         p5_sketch.setup = global_p5_injection(p5_sketch)(setup_func)
         p5_sketch.draw = global_p5_injection(p5_sketch)(draw_func)
-        # Register event functions
-        p5_sketch.mouseDragged = lambda e: __mouseDragged(e)
-        p5_sketch.deviceMoved= lambda e: __deviceMoved(e)
-        p5_sketch.deviceTurned= lambda e: __deviceTurned(e)
-        p5_sketch.deviceShaken= lambda e: __deviceShaken(e)
-        p5_sketch.touchStarted= lambda e: __touchStarted(e)
-        p5_sketch.touchMoved= lambda e: __touchMoved(e)
-        p5_sketch.touchEnded= lambda e: __touchEnded(e)
-        p5_sketch.windowResized = lambda e: __windowResized (e)
-        p5_sketch.mouseMoved = lambda e: __mouseMoved(e)
-        p5_sketch.mouseDragged = lambda e: __mouseDragged(e)
-        p5_sketch.mousePressed = lambda e: __mousePressed(e)
-        p5_sketch.mouseReleased = lambda e: __mouseReleased(e)
-        p5_sketch.mouseClicked = lambda e: __mouseClicked(e)
-        p5_sketch.doubleClicked = lambda e: __doubleClicked(e)
-        p5_sketch.mouseWheel = lambda e: __mouseWheel(e)
-        p5_sketch.keyTyped = lambda e: __keyTyped(e)
-        p5_sketch.keyPressed = lambda e: __keyPressed(e)
-        p5_sketch.keyReleased = lambda e: __keyReleased(e)
-        p5_sketch.keyIsDown = lambda e: __keyIsDown(e)  # TODO review this func
 
 
     window.instance = p5.new(sketch_setup, 'sketch-holder')
+
+    # Register event functions
+    event_function_names = (
+        "deviceMoved", "deviceTurned", "deviceShaken", "windowResized",
+        "keyPressed", "keyReleased", "keyTyped",
+        "mousePressed", "mouseReleased", "mouseClicked", "doubleClicked",
+        "mouseMoved", "mouseDragged", "mouseWheel",
+        "touchStarted", "touchMoved", "touchEnded", "keyIsDown",
+    )
+    for f_name in [f for f in event_function_names if event_functions.get(f, None)]:
+        func = event_functions[f_name]
+        event_func = global_p5_injection(window.instance)(func)
+        setattr(window.instance, f_name, event_func)
 `;
 
-let placeholder = `
+const placeholder = `
+def preload():
+    pass
+
 def setup():
     pass
 
 def draw():
     pass
+
+deviceMoved = None
+deviceTurned = None
+deviceShaken = None
+keyPressed = None
+keyReleased = None
+keyTyped = None
+mouseMoved = None
+mouseDragged = None
+mousePressed = None
+mouseReleased = None
+mouseClicked = None
+doubleClicked = None
+mouseWheel = None
+touchStarted = None
+touchMoved = None
+touchEnded = None
+windowResized = None
 `;
 
 let userCode = `
@@ -1654,12 +1658,36 @@ def draw():
 
 `;
 
+const startCode = `
+event_functions = {
+    "deviceMoved": deviceMoved,
+    "deviceTurned": deviceTurned,
+    "deviceShaken": deviceShaken,
+    "keyPressed": keyPressed,
+    "keyReleased": keyReleased,
+    "keyTyped": keyTyped,
+    "mouseMoved": mouseMoved,
+    "mouseDragged": mouseDragged,
+    "mousePressed": mousePressed,
+    "mouseReleased": mouseReleased,
+    "mouseClicked": mouseClicked,
+    "doubleClicked": doubleClicked,
+    "mouseWheel": mouseWheel,
+    "touchStarted": touchStarted,
+    "touchMoved": touchMoved,
+    "touchEnded": touchEnded,
+    "windowResized": windowResized,
+}
+
+start_p5(preload, setup, draw, event_functions)
+`;
+
 function runCode() {
     let code = [
         placeholder,
         userCode,
-        wrapper_content,
-        'start_p5(setup, draw, {});',
+        wrapperContent,
+        startCode,
     ].join('\n');
 
     if (window.instance) {
@@ -1667,17 +1695,20 @@ function runCode() {
     }
 
     console.log("Python execution output:");
-    pyodide.runPython(code);
+    window.pyodide.runPython(code);
 }
 
 
 async function main() {
-    await loadPyodide({ indexURL : "https://pyodide-cdn2.iodide.io/v0.17.0/full/" });
-    // await pyodide.loadPackage('numpy');
+    const config = {
+        indexURL : "https://cdn.jsdelivr.net/pyodide/v0.18.1/full/",
+        fullStdLib: false,
+    }
+    window.pyodide = await loadPyodide(config);
     // Pyodide is now ready to use...
-    console.log(pyodide.runPython(`
+    console.log(window.pyodide.runPython(`
         import io, code, sys
-        from js import pyodide, p5, window, document
+        from js import p5, window, document
         print(sys.version)
   `));
    window.runSketchCode = (code) => {
@@ -1688,4 +1719,5 @@ async function main() {
     runCode();
 };
 
+// async method
 main();

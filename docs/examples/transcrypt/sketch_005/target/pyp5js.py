@@ -1189,10 +1189,11 @@ def global_p5_injection(p5_sketch):
     return decorator
 
 
-def start_p5(setup_func, draw_func, event_functions):
+def start_p5(preload_func, setup_func, draw_func, event_functions):
     """
     This is the entrypoint function. It accepts 2 parameters:
 
+    - preload_func: a Python preload callable
     - setup_func: a Python setup callable
     - draw_func: a Python draw callable
     - event_functions: a config dict for the event functions in the format:
@@ -1202,6 +1203,7 @@ def start_p5(setup_func, draw_func, event_functions):
     """
 
     def sketch_setup(p5_sketch):
+        p5_sketch.preload = global_p5_injection(p5_sketch)(preload_func)
         p5_sketch.setup = global_p5_injection(p5_sketch)(setup_func)
         p5_sketch.draw = global_p5_injection(p5_sketch)(draw_func)
 
@@ -1214,7 +1216,7 @@ def start_p5(setup_func, draw_func, event_functions):
         "keyPressed", "keyReleased", "keyTyped",
         "mousePressed", "mouseReleased", "mouseClicked", "doubleClicked",
         "mouseMoved", "mouseDragged", "mouseWheel",
-        "touchStarted", "touchMoved", "touchEnded"
+        "touchStarted", "touchMoved", "touchEnded", "keyIsDown"
     )
 
     for f_name in [f for f in event_function_names if event_functions.get(f, None)]:

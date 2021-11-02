@@ -1,4 +1,4 @@
-// Transcrypt'ed from Python, 2021-10-14 12:26:19
+// Transcrypt'ed from Python, 2021-11-02 13:06:12
 import {AssertionError, AttributeError, BaseException, DeprecationWarning, Exception, IndexError, IterableError, KeyError, NotImplementedError, RuntimeWarning, StopIteration, UserWarning, ValueError, Warning, __JsIterator__, __PyIterator__, __Terminal__, __add__, __and__, __call__, __class__, __envir__, __eq__, __floordiv__, __ge__, __get__, __getcm__, __getitem__, __getslice__, __getsm__, __gt__, __i__, __iadd__, __iand__, __idiv__, __ijsmod__, __ilshift__, __imatmul__, __imod__, __imul__, __in__, __init__, __ior__, __ipow__, __irshift__, __isub__, __ixor__, __jsUsePyNext__, __jsmod__, __k__, __kwargtrans__, __le__, __lshift__, __lt__, __matmul__, __mergefields__, __mergekwargtrans__, __mod__, __mul__, __ne__, __neg__, __nest__, __or__, __pow__, __pragma__, __pyUseJsNext__, __rshift__, __setitem__, __setproperty__, __setslice__, __sort__, __specialattrib__, __sub__, __super__, __t__, __terminal__, __truediv__, __withblock__, __xor__, all, any, assert, bool, bytearray, bytes, callable, chr, deepcopy, delattr, dict, dir, divmod, enumerate, getattr, hasattr, isinstance, issubclass, len, list, object, ord, print, property, py_TypeError, py_iter, py_metatype, py_next, py_reversed, py_typeof, range, repr, setattr, sorted, sum, tuple, zip} from './org.transcrypt.__runtime__.js';
 import {PythonFunctions} from './python_functions.js';
 var __name__ = 'pyp5js';
@@ -4268,13 +4268,14 @@ export var global_p5_injection = function (p5_sketch) {
 	};
 	return decorator;
 };
-export var start_p5 = function (setup_func, draw_func, event_functions) {
+export var start_p5 = function (preload_func, setup_func, draw_func, event_functions) {
 	if (arguments.length) {
 		var __ilastarg0__ = arguments.length - 1;
 		if (arguments [__ilastarg0__] && arguments [__ilastarg0__].hasOwnProperty ("__kwargtrans__")) {
 			var __allkwargs0__ = arguments [__ilastarg0__--];
 			for (var __attrib0__ in __allkwargs0__) {
 				switch (__attrib0__) {
+					case 'preload_func': var preload_func = __allkwargs0__ [__attrib0__]; break;
 					case 'setup_func': var setup_func = __allkwargs0__ [__attrib0__]; break;
 					case 'draw_func': var draw_func = __allkwargs0__ [__attrib0__]; break;
 					case 'event_functions': var event_functions = __allkwargs0__ [__attrib0__]; break;
@@ -4298,11 +4299,12 @@ export var start_p5 = function (setup_func, draw_func, event_functions) {
 		}
 		else {
 		}
+		p5_sketch.preload = global_p5_injection (p5_sketch) (preload_func);
 		p5_sketch.setup = global_p5_injection (p5_sketch) (setup_func);
 		p5_sketch.draw = global_p5_injection (p5_sketch) (draw_func);
 	};
 	var instance = new p5 (sketch_setup, 'sketch-holder');
-	var event_function_names = tuple (['deviceMoved', 'deviceTurned', 'deviceShaken', 'windowResized', 'keyPressed', 'keyReleased', 'keyTyped', 'mousePressed', 'mouseReleased', 'mouseClicked', 'doubleClicked', 'mouseMoved', 'mouseDragged', 'mouseWheel', 'touchStarted', 'touchMoved', 'touchEnded']);
+	var event_function_names = tuple (['deviceMoved', 'deviceTurned', 'deviceShaken', 'windowResized', 'keyPressed', 'keyReleased', 'keyTyped', 'mousePressed', 'mouseReleased', 'mouseClicked', 'doubleClicked', 'mouseMoved', 'mouseDragged', 'mouseWheel', 'touchStarted', 'touchMoved', 'touchEnded', 'keyIsDown']);
 	for (var f_name of (function () {
 		var __accu0__ = [];
 		for (var f of event_function_names) {
