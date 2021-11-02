@@ -374,9 +374,6 @@ def getURLPath(*args):
 def getURLParams(*args):
     return _P5_INSTANCE.getURLParams(*args)
 
-def preload(*args):
-    return _P5_INSTANCE.preload(*args)
-
 def remove(*args):
     return _P5_INSTANCE.remove(*args)
 
@@ -1565,10 +1562,11 @@ def global_p5_injection(p5_sketch):
     return decorator
 
 
-def start_p5(setup_func, draw_func, event_functions):
+def start_p5(preload_func, setup_func, draw_func, event_functions):
     """
     This is the entrypoint function. It accepts 2 parameters:
 
+    - preload_func: A Python preload callable
     - setup_func: a Python setup callable
     - draw_func: a Python draw callable
     - event_functions: a config dict for the event functions in the format:
@@ -1581,6 +1579,7 @@ def start_p5(setup_func, draw_func, event_functions):
         """
         Callback function called to configure new p5 instance
         """
+        p5_sketch.preload = global_p5_injection(p5_sketch)(preload_func)
         p5_sketch.setup = global_p5_injection(p5_sketch)(setup_func)
         p5_sketch.draw = global_p5_injection(p5_sketch)(draw_func)
 
@@ -1602,6 +1601,9 @@ def start_p5(setup_func, draw_func, event_functions):
 `;
 
 const placeholder = `
+def preload():
+    pass
+
 def setup():
     pass
 
@@ -1660,7 +1662,7 @@ event_functions = {
     "windowResized": windowResized,
 }
 
-start_p5(setup, draw, event_functions)
+start_p5(preload, setup, draw, event_functions)
 `;
 
 function runCode() {
@@ -1682,7 +1684,7 @@ function runCode() {
 
 async function main() {
     const config = {
-        indexURL : "https://pyodide-cdn2.iodide.io/v0.18.1/full/",
+        indexURL : "https://cdn.jsdelivr.net/pyodide/v0.18.1/full/",
         fullStdLib: false,
     }
     window.pyodide = await loadPyodide(config);
@@ -1700,4 +1702,5 @@ async function main() {
     runCode();
 };
 
-await main();
+// async method
+main();

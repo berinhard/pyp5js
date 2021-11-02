@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/default.min.css">
     <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
-    <script src="https://pyodide-cdn2.iodide.io/v0.18.1/full/pyodide.js"></script>
+    <script src="{{ pyodide_js_url }}"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.3.2/styles/default.min.css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.3.2/highlight.min.js"></script>
@@ -73,7 +73,6 @@
 
     //// Configure ACE edtior
     var editor = ace.edit("text-editor");
-    editor.setTheme("ace/theme/monokai");
     editor.session.setMode("ace/mode/python");
     editor.setFontSize(18);
     editor.session.setOptions({
