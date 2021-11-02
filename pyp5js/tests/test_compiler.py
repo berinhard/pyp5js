@@ -20,7 +20,7 @@ def test_compile_sketch_js_service(MockedCompiler, sketch):
 
     compile_sketch_js(sketch)
 
-    MockedCompiler.assert_called_once_with(sketch)
+    MockedCompiler.assert_called_once_with(sketch, force_local=False)
     compiler.compile_sketch_js.assert_called_once_with()
 
 
