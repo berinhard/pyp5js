@@ -35,7 +35,7 @@ class BasePyp5jsCompiler:
         """
         content = get_target_sketch_content(self.sketch)
 
-        with self.sketch.target_sketch.open('w') as fd:
+        with self.sketch.target_sketch.open('w', encoding="utf-8") as fd:
             fd.write(content)
 
         cprint.info(f"{self.sketch.target_sketch.resolve()} updated with sketch code")
