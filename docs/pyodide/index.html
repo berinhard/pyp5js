@@ -121,7 +121,7 @@ def draw():
     }
 
     $("#executeBtn").on("click", () => {runCode()});
-    $("#clearBtn").on("click", () => {$("#sketch-holder").html("")});
+    $("#clearBtn").on("click", () => { window.instance.remove(); });
     $("body").bind("keydown",keyDown);
   </script>
 

@@ -1674,7 +1674,7 @@ function runCode() {
     ].join('\n');
 
     if (window.instance) {
-      window.instance.canvas.remove();
+      window.instance.remove();
     }
 
     console.log("Python execution output:");
