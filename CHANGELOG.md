@@ -1,5 +1,6 @@
 Development
 -----------
+- Remove existing sketch after clearing/running it again [PR #199](https://github.com/berinhard/pyp5js/pull/199)
 
 0.7.1
 -----
