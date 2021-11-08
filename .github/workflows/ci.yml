@@ -3,6 +3,16 @@ name: Continuous Integration
 on: [push, pull_request]
 
 jobs:
+  license:
+    name: Check source files for license headers
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Check for license headers
+        run: bash bin/check_license.sh
+
   test:
     name: Test on ${{ matrix.os }} with Python ${{ matrix.python-version }}
     runs-on: ${{ matrix.os }}
