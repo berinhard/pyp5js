@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 pyp5js
-Copyright (C) 2019-2021 The pyp5js Contributors
+Copyright (C) 2019-2021 Bernardo Fontes
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
