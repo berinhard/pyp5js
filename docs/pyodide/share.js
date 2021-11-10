@@ -1,5 +1,5 @@
 function createSketchUrl() {
-  const baseUrl = window.location.origin;
+  const baseUrl = window.location.origin + window.location.pathname;
   const userCode = editor.getSession().getValue();
 
   const encodedUserCode = btoa(encodeURIComponent(userCode));
