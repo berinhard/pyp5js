@@ -1629,7 +1629,7 @@ touchEnded = None
 windowResized = None
 `;
 
-let userCode = checkForSketch();
+let userCode = "";
 
 const startCode = `
 event_functions = {
