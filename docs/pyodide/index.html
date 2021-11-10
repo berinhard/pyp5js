@@ -77,8 +77,8 @@
           title="(Ctrl/Cmd + Enter) to run the sketch">
         <input id="clearBtn" class="btn rounded py1 px2 mb1" type="submit" value="Clear"
           title="(Ctrl/Cmd + .) to clear the sketch">
-        <input id="shareBtn" class="btn rounded py1 px2 mb1" type="button" value="Share"
-          title="Go to a shareable link to this sketch">
+        <button id="shareBtn" class="btn rounded py1 px2 mb1" type="button"
+          title="Get a shareable link to this sketch">Share</button>
       </div>
     </div>
 
@@ -109,6 +109,9 @@
     tabSize: 4,
   });
   editor.setValue(initialSketch);
+
+  //// Buttons
+  const shareBtn = document.getElementById("shareBtn");
 
   //// Update div's content with most up to date code
   editor.session.on('change', function () {
@@ -157,10 +160,13 @@
       window.instance.remove()
     }
   });
-  $("#shareBtn").on("click", () => {
+  shareBtn.addEventListener("click", () => {
     if (window.instance) {
       const sketchUrl = createSketchUrl();
-      window.location.href = sketchUrl;
+      copyTextToClipboard(sketchUrl);
+      shareBtn.textContent = "Copied URL!";
+      setTimeout(() => { shareBtn.textContent = "Share" }, 3000);
+      runCode();
     }
   });
   $("body").bind("keydown", keyDown);
