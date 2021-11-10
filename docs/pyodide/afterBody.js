@@ -1,0 +1,77 @@
+const initialSketch = checkForSketch();
+
+//// Configure ACE editor
+const editor = ace.edit("text-editor");
+editor.session.setMode("ace/mode/python");
+editor.setFontSize(18);
+editor.session.setOptions({
+  tabSize: 4,
+});
+editor.setValue(initialSketch);
+
+//// Buttons
+const shareBtn = document.getElementById("shareBtn");
+
+//// Update div's content with most up to date code
+editor.session.on("change", function () {
+  document.getElementById("id_py_code").innerHTML = editor
+    .getSession()
+    .getValue();
+});
+document.getElementById("id_py_code").innerHTML = initialSketch;
+
+//// Event functions
+function runCode() {
+  document.getElementById("sketch-holder").innerHTML = "";
+  const userCode = editor.getSession().getValue();
+
+  // from pyp5js
+  window.runSketchCode(userCode);
+}
+
+function cleanKeyCode(e) {
+  // Shortcuts work for Ctrl or Cmd
+  if (e.ctrlKey || e.metaKey) {
+    return e.keyCode;
+  }
+}
+
+function keyDown(e) {
+  if (cleanKeyCode(e) === 13) {
+    // Ctrl + Enter to run
+    e.preventDefault();
+    $("#executeBtn").click();
+  } else if (cleanKeyCode(e) === 190) {
+    // Ctrl + . to clear
+    e.preventDefault();
+    $("#clearBtn").click();
+  }
+}
+
+$("#executeBtn").on("click", () => {
+  if (window.instance) {
+    runCode();
+  } else {
+    window.alert(
+      "Pyodide is still loading.\nPlease, wait a few seconds and try to run it again."
+    );
+  }
+});
+$("#clearBtn").on("click", () => {
+  if (window.instance) {
+    document.getElementById("sketch-holder").innerHTML = "";
+    window.instance.remove();
+  }
+});
+shareBtn.addEventListener("click", () => {
+  if (window.instance) {
+    const sketchUrl = createSketchUrl();
+    copyTextToClipboard(sketchUrl);
+    shareBtn.textContent = "Copied URL!";
+    setTimeout(() => {
+      shareBtn.textContent = "Share";
+    }, 3000);
+    runCode();
+  }
+});
+$("body").bind("keydown", keyDown);

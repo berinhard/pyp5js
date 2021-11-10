@@ -1,0 +1,28 @@
+body,
+html,
+canvas {
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  overflow-y: scroll;
+  overflow-x: scroll;
+}
+
+.demoContainer {
+  display: flex;
+  margin-left: 1em;
+}
+
+#text-editor {
+  width: 700px;
+  height: 600px;
+  float: left;
+  margin-bottom: 1em;
+  margin-right: 1em;
+}
+
+.display-none {
+  display: none;
+}
