@@ -20,6 +20,9 @@ document.getElementById("id_py_code").innerHTML = initialSketch;
 document.addEventListener("DOMContentLoaded", function () {
   //// Buttons
   const shareBtn = document.getElementById("shareBtn");
+  const collapseBtn = document.getElementById("collapseBtn");
+  const executeBtn = document.getElementById("executeBtn");
+  const clearBtn = document.getElementById("clearBtn");
 
   //// Event functions
   function runCode() {
@@ -41,15 +44,15 @@ document.addEventListener("DOMContentLoaded", function () {
     if (cleanKeyCode(e) === 13) {
       // Ctrl + Enter to run
       e.preventDefault();
-      $("#executeBtn").click();
+      executeBtn.click();
     } else if (cleanKeyCode(e) === 190) {
       // Ctrl + . to clear
       e.preventDefault();
-      $("#clearBtn").click();
+      clearBtn.click();
     }
   }
 
-  $("#executeBtn").on("click", () => {
+  executeBtn.addEventListener("click", () => {
     if (window.instance) {
       runCode();
     } else {
@@ -58,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
       );
     }
   });
-  $("#clearBtn").on("click", () => {
+  clearBtn.addEventListener("click", () => {
     if (window.instance) {
       document.getElementById("sketch-holder").innerHTML = "";
       window.instance.remove();
@@ -75,5 +78,12 @@ document.addEventListener("DOMContentLoaded", function () {
       runCode();
     }
   });
-  $("body").bind("keydown", keyDown);
+  collapseBtn.addEventListener("click", () => {
+    const textEditorEl = document.getElementById("text-editor");
+    textEditorEl.classList.toggle("hidden-editor");
+    collapseBtn.textContent = collapseBtn.textContent.includes("Collapse")
+      ? "Expand"
+      : "Collapse";
+  });
+  document.body.addEventListener("keydown", keyDown);
 });
