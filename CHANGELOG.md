@@ -1,6 +1,7 @@
 Development
 -----------
 - Remove existing sketch after clearing/running it again [PR #199](https://github.com/berinhard/pyp5js/pull/199)
+- Add share button to demo editor [PR #205](https://github.com/berinhard/pyp5js/pull/205)
 
 0.7.1
 -----
