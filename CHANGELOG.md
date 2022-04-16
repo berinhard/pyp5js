@@ -1,5 +1,6 @@
 Development
 -----------
+- Fixed bug of adding new lines when saving Sketch in Windowns - [PR #209](https://github.com/berinhard/pyp5js/pull/209)
 
 0.7.1
 -----
