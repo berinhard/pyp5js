@@ -1,0 +1,70 @@
+body,
+html,
+canvas {
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  overflow-y: scroll;
+  overflow-x: scroll;
+}
+
+.demoContainer {
+  display: flex;
+}
+
+pre {
+  margin-right: 2em;
+}
+
+.text-editor-box {
+  margin: 0 1.5em;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+#text-editor {
+  float: left;
+  margin: 0.5em 0;
+  height: 600px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.text-editor {
+  width: 700px;
+  transition-property: width;
+  transition: 500ms ease-out;
+}
+
+#sketch-buttons {
+  width: 100%;
+  min-width: 250px;
+  display: flex;
+  justify-content: space-between;
+  align-self: flex-start;
+}
+
+.left-buttons {
+  width: 100%;
+}
+
+.hidden-editor {
+  opacity: 0.2;
+  width: 250px;
+  transition-property: width;
+  transition: 500ms ease-in;
+}
+
+.code-container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.display-none {
+  display: none;
+}
