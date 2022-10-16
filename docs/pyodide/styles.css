@@ -51,6 +51,11 @@ pre {
 .left-buttons {
   width: 100%;
 }
+.right-buttons {
+  width: 100%;
+  display: flex;
+  justify-content: right;
+}
 
 .hidden-editor {
   opacity: 0.2;

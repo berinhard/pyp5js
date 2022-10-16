@@ -1689,7 +1689,7 @@ async function main() {
       runCode();
     }
 
-    runCode();
+   window.runSketchCode(checkForSketch());
 };
 
 // async method

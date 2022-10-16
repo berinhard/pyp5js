@@ -22,7 +22,6 @@
     integrity="sha512-S4i/WUGRs22+8rjUVu4kBjfNuBNp8GVsgcK2lbaFdws4q6TF3Nd00LxqnHhuxS9iVDfNcUh0h6OxFUMP5DBD+g=="
     crossorigin="anonymous"></script>
   <script src="share.js"></script>
-  <script src="{{ sketch_js_url }}" type="module"></script>
 
   <link rel="stylesheet" href="https://unpkg.com/basscss@7.1.1/css/basscss.min.css">
   <link rel="stylesheet" href="styles.css">
@@ -36,9 +35,14 @@
       <textarea class="display-none" id="id_py_code" name="py_code"></textarea>
       <div class="code-container">
         <div class="text-editor-box">
-          <button id="collapseBtn" title="Collapse the code editor" type="button"
-            class="btn btn-primary bg-orange rounded py1 px2 pb3">
-            Collapse</button>
+          <div class="right-buttons">
+            <button id="fullScreenBtn" title="See sketch in fullscreen" type="button"
+              class="btn btn-primary bg-purple rounded py1 px2 pb3 mr1">
+              Fullscreen</button>
+            <button id="collapseBtn" title="Collapse the code editor" type="button"
+              class="btn btn-primary bg-orange rounded py1 px2 pb3">
+              Collapse</button>
+          </div>
           <div id="text-editor" class="text-editor"></div>
           <div id="sketch-buttons" class="clearfix">
             <div class="left-buttons">
@@ -69,6 +73,7 @@
         href="https://github.com/iodide-project/pyodide" target="_blank">pyodide</a></p>
   </div>
 </body>
+<script src="{{ sketch_js_url }}"></script>
 <script src="afterBody.js"></script>
 
 </html>

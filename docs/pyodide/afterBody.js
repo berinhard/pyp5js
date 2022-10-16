@@ -20,6 +20,7 @@ document.getElementById("id_py_code").innerHTML = initialSketch;
 document.addEventListener("DOMContentLoaded", function () {
   //// Buttons
   const shareBtn = document.getElementById("shareBtn");
+  const fullScreenBtn = document.getElementById("fullScreenBtn");
   const collapseBtn = document.getElementById("collapseBtn");
   const executeBtn = document.getElementById("executeBtn");
   const clearBtn = document.getElementById("clearBtn");
@@ -77,6 +78,10 @@ document.addEventListener("DOMContentLoaded", function () {
       }, 3000);
       runCode();
     }
+  });
+  fullScreenBtn.addEventListener("click", () => {
+    const fullScreenSketchUrl = createSketchUrl(true);
+    window.location = fullScreenSketchUrl;
   });
   collapseBtn.addEventListener("click", () => {
     const textEditorEl = document.getElementById("text-editor");
