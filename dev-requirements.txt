@@ -2,7 +2,7 @@
 
 black==19.3b0
 ipython==7.16.3
-pytest==4.5.0
+pytest==6.2.5
 tox==3.10.0
 pytest-env==0.6.2
 Flask-Testing==0.8.0
