@@ -128,7 +128,7 @@ def _serve_static(static_dir, static_path):
         # User tried something not allowed (as "/root/something" or "../xxx")
         return '', 403
 
-    resp = send_from_directory(static_dir.absolute(), static_path, etag=False, max_age=0)
+    resp = send_from_directory(static_dir.absolute(), static_path, add_etags=False, cache_timeout=0)
 
     if os.name == 'nt' and static_path.lower().endswith('.js'):
         js_content = resp.headers['Content-Type'].replace('text/plain', 'application/javascript')
