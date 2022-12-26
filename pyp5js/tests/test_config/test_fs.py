@@ -29,7 +29,7 @@ def test_dir_properties(lib_files):
 
     assert lib_files.templates_dir == pyp5_dir.joinpath('templates')
     assert lib_files.templates_dir.exists()
-    assert lib_files.static_dir == pyp5_dir.joinpath('http', 'static')
+    assert lib_files.static_dir == pyp5_dir.joinpath('http_local', 'static')
     assert lib_files.static_dir.exists()
 
 
@@ -40,10 +40,10 @@ def test_files_properties(lib_files):
     assert lib_files.pytop5js == pyp5_dir.joinpath('templates', 'transcrypt', 'pyp5js.py')
     assert lib_files.pytop5js.exists()
 
-    assert lib_files.p5js == pyp5_dir.joinpath('http', 'static', 'js', 'p5', 'p5.min.js')
+    assert lib_files.p5js == pyp5_dir.joinpath('http_local', 'static', 'js', 'p5', 'p5.min.js')
     assert lib_files.p5js.exists()
 
-    assert lib_files.p5_yml == pyp5_dir.joinpath('http', 'static', 'p5_reference.yml')
+    assert lib_files.p5_yml == pyp5_dir.joinpath('http_local', 'static', 'p5_reference.yml')
     assert lib_files.p5_yml.exists()
 
 

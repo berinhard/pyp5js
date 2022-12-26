@@ -36,7 +36,7 @@ class LibFiles():
 
     @property
     def static_dir(self):
-        return self.install.joinpath('http', 'static')
+        return self.install.joinpath('http_local', 'static')
 
     @property
     def pytop5js(self):
