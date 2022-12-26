@@ -24,7 +24,7 @@ from jinja2 import Environment, FileSystemLoader
 from pyp5js.compiler import compile_sketch_js
 from pyp5js.exceptions import PythonSketchDoesNotExist
 from pyp5js.sketch import Sketch
-from pyp5js.http import pyp5js_web_app
+from pyp5js.http.web_app import app as pyp5js_web_app
 from pyp5js.monitor import monitor_sketch as monitor_sketch_service
 from pyp5js.templates_renderers import get_sketch_index_content
 from pyp5js.config import PYODIDE_INTERPRETER
