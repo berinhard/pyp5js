@@ -16,6 +16,7 @@ You should have received a copy of the GNU Lesser General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 import os
+import platform
 import shutil
 from pathlib import Path
 
@@ -267,7 +268,10 @@ def draw():
         response = self.client.post(url, data={'py_code': test_code})
 
         self.assert_template_used('view_sketch.html')
-        self.assert_context('error', 'SyntaxError: invalid syntax (sketch_exists.py, line 6)')
+        err_msg = 'SyntaxError: invalid syntax (sketch_exists.py, line 6)'
+        if platform.python_version().startswith("3.10"):
+            err_msg = "SyntaxError: '(' was never closed (sketch_exists.py, line 4)"
+        self.assert_context('error', err_msg)
         assert old_content == sketch.sketch_py.read_text()
 
     def test_check_for_setup_function_before_updating(self):
