@@ -22,7 +22,7 @@ from pathlib import Path
 from pyp5js import commands
 from pyp5js.sketch import Sketch
 from pyp5js.config import SKETCHBOOK_DIR, PYODIDE_INTERPRETER, TRANSCRYPT_INTERPRETER
-from pyp5js.http.web_app import app as web_app
+from pyp5js.http_local.web_app import app as web_app
 from flask_testing import TestCase
 
 
