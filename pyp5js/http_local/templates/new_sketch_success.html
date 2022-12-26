@@ -1,4 +1,4 @@
-"""
+<!--
 pyp5js
 Copyright (C) 2019-2021 Bernardo Fontes
 
@@ -14,15 +14,13 @@ Lesser General Public License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
-"""
-from . import sketch
-from .sketch import TRANSCRYPT_INTERPRETER, PYODIDE_INTERPRETER
-from decouple import config
-from pathlib import Path
+-->
+{% extends "base.html" %}
+{% block title %}Success!{% endblock title %}
 
-SKETCHBOOK_DIR = config("SKETCHBOOK_DIR", cast=Path, default=Path.home().joinpath('sketchbook-pyp5js'))
-
-if not SKETCHBOOK_DIR.exists():
-    SKETCHBOOK_DIR.mkdir()
-
-AVAILABLE_INTERPRETERS = [TRANSCRYPT_INTERPRETER, PYODIDE_INTERPRETER]
+{% block content %}
+  <h2>Your sketch was created with success!!!</h2>
+  <p>Now you can start to draw, I mean, to code!</p>
+  <p>Edit your Python sketch file located at {{ files.sketch_py.resolve() }} and have fun!</p>
+  <p><a href="{{ sketch_url }}">Click here</a> to see your results or <a href="/">go back to the home</a>.</p>
+{% endblock content %}

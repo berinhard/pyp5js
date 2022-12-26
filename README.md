@@ -45,4 +45,4 @@ $ make test
 
 ### [Known issues and differences to the Processing.Py and P5.js ways of doing things](https://berinhard.github.io/pyp5js#known-issues-and-differences-to-the-processingpy-and-p5js-ways-of-doing-things)
 
-### [How can I contribute?](https://berinhard.github.io/pyp5js#how-can-i-contribute)
+### [How can I contribute?](CONTRIBUTING.md)

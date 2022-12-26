@@ -1,6 +1,14 @@
 Development
 -----------
 
+0.7.2
+-----
+- Remove existing sketch after clearing/running it again [PR #199](https://github.com/berinhard/pyp5js/pull/199)
+- Add share button to demo editor [PR #205](https://github.com/berinhard/pyp5js/pull/205)
+- Fixed bug of adding new lines when saving Sketch in Windowns [PR #209](https://github.com/berinhard/pyp5js/pull/209)
+- Upgrade pyp5js dependencies versions [PR #220](https://github.com/berinhard/pyp5js/pull/220)
+- Run CI for Python 3.10 version [PR #219](https://github.com/berinhard/pyp5js/pull/219)
+
 0.7.1
 -----
 - Create sketch using p5.js from CDN [PR #191](https://github.com/berinhard/pyp5js/pull/191)

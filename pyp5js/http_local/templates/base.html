@@ -1,4 +1,4 @@
-"""
+<!--
 pyp5js
 Copyright (C) 2019-2021 Bernardo Fontes
 
@@ -14,15 +14,31 @@ Lesser General Public License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
-"""
-from . import sketch
-from .sketch import TRANSCRYPT_INTERPRETER, PYODIDE_INTERPRETER
-from decouple import config
-from pathlib import Path
+-->
+<!DOCTYPE html>
+<html>
 
-SKETCHBOOK_DIR = config("SKETCHBOOK_DIR", cast=Path, default=Path.home().joinpath('sketchbook-pyp5js'))
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pyp5js - {% block title %}{% endblock title %}</title>
 
-if not SKETCHBOOK_DIR.exists():
-    SKETCHBOOK_DIR.mkdir()
+    <link href="/static/styles/basscss-7.1.1.min.css" rel="stylesheet">
+    <link href="/static/styles/custom.css" rel="stylesheet">
 
-AVAILABLE_INTERPRETERS = [TRANSCRYPT_INTERPRETER, PYODIDE_INTERPRETER]
+  {% block extra_head %}
+  {% endblock extra_head %}
+</head>
+
+<body>
+  <div class="mx-auto px2 lg-px4">
+  {% block content %}
+  {% endblock content %}
+  </div>
+
+
+  {% block custom_js %}
+  {% endblock custom_js %}
+</body>
+
+</html>

@@ -1,13 +1,31 @@
+"""
+pyp5js
+Copyright (C) 2019-2021 Bernardo Fontes
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+"""
 import ast
 import os
+
 from flask import Flask, render_template, request, send_from_directory
-from slugify import slugify
-
 from pyp5js import commands
-from pyp5js.config import SKETCHBOOK_DIR, PYODIDE_INTERPRETER, AVAILABLE_INTERPRETERS, TRANSCRYPT_INTERPRETER
-from pyp5js.exceptions import PythonSketchDoesNotExist, SketchDirAlreadyExistException
+from pyp5js.config import (AVAILABLE_INTERPRETERS, PYODIDE_INTERPRETER,
+                           SKETCHBOOK_DIR, TRANSCRYPT_INTERPRETER)
+from pyp5js.exceptions import (PythonSketchDoesNotExist,
+                               SketchDirAlreadyExistException)
 from pyp5js.sketch import Sketch
-
+from slugify import slugify
 
 app = Flask(__name__)
 SUPPORTED_IMAGE_FILE_SUFFIXES = (".gif", ".jpg", ".png")
@@ -81,7 +99,7 @@ def render_sketch_view(sketch_name, static_path):
         else:
             try:
                 ast.parse(py_code, sketch.sketch_py.name)
-                sketch.sketch_py.write_text(py_code)
+                sketch.sketch_py.write_bytes(bytes(py_code, encoding="utf-8"))
             except SyntaxError as exc:
                 error = f'SyntaxError: {exc}'
 
@@ -110,7 +128,7 @@ def _serve_static(static_dir, static_path):
         # User tried something not allowed (as "/root/something" or "../xxx")
         return '', 403
 
-    resp = send_from_directory(static_dir.absolute(), static_path, add_etags=False, cache_timeout=0)
+    resp = send_from_directory(static_dir.absolute(), static_path, etag=False, max_age=0)
 
     if os.name == 'nt' and static_path.lower().endswith('.js'):
         js_content = resp.headers['Content-Type'].replace('text/plain', 'application/javascript')

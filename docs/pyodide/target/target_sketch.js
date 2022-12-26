@@ -1629,17 +1629,7 @@ touchEnded = None
 windowResized = None
 `;
 
-let userCode = `
-def setup():
-    createCanvas(200, 200)
-
-def draw():
-    background(200)
-    diameter = sin(frameCount / 60) * 50 + 50
-    fill("blue")
-    ellipse(100, 100, diameter, diameter)
-
-`;
+let userCode = "";
 
 const startCode = `
 event_functions = {
@@ -1674,7 +1664,7 @@ function runCode() {
     ].join('\n');
 
     if (window.instance) {
-      window.instance.canvas.remove();
+      window.instance.remove();
     }
 
     console.log("Python execution output:");
