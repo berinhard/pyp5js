@@ -168,7 +168,8 @@ class SketchViewTests(Pyp5jsWebTestCase):
         self.create_sketch_with_static_files('sketch_with_static_js', use_cdn=False)
         response = self.client.get(self.route + 'sketch_with_static_js/static/p5.js')
         self.assert_200(response)
-        self.assertEqual(response.headers['Content-Type'], 'application/javascript; charset=utf-8')
+        content_types = ['application/javascript; charset=utf-8', 'text/javascript; charset=utf-8']
+        self.assertIn(response.headers['Content-Type'], content_types)
 
     def test_get_static_javascript_file_upper_case(self):
         js_code = 'alert("hi!");'
@@ -178,7 +179,8 @@ class SketchViewTests(Pyp5jsWebTestCase):
         response = self.client.get(self.route + 'sketch_with_static_js/static/custom.JS')
 
         self.assert_200(response)
-        self.assertEqual(response.headers['Content-Type'], 'application/javascript; charset=utf-8')
+        content_types = ['application/javascript; charset=utf-8', 'text/javascript; charset=utf-8']
+        self.assertIn(response.headers['Content-Type'], content_types)
         self.assertEqual(js_code.encode(), response.get_data())
 
     def test_get_static_file(self):
