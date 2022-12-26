@@ -39,8 +39,8 @@ setup(
     package_data={
         'pyp5js': [
             'templates/*',
-            'http/templates/*',
-            'http/static/*',
+            'http_local/templates/*',
+            'http_local/static/*',
         ]
     },
     include_package_data=True,

@@ -1,6 +1,10 @@
 Development
 -----------
 
+0.7.3
+-----
+- Fix bug on 0.7.2 verison without required local web server template files.
+
 0.7.2
 -----
 - Remove existing sketch after clearing/running it again [PR #199](https://github.com/berinhard/pyp5js/pull/199)
