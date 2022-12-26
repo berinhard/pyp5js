@@ -7,3 +7,4 @@ watchdog==2.1.9
 python-decouple==3.6
 Flask==2.2.2
 python-slugify==6.1.2
+markupsafe==2.0.1

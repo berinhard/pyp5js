@@ -41,7 +41,7 @@ $ pip install pyp5js
 
 ## Quickstart
 
-Since you'll be writting Python code and then generating the correspondent
+Since you'll be writing Python code and then generating the correspondent
 P5.js code from it, pyp5js provides a web application interface to help you
 generate the files.
 
@@ -54,7 +54,7 @@ $ pyp5js serve
 Then point your browser to [http://localhost:5000/](http://localhost:5000/) and
 create a new sketch via the browser by filling the form with the name of your
 sketch. This command will compile the sketches on the
-fly, so after changing/saving the sketch file you just need to reload the page
+fly, so after changing/saving the sketch file, you just need to reload the page
 on your browser. It'll also guide you on which file you have to edit the Python code
 and how to see it running after you save it.
 

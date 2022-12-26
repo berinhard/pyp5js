@@ -99,7 +99,7 @@ def render_sketch_view(sketch_name, static_path):
         else:
             try:
                 ast.parse(py_code, sketch.sketch_py.name)
-                sketch.sketch_py.write_text(py_code)
+                sketch.sketch_py.write_bytes(bytes(py_code, encoding="utf-8"))
             except SyntaxError as exc:
                 error = f'SyntaxError: {exc}'
 
