@@ -57,6 +57,21 @@ class Pyp5jsWebTestCase(TestCase):
         with (SKETCHBOOK_DIR.joinpath(file_name).resolve()).open(mode) as fd:
             fd.write(content)
 
+    def _add_template(self, app, template, context):
+        """
+        flask testing does not work with Werkzeug>=2.1
+        We are overwriting how this function add the templates in order to
+        make it to work again.
+
+        The app parameter is actually the context, while the template
+        is now the app and the context is the template.
+        Yep, this is fucked up.
+        """
+        app, template, context = template, context, app
+        if len(self.templates) > 0:
+            self.templates = []
+        self.templates.append((template, context))
+
 
 class IndexViewTests(Pyp5jsWebTestCase):
     route = '/'
