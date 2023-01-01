@@ -27,6 +27,7 @@ from pyp5js.config import SKETCHBOOK_DIR, AVAILABLE_INTERPRETERS, PYODIDE_INTERP
 
 
 @click.group()
+@click.version_option(package_name="pyp5js", prog_name="pyp5js")
 def command_line_entrypoint():
     """
     pyp5js is a command line tool to conver Python 3 code to p5.js.
