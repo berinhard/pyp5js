@@ -1,5 +1,6 @@
 Development
 -----------
+- Add `--version` parameter to the command line interface [PR #223](https://github.com/berinhard/pyp5js/pull/223)
 
 0.7.3
 -----
