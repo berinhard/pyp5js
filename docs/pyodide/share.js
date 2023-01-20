@@ -1,5 +1,8 @@
-function createSketchUrl() {
-  const baseUrl = window.location.origin + window.location.pathname;
+function createSketchUrl(fullScreen = false) {
+  let baseUrl = window.location.origin + window.location.pathname;
+  if (fullScreen) {
+    baseUrl = baseUrl + "fullscreen.html";
+  }
   const userCode = editor.getSession().getValue();
 
   const encodedUserCode = btoa(encodeURIComponent(userCode));

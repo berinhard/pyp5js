@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pyp5js with Pyodide Demo</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.18.1/full/pyodide.js"></script>
+    <script src="share.js"></script>
+
+
+    <link rel="stylesheet" href="https://unpkg.com/basscss@7.1.1/css/basscss.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <button id="returnBtn" title="Return to editor page" type="button"
+        class="btn btn-primary bg-black px1 mr2 ml2 mt2 caps h6">
+        Back to Editor</button>
+    <div id="sketch-holder" class="m2">
+        <!-- You sketch will go here! -->
+    </div>
+</body>
+<script src="target/target_sketch.js"></script>
+<script src="fullscreenAfterBody.js"></script>
+
+</html>
