@@ -170,3 +170,8 @@ class Sketch:
             context.update({'pyodide_index_url': index})
         return context
 
+    def delete(self):
+        """
+        Deletes a sketch's directory
+        """
+        shutil.rmtree(self.sketch_dir)

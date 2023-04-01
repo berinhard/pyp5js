@@ -18,7 +18,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import ast
 import os
 
-from flask import Flask, render_template, request, send_from_directory
+from flask import (
+    Flask,
+    render_template,
+    request,
+    send_from_directory,
+    redirect,
+)
 from pyp5js import commands
 from pyp5js.config import (AVAILABLE_INTERPRETERS, PYODIDE_INTERPRETER,
                            SKETCHBOOK_DIR, TRANSCRYPT_INTERPRETER)
@@ -120,6 +126,12 @@ def render_sketch_view(sketch_name, static_path):
         'live_run': sketch.config.is_pyodide,
     }
     return render_template('view_sketch.html', **context)
+
+
+@app.route("/sketch/<string:sketch_name>/delete/", methods=['DELETE'])
+def delete_sketch(sketch_name):
+    sketch = Sketch(sketch_name)
+    sketch.delete()
 
 
 def _serve_static(static_dir, static_path):

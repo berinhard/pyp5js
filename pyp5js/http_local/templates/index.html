@@ -19,12 +19,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 {% block title %}Index{% endblock title %}
 
 {% block content %}
+<script>
+  function delete_sketch(sketchName, url) {
+    if (confirm("Do you really want to delete '" + sketchName + "'?")) {
+      let xhr = new XMLHttpRequest();
+      xhr.onload = function(event) {
+        location.href = '/';
+      }
+      xhr.open('DELETE', url + 'delete');
+      xhr.send();
+    }
+  }
+</script>
   <h2>Welcome to your pyp5js sketchbook!</h2>
   <p><a href="/new-sketch/">Add a new sketch</a></p>
   <p>Available sketches in {{ sketches_dir }}:</p>
   <ul>
   {% for sketch in sketches %}
-    <li><a href="{{ sketch.url }}">{{ sketch.name }}</a></li>
+    <li><a href="{{ sketch.url }}">{{ sketch.name }}</a> - <a onClick="delete_sketch('{{sketch.name}}', '{{sketch.url}}')" style="cursor: pointer"><i class="fa fa-trash" aria-hidden="true"></i></a>
   {% endfor %}
   </ul>
 {% endblock content %}
