@@ -50,5 +50,11 @@ jobs:
       - name: Install pyp5js for dev
         run: python setup.py develop --install-dir dist
 
-      - name:
+      - name: Execute tests
         run: python -m pytest
+
+      - name: Build pyp5js
+        run: python3 setup.py sdist bdist_wheel
+
+      - name: Check required files
+        run: bash bin/check_required_assets.sh
