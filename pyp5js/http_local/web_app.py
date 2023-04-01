@@ -128,11 +128,10 @@ def render_sketch_view(sketch_name, static_path):
     return render_template('view_sketch.html', **context)
 
 
-@app.route("/sketch/<string:sketch_name>/delete/", methods=['GET'])
+@app.route("/sketch/<string:sketch_name>/delete/", methods=['DELETE'])
 def delete_sketch(sketch_name):
     sketch = Sketch(sketch_name)
     sketch.delete()
-    return redirect('/')
 
 
 def _serve_static(static_dir, static_path):
