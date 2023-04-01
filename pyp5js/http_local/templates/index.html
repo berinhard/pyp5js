@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   <p>Available sketches in {{ sketches_dir }}:</p>
   <ul>
   {% for sketch in sketches %}
-    <li><a href="{{ sketch.url }}">{{ sketch.name }}</a></li>
+    <li><a href="{{ sketch.url }}">{{ sketch.name }}</a> - <a href="{{ sketch.url + 'delete' }}">d</a>
   {% endfor %}
   </ul>
 {% endblock content %}
